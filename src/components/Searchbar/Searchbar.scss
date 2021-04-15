@@ -1,0 +1,49 @@
+@use '../../assets/sass' as *;
+
+.search {
+  display: flex;
+  border-radius: .35rem;
+  border: .2rem solid transparent;
+  position: relative;
+
+  &:not(.search--active):hover { border-color: $color-yellow; }
+
+  &--active {
+    border-color: $color-yellow;
+    border-bottom-color: transparent;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    transform: translateY(-50%);
+  }
+
+  &__input {
+    padding: 2rem 5rem;
+    padding-left: 5.5rem;
+    width: 70rem;
+    background: $pure-white;
+    font-size: 1.6rem;
+    font-weight: 300;
+    border-radius: .2rem 0 0 .2rem;
+  }
+
+  &--active &__input,
+  &--active button { border-radius: 0; }
+
+  &__dropdown {
+    border-radius: 0 0 .35rem .35rem;
+    border: .2rem solid $color-yellow;
+    border-top: none;
+    position: absolute;
+    top: 100%;
+    left: -.2rem;
+    width: calc(100% + .4rem);
+    animation: fadeIn .3s ease;
+    animation-fill-mode: backwards;
+    animation-delay: .5s;
+    background: $pure-white;
+  }
+}

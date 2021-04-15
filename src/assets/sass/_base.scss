@@ -1,21 +1,55 @@
+@use './index.scss' as *;
+
 *,
 *::after,
 *::before {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+
+  @media screen and (prefers-reduced-motion: reduce) {  
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 html {
   font-size: 62.5%;
 }
 
+body {
+  font-family: 'Inter', sans-serif;
+  text-rendering: geometricPrecision;
+  font-size: 1.3rem;
+  color: $black;
+}
+
 button,
 input {
   background: transparent;
   border: none;
+  font-family: inherit;
 
   &:focus { outline: none; }
 }
 
-[tabIndex="0"]:hover { cursor: pointer; } 
+button:hover { cursor: pointer; }
+
+[tabIndex="0"] {
+  &:focus { outline: none; }
+  &:hover { cursor: pointer; }
+}
+
+ul { list-style: none; }
+
+svg {
+  display: flex;
+  fill: $light;
+}
+a,
+button {
+  color: inherit;
+  font-size: inherit;
+  text-decoration: none;
+}

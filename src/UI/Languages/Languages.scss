@@ -1,0 +1,50 @@
+@use '../../assets/sass' as *;
+
+.language {
+  position: relative;
+  background: $pure-white;
+  width: max-content;
+  font-size: 1.5rem;
+  color: lighten($black, 15%);
+  
+  &__lang {
+    align-items: center;
+    display: flex;
+    padding: 1.5rem;
+    border: 1px solid rgba($pitch, .1);
+    border-radius: .25rem;
+    width: 20rem;
+  }
+
+  &__lang:focus + &__dropdown { display: flex; }
+
+  &__dropdown {
+    border: 1px solid rgba($pitch, .1);
+    overflow: hidden;
+    border-radius: .25rem;
+    display: none;
+    flex-direction: column-reverse;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    animation: fadeIn .3s ease;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    background: $pure-white;
+  }
+
+  &__head {
+    padding: 1rem 2.5rem;
+    background: $light;
+  }
+
+  &__item {
+    padding: 1rem 2.5rem;
+
+    &:hover { color: $color-tertiary; }
+  }
+}

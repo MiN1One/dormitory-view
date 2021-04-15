@@ -1,0 +1,16 @@
+@use './index.scss' as *;
+
+.swiper-pagination-bullet-active { background: $pure-white !important; }
+.swiper-pagination-bullet { background: $pure-white !important; }
+
+.swiper-pagination-bullet {
+  width: .8rem !important;
+  height: .85rem !important;
+}
+
+.swiper-pagination-bullet-active {
+  width: .8rem !important;
+  height: .85rem !important;
+}
+
+

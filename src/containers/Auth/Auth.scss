@@ -1,0 +1,106 @@
+@use '../../assets/sass' as *;
+
+.auth {
+  background: $light;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 3.5rem 0;
+
+  &__modal {
+    background: $pure-white;
+    border-radius: .35rem;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 0 2rem rgba($pitch, .1);
+  }
+
+  &__left {
+    width: 22.5rem;
+    background: $grey-light;
+    padding: 2rem;
+  }
+
+  &__btn-back {
+    background: $pure-white;
+    border-radius: .25rem;
+    width: 5rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // box-shadow: 0 0 1rem rgba($pitch, .15);
+
+    &:hover,
+    &:focus { background: darken($pure-white, 5%); }
+  }
+
+  &__right {
+    position: relative;
+    padding: 3.5rem 12.5rem;
+    padding-bottom: 8.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__head {
+    margin-bottom: 3rem;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+  }
+
+  &__line {
+    position: relative;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: $grey-light;
+    margin-bottom: 1.75rem;
+
+    &::before,
+    &::after {
+      content: "";
+      width: 16rem;
+      margin: 0 1rem;
+      height: 1px;
+      background: rgba($pitch, .1);
+    }
+  }
+
+  &__vendor-btn {
+    box-shadow: 0 0 .5rem rgba($pitch, .05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 1px solid rgba($pitch, .035);
+    margin-left: 1rem;
+  }
+
+  &__input { width: 35rem; }
+
+  &__footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: $light;
+    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: $grey-light;
+    font-weight: 300;
+  }
+}

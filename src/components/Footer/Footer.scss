@@ -1,0 +1,99 @@
+@use '../../assets/sass' as *;
+
+.footer {
+  // height: 100rem;
+  background: lighten($light, 3.5%);
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3.75rem 0;
+    background: $color-tertiary;
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+    background: rgba($pitch, .25);
+    border-radius: 10rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: $pure-white;
+    padding: 1.25rem 4rem;
+    text-align: center;
+
+    &--sub {
+      margin-top: .35rem;
+      font-size: 1.25rem;
+      color: lighten($color-tertiary, 10%);
+      font-weight: 300;
+    }
+  }
+  
+  &__body { padding: 5rem 9rem; }
+
+  &__main {
+    padding-bottom: 5rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba($pitch, .125);
+  }
+
+  &__item {
+    font-size: 1.45rem;
+    font-weight: 300;
+    color: darken($black, 20%);
+
+    &:not(:last-child) { margin-bottom: 1.5rem; }
+  }
+
+  &__title { 
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: darken($grey-light, 10%);
+    margin-bottom: 1.5rem;
+  }
+
+  &__social {
+    background: lighten($grey-dark, 30%);
+    border-radius: 50%;
+    width: 3.25rem;
+    height: 3.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:not(:last-child) { margin-right: 1.75rem; }
+
+    &:hover,
+    &:focus { background: lighten($grey-dark, 20%); }
+  }
+
+  &__input { border-right: none; }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 3rem 0;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    background: lighten($grey-dark, 10%);
+    border-radius: 0 .25rem .25rem 0;
+    padding: 1.5rem;
+    color: $light;
+  }
+
+  &__link {
+    font-size: 1.4rem;
+    color: lighten($grey-dark, 20%);
+    font-weight: 300;
+    
+    &:not(:last-child) { margin-right: 3rem; }
+  }
+}
