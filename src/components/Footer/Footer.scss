@@ -2,35 +2,35 @@
 
 .footer {
   // height: 100rem;
-  background: lighten($light, 3.5%);
+  background: lighten($light, 3%);
 
-  &__head {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3.75rem 0;
-    background: $color-tertiary;
-  }
+  // &__head {
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: center;
+  //   padding: 3.75rem 0;
+  //   background: #808e9b;
+  // }
 
-  &__contact {
-    display: flex;
-    flex-direction: column;
-    background: rgba($pitch, .25);
-    border-radius: 10rem;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: $pure-white;
-    padding: 1.25rem 4rem;
-    text-align: center;
+  // &__contact {
+  //   display: flex;
+  //   flex-direction: column;
+  //   background: rgba($pitch, .4);
+  //   border-radius: 10rem;
+  //   font-size: 1.5rem;
+  //   font-weight: 500;
+  //   color: $pure-white;
+  //   padding: 1.25rem 4rem;
+  //   text-align: center;
 
-    &--sub {
-      margin-top: .35rem;
-      font-size: 1.25rem;
-      color: lighten($color-tertiary, 10%);
-      font-weight: 300;
-    }
-  }
+  //   &--sub {
+  //     margin-top: .35rem;
+  //     font-size: 1.25rem;
+  //     color: lighten(#808e9b, 10%);
+  //     font-weight: 300;
+  //   }
+  // }
   
   &__body { padding: 5rem 9rem; }
 
@@ -38,7 +38,7 @@
     padding-bottom: 5rem;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid rgba($pitch, .125);
+    border-bottom: 1px solid rgba($pitch, .075);
   }
 
   &__item {
@@ -71,7 +71,10 @@
     &:focus { background: lighten($grey-dark, 20%); }
   }
 
-  &__input { border-right: none; }
+  &__input {
+    border-right: none;
+    border-radius: .25rem 0 0 .25rem;
+  }
 
   &__bottom {
     display: flex;

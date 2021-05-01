@@ -1,0 +1,32 @@
+@use '../index.scss' as *;
+
+.heading {
+  color: $black;
+  font-weight: 500;
+
+  &--1 {
+    font-size: 3rem;
+    color: $pure-white;
+    text-shadow: 0 0 0.75rem rgba($pure-white, 0.3);
+  }
+
+  &--2 {
+    font-size: 2.75rem;
+    color: $pitch;
+  }
+
+  &--3 {
+    font-size: 2.35rem;
+    font-weight: 500;
+  }
+
+  &--5 {
+    font-size: 1.85rem;
+    color: $pure-white;
+  }
+
+  &--6 {
+    font-size: 1.7rem;
+    font-weight: 400;
+  }
+}

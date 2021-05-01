@@ -1,0 +1,20 @@
+@use '../index.scss' as *;
+
+.scroll {
+  
+  &__thumb {
+    position: relative;
+    z-index: 9998;
+    width: .625rem;
+    background: $color-yellow;
+    border-radius: .25rem;
+  }
+}
+
+::-webkit-scrollbar { width: .75rem; }
+::-webkit-scrollbar-track {
+  // background: lighten($light, 3%);
+}
+::-webkit-scrollbar-thumb {
+  background: $color-yellow;
+}

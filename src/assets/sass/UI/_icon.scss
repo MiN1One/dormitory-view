@@ -1,0 +1,68 @@
+@use '../index.scss' as *;
+
+.icon {
+    width: 2rem;
+    height: 2rem;
+  
+    &--star-e { fill: lighten($grey-light, 20%); }
+  
+    &--mid {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  
+    &--mid2 {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  
+    &--sm {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+  
+    &--xs {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  
+    &--lg {
+      width: 3rem;
+      height: 3rem;
+    }
+    
+    &--xl {
+      width: 4rem;
+      height: 4rem;
+    }
+  
+    &--dark {
+      fill: $black;
+      stroke: $black;
+    }
+    &--green {
+      fill: $color-green;
+      stroke: $color-green;
+    }
+    &--white {
+      fill: $pure-white;
+      stroke: $pure-white;
+    }
+    &--tertiary {
+      fill: $color-tertiary;
+      stroke: $color-tertiary;
+    }
+    &--orange {
+      fill: $color-orange;
+      stroke: $color-orange;
+    }
+    &--yellow {
+      fill: $color-yellow;
+      stroke: $color-yellow;
+    }
+    &--grey {
+      fill: rgba($grey-dark, .9);
+      stroke: rgba($grey-dark, .9);
+    }
+    &--grey-l { fill: lighten($grey-dark, 35%); }
+  }

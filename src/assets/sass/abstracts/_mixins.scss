@@ -1,0 +1,8 @@
+@use './variables' as *;
+
+@mixin defStyle {
+  background: lighten($light, 4.5%);
+  // background: $pure-white;
+  border-radius: .25rem;
+  border: 1px solid rgba($pitch, .07);
+}

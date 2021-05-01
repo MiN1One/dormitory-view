@@ -1,0 +1,111 @@
+@use '../index.scss' as *;
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: .25rem;
+  font-size: 1.6rem;
+  height: 4.25rem;
+
+  &--outline {
+    padding: 0 3.5rem;
+    border: 1px solid rgba($color-tertiary, .7);
+    font-weight: 500;
+  }
+  
+  &--b-white {
+    color: $pure-white;
+    border-color: rgba($pure-white, .9);
+    
+    &:hover,
+    &:focus {
+      background: $pure-white;
+      color: $black;
+      // border-color: $color-yellow;
+    }
+  }
+
+  &--b-tertiary {
+    color: $color-tertiary;
+    border-color: $color-tertiary;
+  }
+
+  &--cta {
+    background: $color-tertiary;
+    font-size: 1.525rem;
+    color: $pure-white;
+    font-weight: 600;
+    padding: 1.25rem 3rem;
+    transition: background .15s ease-in-out;
+
+    &:hover,
+    &:focus {
+      background: darken($color-tertiary, 10%);
+    }
+  }
+
+  &--primary {
+    font-weight: 600;
+    border-radius: .25rem;
+    background: $color-yellow-light;
+    color: $black;
+  }
+
+  &--bg-tertiary {
+    background: $color-tertiary;
+    color: $pure-white;
+  }
+
+  &--green { background: $color-green; }
+
+  &--arrow {
+    // min-width: 35rem;
+
+    span {
+      transition: all .3s ease;
+    }
+
+    svg {
+      width: 0;
+      transition: all .3s ease;
+    }
+
+    &:hover svg,
+    &:focus svg {
+      width: 3rem;
+    }
+  }
+
+  &--sub {
+    padding: .5rem 2rem;
+    font-weight: 300;
+    border-radius: 5rem;
+    font-size: 1.3rem;
+    color: $color-green;
+    background: lighten($light, 3%);
+  }
+
+  &--slider {
+    width: 4rem;
+    height: 4rem;
+    border-radius: .25rem;
+    background: $light;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .3s ease;
+
+    &:not(:last-of-type) { margin-right: 1rem; }
+
+    &:not(.btn--slider-disabled):hover,
+    &:not(.btn--slider-disabled):focus { background: darken($light, 5%); }
+  }
+
+  &--slider-disabled {
+    opacity: .35;
+    cursor: default !important;
+  }
+
+  &--wide { padding: 1.15rem 9rem; }
+}

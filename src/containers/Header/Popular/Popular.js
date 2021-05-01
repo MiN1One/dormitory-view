@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { useTranslation } from 'react-i18next';
 
-import CardH from '../../components/CardH/CardH';
+import CardH from '../../../components/CardH/CardH';
 import './Popular.scss';
 
 const Popular = () => {
@@ -33,13 +33,10 @@ const Popular = () => {
             <CardH />
             <CardH />
             <CardH />
-            <CardH />
-            <CardH />
-            <CardH />
           </div>
           <Link to="/" className="btn btn--outline btn--b-tertiary btn--wide btn--arrow">
             <span>See all in Tashkent</span>
-            <HiArrowNarrowRight className="icon icon--tertiary" />
+            <HiArrowNarrowRight className="icon--tertiary" />
           </Link>
         </div>
       </div>

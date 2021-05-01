@@ -1,4 +1,4 @@
-@use './index.scss' as *;
+@use '../index.scss' as *;
 
 .flex { display: flex !important; }
 .aic { align-items: center !important; }
@@ -7,6 +7,8 @@
 .jcc { justify-content: center !important; }
 .fdc { flex-direction: column; }
 .fwrap { flex-wrap: wrap; }
+.w-max { width: max-content !important; }
+.jcse { justify-content: space-evenly; }
 
 .inline { display: inline-block; }
 
@@ -17,6 +19,7 @@
   width: 100% !important;
   height: 100% !important;
 }
+.w-max { width: max-content !important; }
 .w-50 { width: 50% !important; }
 .h-100 { height: 100% !important; }
 
@@ -49,4 +52,9 @@
 .ml-lg { margin-left: 5rem !important; }
 .mt-lg { margin-top: 5rem !important; }
 .mb-lg { margin-bottom: 5rem !important; }
+
+.mx-25 { margin: 0 .25rem !important; }
+
+.ovh { overflow: hidden !important; }
+
 

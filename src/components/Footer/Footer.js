@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { GrFacebookOption, GrInstagram, GrLinkedinOption, GrTwitter } from 'react-icons/gr';
 import { FaTelegramPlane } from 'react-icons/fa';
 
-import Languages from '../../UI/Languages/Languages';
+import Languages from '../Languages/Languages';
 import './Footer.scss';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import React from 'react';
@@ -10,13 +10,13 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer className="footer">
-      <div className="footer__head">
+      {/* <div className="footer__head">
         <p className="heading heading--3 c-white mb-2">Talk to our friendly team of experts</p>
         <a href="tel:+998 95 985 58 88" className="footer__contact">
           +998 95 985 58 88
           <span className="footer__contact--sub">Local access number</span>
         </a>
-      </div>
+      </div> */}
       <div className="container">
         <div className="footer__body">
           <div className="footer__main">

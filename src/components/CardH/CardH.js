@@ -9,16 +9,16 @@ import SwiperCore, { Autoplay } from 'swiper';
 
 import 'swiper/swiper.scss';
 
-import image from '../../assets/images/minh-pham-OtXADkUh3-I-unsplash.jpg';
+// import image from '../../assets/images/minh-pham-OtXADkUh3-I-unsplash.jpg';
 import './CardH.scss';
 
 SwiperCore.use([Autoplay]);
 
 const CardH = ({ data }) => {
   return (
-    <Link to="/" className="cardh">
+    <Link to="/city/region/apartment" className="cardh">
       <figure className="cardh__figure">
-        <LazyLoadImage
+        {/* <LazyLoadImage
           className="img img--cover"
           src={image}
           alt="image"
@@ -27,9 +27,9 @@ const CardH = ({ data }) => {
           effect="opacity"
           placeholder={
             <div className="wh-100 flex aic jcc">
-              <ImImage className="icon--lg" />
+              <ImImage className="icon--lg icon--grey" />
             </div>
-          } />
+          } /> */}
         <div className="cardh__panel">
           <Swiper 
             loopFillGroupWithBlank={true}
@@ -52,19 +52,26 @@ const CardH = ({ data }) => {
             <BiCheckDouble className="icon--xs icon--dark" />
           </div>
         </span>
-        <div className="text--xs mb-1">
-          From <span className="price-tag">$255</span> / Week
-        </div>
-        <div className="text--xs">
+        {/* <div className="text--xs mb-1">
+          <span className="price-tag">$255</span> / Week
+        </div> */}
+        <div className="text--xs w-max text--wrap">
           <div className="flex aic mb-5">
             <IoIosSchool className="icon--xs icon--grey mr-1" />
             Again Some University | <span className="c-grace">&nbsp;Walking 15mins</span>
           </div>
-          <div className="flex aic">
+          <div className="flex aic w-max text--wrap">
             <IoIosSchool className="icon--xs icon--grey mr-1" />
             Some University | <span className="c-grace">&nbsp;Walking 30mins</span>
           </div>
         </div>
+      </div>
+      <div className="cardh__footer">
+        <button className="cardh__price">
+          <div className="text--xs flex aic">
+            <span className="price-tag">$255</span>&nbsp;/&nbsp;Week
+          </div>
+        </button>
       </div>
     </Link>
   );

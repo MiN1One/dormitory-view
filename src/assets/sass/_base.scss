@@ -15,6 +15,7 @@
 }
 
 html {
+  scroll-behavior: smooth;
   font-size: 62.5%;
 }
 
@@ -45,11 +46,22 @@ ul { list-style: none; }
 
 svg {
   display: flex;
-  fill: $light;
+  fill: $white;
+  stroke: $white;
 }
+
 a,
 button {
   color: inherit;
   font-size: inherit;
   text-decoration: none;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] { -moz-appearance: textfield; }
+

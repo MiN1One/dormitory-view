@@ -1,4 +1,4 @@
-@use '../../assets/sass' as *;
+@use '../../../assets/sass' as *;
 
 .cities {
   background: rgba($light, .5);
@@ -28,7 +28,7 @@
     &:last-child { width: calc(100% / 2); }
     
     &:first-child {
-      background-image: linear-gradient(rgba($pitch, .3), rgba($pitch, .3)), url('../../assets/images/andijan.jpg');
+      // background-image: linear-gradient(rgba($pitch, .3), rgba($pitch, .3)), url('../../assets/images/andijan.jpg');
     }
   }
 

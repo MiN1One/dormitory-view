@@ -1,8 +1,23 @@
-@import './assets/sass/animations';
-@import './assets/sass/base';
-@import './assets/sass/button';
-@import './assets/sass/UI';
-@import './assets/sass/styles';
-@import './assets/sass/typography';
-@import './assets/sass/utilities';
+
+// ---------- ABSTRACTS ----------
+
+@import './assets/sass/abstracts/animations';
+@import './assets/sass/abstracts/utilities';
+
 @import './assets/sass/vendor';
+@import './assets/sass/styles';
+@import './assets/sass/base';
+
+// ---------- UI ----------
+@import './assets/sass/UI/breadcrubms';
+@import './assets/sass/UI/button';
+@import './assets/sass/UI/dropdown';
+@import './assets/sass/UI/icon';
+@import './assets/sass/UI/input';
+@import './assets/sass/UI/scroller';
+@import './assets/sass/UI/tab-item';
+@import './assets/sass/UI/tooltip';
+
+// ---------- TYPOGRAPHY -----------
+@import './assets/sass/typography/heading';
+@import './assets/sass/typography/text';

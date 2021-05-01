@@ -1,0 +1,56 @@
+@use '../../../assets/sass' as *;
+
+.ratings {
+  width: 100%;
+
+  &__content {
+    width: 100% !important;
+    height: 45vh !important;
+    overflow-x: hidden !important;
+    animation: fadeIn .5s ease;
+    animation-fill-mode: backwards;
+  }
+
+  &__item {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    border: 1px solid rgba($pitch, .1);
+    border-radius: .25rem;
+    position: relative;
+    
+    &:not(:last-child) {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  &__user {
+    width: 50%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 1.4rem;
+  }
+
+  &__date {
+    font-size: 1.2rem;
+    color: lighten($grey-dark, 40%);
+  }
+
+  &__text {
+    font-size: 1.35rem;
+    color: $black;
+    font-weight: 300;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 80%;
+    margin-bottom: .75rem;
+
+    &--show {
+      width: 100%;
+      overflow: initial;
+      text-overflow: initial;
+      white-space: initial;
+    }
+  }
+}

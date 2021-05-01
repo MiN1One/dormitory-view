@@ -8,15 +8,25 @@ import reportWebVitals from './reportWebVitals';
 import i18n from './i18next';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+import user from './store/reducers/reducer_user';
 
+const reducer = combineReducers({
+  user
+});
+
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <Provider store={}> */}
+    <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    {/* </Provider> */}
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

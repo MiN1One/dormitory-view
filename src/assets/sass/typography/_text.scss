@@ -1,0 +1,85 @@
+@use '../index.scss' as *;
+
+.text {
+  &--wrap {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &--title {
+    font-size: 1.75rem;
+    color: $grey-dark;
+    font-weight: 500;
+  }
+
+  &--xs {
+    color: $black;
+    font-size: 1.2rem;
+  }
+
+  &--sub {
+    font-weight: 400;
+    color: $light;
+  }
+}
+
+.f-sm {
+  font-size: 1.3rem;
+}
+.f-mid {
+  font-size: 1.4rem;
+}
+.f-lg {
+  font-size: 1.5rem;
+}
+.f-thin {
+  font-weight: 300;
+}
+.tc {
+  text-align: center;
+}
+.f-light {
+  font-weight: 200;
+}
+.f-mid-w {
+  font-weight: 500;
+}
+.f-bold {
+  font-weight: 600;
+}
+
+.undl {
+  text-decoration-color: rgba($pitch, .015);
+  text-underline-offset: 1px;
+
+  &:not(.undl--h) {
+    text-decoration: underline;
+  }
+
+  &--h:hover {
+    text-decoration: underline;
+  }
+}
+
+.c-grey-l {
+  color: darken($grey-light, 5%) !important;
+}
+.c-light {
+  color: darken($light, 15%);
+}
+.c-grace {
+  color: rgba($grey-dark, 0.7) !important;
+}
+.c-black {
+  color: darken($pitch, 15%) !important;
+}
+.c-white {
+  color: $pure-white !important;
+}
+.c-tertiary {
+  color: $color-tertiary !important;
+}
+.c-green {
+  color: $color-green !important;
+}

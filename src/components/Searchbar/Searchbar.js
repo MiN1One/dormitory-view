@@ -44,7 +44,7 @@ const Searchbar = ({ onFocus, focus, onBlur }) => {
           onFocus={onFocus}
           onBlur={onBlur} />
       </div>
-      <button className="btn--search">
+      <button className="search__btn">
         {t('main.search')}
       </button>
       {focus && 

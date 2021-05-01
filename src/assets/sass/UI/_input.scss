@@ -1,0 +1,105 @@
+@use '../index.scss' as *;
+
+.input {
+  padding: 1.25rem 1.75rem;
+  border-radius: 0.25rem;
+
+  &__btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+
+    svg {
+      animation: fadeIn 0.5s ease;
+    }
+  }
+
+  &__invalid {
+    font-size: 1.45rem;
+    color: rgba($color-orange, 0.85);
+    margin-bottom: 1rem;
+    align-self: flex-start;
+  }
+
+  &__checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    font-size: 1.4rem;
+    color: $grey-light;
+    user-select: none;
+
+    &--active {
+      color: lighten($grey-dark, 15%);
+    }
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .25rem;
+    width: 1.85rem;
+    height: 1.85rem;
+    border: 1px solid rgba($pitch, 0.15);
+    // background: $light;
+
+    svg {
+      animation: expandSm 0.3s ease;
+    }
+  }
+
+  &__checkbox-wrapper--active &__checkbox {
+    border-color: rgba($pitch, 0.2);
+  }
+
+  &:focus {
+    border-color: rgba($pitch, 0.3);
+  }
+
+  &--main {
+    border: 1px solid rgba($pitch, 0.1);
+    padding: 1.5rem;
+    font-size: 1.45rem;
+    background: $pure-white;
+    color: $grey-dark;
+
+    &:invalid {
+      border-color: $color-orange;
+    }
+    &::placeholder {
+      color: $grey-light;
+    }
+  }
+
+  &__label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  & + &__btn {
+    right: 1.5rem;
+  }
+
+  &__label-text {
+    padding-top: 0.75rem;
+    display: none;
+    animation: fadeIn 0.3s ease;
+    font-size: 1.2rem;
+    color: $grey-light;
+  }
+
+  &:not(:placeholder-shown) ~ &__label-text {
+    display: inline-block;
+  }
+  &:not(:placeholder-shown) + &__btn {
+    transform: translateY(calc(-50% - 1rem));
+  }
+
+  &--dark {
+    background: $pitch;
+    color: $light;
+  }
+}

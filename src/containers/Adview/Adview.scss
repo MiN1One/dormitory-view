@@ -1,0 +1,303 @@
+@use '../../assets/sass' as *;
+
+.adview {
+  background: $pure-white;
+  padding-top: 2.5rem;
+  padding-bottom: 7rem;
+  
+  &__nav {
+    background: $pure-white;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    border-bottom: 1px solid rgba($pitch, .05);
+  }
+  
+  &__nav-content {
+    height: 5.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    display: flex;
+  }
+
+  &__nav-item {
+    height: 100%;
+    padding: 0 1.5rem;
+
+    &:not(:last-child) { margin-right: 1.5rem; }
+    &::after { top: calc(100% - .3rem) ; }
+  }
+
+  &__body {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    padding-bottom: 7rem;
+    border-bottom: 1px solid rgba($pitch, .05);
+    margin-bottom: 3rem;
+  }
+
+  &__left {
+    width: 77.5rem;
+    margin-right: 3rem;
+  }
+
+  &__specs {
+    width: 100%;
+    font-size: 1.55rem;
+    font-weight: 300;
+    color: #000;
+  }
+
+  &__specs-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  &__specs-wrapper {
+    &:not(:last-child) { margin-bottom: 4.5rem; }
+  }
+
+  &__specs-item {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    margin-bottom: 2rem;
+
+    &--etc {
+      padding: 1rem 1.5rem;
+      border-radius: .25rem;
+      background: $light;
+      width: 100%;
+    }
+  }
+  
+  &__outline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba($pitch, .085);
+    border-top: 1px solid rgba($pitch, .085);
+    margin-bottom: 3rem;
+  }
+
+  &__right {
+    position: sticky;
+    top: 6.5rem;
+    flex-grow: 1;
+  }
+  
+  &__panel {
+    @include defStyle;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // align-items: center;
+    padding: 3.25rem 2.8rem;
+    width: 100%;
+    margin-bottom: 1.25rem;
+    background: $pure-white;
+  }
+
+  &__user {
+    display: inline-block;
+    font-size: 2rem;
+    font-weight: 300;
+    position: relative;
+    color: $black;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba($pitch, .1);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  &__panel-rating {
+    font-size: 1.7rem;
+    color: $black;
+    font-weight: 300;
+  }
+
+  &__panel-rating-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__panel-details {
+    font-size: 1.3rem;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  &__figure {
+    @include defStyle;
+    width: 100%;
+    height: 45rem;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  &__cover {
+    -webkit-backdrop-filter: blur(1.5px);
+    backdrop-filter: blur(1px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 9rem;
+    padding: 0 3rem;
+    background: rgba($pitch, .85);
+  }
+
+  &__tag {
+    font-size: 1.7rem;
+    color: $color-yellow;
+    font-weight: 300;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 3rem;
+    left: 0;
+    background: rgba($grey-dark, .9);
+    padding: .75rem 1.5rem;
+    border: 2px solid $color-yellow;
+    border-left: none;
+    border-radius: 0 .25rem .25rem 0;
+    animation: slideFromLeft .5s ease 1.5s;
+    animation-fill-mode: backwards;
+  }
+
+  &__price-tag {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    border-radius: .25rem;
+    border: 2px solid $color-yellow;
+    background: rgba($pitch, .9);
+    font-size: 2.35rem;
+    color: $pure-white;
+    font-weight: 200;
+    
+    &__price {
+      display: inline-block;
+      text-decoration: line-through;
+      position: relative;
+  
+      &::before {
+        content: attr(data-discount);
+        text-decoration: none;
+        position: absolute;
+        top: .5rem;
+        transform: translate(100%, -100%);
+        right: -1rem;
+        font-size: 1.75rem;
+        color: $color-yellow;
+        background: $grey-dark;
+        padding: .5rem 1.25rem;
+        border-radius: .25rem;
+        box-shadow: 0 0 .5rem rgba($black, .1);
+      }
+    }
+  }
+
+  &__images-wrapper {
+    position: relative;
+    padding: 1rem 4rem;
+  }
+  
+  &__images {
+    width: 100%;
+    position: relative;
+    height: 10.75rem;
+    border-radius: .25rem;
+    margin-bottom: 3.5rem;
+  }
+
+  &__image-item {
+    @include defStyle;
+    background: $grey-light;
+    overflow: hidden;
+    height: 100%;
+    cursor: pointer;
+    
+    &::before {
+      content: "";
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      background: rgba($black, .5);
+    }
+    
+    &--active {
+      cursor: default !important;
+      border-width: 2px;
+      border-color: $color-green;
+    }
+
+    &:not(.adview__image-item--active):hover::before,
+    &:not(.adview__image-item--active):focus::before { opacity: 1; }
+  }
+
+  &__heading {
+    font-weight: 200;
+    font-size: 2.5rem;
+    color: #fff;
+    width: 60%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__btn-imgslider {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 100%;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background: rgba($pitch, .5);
+
+    &--prev { left: 0; }
+    &--next { right: 0; }
+
+    &--disabled {
+      display: none;
+      cursor: default;
+    }
+  }
+
+  &__features {
+    padding: 1rem 2.5rem;
+  }
+
+  &__feature {
+    padding: .75rem 1.35rem;
+    border-radius: 3rem;
+    border: 1px solid rgba($color-green, .7);
+    margin-bottom: .75rem;
+    
+    &:not(:last-child) { margin-right: 1rem; }
+  }
+
+  &__footer {
+
+  }
+}
