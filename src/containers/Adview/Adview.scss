@@ -5,6 +5,10 @@
   padding-top: 2.5rem;
   padding-bottom: 7rem;
   
+  &__pscroll {
+    bottom: 3rem;
+  }
+
   &__nav {
     background: $pure-white;
     position: sticky;
@@ -47,6 +51,10 @@
     font-size: 1.55rem;
     font-weight: 300;
     color: #000;
+  }
+
+  &__specs-distance:not(:last-child) {
+    margin-bottom: 1rem;
   }
 
   &__specs-list {
@@ -193,7 +201,8 @@
       display: inline-block;
       text-decoration: line-through;
       position: relative;
-  
+      text-decoration-thickness: 1px;
+      
       &::before {
         content: attr(data-discount);
         text-decoration: none;
@@ -277,11 +286,7 @@
 
     &--prev { left: 0; }
     &--next { right: 0; }
-
-    &--disabled {
-      display: none;
-      cursor: default;
-    }
+    &--disabled { display: none; }
   }
 
   &__features {

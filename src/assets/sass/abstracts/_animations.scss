@@ -19,6 +19,11 @@
   to { width: 2rem; }
 }
 
+@keyframes popFromTop {
+  from { transform: translateY(-1.5rem); }
+  to { transform: translate(0); }
+}
+
 @keyframes slideFromRight {
   from { transform: translateX(100%); }
   to { transform: translate(0); }

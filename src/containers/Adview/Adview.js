@@ -25,6 +25,7 @@ import Rooms from './Rooms/Rooms';
 import SimilarAds from './SimilarAds/SimilarAds';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import { AiOutlineTag } from 'react-icons/ai';
+import PopScroll from '../../components/UI/PopScroll/PopScroll';
 
 SwiperCore.use([Navigation]);
 
@@ -35,6 +36,18 @@ const APARTMENT = {
   address: '14 Street',
   region: 'Region',
   city: 'Tashkent',
+  distances: [
+    {
+      name: 'Webster University',
+      walk: '20 minutes',
+      car: '5-7 minutes'
+    },
+    {
+      name: 'National Institute of Architecture',
+      walk: '20 minutes',
+      car: '5-7 minutes'
+    },
+  ],
   numberOfRooms: 4,
   features: {
     facilities: ['internet', 'private_kitchen', 'private_bath', 'furnitured', 'air_conditioner', 'gaming_area', 'washing_machine', 'personal_computer', 'public_libriary'],
@@ -107,8 +120,15 @@ const Adview = () => {
     return Rule && <Rule key={i} />;
   });
 
+  const distances = APARTMENT.distances.map((el, i) => 
+    <li className="adview__specs-distance">
+      to {el.name} &mdash; <span className="c-grace">{el.walk} walking | {el.car} by car</span>
+    </li>
+  );
+
   return (
     <>
+      <PopScroll />
       {fullScreen && 
         <AsyncFullscreen 
           activeImageIndex={activeImageIndex}
@@ -240,12 +260,12 @@ const Adview = () => {
                     </span>
                     {APARTMENT.city}, {APARTMENT.region} district, {APARTMENT.address}
                   </div>
-                  <div className="flex mb-2">
+                  <div className="flex mb-2 ais">
                     <span className="mr-1 flex aic f-bold f-lg">
                       <IoIosSchool className="icon--grey icon--sm mr-1" />
                       Distance
                     </span>
-                    to Webster University &mdash; 2 years walking
+                    <ul className="flex fdc">{distances}</ul>
                   </div>
                   <div className="flex mb-2">
                     <span className="mr-1 flex aic f-bold f-lg">
@@ -299,11 +319,11 @@ const Adview = () => {
             </div>
             <div className="adview__right">
               <div className="adview__panel">
-                <div className="flex fdc">
+                <div className="flex fdc mb-15">
                   <Link to="/" className="adview__user">
-                    Someone
+                    Name
                   </Link>
-                  <span className="c-grace">&nbsp;landlord</span>
+                  <span className="c-grace f-mid tc">Landlord</span>
                 </div>
                 <div className="adview__panel-rating-group">
                   <div className="flex aic mb-5">
