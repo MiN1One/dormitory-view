@@ -6,11 +6,14 @@
   left: 0;
   z-index: 100;
   width: 100%;
-  background: $grey-dark;
+  background: $pure-white;
   transition: transform .3s cubic-bezier(1,0,0,1);
+  // border-bottom: 1px solid rgba($black, .025);
+  box-shadow: 0 0 .15rem rgba($black, .15);
   
   &--hide { transform: translateY(-100%); }
   &--active { transform: translate(0); }
+
   &--static {
     position: relative;
     z-index: 9998;
@@ -24,31 +27,67 @@
     justify-content: space-between;
   }
 
+  &__btn {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 1.4rem;
+    // text-transform: uppercase;
+    font-weight: 500;
+    padding: 1rem 2.5rem;
+    border-radius: .25rem;
+    background: $color-tertiary;
+    color: $pure-white;
+    
+    &--main {
+      // font-weight: 600;
+      // color: $grey-dark;
+      // background: $color-yellow-light;
+      // // border: 2px solid $color-green;
+      // border-color: $color-yellow;
+    }
+
+    &--search {
+      border-radius: 0 .25rem .25rem 0;
+    }
+  }
+
   &__link {
     display: flex;
     align-items: center;
-    font-size: 1.4rem;
-    text-transform: capitalize;
-    // font-weight: 500;
-    color: $pure-white;
+    font-size: 1.45rem;
+    text-transform: uppercase;
+    color: $grey-dark;
+    font-weight: 500;
+    padding: 0 1.25rem;
+    padding-left: .25rem;
+    border-bottom: 2px solid transparent;
 
-    &:not(:last-child) { margin-right: 3rem; }
+    &:hover,
+    &:focus {
+      border-color: $color-yellow;
+    }
+
+    &:not(:last-child) { margin-right: 1rem; }
   }
 
-  &__input-wrapper {
-    width: 32.5rem;
+  &__form {
+    width: 35rem;
     display: flex;
     position: relative;
-    align-items: center;
+    margin-right: 1.5rem;
   }
 
   &__input {
     padding-left: 3.5rem;
     width: 100%;
     font-size: 1.4rem;
+    background: $light;
+    color: $black;
+    border-radius: .25rem 0 0 .25rem;
 
     &:focus {
-      background: $pure-white;
+      background: lighten($light, 2%);
       border-radius: .25rem .25rem 0 0;
     }
   }
@@ -58,7 +97,6 @@
     top: 50%;
     left: 1rem;
     transform: translateY(-50%);
-    fill: $pure-white;
   }
   
   &__dropdown {
@@ -77,7 +115,7 @@
   }
 
   &__input:focus ~ &__icon { fill: $color-tertiary; }
-  &__input:focus + &__dropdown {
+  &__input:focus ~ &__dropdown {
     visibility: visible;
     opacity: 1;
   }

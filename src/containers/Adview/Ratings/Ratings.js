@@ -36,9 +36,9 @@ const reviewsList = [
   }
 ];
 
-const Ratings = () => {
+const Ratings = ({ open, hide }) => {
   const [expandText, setExpandText] = useState([]);
-  const [showReviews, setShowReviews] = useState(true);
+  const [showReviews, setShowReviews] = useState(hide ? false : true);
 
   useEffect(() => {
     reviewsList.forEach(() => 
@@ -60,7 +60,7 @@ const Ratings = () => {
     return (
       <div className="ratings__item" key={i}>
         <div className="flex aic jcsb mb-1">
-          <div className="flex fdc">
+          <div className="flex fdc w-100">
             <span className="ratings__user mb-5">{el.name}</span>
             <span className="ratings__date">Days lived: {el.days}</span>
           </div>
@@ -96,8 +96,8 @@ const Ratings = () => {
 
   return (
     <div className="ratings">
-      <div className="flex aic mb-1">
-        <div className={`f-lg mr-5 f-thin ${showReviews ? 'c-black' : 'c-grace'}`}>Reviews for property</div>
+      <div className="flex aic jcsb mb-1">
+        <div className={`f-lg f-thin ${showReviews ? 'c-black' : 'c-grace'}`}>Reviews</div>
         <button className="btn--sub" onClick={() => setShowReviews(prev => !prev)}>
           {showReviews ? 'Hide' : 'Show'}
         </button>
@@ -105,7 +105,7 @@ const Ratings = () => {
       {showReviews &&
         <Scrollbars className="ratings__content">
           {reviews}
-          <button className="btn btn--cta w-100">Write review</button>
+          <button className="btn btn--cta w-100" onClick={open}>Write review</button>
         </Scrollbars>
       }
     </div>

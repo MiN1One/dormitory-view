@@ -9,7 +9,7 @@ import SwiperCore, { Autoplay } from 'swiper';
 
 import 'swiper/swiper.scss';
 
-// import image from '../../assets/images/minh-pham-OtXADkUh3-I-unsplash.jpg';
+import image from '../../assets/images/minh-pham-OtXADkUh3-I-unsplash.jpg';
 import './CardH.scss';
 
 SwiperCore.use([Autoplay]);
@@ -18,7 +18,7 @@ const CardH = ({ data }) => {
   return (
     <Link to="/city/region/apartment" className="cardh">
       <figure className="cardh__figure">
-        {/* <LazyLoadImage
+        <LazyLoadImage
           className="img img--cover"
           src={image}
           alt="image"
@@ -29,8 +29,8 @@ const CardH = ({ data }) => {
             <div className="wh-100 flex aic jcc">
               <ImImage className="icon--lg icon--grey" />
             </div>
-          } /> */}
-        <div className="cardh__panel">
+          } />
+        {/* <div className="cardh__panel">
           <Swiper 
             loopFillGroupWithBlank={true}
             autoplay={{ delay: 3000 }}
@@ -43,7 +43,7 @@ const CardH = ({ data }) => {
                 <AiFillTag className="icon--xs icon--yellow" />&nbsp;Hehe boay
               </SwiperSlide>
           </Swiper>
-        </div>
+        </div> */}
       </figure>
       <div className="cardh__body">
         <span className="text--title mb-1 flex aic">

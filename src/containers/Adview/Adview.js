@@ -7,11 +7,13 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import ScrollSpy from 'react-scrollspy';
 import { BsArrowsFullscreen, BsStar, BsStarFill } from 'react-icons/bs';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaBuilding, FaMapMarkerAlt } from 'react-icons/fa';
 import { IoIosSchool } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
 import { GiSpoon } from 'react-icons/gi';
 import { BiDoorOpen } from 'react-icons/bi';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import { AiOutlineTag } from 'react-icons/ai';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
@@ -23,18 +25,20 @@ import Ratings from './Ratings/Ratings';
 import Specifications from '../../components/Specs/Specifications';
 import Rooms from './Rooms/Rooms';
 import SimilarAds from './SimilarAds/SimilarAds';
-import { LazyLoadComponent } from 'react-lazy-load-image-component';
-import { AiOutlineTag } from 'react-icons/ai';
 import PopScroll from '../../components/UI/PopScroll/PopScroll';
+import Contact from './Contact/Contact';
+import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 
 SwiperCore.use([Navigation]);
 
 const AsyncFullscreen = React.lazy(() => import('./Fullscreen/Fullscreen'));
+const AsyncReviewInput = React.lazy(() => import('./ReviewInput/ReviewInput'));
 
 const APARTMENT = {
   title: 'Apartment',
   address: '14 Street',
   region: 'Region',
+  type: 'university-owned',
   city: 'Tashkent',
   distances: [
     {
@@ -69,27 +73,35 @@ const Adview = () => {
   const params = useParams();
   const location = useLocation();
   const history = useHistory();
+
+  const [showContact, setShowContact] = useState(false);
+  const [reviewInp, setReviewInp] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [fullScreen, setFullScreen] = useState(false);
   const [swiper, setSwiper] = useState(null);
+  const [showWisher, setShowWisher] = useState(false);
+
+  const scrollYOffset = -70;
 
   useEffect(() => swiper && swiper.update());
 
   useEffect(() => {
+    if (reviewInp) setShowContact(false);
+  }, [reviewInp]);
+
+  useEffect(() => {
     if (location.hash !== '#') {
       const el = document.getElementById(location.hash.substr(1));
-      el && el.scrollIntoView({
-        behavior: 'smooth',
-      });
+
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.pageYOffset + scrollYOffset;
+        window.scrollTo({top: y, behavior: 'smooth'});
+      }
     }
-  }, [location.hash]);
+  }, [location.hash, scrollYOffset]);
 
   const onSelectImage = (index) => {
-    // document.getElementById('main').scrollIntoView({ behavior: 'smooth' });
-    window.scroll({
-      top: 125,
-      behavior: 'smooth'
-    });
+    history.push('#main');
     setActiveImageIndex(index);
   };
 
@@ -128,8 +140,10 @@ const Adview = () => {
 
   return (
     <>
+      {showContact && <Contact close={() => setShowContact(false)} open={() => setReviewInp(true)} />}
+      {reviewInp && <AsyncReviewInput close={() => setReviewInp(false)} />}
       <PopScroll />
-      {fullScreen && 
+      {fullScreen &&
         <AsyncFullscreen 
           activeImageIndex={activeImageIndex}
           onImageChange={(i) => swiper.slideTo(i, 250, false)}
@@ -139,50 +153,71 @@ const Adview = () => {
       }
       <div className="adview__nav">
         <div className="container">
-          <ScrollSpy 
-            className="adview__nav-content" 
-            items={['main', 'property', 'details', 'description', 'features']}
-            currentClassName="tab-item--active">
-              <li className="adview__nav-item tab-item">
-                <Link to="/city/region/apartment#main">
-                  Main
-                </Link>
-              </li>
-              <li className="adview__nav-item tab-item">
-                <Link to="/city/region/apartment#property">
-                  Property
-                </Link>
-              </li>
-              <li className="adview__nav-item tab-item">
-                <Link to="/city/region/apartment#details">
-                  Details
-                </Link>
-              </li>
-              <li className="adview__nav-item tab-item">
-                <Link to="/city/region/apartment#description">
-                  Description
-                </Link>
-              </li>
-              <li className="adview__nav-item tab-item">
-                <Link to="/city/region/apartment#features">
-                  Features
-                </Link>
-              </li>
-          </ScrollSpy>
+          <div className="flex aic jcsb">
+            <ScrollSpy 
+              onUpdate={(el) => {
+                if (el && el.id !== 'main') setShowWisher(true);
+                else setShowWisher(false);
+              }}
+              offset={scrollYOffset}
+              className="adview__nav-content" 
+              items={['main', 'options', 'details', 'features', 'similar']}
+              currentClassName="tab-item--active">
+                <li className="adview__nav-item tab-item">
+                  <Link to="/city/region/apartment#main">
+                    Main
+                  </Link>
+                </li>
+                <li className="adview__nav-item tab-item">
+                  <Link to="/city/region/apartment#options">
+                    Options
+                  </Link>
+                </li>
+                <li className="adview__nav-item tab-item">
+                  <Link to="/city/region/apartment#details">
+                    Details
+                  </Link>
+                </li>
+                <li className="adview__nav-item tab-item">
+                  <Link to="/city/region/apartment#features">
+                    Features
+                  </Link>
+                </li>
+                <li className="adview__nav-item tab-item">
+                  <Link to="/city/region/apartment#similar">
+                    Similar
+                  </Link>
+                </li>
+            </ScrollSpy>
+            {showWisher && 
+              <button className="adview__btn">
+                <BsStar className="icon--xs icon--yellow mr-5" />
+                Add to favorites
+              </button>
+            }
+          </div>
         </div>
       </div>
       <main className="adview">
         <div className="container">
-          <div className="breadcrumbs mb-2">
-            <Link to="/" className="breadcrumbs__item">Home</Link>
-            <span className="breadcrumbs__separator"></span>
-            <Link to="/" className="breadcrumbs__item">City</Link>
-            <span className="breadcrumbs__separator"></span>
-            <Link to="/" className="breadcrumbs__item">Region</Link>
-            <span className="breadcrumbs__separator"></span>
-            <span className="breadcrumbs__item breadcrumbs__item--active">Apartment</span>
-          </div>
-          <div className="adview__body">
+          <Breadcrumbs items={[
+            {
+              title: 'City',
+              path: `/${params.city}`,
+              active: false
+            },
+            {
+              title: 'Region',
+              path: `/${params.city}/${params.region}`,
+              active: false
+            },
+            {
+              title: 'Apartment',
+              path: `/${params.city}/${params.region}/${params.apartment}`,
+              active: true
+            }
+          ]} />
+          <div className="adview__body mt-2">
             <div className="adview__left">
               <figure className="adview__figure" id="main">
                 <img className="img img--cover" src={img} alt="apt" />
@@ -221,7 +256,6 @@ const Adview = () => {
                 className="adview__images"
                 onInit={(sw) => setSwiper(sw)}
                 slidesPerView={4}
-                id="property"
                 simulateTouch={false}
                 spaceBetween={10}
                 navigation={{
@@ -246,74 +280,82 @@ const Adview = () => {
               </Swiper>
               <Rooms />
               <div className="adview__specs">
-                <div className="adview__outline">
-                  <h3 className="heading heading--3">Details</h3>
-                  <span className="f-thin c-grey-l f-sm w-max">
-                    Number of views: {APARTMENT.numberOfViews}&nbsp;&nbsp;|&nbsp;&nbsp;In favorites: {APARTMENT.inFavorites}
-                  </span>
-                </div>
-                <div className="mb-lg">
-                  <div className="flex mb-2">
-                    <span className="mr-1 flex aic f-bold f-lg">
-                      <FaMapMarkerAlt className="icon--grey icon--sm mr-1" />
-                      Address:
+                <div className="w-100" id="details">
+                  <div className="adview__outline">
+                    <h3 className="heading heading--3">Details</h3>
+                    <span className="f-thin c-grey-l f-sm w-max">
+                      Number of views: {APARTMENT.numberOfViews}&nbsp;&nbsp;|&nbsp;&nbsp;In favorites: {APARTMENT.inFavorites}
                     </span>
-                    {APARTMENT.city}, {APARTMENT.region} district, {APARTMENT.address}
                   </div>
-                  <div className="flex mb-2 ais">
-                    <span className="mr-1 flex aic f-bold f-lg">
-                      <IoIosSchool className="icon--grey icon--sm mr-1" />
-                      Distance
-                    </span>
-                    <ul className="flex fdc">{distances}</ul>
-                  </div>
-                  <div className="flex mb-2">
-                    <span className="mr-1 flex aic f-bold f-lg">
-                      <BiDoorOpen className="icon--grey icon--sm mr-1" />
-                      Number of rooms:
-                    </span>
-                    {APARTMENT.numberOfRooms}
-                  </div>
-                  <div className="flex mb-2">
-                    <span className="mr-1 flex aic f-bold f-lg">
-                      <GiSpoon className="icon--grey icon--sm mr-1" />
-                      Facilities:
-                    </span>
-                    <div className="flex aic">
-                      {APARTMENT.features.facilities.slice(0, 3).map(el => t(`features.${el}`)).join(', ')}..
-                      <button 
-                        className="btn--sub ml-5" 
-                        onClick={() => {
-                          const el = document.getElementById('features'); 
-                          el && el.scrollIntoView({ behavior: 'smooth' })
-                        }}>
-                          More
-                      </button>
+                  <div className="mb-lg">
+                    <div className="flex mb-2">
+                      <span className="mr-1 flex aic f-bold f-lg">
+                        <FaMapMarkerAlt className="icon--grey icon--sm mr-1" />
+                        Address:
+                      </span>
+                      {APARTMENT.city}, {APARTMENT.region} district, {APARTMENT.address}
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="mr-1 flex aic f-bold f-lg">
+                        <FaBuilding className="icon--grey icon--sm mr-1" />
+                        Type:
+                      </span>
+                      {APARTMENT.type}
+                    </div>
+                    <div className="flex mb-2 ais">
+                      <span className="mr-1 flex aic f-bold f-lg">
+                        <IoIosSchool className="icon--grey icon--sm mr-1" />
+                        Distance
+                      </span>
+                      <ul className="flex fdc">{distances}</ul>
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="mr-1 flex aic f-bold f-lg">
+                        <BiDoorOpen className="icon--grey icon--sm mr-1" />
+                        Number of rooms:
+                      </span>
+                      {APARTMENT.numberOfRooms}
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="mr-1 flex aic f-bold f-lg">
+                        <GiSpoon className="icon--grey icon--sm mr-1" />
+                        Facilities:
+                      </span>
+                      <div className="flex aic">
+                        {APARTMENT.features.facilities.slice(0, 3).map(el => t(`features.${el}`)).join(', ')}..
+                        <button 
+                          className="btn--sub ml-5" 
+                          onClick={() => history.push('#features')}>
+                            More
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="adview__specs-wrapper">
-                  <h5 className="heading heading--5 c-black mb-3">Facilites:</h5>
-                  <div className="adview__specs-list">
-                    {facilities}
-                    {others}
+                <div id="features">
+                  <div className="adview__specs-wrapper" >
+                    <h5 className="heading heading--5 c-black mb-3">Facilites:</h5>
+                    <div className="adview__specs-list">
+                      {facilities}
+                      {others}
+                    </div>
                   </div>
-                </div>
-                <div className="adview__specs-wrapper">
-                  <h5 className="heading heading--5 c-black mb-3">Security and safety:</h5>
-                  <div className="adview__specs-list">{security}</div>
-                </div>
-                <div className="adview__specs-wrapper">
-                  <h5 className="heading heading--5 c-black mb-3">Rules:</h5>
-                  <div className="adview__specs-list">{rules}</div>
-                </div>
-                <div className="adview__specs-wrapper">
-                  <h5 className="heading heading--5 c-black mb-3">Included Bills:</h5>
-                  <div className="adview__specs-list">{bills}</div>
-                </div>
-                <div className="adview__specs-wrapper">
-                  <h5 className="heading heading--5 c-black mb-3">Nearby places:</h5>
-                  <div className="adview__specs-list">{places}</div>
+                  <div className="adview__specs-wrapper">
+                    <h5 className="heading heading--5 c-black mb-3">Security and safety:</h5>
+                    <div className="adview__specs-list">{security}</div>
+                  </div>
+                  <div className="adview__specs-wrapper">
+                    <h5 className="heading heading--5 c-black mb-3">Rules:</h5>
+                    <div className="adview__specs-list">{rules}</div>
+                  </div>
+                  <div className="adview__specs-wrapper">
+                    <h5 className="heading heading--5 c-black mb-3">Included Bills:</h5>
+                    <div className="adview__specs-list">{bills}</div>
+                  </div>
+                  <div className="adview__specs-wrapper">
+                    <h5 className="heading heading--5 c-black mb-3">Nearby places:</h5>
+                    <div className="adview__specs-list">{places}</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -337,14 +379,16 @@ const Adview = () => {
                   </div>
                   <Link to="/" className="c-grace undl--h undl">154 Reviews</Link>
                 </div>
-                <button className="btn btn--primary w-100 mb-1">Contact</button>
+                <button className="btn btn--primary w-100 mb-1" onClick={() => setShowContact(true)}>Contact</button>
               </div>
-              <Ratings />
+              <Ratings open={() => setReviewInp(true)} />
             </div>
           </div>
-          <LazyLoadComponent placeholder={<div className="loading">Loading...</div>}>
-            <SimilarAds />
-          </LazyLoadComponent>
+          <div id="similar">
+            <LazyLoadComponent placeholder={<div className="loading">Loading...</div>}>
+              <SimilarAds />
+            </LazyLoadComponent>
+          </div>
         </div>
       </main>
     </>
@@ -352,12 +396,3 @@ const Adview = () => {
 };
 
 export default React.memo(Adview);
-
-/* 
-  specs: 
-    num rooms,
-    kitchen
-    
-  features:
-    internet
-*/

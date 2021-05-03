@@ -38,18 +38,23 @@
     font-weight: 600;
     padding: 1.25rem 3rem;
     transition: background .15s ease-in-out;
-
+    
     &:hover,
     &:focus {
       background: darken($color-tertiary, 10%);
     }
   }
-
+  
   &--primary {
     font-weight: 600;
     border-radius: .25rem;
     background: $color-yellow-light;
     color: $black;
+    padding: 0 4rem;
+    transition: background .15s ease-in-out;
+
+    &:hover,
+    &:focus { background: darken($color-yellow-light, 2.5%); }
   }
 
   &--bg-tertiary {
@@ -84,6 +89,9 @@
     font-size: 1.3rem;
     color: $color-green;
     background: lighten($light, 3%);
+
+    &:hover,
+    &:focus { background: $light; }
   }
 
   &--slider {

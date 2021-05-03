@@ -7,6 +7,7 @@ import Footer from '../components/Footer/Footer';
 const AsyncHeader = React.lazy(() => import('./Header/Header'));
 const AsyncAuth = React.lazy(() => import('./Auth/Auth'));
 const AsyncProfile = React.lazy(() => import('./Profile/Profile'));
+const AsyncListview = React.lazy(() => import('./Listview/Listview'));
 const AsyncAdview = React.lazy(() => import('./Adview/Adview'));
 
 function App() {
@@ -33,6 +34,9 @@ function App() {
             </Route>
             <Route path="/:city/:region/:apt" exact>
               <AsyncAdview />
+            </Route>
+            <Route path="/:city/:region" exact>
+              <AsyncListview />
             </Route>
             <Route path="/myprofile" exact>
               <AsyncProfile />

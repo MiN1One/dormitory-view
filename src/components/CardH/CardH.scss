@@ -51,7 +51,7 @@
     background: $color-orange-light;
     // border-radius: .25rem .25rem 0 0;
 
-    svg { fill: #fedd48; }
+    svg { fill: $color-yellow-light; }
   }
 
   // &__badge {
@@ -84,14 +84,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba($color-tertiary, .5);
+    border: 2px solid rgba($color-yellow, .5);
     background: darken($pure-white, 1%);
   }
 
   &:hover &__price,
   &:focus &__price {
-    background: $color-tertiary;
-    
+    background: $color-yellow;
+
     & * {
       color: $pure-white !important;
     }

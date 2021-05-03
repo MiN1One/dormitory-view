@@ -33,6 +33,12 @@
 .f-lg {
   font-size: 1.5rem;
 }
+.f-xl {
+  font-size: 1.7rem;
+}
+.f-sl {
+  font-size: 2rem;
+}
 .f-thin {
   font-weight: 300;
 }
@@ -41,6 +47,9 @@
 }
 .f-light {
   font-weight: 200;
+}
+.f-normal {
+  font-weight: 400;
 }
 .f-mid-w {
   font-weight: 500;
@@ -69,7 +78,7 @@
   color: darken($light, 15%);
 }
 .c-grace {
-  color: rgba($grey-dark, 0.7) !important;
+  color: lighten($grey-dark, 5%) !important;
 }
 .c-black {
   color: darken($pitch, 15%) !important;

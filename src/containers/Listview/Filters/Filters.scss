@@ -1,0 +1,73 @@
+@use '../../../assets/sass' as *;
+
+.filters {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  height: 100%;
+  left: 0;
+  background: $pure-white;
+  box-shadow: .5rem -1rem 1rem rgba($pitch, .05);
+  transition: transform .3s ease;
+  
+  &--slide {
+    transform: translateX(calc(-100% + 9rem));
+  }
+  
+  &--slide &__icon { transform: rotate(180deg); }
+  
+  &__icon { transition: transform .25s ease-out; }
+
+  &__scroller {
+    width: 35rem !important;
+    height: calc(100% - 1px) !important;
+  }
+
+  &__content {
+    padding: 2rem 2.5rem;
+    height: 200rem;
+  }
+
+  &__head {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba($pitch, .05);
+  }
+
+  // &--slide &__head { border-color: transparent; }
+
+  &__section {
+
+    &:not(:last-child) {
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  &__list {
+    position: relative;
+    background: $pure-white;
+
+    &--pop {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      animation: slideFromRight .35s ease;
+    }
+  }
+
+  &__item {
+    border-radius: .25rem;
+    background: lighten($light, 2%);
+    width: 100%;
+    padding: 1.25rem 1.75rem;
+    font-size: 1.35rem;
+    color: lighten($grey-dark, 10%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:not(:last-child) { margin-bottom: .75rem; }
+  }
+}

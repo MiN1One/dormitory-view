@@ -2,7 +2,7 @@
 
 .input {
   padding: 1.25rem 1.75rem;
-  border-radius: 0.25rem;
+  border-radius: .25rem;
 
   &__btn {
     position: absolute;
@@ -11,13 +11,13 @@
     z-index: 1;
 
     svg {
-      animation: fadeIn 0.5s ease;
+      animation: fadeIn .5s ease;
     }
   }
 
   &__invalid {
     font-size: 1.45rem;
-    color: rgba($color-orange, 0.85);
+    color: rgba($color-orange, .85);
     margin-bottom: 1rem;
     align-self: flex-start;
   }
@@ -42,24 +42,24 @@
     border-radius: .25rem;
     width: 1.85rem;
     height: 1.85rem;
-    border: 1px solid rgba($pitch, 0.15);
+    border: 1px solid rgba($pitch, .15);
     // background: $light;
 
     svg {
-      animation: expandSm 0.3s ease;
+      animation: expandSm .3s ease;
     }
   }
 
   &__checkbox-wrapper--active &__checkbox {
-    border-color: rgba($pitch, 0.2);
+    border-color: rgba($pitch, .2);
   }
 
   &:focus {
-    border-color: rgba($pitch, 0.3);
+    border-color: rgba($pitch, .3);
   }
 
   &--main {
-    border: 1px solid rgba($pitch, 0.1);
+    border: 1px solid rgba($pitch, .1);
     padding: 1.5rem;
     font-size: 1.45rem;
     background: $pure-white;
@@ -73,6 +73,11 @@
     }
   }
 
+  &--sm {
+    padding: 1.25rem 1.5rem;
+    font-size: 1.4rem;
+  }
+
   &__label {
     position: relative;
     display: flex;
@@ -84,9 +89,9 @@
   }
 
   &__label-text {
-    padding-top: 0.75rem;
+    padding-top: .75rem;
     display: none;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn .3s ease;
     font-size: 1.2rem;
     color: $grey-light;
   }
@@ -96,10 +101,5 @@
   }
   &:not(:placeholder-shown) + &__btn {
     transform: translateY(calc(-50% - 1rem));
-  }
-
-  &--dark {
-    background: $pitch;
-    color: $light;
   }
 }

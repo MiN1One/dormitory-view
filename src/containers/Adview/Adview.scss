@@ -289,6 +289,26 @@
     &--disabled { display: none; }
   }
 
+  &__btn {
+    font-size: 1.45rem;
+    height: 5.5rem;
+    padding: 0 2rem;
+    background: lighten($light, 3%);
+    color: $grey-dark;
+    display: flex;
+    align-items: center;
+
+    &:not(.adview__btn--active):hover,
+    &:not(.adview__btn--active):focus {
+      background: lighten($light, 1.5%);
+    }
+
+    &:disabled {
+      cursor: default !important;
+      opacity: .75;
+    }
+  }
+
   &__features {
     padding: 1rem 2.5rem;
   }

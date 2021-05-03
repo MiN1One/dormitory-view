@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoIosSearch } from 'react-icons/io';
-import { AiOutlineLogin } from 'react-icons/ai';
+import { CgChevronDown } from 'react-icons/cg';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import Scrollbars from 'react-custom-scrollbars';
 import { useSelector } from 'react-redux';
 
 import './Navigation.scss';
+import { VscSignIn } from 'react-icons/vsc';
 
 const Navigation = ({ className }) => {
   const { t } = useTranslation();
@@ -61,14 +62,15 @@ const Navigation = ({ className }) => {
       <div className="container">
         <div className="nav__content">
           <div className="flex aic">
-            <Link to="/" className="mr-3">LOGO</Link>
-            <div className="nav__input-wrapper">
+            <Link to="/" className="mr-3 c-black">LOGO</Link>
+            <form className="nav__form">
               <input 
-                className="input input--dark nav__input"
+                className="nav__input"
                 type="text"
                 placeholder="Search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)} />
+              <button type="submit" className="nav__btn nav__btn--search">Search</button>
               <div className="nav__dropdown">
                 <Scrollbars style={{ width: '100%', height: '25rem' }}>
                   <div className="dropdown__body">
@@ -79,18 +81,19 @@ const Navigation = ({ className }) => {
                   <h6 className="heading heading--6">Popular regions</h6>
                 </div>
               </div>
-              <IoIosSearch className="icon nav__icon" />
-            </div>
+              <IoIosSearch className="icon nav__icon icon--dark" />
+            </form>
           </div>
-          <div className="flex">
-            <Link to="/help" className="nav__link">Help</Link>
-            <Link to="/myprofile/wishes" className="nav__link">Wish list</Link>
+          <div className="flex h-100">
+            <Link to="/" className="nav__link">
+              <CgChevronDown className="icon--sm icon--yellow mr-5" />
+              Help
+            </Link>
             {(user && user.token) 
-              ? <Link to="/myprofile" className="nav__link">{user.name}</Link>
+              ? <Link to="/myprofile" className="nav__btn">{user.name}</Link>
               : <Link to="/auth/login" className="nav__link">
-                {/* <IoIosLogIn className="icon mr-5" /> */}
-                <AiOutlineLogin className="icon mr-5" />
-                Login
+                  <VscSignIn className="icon icon--yellow mr-5" />
+                  Signin
               </Link>
             }
           </div>

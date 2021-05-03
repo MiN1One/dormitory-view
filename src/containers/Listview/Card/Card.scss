@@ -1,0 +1,19 @@
+@use '../../../assets/sass' as *;
+
+.cardl {
+  background: $pure-white;
+  border-radius: .25rem;
+  height: 25rem;
+  margin-bottom: 2rem;
+  transition: all .3s ease;
+  
+  &--2 {
+    width: calc(50% - 1.75%);
+    &:not(:nth-child(2n)) { margin-right: 3.5%; }
+  }
+
+  &--3 {
+    width: calc((100% - 2 * 2.5%) / 3);
+    &:not(:nth-child(3n)) { margin-right: 2.5%; }
+  }
+}

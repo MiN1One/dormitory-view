@@ -51,7 +51,7 @@ const Rooms = () => {
   ));
 
   return (
-    <div className="rooms">
+    <div className="rooms" id="options">
       <h3 className="heading heading--3 mb-15">Room options</h3>
       <div className="flex w-100 mb-2 aic">
         <button className="btn--slider rooms__btn--prev">

@@ -64,5 +64,8 @@
       fill: rgba($grey-dark, .9);
       stroke: rgba($grey-dark, .9);
     }
-    &--grey-l { fill: lighten($grey-dark, 35%); }
+    &--grey-l {
+      fill: lighten($grey-dark, 35%);
+      stroke: lighten($grey-dark, 35%);
+    }
   }

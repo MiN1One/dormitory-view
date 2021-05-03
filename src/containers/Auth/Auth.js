@@ -6,8 +6,9 @@ import { useSelector } from "react-redux";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 import './Auth.scss';
-import Signin from "./Signin/Signin";
-import Signup from "./Signup/Signup";
+
+const AsyncSignin = React.lazy(() => import('./Signin/Signin'));
+const AsyncSignup = React.lazy(() => import('./Signup/Signup'));
 
 const Auth = () => {
   const history = useHistory();
@@ -47,14 +48,10 @@ const Auth = () => {
           </div>
           <Switch>
             <Route path="/auth/login" exact>
-              <LazyLoadComponent>
-                <Signin />
-              </LazyLoadComponent>
+              <AsyncSignin />
             </Route>
             <Route path="/auth/signup" exact>
-              <LazyLoadComponent>
-                <Signup />
-              </LazyLoadComponent>
+              <AsyncSignup />
             </Route>
           </Switch>
           <div className="flex jcc fdc aic">
