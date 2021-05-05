@@ -28,6 +28,7 @@ import SimilarAds from './SimilarAds/SimilarAds';
 import PopScroll from '../../components/UI/PopScroll/PopScroll';
 import Contact from './Contact/Contact';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
+import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
 
 SwiperCore.use([Navigation]);
 
@@ -140,7 +141,11 @@ const Adview = () => {
 
   return (
     <>
-      {showContact && <Contact close={() => setShowContact(false)} open={() => setReviewInp(true)} />}
+      {showContact && 
+        <Contact 
+          close={() => setShowContact(false)} 
+          open={() => setReviewInp(true)} />
+      }
       {reviewInp && <AsyncReviewInput close={() => setReviewInp(false)} />}
       <PopScroll />
       {fullScreen &&
@@ -151,53 +156,20 @@ const Adview = () => {
           img={img}
           img2={image} />
       }
-      <div className="adview__nav">
-        <div className="container">
-          <div className="flex aic jcsb">
-            <ScrollSpy 
-              onUpdate={(el) => {
-                if (el && el.id !== 'main') setShowWisher(true);
-                else setShowWisher(false);
-              }}
-              offset={scrollYOffset}
-              className="adview__nav-content" 
-              items={['main', 'options', 'details', 'features', 'similar']}
-              currentClassName="tab-item--active">
-                <li className="adview__nav-item tab-item">
-                  <Link to="/city/region/apartment#main">
-                    Main
-                  </Link>
-                </li>
-                <li className="adview__nav-item tab-item">
-                  <Link to="/city/region/apartment#options">
-                    Options
-                  </Link>
-                </li>
-                <li className="adview__nav-item tab-item">
-                  <Link to="/city/region/apartment#details">
-                    Details
-                  </Link>
-                </li>
-                <li className="adview__nav-item tab-item">
-                  <Link to="/city/region/apartment#features">
-                    Features
-                  </Link>
-                </li>
-                <li className="adview__nav-item tab-item">
-                  <Link to="/city/region/apartment#similar">
-                    Similar
-                  </Link>
-                </li>
-            </ScrollSpy>
-            {showWisher && 
-              <button className="adview__btn">
-                <BsStar className="icon--xs icon--yellow mr-5" />
-                Add to favorites
-              </button>
-            }
-          </div>
-        </div>
-      </div>
+      <SpyNavigation
+        offset={scrollYOffset}
+        items={['main', 'options', 'details', 'features', 'similar']}
+        onUpdate={(el) => {
+          if (el && el.id !== 'main') setShowWisher(true);
+          else setShowWisher(false);
+        }}>
+          {showWisher && 
+            <button className="adview__btn">
+              <BsStar className="icon--xs icon--yellow mr-5" />
+              Add to favorites
+            </button>
+          }
+      </SpyNavigation>
       <main className="adview">
         <div className="container">
           <Breadcrumbs items={[
@@ -231,15 +203,15 @@ const Adview = () => {
                     <div className="f-lg c-light f-thin">Main hall</div>
                   </div>
                   <div className="flex aic">
-                    <button className="tooltip tooltip--noop mr-2">
+                    <button className="tooltip mr-2">
                       <BsStar className="icon" />
-                      <div className="tooltip__text tooltip__text--top-right">
+                      <div className="tooltip__text tooltip__text--top tooltip__text--center">
                         Add to wish list
                       </div>
                     </button>
-                    <button className="tooltip tooltip--noop mr-2" onClick={() => setFullScreen(true)}>
+                    <button className="tooltip mr-2" onClick={() => setFullScreen(true)}>
                       <BsArrowsFullscreen className="icon" />
-                      <div className="tooltip__text tooltip__text--top-right">
+                      <div className="tooltip__text tooltip__text--top tooltip__text--center">
                         Full screen
                       </div>
                     </button>

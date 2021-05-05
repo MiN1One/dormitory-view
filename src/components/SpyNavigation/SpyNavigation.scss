@@ -1,0 +1,25 @@
+@use '../../assets/sass' as *;
+
+.snav {
+  background: $pure-white;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  border-bottom: 1px solid rgba($pitch, .05);
+  
+  &__list {
+    height: 5.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    display: flex;
+  }
+
+  &__item {
+    height: 100%;
+    padding: 0 1.5rem;
+    text-transform: capitalize;
+
+    &:not(:last-child) { margin-right: 1.5rem; }
+    &::after { top: calc(100% - .3rem) ; }
+  }
+}

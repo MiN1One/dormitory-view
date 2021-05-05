@@ -1,0 +1,49 @@
+@use '../../assets/sass' as *;
+
+.pagination {
+  display: flex;
+  align-items: center;
+
+  &__list {
+    display: flex;
+  }
+
+  &__item {
+    width: 4rem;
+    height: 4rem;
+    background: $pure-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 .75rem rgba($pitch, .01);
+    border-radius: .25rem;
+    border: 1px solid rgba($pitch, .075);
+    
+    &--active {
+      width: 4.125rem;
+      height: 4.125rem;
+      background: $color-green;
+      color: $pure-white;
+    }
+  }
+
+  &__btn {
+    width: 4rem;
+    height: 4rem;
+    border: 1px solid rgba($pitch, .075);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $pure-white;
+    border-radius: .25rem;
+
+    &:first-of-type {
+      margin-right: 1rem;
+    }
+    
+    &:last-of-type {
+      margin-left: 1rem;
+
+    }
+  }
+}

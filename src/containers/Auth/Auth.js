@@ -23,7 +23,7 @@ const Auth = () => {
         <div className="auth__left">
           <button className="auth__btn-back tooltip" onClick={() => history.replace('/')}>
             <BiArrowBack className="icon--mid icon--grey" />
-            <div className="tooltip__text tooltip__text--left">
+            <div className="tooltip__text tooltip__text--bottom auth__tooltip">
               Go back home
             </div>
           </button>

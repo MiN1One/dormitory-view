@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Route, Switch, useLocation } from 'react-router';
 
 import Navigation from '../components/Navigation/Navigation';
 import Footer from '../components/Footer/Footer';
+import Scrollbar from '../components/UI/Scrollbar/Scrollbar';
 
 const AsyncHeader = React.lazy(() => import('./Header/Header'));
 const AsyncAuth = React.lazy(() => import('./Auth/Auth'));

@@ -14,13 +14,13 @@
     width: 5rem;
     height: 5rem;
     border-radius: .4rem;
-    background: $light;
+    background: $pure-white;
     animation: popFromTop .3s ease;
     border: 1px solid $color-yellow;
 
     &:hover,
     &:focus {
-      background: darken($light, 2%);
+      background: lighten($light, 2.5%);
     }
   }
 }

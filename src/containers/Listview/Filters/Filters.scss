@@ -7,7 +7,7 @@
   height: 100%;
   left: 0;
   background: $pure-white;
-  box-shadow: .5rem -1rem 1rem rgba($pitch, .05);
+  box-shadow: .5rem -1rem 1rem rgba($pitch, .03);
   transition: transform .3s ease;
   
   &--slide {
@@ -56,18 +56,86 @@
     }
   }
 
+  &__btn-close {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: $light;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   &__item {
     border-radius: .25rem;
-    background: lighten($light, 2%);
+    background: lighten($light, 3%);
     width: 100%;
-    padding: 1.25rem 1.75rem;
+    padding: 1.45rem 2rem;
     font-size: 1.35rem;
-    color: lighten($grey-dark, 10%);
-    cursor: pointer;
+    color: $black;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border: 1px solid transparent;
+    position: relative;
 
-    &:not(:last-child) { margin-bottom: .75rem; }
+    &__btn {
+      position: absolute;
+      background: $pure-white;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 1.45rem;
+      z-index: 1;
+      opacity: 0;
+    }
+
+    &:hover,
+    &:focus {
+      background: $light;
+
+    }
+    
+    &--active { border-color: rgba($color-tertiary, .15); }
+
+    &--active:hover &__btn { opacity: 1; }
+    &--active:hover span { opacity: 0; }
+
+    &:not(.filters__item--sm):not(:last-child) { margin-bottom: .75rem; }
+
+    &--sm {
+      width: calc(50% - .375rem);
+      margin-bottom: .75rem;
+
+      &:not(.filters__form):not(:nth-of-type(2n)) { margin-right: .75rem; }
+    }
+  }
+
+  &__form {
+    padding: 2rem;
+    border-radius: .25rem;
+    background: lighten($light, 4.25%);
+    // margin-bottom: 1.5rem;
+    border: 1px solid rgba($pitch, .075);
+  }
+  
+  &__input {
+    padding: 1.15rem 1.65rem;
+    border: 1px solid rgba($pitch, .075);
+    background: $pure-white;
+    border-radius: .25rem;
+    color: $black;
+    font-size: 1.5rem;
+    width: 100%;
+    
+    &:focus {
+      background: $pure-white;
+      border-color: rgba($color-tertiary, .55);
+    }
+
+    &--sm {
+      width: calc(50% - .5rem);
+
+      &:not(:nth-child(2n)) { margin-right: 1rem; }
+    }
   }
 }

@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 
 import './Navigation.scss';
 import { VscSignIn } from 'react-icons/vsc';
+import Dropdown from '../UI/Dropdown/Dropdown';
+import { BsPerson, BsStar } from 'react-icons/bs';
 
 const Navigation = ({ className }) => {
   const { t } = useTranslation();
@@ -85,13 +87,37 @@ const Navigation = ({ className }) => {
             </form>
           </div>
           <div className="flex h-100">
-            <Link to="/" className="nav__link">
-              <CgChevronDown className="icon--sm icon--yellow mr-5" />
-              Help
-            </Link>
+            <Dropdown
+              title={<span className="inline ml-5">Help</span>}
+              className="nav__link nav__link--drop"
+              dropTitle="Help"
+              positionX="right"
+              items={[
+                {
+                  title: 'About',
+                  click: () => history.push('/help#about')
+                },
+                {
+                  title: 'Book',
+                  click: () => history.push('/help#book')
+                },
+                {
+                  title: 'Refund',
+                  click: () => history.push('/help#refund')
+                }
+              ]} />
             {(user && user.token) 
-              ? <Link to="/myprofile" className="nav__btn">{user.name}</Link>
-              : <Link to="/auth/login" className="nav__link">
+              ? <>
+                <Link to="/myprofile" className="nav__link ml-1">
+                  <BsStar className="icon--sm icon--yellow mr-5" />
+                  Wish list
+                </Link>
+                <Link to="/myprofile" className="nav__link nav__link--user ml-1">
+                  <BsPerson className="icon icon--tertiary mr-5" />
+                  {user.name}
+                </Link>
+              </>
+              : <Link to="/auth/login" className="nav__link ml-1">
                   <VscSignIn className="icon icon--yellow mr-5" />
                   Signin
               </Link>

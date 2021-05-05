@@ -16,7 +16,7 @@
 
   &--static {
     position: relative;
-    z-index: 9998;
+    z-index: 9999;
   }
   
   &__content {
@@ -32,20 +32,11 @@
     align-items: center;
     font-weight: 400;
     font-size: 1.4rem;
-    // text-transform: uppercase;
     font-weight: 500;
     padding: 1rem 2.5rem;
     border-radius: .25rem;
     background: $color-tertiary;
     color: $pure-white;
-    
-    &--main {
-      // font-weight: 600;
-      // color: $grey-dark;
-      // background: $color-yellow-light;
-      // // border: 2px solid $color-green;
-      // border-color: $color-yellow;
-    }
 
     &--search {
       border-radius: 0 .25rem .25rem 0;
@@ -64,11 +55,15 @@
     border-bottom: 2px solid transparent;
 
     &:hover,
-    &:focus {
-      border-color: $color-yellow;
+    &:focus { border-color: $color-yellow; }
+    
+    &--drop {
+      flex-direction: row-reverse;
+      height: 100%;
     }
-
-    &:not(:last-child) { margin-right: 1rem; }
+    
+    &--user:hover,
+    &--user:focus { border-color: $color-tertiary; }
   }
 
   &__form {

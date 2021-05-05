@@ -12,9 +12,6 @@
 }
 
 ::-webkit-scrollbar { width: .75rem; }
-::-webkit-scrollbar-track {
-  // background: lighten($light, 3%);
-}
 ::-webkit-scrollbar-thumb {
   background: $color-yellow;
 }

@@ -24,6 +24,9 @@
   }
 }
 
+.f-xs {
+  font-size: 1.1rem;
+}
 .f-sm {
   font-size: 1.3rem;
 }
@@ -71,6 +74,9 @@
   }
 }
 
+.c-grey {
+  color: $grey-dark !important;
+}
 .c-grey-l {
   color: darken($grey-light, 5%) !important;
 }

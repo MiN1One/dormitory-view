@@ -2,16 +2,15 @@
 
 .tooltip {
   position: relative;
-
+  
   &__text {
+    z-index: 10;
     padding: 1.5rem 2rem;
-    background: rgba($pitch, 0.5);
+    background: $tooltip;
     border-radius: 0.25rem;
     width: max-content;
     color: $pure-white;
     position: absolute;
-    top: calc(100% + 1rem);
-    transform: translateY(-1.5rem);
     opacity: 0;
     visibility: hidden;
     transition: all .2s ease;
@@ -19,69 +18,41 @@
     &::before {
       content: "";
       position: absolute;
-      bottom: 100%;
-      border-width: 1rem;
+      border-width: .75rem;
       border-style: solid;
-      border-color: transparent transparent rgba($pitch, 0.5) transparent;
+    }
+    
+    &--top {
+      bottom: calc(100% + 1rem);
+
+      &::before {
+        top: 100%;
+        border-color: $tooltip transparent transparent transparent;
+      }
     }
 
     &--center {
       left: 50%;
-      transform: translateX(-50%) translateY(-1.5rem);
-
+      transform: translateX(-50%);
+      
       &::before {
         left: 50%;
         transform: translateX(-50%);
       }
     }
-
-    &--right {
-      right: -1.5rem;
-
-      &::before {
-        right: 1.5rem;
-      }
-    }
     
-    &--top-right {
-      right: -1.5rem;
-      top: initial;
-      bottom: calc(100% + 1.5rem);
-      transform: translateY(1.5rem);
-  
+    &--bottom {
+      top: calc(100% + 1rem);
+      
       &::before {
-        bottom: initial;
-        top: 100%;
-        right: 1.5rem;
-        border-color: $grey-dark transparent transparent transparent !important;
+        bottom: 100%;
+        border-color: transparent transparent $tooltip transparent;
       }
     }
-
-    &--left {
-      left: -1.5rem;
-
-      &::before {
-        left: 1.5rem;
-      }
-    }
-
-  }
-  
-  &--noop &__text {
-    background: $grey-dark;
-  }
-  
-  &--noop &__text::before {
-    border-color: transparent transparent $grey-dark transparent;
   }
 
   &:hover &__text {
-    transform: translateY(0);
     opacity: 1;
     visibility: visible;
-
-    &--center {
-      transform: translate(-50%, 0);
-    }
   }
 }
