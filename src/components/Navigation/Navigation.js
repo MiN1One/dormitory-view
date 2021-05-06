@@ -91,7 +91,6 @@ const Navigation = ({ className }) => {
               title={<span className="inline ml-5">Help</span>}
               className="nav__link nav__link--drop"
               dropTitle="Help"
-              positionX="right"
               items={[
                 {
                   title: 'About',

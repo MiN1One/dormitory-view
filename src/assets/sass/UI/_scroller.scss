@@ -11,7 +11,10 @@
   }
 }
 
-::-webkit-scrollbar { width: .75rem; }
+::-webkit-scrollbar {
+  height: .75rem;
+  width: .75rem;
+}
 ::-webkit-scrollbar-thumb {
   background: $color-yellow;
 }

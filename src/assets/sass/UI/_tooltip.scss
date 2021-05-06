@@ -4,7 +4,7 @@
   position: relative;
   
   &__text {
-    z-index: 10;
+    z-index: 9999;
     padding: 1.5rem 2rem;
     background: $tooltip;
     border-radius: 0.25rem;

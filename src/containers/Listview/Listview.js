@@ -16,7 +16,7 @@ const Listview = () => {
   const location = useLocation();
   
   const [slide, setSlide] = useState(false);
-  const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)));
+  const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)) || 1);
   const [sortBy, setSortBy] = useState({ val: '+', title: 'ascend'});
 
   console.log(currentPage);

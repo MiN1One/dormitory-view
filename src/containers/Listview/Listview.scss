@@ -44,8 +44,11 @@
     border-radius: 2rem;
     text-transform: uppercase;
     box-shadow: 0 .5rem 1rem rgba($pitch, .1);
-
+    
     &:hover,
-    &:focus { background: darken($color-green, 5%); }
+    &:focus {
+      box-shadow: 0 1rem 2rem rgba($pitch, .1);
+      background: darken($color-green, 5%);
+    }
   }
 }

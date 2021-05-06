@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars';
 import { BsArrowLeft, BsCheck } from 'react-icons/bs';
 import { IoChevronForward } from 'react-icons/io5';
 import { GoLocation } from 'react-icons/go';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
 import { useLocation } from 'react-router-dom';
 import { IoIosClose } from 'react-icons/io';
-import { AiOutlineDollarCircle } from 'react-icons/ai';
 
+import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import './Filters.scss';
+import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 
 const Filters = ({ onSlide, slide }) => {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -26,11 +26,8 @@ const Filters = ({ onSlide, slide }) => {
 
   return (
     <div className={`filters ${slide ? 'filters--slide' : ''}`}>
-      <Scrollbars 
-        autoHide
+      <Scrollbar
         onScroll={() => scrollRef.current.getScrollTop()}
-        autoHideTimeout={1500}
-        autoHideDuration={250} 
         className="filters__scroller"
         ref={scrollRef}>
         <div className="filters__content">
@@ -40,63 +37,130 @@ const Filters = ({ onSlide, slide }) => {
               <BsArrowLeft className="icon icon--dark filters__icon" />
             </button>
           </div>
-          <div className="flex fwrap mb-2">
-            <div 
-              tabIndex="0" 
-              onClick={() => getToFilter('regions')} 
-              className="filters__item filters__item--sm">
-                Regions
+          <div className="filters__list--row">
+            <div className="filters__item-wrapper">
+              <div 
+                tabIndex="0" 
+                onClick={() => getToFilter('facilities')} 
+                className="filters__item">
+                  Facilities
+              </div>
+              <button className="filters__item-btn filters__btn-close tooltip">
+                <IoIosClose className="icon icon--grey" />
+                <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
+              </button>
             </div>
-            <div 
-              tabIndex="0" 
-              onClick={() => getToFilter('facilities')} 
-              className="filters__item filters__item--sm">
-                Facilities
+            <div className="filters__item-wrapper">
+              <div 
+                tabIndex="0" 
+                onClick={() => getToFilter('regions')} 
+                className="filters__item">
+                  Regions
+              </div>
             </div>
-            <div 
-              tabIndex="0" 
-              onClick={() => getToFilter('ownership')}
-              className="filters__item filters__item--sm">
-                Ownership
+            <div className="filters__item-wrapper">  
+              <Dropdown
+                positionX="left"
+                className="filters__item"
+                noIcon
+                dropTitle="Number of rooms:"
+                title={
+                  <>
+                    Rooms
+                    <span className="c-grace f-sm">{4}</span>
+                  </>
+                }
+                height={15}
+                items={[
+                  { title: 'Any', click: () => {}, active: false },
+                  { title: 1, click: () => {}, active: false, checkbox: { val: false, click: () => {} } },
+                  { title: 2, click: () => {}, active: false, checkbox: { val: false, click: () => {} } },
+                  { title: 3, click: () => {}, active: false, checkbox: { val: false, click: () => {} } },
+                  { title: 4, click: () => {}, active: false, checkbox: { val: true, click: () => {} } }
+                ]} />
+              <button className="filters__item-btn filters__btn-close tooltip">
+                <IoIosClose className="icon icon--grey" />
+                <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
+              </button>
             </div>
-            <div 
-              tabIndex="0" 
-              onClick={() => getToFilter('price')} 
-              className="filters__item filters__item--active filters__item--sm">
-                Price 
-                <span className="c-grace f-sm">{0} - {0}</span>
-                <button className="filters__item__btn filters__btn-close tooltip">
-                  <IoIosClose className="icon icon--grey" />
-                  <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
-                </button>
+            <div className="filters__item-wrapper">
+              <div 
+                tabIndex="0" 
+                onClick={() => getToFilter('university')} 
+                className="filters__item">
+                  University
+              </div>
+              <button className="filters__item-btn filters__btn-close tooltip">
+                <IoIosClose className="icon icon--grey" />
+                <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
+              </button>
             </div>
-            <div 
-              tabIndex="0" 
-              onClick={() => getToFilter('bills')} 
-              className="filters__item filters__item--sm">
-                Bills
+            <div className="filters__item-wrapper">
+              <div 
+                tabIndex="0" 
+                onClick={() => getToFilter('bills')} 
+                className="filters__item">
+                  Bills
+                  <span className="filters__item__notif"></span>
+              </div>
+              <button className="filters__item-btn filters__btn-close tooltip">
+                <IoIosClose className="icon icon--grey" />
+                <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
+              </button>
             </div>
-            <div 
-              tabIndex="0" 
-              onClick={() => getToFilter('numrooms')} 
-              className="filters__item filters__item--sm">
-                Number of rooms
+            <div className="filters__item-wrapper">
+              <Dropdown
+                title={
+                  <>
+                    Ownership
+                    <span className="filters__item__notif"></span>
+                  </>
+                }
+                noIcon
+                className="filters__item"
+                items={[
+                  {
+                    title: 'Any',
+                    click: () => {}
+                  },
+                  {
+                    title: 'University',
+                    active: true,
+                    click: () => {}
+                  },
+                  {
+                    title: 'Private',
+                    click: () => {}
+                  }
+                ]}
+                dropTitle="Owned by:"
+                positionX="right" />
+              <button className="filters__item-btn filters__btn-close tooltip">
+                <IoIosClose className="icon icon--grey" />
+                <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
+              </button>
             </div>
-            <div 
-              tabIndex="0" 
-              onClick={() => getToFilter('numrooms')} 
-              className="filters__item filters__item--sm">
-                University
+            <div className="filters__item-wrapper">
+              <div 
+                tabIndex="0" 
+                onClick={() => getToFilter('price')} 
+                className="filters__item filters__item--active">
+                  Price 
+                  <span className="c-grace f-sm">{0} - {0}</span>
+              </div>
+              <button className="filters__item-btn filters__btn-close tooltip">
+                <IoIosClose className="icon icon--grey" />
+                <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
+              </button>
             </div>
           </div>
           <div className="filters__section" id="price">
-            <div className="f-xl f-thin c-grey mb-15 flex aic">
-              <AiOutlineDollarCircle className="icon--sm mr-5 icon--grey" />
+            <div className="f-xl f-thin c-black mb-15 flex aic">
               By Price
             </div>
             <div className="filters__form">
               <div className="flex aic mb-1 jcsb">
-                <div className="flex aic c-grace f-thin f-sm">
+                <div className="flex aic c-black f-thin f-sm">
                   <span>min: 150</span>
                   <span className="inline mr-1 ml-1 f-xs">|</span>
                   <span>max: 746</span>
@@ -112,7 +176,10 @@ const Filters = ({ onSlide, slide }) => {
                   className="filters__input filters__input--sm" 
                   placeholder="from"
                   onBlur={(e) => {
-                    if (e.target.value !== '' && parseInt(e.target.value) < 150) {
+                    if (
+                      e.target.value !== '' && 
+                      (parseInt(e.target.value) < 150 || parseInt(e.target.value) < 0)
+                    ) {
                       e.target.value = `${150}`;
                     }
                   }} />
@@ -121,7 +188,10 @@ const Filters = ({ onSlide, slide }) => {
                   className="filters__input filters__input--sm" 
                   placeholder="to"
                   onBlur={(e) => {
-                    if (e.target.value !== '' && parseInt(e.target.value) > 746) {
+                    if (
+                      e.target.value !== '' &&
+                      (parseInt(e.target.value) > 746 || parseInt(e.target.value) < 0)
+                    ) {
                       e.target.value = `${746}`;
                     }
                   }} />
@@ -129,14 +199,11 @@ const Filters = ({ onSlide, slide }) => {
             </div>
           </div>
           <div className="filters__section" id="regions">
-            <div className="f-xl f-thin c-grey mb-15 flex aic">
+            <div className="f-xl f-thin c-black mb-15 flex aic">
               <GoLocation className="icon--sm mr-5 icon--grey" />
               By region
             </div>
-            <Scrollbars 
-              autoHide
-              autoHideTimeout={1000}
-              autoHideDuration={250} 
+            <Scrollbar 
               style={{ width: '100%', height: '35vh' }} 
               className="filters__list">
               <div className="filters__item" onClick={() => setSelectedCity('tashkent')}>
@@ -177,25 +244,34 @@ const Filters = ({ onSlide, slide }) => {
                   </li>
                   <li className="filters__item">Shaykhantakhur</li>
                   <li className="filters__item">Mirza-Ulugbek</li>
-                  <li className="filters__item">Mirza-Ulugbek</li>
-                  <li className="filters__item">Mirza-Ulugbek</li>
-                  <li className="filters__item">Mirza-Ulugbek</li>
-                  <li className="filters__item">Mirza-Ulugbek</li>
-                  <li className="filters__item">Mirza-Ulugbek</li>
-                  <li className="filters__item">Mirza-Ulugbek</li>
                   <li className="filters__item">Nurabad</li>
                 </ul>
               }
-            </Scrollbars>
+            </Scrollbar>
           </div>
           <div className="filters__section" id="facilities">
-            <div className="f-xl f-thin c-grey flex aic">
-              <GiForkKnifeSpoon className="icon--sm icon--grey mr-5" />
+            <div className="f-xl f-thin c-black flex aic">
+              <GiForkKnifeSpoon className="icon--sm icon--dark mr-5" />
               By facilites
             </div>
           </div>
+          <div className="filters__section" id="university">
+            <div className="f-xl f-thin c-black flex aic mb-15">
+              By university
+            </div>
+            <Scrollbar
+              style={{ width: '100%', height: '35vh' }} 
+              className="filters__list">
+                <div className="filters__item"></div>
+            </Scrollbar>
+          </div>
+          <div className="filters__section" id="bills">
+            <div className="f-xl f-thin c-black flex aic mb-15">
+              By bills included
+            </div>
+          </div>
         </div>
-      </Scrollbars>
+      </Scrollbar>
     </div>
   );
 };

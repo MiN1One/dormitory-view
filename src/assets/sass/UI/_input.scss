@@ -44,6 +44,10 @@
     height: 1.85rem;
     border: 1px solid rgba($pitch, .15);
     background: $pure-white;
+    cursor: pointer;
+
+    &:hover,
+    &:focus { border-color: rgba($pitch, .35); }
 
     svg {
       animation: expandSm .3s ease;

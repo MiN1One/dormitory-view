@@ -26,6 +26,7 @@ const Pagination = ({ itemsPerView, itemsCount, interval, onChange, currentPage 
   return (
     <div className="pagination">
       <button 
+        disabled={currentPage === 1}
         className="pagination__btn" 
         onClick={() => {
           if (currentPage > 1) {
@@ -39,6 +40,7 @@ const Pagination = ({ itemsPerView, itemsCount, interval, onChange, currentPage 
         {pages}
       </ul>
       <button 
+        disabled={currentPage === pageCount}
         className="pagination__btn"
         onClick={() => {
           if (currentPage < pageCount) {
