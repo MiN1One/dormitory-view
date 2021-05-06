@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BsArrowLeft, BsCheck } from 'react-icons/bs';
-import { IoChevronForward } from 'react-icons/io5';
+import { IoChevronForward, IoSchoolOutline } from 'react-icons/io5';
 import { GoLocation } from 'react-icons/go';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
 import { useLocation } from 'react-router-dom';
-import { IoIosClose } from 'react-icons/io';
+import { IoIosClose, IoIosSearch } from 'react-icons/io';
 
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import './Filters.scss';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
+import { BiDollar } from 'react-icons/bi';
 
 const Filters = ({ onSlide, slide }) => {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -200,73 +201,94 @@ const Filters = ({ onSlide, slide }) => {
           </div>
           <div className="filters__section" id="regions">
             <div className="f-xl f-thin c-black mb-15 flex aic">
-              <GoLocation className="icon--sm mr-5 icon--grey" />
+              <GoLocation className="icon--sm mr-1 icon--grey" />
               By region
             </div>
-            <Scrollbar 
-              style={{ width: '100%', height: '35vh' }} 
-              className="filters__list">
-              <div className="filters__item" onClick={() => setSelectedCity('tashkent')}>
-                Tashkent
-                <IoChevronForward className="icon--xs icon--grey" />
+            <div className="filters__list">
+              <div className="pos-rel">
+                <input
+                  className="filters__item filters__item--inp"
+                  placeholder="District or city name"
+                  type="text" />
+                <IoIosSearch className="icon filters__search-icon" />
               </div>
-              <div className="filters__item">
-                Samarkand
-                <IoChevronForward className="icon--xs icon--grey" />
-              </div>
-              <div className="filters__item">
-                Bukhoro
-                <IoChevronForward className="icon--xs icon--grey" />
-              </div>
-              <div className="filters__item">
-                Fergana
-                <IoChevronForward className="icon--xs icon--grey" />
-              </div>
-              <div className="filters__item">
-                Andijan
-                <IoChevronForward className="icon--xs icon--grey" />
-              </div>
+              <Scrollbar style={{ width: '100%', height: 'calc(100% - 4.75rem)' }}>
+                <div className="filters__item" onClick={() => setSelectedCity('tashkent')}>
+                  Tashkent
+                  <IoChevronForward className="icon--xs icon--grey" />
+                </div>
+                <div className="filters__item">
+                  Samarkand
+                  <IoChevronForward className="icon--xs icon--grey" />
+                </div>
+                <div className="filters__item">
+                  Bukhoro
+                  <IoChevronForward className="icon--xs icon--grey" />
+                </div>
+                <div className="filters__item">
+                  Fergana
+                  <IoChevronForward className="icon--xs icon--grey" />
+                </div>
+                <div className="filters__item">
+                  Andijan
+                  <IoChevronForward className="icon--xs icon--grey" />
+                </div>
+              </Scrollbar>
               {selectedCity &&
-                <ul className="filters__list filters__list--pop">
-                  <li className="filters__item" onClick={() => setSelectedCity(null)}>
-                    <div className="flex aic">
-                      <BsArrowLeft className="icon--sm icon--grey mr-1" />
-                      Go back
-                    </div>
-                  </li>
-                  <li className="filters__item">
-                    All in Tashkent
-                    <div className="input__checkbox-wrapper">
-                      <span className="input__checkbox">
-                        <BsCheck className="icon--sm icon--green" />
-                      </span>
-                    </div>
-                  </li>
-                  <li className="filters__item">Shaykhantakhur</li>
-                  <li className="filters__item">Mirza-Ulugbek</li>
-                  <li className="filters__item">Nurabad</li>
-                </ul>
+                <div className="filters__list filters__list--pop">
+                  <Scrollbar style={{ width: '100%', height: '100%' }}>
+                    <li className="filters__item" onClick={() => setSelectedCity(null)}>
+                      <div className="flex aic">
+                        <BsArrowLeft className="icon--sm icon--grey mr-1" />
+                        Go back
+                      </div>
+                    </li>
+                    <li className="filters__item">
+                      All in Tashkent
+                      <div className="input__checkbox-wrapper">
+                        <span className="input__checkbox">
+                          <BsCheck className="icon--sm icon--green" />
+                        </span>
+                      </div>
+                    </li>
+                    <li className="filters__item">Shaykhantakhur</li>
+                    <li className="filters__item">Mirza-Ulugbek</li>
+                    <li className="filters__item">Nurabad</li>
+                  </Scrollbar>
+                </div>
               }
-            </Scrollbar>
+            </div>
           </div>
           <div className="filters__section" id="facilities">
             <div className="f-xl f-thin c-black flex aic">
-              <GiForkKnifeSpoon className="icon--sm icon--dark mr-5" />
+              <GiForkKnifeSpoon className="icon--sm icon--dark mr-1" />
               By facilites
             </div>
           </div>
           <div className="filters__section" id="university">
             <div className="f-xl f-thin c-black flex aic mb-15">
+              <IoSchoolOutline className="icon--sm icon--grey mr-1" />
               By university
             </div>
-            <Scrollbar
-              style={{ width: '100%', height: '35vh' }} 
-              className="filters__list">
-                <div className="filters__item"></div>
-            </Scrollbar>
+            <div className="filters__list">
+              <div className="pos-rel">
+                <input
+                  className="filters__item filters__item--inp"
+                  placeholder="Search in Tashkent..."
+                  type="text" />
+                <IoIosSearch className="icon filters__search-icon" />
+              </div>
+              <Scrollbar
+                style={{ width: '100%', height: '32vh' }} >
+                  <div className="filters__item">Webster University</div>
+                  <div className="filters__item">Inha University</div>
+                  <div className="filters__item">Westminster University</div>
+              </Scrollbar>
+            </div>
           </div>
           <div className="filters__section" id="bills">
             <div className="f-xl f-thin c-black flex aic mb-15">
+              <BiDollar className="icon--sm icon--grey mr-5" />
               By bills included
             </div>
           </div>

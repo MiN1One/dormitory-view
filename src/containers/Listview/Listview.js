@@ -17,7 +17,7 @@ const Listview = () => {
   
   const [slide, setSlide] = useState(false);
   const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)) || 1);
-  const [sortBy, setSortBy] = useState({ val: '+', title: 'ascend'});
+  const [sortBy, setSortBy] = useState({ val: '+date', title: 'Date (ascend)'});
 
   console.log(currentPage);
 
@@ -55,19 +55,31 @@ const Listview = () => {
                 <div className="f-lg c-grace">found 158 properties by filter</div>
               </div>
               <Dropdown 
-                title={`Price (${sortBy.title})`}
+                title={sortBy.title}
                 dropTitle={'Sort by:'}
                 positionX="right"
+                width={'17rem'}
+                height={15}
                 items={[
                   {
+                    title: 'Date (ascend)',
+                    click: () => setSortBy({ val: '+date', title: 'Date (ascend)'}),
+                    active: sortBy.val === '+date'
+                  },
+                  {
+                    title: 'Date (descend)',
+                    click: () => setSortBy({ val: '-date', title: 'Date (descend)'}),
+                    active: sortBy.val === '-date'
+                  },
+                  {
                     title: 'Price (ascend)',
-                    click: () => setSortBy({ val: '+', title: 'ascend'}),
-                    active: sortBy.val === '+' && true
+                    click: () => setSortBy({ val: '+price', title: 'Price (ascend)'}),
+                    active: sortBy.val === '+price'
                   },
                   {
                     title: 'Price (descend)',
-                    click: () => setSortBy({ val: '-', title: 'descend'}),
-                    active: sortBy.val === '-' && true
+                    click: () => setSortBy({ val: '-price', title: 'Price (descend)'}),
+                    active: sortBy.val === '-price'
                   }
                 ]} />
             </div>

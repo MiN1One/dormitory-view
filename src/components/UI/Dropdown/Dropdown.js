@@ -6,7 +6,7 @@ import './Dropdown.scss';
 import Backdrop from '../Backdrop/Backdrop';
 import Scrollbar from '../Scrollbar/Scrollbar';
 
-const Dropdown = ({ title, items, dropTitle, positionX, positionY, className, noIcon, height }) => {
+const Dropdown = ({ title, items, dropTitle, positionX, positionY, className, noIcon, height, width }) => {
   const [show, setShow] = useState(false);
   
   const listItems = items.map((el, i) => (
@@ -64,7 +64,7 @@ const Dropdown = ({ title, items, dropTitle, positionX, positionY, className, no
               <div className="drop__dropdown__title">{dropTitle}</div>
             }
             {height
-              ? <Scrollbar style={{ width: '100%', height: `${height}rem` }}>
+              ? <Scrollbar style={{ width: `${width || 'auto'}`, height: `${height}rem` }}>
                 {listItems}
               </Scrollbar>
               : listItems
