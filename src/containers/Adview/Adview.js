@@ -107,29 +107,29 @@ const Adview = () => {
   };
 
   const facilities = APARTMENT.features.facilities.map((el, i) => {
-    const Facility = Specifications().facilities[el];
+    const Facility = Specifications('adview__specs-item').facilities[el];
     return Facility && <Facility key={i} />;
   });
 
   const security = APARTMENT.features.security.map((el, i) => {
-    const Security = Specifications().security[el];
+    const Security = Specifications('adview__specs-item').security[el];
     return Security && <Security key={i} />;
   });
 
-  const others = Specifications().facilities.others(APARTMENT.features.others);
+  const others = Specifications('adview__specs-item').facilities.others(APARTMENT.features.others);
 
   const bills = APARTMENT.features.bills.map((el, i) => {
-    const Bill = Specifications().bills[el];
+    const Bill = Specifications('adview__specs-item').bills[el];
     return Bill && <Bill key={i} />;
   });
   
   const places = APARTMENT.features.places.map((el, i) => {
-    const Place = Specifications().places[el];
+    const Place = Specifications('adview__specs-item').places[el];
     return Place && <Place key={i} />;
   });
 
   const rules = APARTMENT.features.rules.map((el, i) => {
-    const Rule = Specifications().rules[el];
+    const Rule = Specifications('adview__specs-item').rules[el];
     return Rule && <Rule key={i} />;
   });
 

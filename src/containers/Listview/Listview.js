@@ -27,7 +27,7 @@ const Listview = () => {
         <div className="container">
           <Link to="/post/new" className="listview__post-btn">
             <BsPlus className="icon--mid mr-5" />
-            Post
+            New
           </Link>
         </div>
       </div>

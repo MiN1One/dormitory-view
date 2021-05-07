@@ -68,10 +68,10 @@
     font-size: 1.45rem;
     background: $pure-white;
     color: $grey-dark;
+    resize: none;
 
-    &:invalid {
-      border-color: $color-orange;
-    }
+    &:invalid { border-color: $color-red; }
+
     &::placeholder {
       color: $grey-light;
     }

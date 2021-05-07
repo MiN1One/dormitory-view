@@ -45,7 +45,7 @@
   &__list {
     position: relative;
     background: $pure-white;
-    border: 1px solid rgba($pitch, .095);
+    border: 1px solid rgba($pitch, .1);
     border-radius: .25rem;
     overflow: hidden;
     height: 35vh;
@@ -78,7 +78,7 @@
   }
 
   &__item {
-    background: lighten($light, 3%);
+    background: lighten($light, 4.25%);
     width: 100%;
     padding: 1.45rem 2rem;
     font-size: 1.4rem;
@@ -94,7 +94,7 @@
       width: .5rem;
       height: .5rem;
       background: rgba($color-tertiary, .85);
-      box-shadow: 0 0 .15rem rgba($color-tertiary, .25);
+      box-shadow: 0 0 .25rem rgba($color-tertiary, .25);
       border-radius: 50%;
     }
     
@@ -104,20 +104,14 @@
       :not(.filters__item-wrapper .filters__item)
       :not(.filters__item--xs)
       :not(:last-child) { margin-bottom: .75rem; }
-    
-    &--sm,
-    &--xs { border-radius: .25rem; }
 
     &--xs {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 0;
-      width: calc((100% - 4 * 1rem) / 5);
-      height: 5rem;
+      width: calc((100% - .5rem) / 2);
       margin-bottom: 1rem;
+      background: none;
 
-      &:not(:nth-of-type(5n)) { margin-right: 1rem; }
+      &:not(:nth-of-type(2n)) { margin-right: .5rem; }
     }
 
     &--inp {
@@ -126,7 +120,7 @@
       padding-right: 2rem;
       padding-left: 5rem;
       height: 4.75rem;
-      border-bottom: 1px solid rgba($pitch, .095);
+      border-bottom: 1px solid rgba($pitch, .1);
     }
   }
 
@@ -144,8 +138,7 @@
     opacity: 0;
   }
 
-  &__item-wrapper,
-  &__item--sm {
+  &__item-wrapper {
     position: relative;
     width: calc(50% - .375rem);
     margin-bottom: .75rem;
@@ -154,7 +147,13 @@
   }
 
   &__item-wrapper:hover &__item-btn { opacity: 1; }
-  &__item-wrapper &__item { height: 100%; }
+
+  &__item-wrapper &__item {
+    border-radius: .25rem;
+    background: lighten($light, 3.5%);
+    height: 100%;
+    // border: 1px solid rgba($pitch, .05);
+  }
 
   &__item-wrapper:hover &__item {
     background: $light;
@@ -166,12 +165,12 @@
     padding: 2rem;
     border-radius: .25rem;
     background: lighten($light, 4.25%);
-    border: 1px solid rgba($pitch, .095);
+    border: 1px solid rgba($pitch, .1);
   }
   
   &__input {
     padding: 1.15rem 1.65rem;
-    border: 1px solid rgba($pitch, .095);
+    border: 1px solid rgba($pitch, .125);
     background: $pure-white;
     border-radius: .25rem;
     color: $black;
@@ -188,6 +187,11 @@
 
       &:not(:nth-child(2n)) { margin-right: 1rem; }
     }
+  }
+
+  &__checkbox {
+    width: 1.75rem;
+    height: 1.75rem;
   }
 
   &__search-icon {

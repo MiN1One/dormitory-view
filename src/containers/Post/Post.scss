@@ -1,0 +1,79 @@
+@use '../../assets/sass' as *;
+
+.post {
+
+  &__head {
+    width: 100%;
+    background: lighten($light, 3%);
+    border-bottom: 1px solid rgba($pitch, .075);
+    padding: 1.5rem 0;
+  }
+
+  &__images {
+    padding: 2rem 0;
+
+    &__list {
+      height: 13rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    &__item {
+      height: 100%;
+      background: $grey-light;
+    }
+  }
+
+  &__btn-upload {
+    display: flex;
+    align-items: center;
+    background: $color-tertiary;
+    padding: 1rem 2rem;
+    font-size: 1.35rem;
+    color: $pure-white;
+    border-radius: .25rem;
+  }
+
+  &__body {
+    height: 50rem;
+    width: 100%;
+    background: $pure-white;
+    padding: 3.5rem 0;
+  }
+
+  &__group {
+    width: calc((100% - 4rem) / 2);
+
+    &:not(:nth-child(2n)) { margin-right: 4rem }
+  }
+
+  &__input-group {
+
+    &:not(:last-child) { margin-bottom: 2.75rem; }
+  }
+
+  &__title {
+    font-size: 2rem;
+    color: $black;
+    margin-bottom: .75rem;
+    font-weight: 300;
+  }
+
+  &__input {
+    padding: 1.5rem 2rem;
+    max-width: 35rem;
+    height: max-content;
+    border-color: rgba($pitch, .025);
+    background: lighten($light, 2.75%);
+
+    &:focus { border-color: rgba($color-tertiary, .35); }
+  }
+  
+  &__float {
+    width: 100%;
+    position: fixed;
+    bottom: 5rem;
+    right: 0;
+    z-index: 10;
+  }
+}

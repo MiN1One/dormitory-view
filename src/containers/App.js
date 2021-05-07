@@ -10,6 +10,7 @@ const AsyncAuth = React.lazy(() => import('./Auth/Auth'));
 const AsyncProfile = React.lazy(() => import('./Profile/Profile'));
 const AsyncListview = React.lazy(() => import('./Listview/Listview'));
 const AsyncAdview = React.lazy(() => import('./Adview/Adview'));
+const AsyncPost = React.lazy(() => import('./Post/Post'));
 
 function App() {
   const location = useLocation();
@@ -32,6 +33,9 @@ function App() {
           <Switch>
             <Route path="/" exact>
               <AsyncHeader />
+            </Route>
+            <Route path="/post/:type" exact>
+              <AsyncPost />
             </Route>
             <Route path="/:city/:region/:apt" exact>
               <AsyncAdview />

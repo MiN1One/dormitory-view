@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BsArrowLeft, BsCheck } from 'react-icons/bs';
-import { IoChevronForward, IoSchoolOutline } from 'react-icons/io5';
-import { GoLocation } from 'react-icons/go';
-import { GiForkKnifeSpoon } from 'react-icons/gi';
+import { IoChevronForward, IoSchoolOutline, IoWifi } from 'react-icons/io5';
+import { GoCheck, GoLocation } from 'react-icons/go';
+import { GiBathtub, GiForkKnifeSpoon, GiKnifeFork, GiMedicalThermometer, GiSofa } from 'react-icons/gi';
 import { useLocation } from 'react-router-dom';
 import { IoIosClose, IoIosSearch } from 'react-icons/io';
 
@@ -10,6 +10,8 @@ import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import './Filters.scss';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 import { BiDollar } from 'react-icons/bi';
+import { MdLocalLaundryService } from 'react-icons/md';
+import Specifications from '../../../components/Specs/Specifications';
 
 const Filters = ({ onSlide, slide }) => {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -24,6 +26,39 @@ const Filters = ({ onSlide, slide }) => {
       // el.scrollIntoView();
     }
   };
+
+  const Facilities = { ...Specifications('flex aic').facilities };
+  delete Facilities.others;
+
+  const facilities = [];
+  for (let key in Facilities) {
+    facilities.push((
+      <div className="filters__item" key={key}>
+        {Facilities[key]()}
+        <div className="input__checkbox-wrapper">
+          <span className="input__checkbox filters__checkbox">
+            <GoCheck className="icon--xs icon--green" />
+          </span>
+        </div>
+      </div>
+    ))
+  }
+
+  const Bills = { ...Specifications('flex aic').bills };
+
+  const bills = [];
+  for (let key in Bills) {
+    bills.push((
+      <div className="filters__item" key={key}>
+        {Bills[key]()}
+        <div className="input__checkbox-wrapper">
+          <span className="input__checkbox filters__checkbox">
+            <GoCheck className="icon--xs icon--green" />
+          </span>
+        </div>
+      </div>
+    ))
+  }
 
   return (
     <div className={`filters ${slide ? 'filters--slide' : ''}`}>
@@ -246,8 +281,8 @@ const Filters = ({ onSlide, slide }) => {
                     <li className="filters__item">
                       All in Tashkent
                       <div className="input__checkbox-wrapper">
-                        <span className="input__checkbox">
-                          <BsCheck className="icon--sm icon--green" />
+                        <span className="input__checkbox filters__checkbox">
+                          <GoCheck className="icon--xs icon--green" />
                         </span>
                       </div>
                     </li>
@@ -259,10 +294,15 @@ const Filters = ({ onSlide, slide }) => {
               }
             </div>
           </div>
-          <div className="filters__section" id="facilities">
-            <div className="f-xl f-thin c-black flex aic">
+          <div className="filters__section" id="bills">
+            <div className="f-xl f-thin c-black flex aic mb-15">
               <GiForkKnifeSpoon className="icon--sm icon--dark mr-1" />
-              By facilites
+              By bills included
+            </div>
+            <div className="filters__list">
+              <Scrollbar style={{ width: '100%', height: '100%' }}>
+                {bills}
+              </Scrollbar>
             </div>
           </div>
           <div className="filters__section" id="university">
@@ -279,17 +319,31 @@ const Filters = ({ onSlide, slide }) => {
                 <IoIosSearch className="icon filters__search-icon" />
               </div>
               <Scrollbar
-                style={{ width: '100%', height: '32vh' }} >
-                  <div className="filters__item">Webster University</div>
-                  <div className="filters__item">Inha University</div>
-                  <div className="filters__item">Westminster University</div>
+                style={{ width: '100%', height: 'calc(100% - 4.75rem)' }} >
+                  <div className="filters__item" tabIndex="0">
+                    Webster University
+                    <div className="input__checkbox-wrapper">
+                      <span className="input__checkbox filters__checkbox">
+                        <GoCheck className="icon--xs icon--green" />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="filters__item" tabIndex="0">Inha University</div>
+                  <div className="filters__item" tabIndex="0">Westminster University</div>
+                  <div className="filters__item" tabIndex="0">National University</div>
+                  <div className="filters__item" tabIndex="0">Amity University</div>
               </Scrollbar>
             </div>
           </div>
-          <div className="filters__section" id="bills">
+          <div className="filters__section" id="facilities">
             <div className="f-xl f-thin c-black flex aic mb-15">
               <BiDollar className="icon--sm icon--grey mr-5" />
-              By bills included
+              By facilities
+            </div>
+            <div className="filters__list">
+              <Scrollbar style={{ width: '100%', height: '100%' }}>
+                {facilities}
+              </Scrollbar>
             </div>
           </div>
         </div>

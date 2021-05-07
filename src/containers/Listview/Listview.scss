@@ -32,23 +32,4 @@
     right: 10rem;
     z-index: 99;
   }
- 
-  &__post-btn {
-    font-weight: 300;
-    display: flex;
-    align-items: center;
-    font-size: 1.4rem;
-    color: $pure-white;
-    background: $color-green;
-    padding: 1rem 3rem;
-    border-radius: 2rem;
-    text-transform: uppercase;
-    box-shadow: 0 .5rem 1rem rgba($pitch, .1);
-    
-    &:hover,
-    &:focus {
-      box-shadow: 0 1rem 2rem rgba($pitch, .1);
-      background: darken($color-green, 5%);
-    }
-  }
 }
