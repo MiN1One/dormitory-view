@@ -36,7 +36,10 @@ textarea {
   &:focus { outline: none; }
 }
 
-button:hover { cursor: pointer; }
+button {
+  &:disabled { cursor: default !important; }
+  &:hover { cursor: pointer; }
+}
 
 [tabIndex="0"] {
   &:focus { outline: none; }

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoIosSearch } from 'react-icons/io';
 import { CgChevronDown } from 'react-icons/cg';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import Scrollbars from 'react-custom-scrollbars';
 import { useSelector } from 'react-redux';
 
@@ -15,6 +15,7 @@ const Navigation = ({ className }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
+  const params = useParams();
   const { user } = useSelector(state => state.user);
   const [scroll, setScroll] = useState(0);
   const [search, setSearch] = useState('');
@@ -42,14 +43,18 @@ const Navigation = ({ className }) => {
       return () => document.removeEventListener('scroll', handleScroll);
     }
   }, [handleScroll, location.pathname]);
-  
+
   if (location.pathname === '/') {
     className = 'nav--hide';
     if (scroll > 500) {
       className = 'nav--active';
     }
   } else {
-    className = 'nav--static';
+    // if (location.pathname.startsWith('/post/'))
+    //   className = 'none';
+    // else {
+      className = 'nav--sticky';
+    // }
   }
 
   const regions = regionsList.map((el, i) => (

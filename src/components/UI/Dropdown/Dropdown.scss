@@ -2,9 +2,6 @@
 
 .drop {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   &__btn {
     padding: 1.35rem 1.85rem;
@@ -51,7 +48,7 @@
     
     &__item {
       font-size: 1.4rem;
-      color: $grey-dark;
+      color: $black;
       padding: 1.5rem 2.65rem;
       background: $pure-white;
       overflow: hidden;

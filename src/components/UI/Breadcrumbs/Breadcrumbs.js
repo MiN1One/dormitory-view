@@ -1,4 +1,5 @@
 import React from 'react';
+import { AiOutlineHome } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 const Breadcrumbs = ({ items, white }) => {
@@ -10,7 +11,10 @@ const Breadcrumbs = ({ items, white }) => {
 
   return (
     <div className={`breadcrumbs ${white ? 'breadcrumbs--white' : ''}`}>
-      <Link to="/" className="breadcrumbs__item">Home</Link>
+      <Link to="/" className="breadcrumbs__item">
+        <AiOutlineHome className="icon--sm icon--grey mr-1" />
+        Home
+      </Link>
       {breadItems}
     </div>
   );

@@ -5,13 +5,11 @@ import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import Rating from 'react-rating';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
-import ScrollSpy from 'react-scrollspy';
 import { BsArrowsFullscreen, BsStar, BsStarFill } from 'react-icons/bs';
 import { FaBuilding, FaMapMarkerAlt } from 'react-icons/fa';
 import { IoIosSchool } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
-import { GiSpoon } from 'react-icons/gi';
-import { BiDoorOpen } from 'react-icons/bi';
+import { GiDoor, GiSpoon } from 'react-icons/gi';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import { AiOutlineTag } from 'react-icons/ai';
 
@@ -22,13 +20,13 @@ import './Adview.scss';
 import img from '../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
 import image from '../../assets/images/avery-klein-JaXs8Tk5Iww-unsplash.jpg';
 import Ratings from './Ratings/Ratings';
-import Specifications from '../../components/Specs/Specifications';
 import Rooms from './Rooms/Rooms';
 import SimilarAds from './SimilarAds/SimilarAds';
 import PopScroll from '../../components/UI/PopScroll/PopScroll';
 import Contact from './Contact/Contact';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
+import Features from './Features/Features';
 
 SwiperCore.use([Navigation]);
 
@@ -55,7 +53,7 @@ const APARTMENT = {
   ],
   numberOfRooms: 4,
   features: {
-    facilities: ['internet', 'private_kitchen', 'private_bath', 'furnitured', 'air_conditioner', 'gaming_area', 'washing_machine', 'personal_computer', 'public_libriary'],
+    facilities: ['internet', 'private_kitchen', 'parking', 'private_bath', 'furnitured', 'air_conditioner', 'gaming_area', 'washing_machine', 'personal_computer', 'public_libriary'],
     others: ['Single bed', 'Parking area'],
     security: ['cctv', 'health', 'controlled_access', 'card_access', 'additional_keys'],
     rules: ['no_smoking', 'no_late_access'],
@@ -72,7 +70,6 @@ const Adview = () => {
   const { t } = useTranslation();
 
   const params = useParams();
-  const location = useLocation();
   const history = useHistory();
 
   const [showContact, setShowContact] = useState(false);
@@ -82,7 +79,7 @@ const Adview = () => {
   const [swiper, setSwiper] = useState(null);
   const [showWisher, setShowWisher] = useState(false);
 
-  const scrollYOffset = -70;
+  const scrollYOffset = -120;
 
   useEffect(() => swiper && swiper.update());
 
@@ -90,48 +87,10 @@ const Adview = () => {
     if (reviewInp) setShowContact(false);
   }, [reviewInp]);
 
-  useEffect(() => {
-    if (location.hash !== '#') {
-      const el = document.getElementById(location.hash.substr(1));
-
-      if (el) {
-        const y = el.getBoundingClientRect().top + window.pageYOffset + scrollYOffset;
-        window.scrollTo({top: y, behavior: 'smooth'});
-      }
-    }
-  }, [location.hash, scrollYOffset]);
-
   const onSelectImage = (index) => {
     history.push('#main');
     setActiveImageIndex(index);
   };
-
-  const facilities = APARTMENT.features.facilities.map((el, i) => {
-    const Facility = Specifications('adview__specs-item').facilities[el];
-    return Facility && <Facility key={i} />;
-  });
-
-  const security = APARTMENT.features.security.map((el, i) => {
-    const Security = Specifications('adview__specs-item').security[el];
-    return Security && <Security key={i} />;
-  });
-
-  const others = Specifications('adview__specs-item').facilities.others(APARTMENT.features.others);
-
-  const bills = APARTMENT.features.bills.map((el, i) => {
-    const Bill = Specifications('adview__specs-item').bills[el];
-    return Bill && <Bill key={i} />;
-  });
-  
-  const places = APARTMENT.features.places.map((el, i) => {
-    const Place = Specifications('adview__specs-item').places[el];
-    return Place && <Place key={i} />;
-  });
-
-  const rules = APARTMENT.features.rules.map((el, i) => {
-    const Rule = Specifications('adview__specs-item').rules[el];
-    return Rule && <Rule key={i} />;
-  });
 
   const distances = APARTMENT.distances.map((el, i) => 
     <li className="adview__specs-distance">
@@ -283,7 +242,7 @@ const Adview = () => {
                     </div>
                     <div className="flex mb-2">
                       <span className="mr-1 flex aic f-bold f-lg">
-                        <BiDoorOpen className="icon--grey icon--sm mr-1" />
+                        <GiDoor className="icon--grey icon--sm mr-1" />
                         Number of rooms:
                       </span>
                       {APARTMENT.numberOfRooms}
@@ -304,31 +263,7 @@ const Adview = () => {
                     </div>
                   </div>
                 </div>
-                <div id="features">
-                  <div className="adview__specs-wrapper" >
-                    <h5 className="heading heading--5 c-black mb-3">Facilites:</h5>
-                    <div className="adview__specs-list">
-                      {facilities}
-                      {others}
-                    </div>
-                  </div>
-                  <div className="adview__specs-wrapper">
-                    <h5 className="heading heading--5 c-black mb-3">Security and safety:</h5>
-                    <div className="adview__specs-list">{security}</div>
-                  </div>
-                  <div className="adview__specs-wrapper">
-                    <h5 className="heading heading--5 c-black mb-3">Rules:</h5>
-                    <div className="adview__specs-list">{rules}</div>
-                  </div>
-                  <div className="adview__specs-wrapper">
-                    <h5 className="heading heading--5 c-black mb-3">Included Bills:</h5>
-                    <div className="adview__specs-list">{bills}</div>
-                  </div>
-                  <div className="adview__specs-wrapper">
-                    <h5 className="heading heading--5 c-black mb-3">Nearby places:</h5>
-                    <div className="adview__specs-list">{places}</div>
-                  </div>
-                </div>
+                <Features data={APARTMENT} />
               </div>
             </div>
             <div className="adview__right">

@@ -42,25 +42,21 @@
     border-radius: .25rem;
     width: 1.85rem;
     height: 1.85rem;
-    border: 1px solid rgba($pitch, .15);
+    border: 1px solid rgba($pitch, .1);
     background: $pure-white;
     cursor: pointer;
 
     &:hover,
-    &:focus { border-color: rgba($pitch, .35); }
+    &:focus { border-color: rgba($pitch, .2); }
 
-    svg {
-      animation: expandSm .3s ease;
-    }
+    svg { animation: expandSm .3s ease; }
   }
 
   &__checkbox-wrapper--active &__checkbox {
     border-color: rgba($pitch, .2);
   }
 
-  &:focus {
-    border-color: rgba($pitch, .3);
-  }
+  
 
   &--main {
     border: 1px solid rgba($pitch, .1);
@@ -69,11 +65,17 @@
     background: $pure-white;
     color: $grey-dark;
     resize: none;
-
+    
     &:invalid { border-color: $color-red; }
-
+    
     &::placeholder {
       color: $grey-light;
+    }
+    
+    &:focus {
+      border-color: rgba($pitch, .1575);
+      // border-right-width: 5px;
+      // border-right-color: $color-yellow;
     }
   }
 

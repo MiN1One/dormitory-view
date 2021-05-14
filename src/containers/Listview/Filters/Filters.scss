@@ -1,11 +1,11 @@
 @use '../../../assets/sass' as *;
 
 .filters {
-  position: absolute;
+  position: fixed;
   z-index: 1;
-  top: 0;
-  height: 100%;
+  top: 6.5rem;
   left: 0;
+  height: calc(100% - 6.5rem);
   background: $pure-white;
   box-shadow: .5rem -1rem 1rem rgba($pitch, .03);
   transition: transform .3s ease;
@@ -48,7 +48,7 @@
     border: 1px solid rgba($pitch, .1);
     border-radius: .25rem;
     overflow: hidden;
-    height: 35vh;
+    height: 23.5rem;
 
     &--pop {
       position: absolute;

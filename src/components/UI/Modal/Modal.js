@@ -6,11 +6,6 @@ import './Modal.scss';
 
 const Modal = (props) => {
 
-  // useEffect(() => {
-  //   document.documentElement.style.overflow = 'hidden';
-  //   return () => document.documentElement.removeAttribute('style');
-  // }, []);
-
   return (
     <>
       <Backdrop close={props.close} z={9998} />
@@ -25,7 +20,12 @@ const Modal = (props) => {
           {props.children}
         </div>
         <div className="modal__footer">
-          {props.footer}
+          <button className="btn btn--cta mr-5" onClick={props.close}>
+            Close
+          </button>
+          <button className="btn btn--primary" onClick={props.action}>
+            {props.footer}
+          </button>
         </div>
       </div>
     </>

@@ -1,30 +1,27 @@
 @use '../../assets/sass' as *;
 
 .post {
-
+  
   &__head {
     width: 100%;
-    background: lighten($light, 3%);
-    border-bottom: 1px solid rgba($pitch, .075);
-    padding: 1.5rem 0;
+    // border-bottom: 1px solid rgba($pitch, .075);
+    padding-top: 1.5rem;
   }
 
-  &__images {
-    padding: 2rem 0;
-
-    &__list {
-      height: 13rem;
-      width: 100%;
-      margin-bottom: 1.5rem;
-    }
-
-    &__item {
-      height: 100%;
-      background: $grey-light;
-    }
+  &__images-item {
+    height: 100%;
+    background: $grey-light;
+    border-radius: .25rem;
   }
 
-  &__btn-upload {
+  &__images-list {
+    height: 13rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: .25rem;
+  }
+
+  &__btn-main {
     display: flex;
     align-items: center;
     background: $color-tertiary;
@@ -33,47 +30,280 @@
     color: $pure-white;
     border-radius: .25rem;
   }
-
+  
   &__body {
-    height: 50rem;
     width: 100%;
     background: $pure-white;
     padding: 3.5rem 0;
   }
 
-  &__group {
-    width: calc((100% - 4rem) / 2);
-
-    &:not(:nth-child(2n)) { margin-right: 4rem }
-  }
-
-  &__input-group {
-
-    &:not(:last-child) { margin-bottom: 2.75rem; }
+  &__form {
+    width: 100%;
   }
 
   &__title {
-    font-size: 2rem;
+    font-size: 1.65rem;
     color: $black;
     margin-bottom: .75rem;
-    font-weight: 300;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+
+    &--lg {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  &__section {
+    border-top: 1px solid rgba($pitch, .075);
+    padding: 3.75rem 0;
+
+    &__item {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      align-items: flex-end;
+
+      &:not(:last-child) { margin-bottom: 3.5rem; }
+    }
   }
 
   &__input {
-    padding: 1.5rem 2rem;
-    max-width: 35rem;
-    height: max-content;
-    border-color: rgba($pitch, .025);
-    background: lighten($light, 2.75%);
+    height: 4.25rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    // border: none;
+    padding: 1.25rem 2.25rem;
+    font-size: 1.4rem;
+    border-color: rgba($pitch, .05);
+    background: lighten($light, 4.25%);
 
-    &:focus { border-color: rgba($color-tertiary, .35); }
+    &__btn {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      border: 1px solid rgba($pitch, .125);
+      opacity: 0;
+      visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__btn-group { display: flex; }
+
+    &:hover &__btn-group + span {
+      display: none;
+    }
+      
+    &:hover &__btn {
+      opacity: 1;
+      visibility: visible;
+    }
   }
+
+  &__input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc((100% - 4rem) / 2);
+    margin-bottom: 3rem;
+
+    &:not(:nth-child(2n)) { margin-right: 4rem; }
+  }
+
+  &__input-group > * {
+    width: 60%;
+  }
+
+  &__list {
+    border: 1px solid rgba($pitch, .095);
+    border-radius: .25rem;
+    background: $pure-white;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    // width: 50%;
+    width: 100%;
   
+    &--pop {
+      height: calc(100% - 5rem);
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      background: $pure-white;
+      animation: slideFromRight .2s ease-in;
+    }
+  }
+
+  &__list-wrapper {
+    width: calc((100% - 4rem) / 2);
+
+    &:not(:nth-child(2n)) { margin-right: 4rem; }
+  }
+
+  &__list &__input {
+    border: none;
+    background: $pure-white;
+    font-size: 1.5rem;
+    height: 5rem;
+
+    &:hover { color: $color-green; }
+  }
+
+  &__input-icon {
+    position: absolute;
+    top: 50%;
+    left: 2.25rem;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  &__input-icon + &__input {
+    padding-left: 6rem;
+    border-bottom: 1px solid rgba($pitch, .095);
+  }
+
+  &__btn {
+    position: absolute;
+    bottom: 2rem;
+    right: 2.25rem;
+    border-radius: 50%;
+    width: 4.25rem;
+    height: 4.25rem;
+    background: $color-yellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:not(:disabled):hover,
+    &:not(:disabled):focus {
+      background: darken($color-yellow, 3%);
+    }
+
+    &:disabled {
+      opacity: .65;
+    }
+  }
+
+  &__table-head {
+    padding: 1.5rem 2.25rem;
+    display: flex;
+    justify-content: space-between;
+
+    & > * {
+      width: 50%;
+      &:last-child { text-align: end; }
+    }
+  }
+
+  &__table-list {
+    list-style: circle;
+    min-width: 30rem;
+
+    &__item {
+      font-size: 1.55rem;
+      color: $black;
+
+      &:not(:last-of-type) { margin-bottom: 1.75rem; }
+    }
+  }
+
   &__float {
     width: 100%;
     position: fixed;
     bottom: 5rem;
     right: 0;
     z-index: 10;
+  }
+
+  &__rooms {
+    width: 100%;
+    // height: 25rem;
+  }
+
+  &__room {
+    // background: $grey-light;
+    border-radius: .25rem;
+    border: 1px solid rgba($pitch, .075);
+    box-shadow: .15rem .15rem .75rem rgba($pitch, .035);
+    position: relative;
+    cursor: default !important;
+    
+    &__head {
+      border-bottom: 1px solid rgba($pitch, .075);
+      padding: 1rem 2rem;
+    }
+    
+    &__body { padding: 1.5rem 2rem; }
+    
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: .35rem;
+      border: 1px solid rgba($pitch, .125);
+      margin-right: 1rem;
+    }
+
+    &__title {
+      font-size: 1.55rem;
+    }
+
+    &__btn-group {
+      display: flex;
+      width: 100%;
+      border-top: 1px solid rgba($pitch, .075);
+    }
+
+    &__btn {
+      display: flex;
+      justify-content: center;
+      padding: 1.25rem 0;
+      width: 50%;
+      background: $pure-white;
+
+      &:first-child {
+        border-right: 1px solid rgba($pitch, .075);
+
+        &:hover,
+        &:focus {
+          background: $color-tertiary;
+          color: $pure-white;
+        }
+      }
+
+      &:last-child:hover,
+      &:last-child:focus {
+        background: darken($color-red, 5%);
+        color: $pure-white;
+      }
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      font-size: 1.35rem;
+      color: $black;
+
+      &:not(:last-child) { margin-bottom: 1.15rem; }
+    }
+
+    &:focus { border-color: rgba($color-green, .5); }
   }
 }

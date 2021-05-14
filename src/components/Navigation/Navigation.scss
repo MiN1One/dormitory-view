@@ -14,9 +14,9 @@
   &--hide { transform: translateY(-100%); }
   &--active { transform: translate(0); }
 
-  &--static {
-    position: relative;
-    z-index: 9999;
+  &--sticky {
+    position: sticky;
+    z-index: 9998;
   }
   
   &__content {

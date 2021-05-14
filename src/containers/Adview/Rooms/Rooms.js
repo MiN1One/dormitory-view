@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
-import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
+import { IoChevronBackOutline, IoChevronForwardOutline, IoHammerOutline } from 'react-icons/io5';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
@@ -30,6 +30,10 @@ const Rooms = () => {
           <div className="flex aic mb-1">
             <BiDoorOpen className="icon--sm icon--grey mr-1" />
             Rooms: 4
+          </div>
+          <div className="flex aic mb-1">
+            <IoHammerOutline className="icon--sm icon--grey mr-1" />
+            Condition: Medium
           </div>
           <div className="flex aic mb-1">
             <GiKnifeFork className="icon--sm icon--grey mr-1" />

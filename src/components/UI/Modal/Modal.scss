@@ -15,6 +15,7 @@
   &__head {
     padding: 4rem 5rem;
     margin-bottom: 1.25rem;
+    padding-top: 3rem;
     padding-bottom: 0;
     display: flex;
     align-items: center;
@@ -37,7 +38,7 @@
   }
   
   &__footer {
-    padding: 1.75rem 5rem;
+    padding: 1.5rem 5rem;
     background: lighten($light, 2%);
     display: flex;
     justify-content: flex-end;

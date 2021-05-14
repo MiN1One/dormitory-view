@@ -2,7 +2,7 @@ import { IoRestaurantOutline, IoSchoolOutline, IoWater, IoWifi } from "react-ico
 import { BsLock } from "react-icons/bs";
 import { FaRegHospital } from 'react-icons/fa';
 import { GiBathtub, GiConsoleController, GiCookingPot, GiElectric, GiKeyLock, GiKnifeFork, GiMedicalThermometer, GiSofa,} from 'react-icons/gi';
-import { RiComputerLine, RiForbid2Line, RiHealthBookLine } from "react-icons/ri";
+import { RiComputerLine, RiForbid2Line, RiHealthBookLine, RiParkingBoxFill } from "react-icons/ri";
 import { VscBook, VscDeviceCameraVideo } from "react-icons/vsc";
 import { AiOutlineIdcard, AiOutlineShop } from "react-icons/ai";
 import { MdLocalLaundryService, MdSmokingRooms } from 'react-icons/md';
@@ -20,6 +20,11 @@ const Specifications = (className) => {
         <span className={className}>
           <IoWifi className="icon--sm icon--grey mr-1" />
           Internet connection
+        </span>,
+      parking: () => 
+        <span className={className}>
+          <RiParkingBoxFill className="icon--sm icon--grey mr-1" />
+          Parking area
         </span>,
       private_kitchen: () =>
       <span className={className}>

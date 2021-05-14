@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { BsArrowLeft, BsCheck } from 'react-icons/bs';
-import { IoChevronForward, IoSchoolOutline, IoWifi } from 'react-icons/io5';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { BsArrowLeft } from 'react-icons/bs';
+import { IoChevronForward, IoSchoolOutline } from 'react-icons/io5';
 import { GoCheck, GoLocation } from 'react-icons/go';
-import { GiBathtub, GiForkKnifeSpoon, GiKnifeFork, GiMedicalThermometer, GiSofa } from 'react-icons/gi';
+import { GiForkKnifeSpoon } from 'react-icons/gi';
 import { useLocation } from 'react-router-dom';
 import { IoIosClose, IoIosSearch } from 'react-icons/io';
 
@@ -10,13 +10,14 @@ import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import './Filters.scss';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 import { BiDollar } from 'react-icons/bi';
-import { MdLocalLaundryService } from 'react-icons/md';
 import Specifications from '../../../components/Specs/Specifications';
 
 const Filters = ({ onSlide, slide }) => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [filterByPrice, setFilterByPrice] = useState(false);
+
   const scrollRef = useRef();
+  const filtersRef = useRef();
   const location = useLocation();
 
   const getToFilter = (filters) => {
@@ -60,8 +61,11 @@ const Filters = ({ onSlide, slide }) => {
     ))
   }
 
+  const classes = ['filters'];
+  slide && classes.push('filters--slide');
+
   return (
-    <div className={`filters ${slide ? 'filters--slide' : ''}`}>
+    <div className={classes.join(' ')} ref={filtersRef}>
       <Scrollbar
         onScroll={() => scrollRef.current.getScrollTop()}
         className="filters__scroller"
@@ -296,7 +300,7 @@ const Filters = ({ onSlide, slide }) => {
           </div>
           <div className="filters__section" id="bills">
             <div className="f-xl f-thin c-black flex aic mb-15">
-              <GiForkKnifeSpoon className="icon--sm icon--dark mr-1" />
+              <BiDollar className="icon--sm icon--grey mr-5" />
               By bills included
             </div>
             <div className="filters__list">
@@ -337,7 +341,7 @@ const Filters = ({ onSlide, slide }) => {
           </div>
           <div className="filters__section" id="facilities">
             <div className="f-xl f-thin c-black flex aic mb-15">
-              <BiDollar className="icon--sm icon--grey mr-5" />
+              <GiForkKnifeSpoon className="icon--sm icon--dark mr-1" />
               By facilities
             </div>
             <div className="filters__list">
