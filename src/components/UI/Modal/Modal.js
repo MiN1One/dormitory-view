@@ -9,7 +9,7 @@ const Modal = (props) => {
   return (
     <>
       <Backdrop close={props.close} z={9998} />
-      <div className="modal">
+      <div className={`modal ${props.size ? `modal--${props.size}` : ''}`}>
         <div className="modal__head">
           <h6 className="modal__heading">{props.title}</h6>
           <button className="modal__btn" onClick={props.close}>

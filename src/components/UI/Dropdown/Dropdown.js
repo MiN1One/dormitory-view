@@ -79,4 +79,4 @@ const Dropdown = ({ title, items, dropTitle, positionX, positionY, className, no
   );
 };
 
-export default Dropdown;
+export default React.memo(Dropdown);

@@ -36,21 +36,21 @@ const Places = () => {
 
   const paramOptions = {
     bus_station: () =>
-      <>
-        <div className="post__title">Bus numbers (Optional)</div>
+      <div>
+        <div className="modal__title">Bus numbers (Optional)</div>
         <input type="text" className="post__input input input--main" placeholder="Buses e.g. 75, 90" />
-      </>,
+      </div>,
     school: () =>
       <>
         <div className="mb-15">
-          <div className="post__title">School number (Optional)</div>
-          <input type="number" className="post__input input input--main" placeholder="Number" />
+          <div className="modal__title">School number (Optional)</div>
+          <input type="number" className="modal__input" placeholder="Number" />
         </div>
         <div>
-          <div className="post__title">Type</div>
+          <div className="modal__title">Type</div>
           <Dropdown
             title="Public"
-            className="post__input input input--main"
+            className="modal__input"
             items={[
               {
                 title: 'Public',
@@ -66,25 +66,25 @@ const Places = () => {
         </div>
       </>,
     hospital: () =>
-      <>
-        <div className="post__title">Hospital name</div>
-        <input type="text" className="post__input input input--main" placeholder="Name" />
-      </>,
+      <div>
+        <div className="modal__title">Hospital name</div>
+        <input type="text" className="modal__input" placeholder="Name" />
+      </div>,
     libriary: () =>
-      <>
-        <div className="post__title">Bus numbers (Optional)</div>
-        <input type="text" className="post__input input input--main" placeholder="Buses e.g. 75, 90" />
-      </>,
+      <div>
+        <div className="modal__title">Bus numbers (Optional)</div>
+        <input type="text" className="modal__input" placeholder="Buses e.g. 75, 90" />
+      </div>,
     restaurant: () =>
-      <>
-        <div className="post__title">Name of the restaurant</div>
-        <input type="text" className="post__input input input--main" placeholder="Name" />
-      </>,
+      <div>
+        <div className="modal__title">Name of the restaurant</div>
+        <input type="text" className="modal__input" placeholder="Name" />
+      </div>,
     market: () =>
-      <>
-        <div className="post__title">Market name</div>
-        <input type="text" className="post__input input input--main" placeholder="Name" />
-      </>
+      <div>
+        <div className="modal__title">Market name</div>
+        <input type="text" className="modal__input" placeholder="Name" />
+      </div>
   }
 
   return (
@@ -96,10 +96,10 @@ const Places = () => {
             action={() => {}}
             close={() => setAddModal(false)}
           >
-            <div className="mb-15">
-              <div className="post__title">Place</div>
+            <div className="mb-2">
+              <div className="modal__title">Place</div>
               <Dropdown 
-                className="post__input input input--main"
+                className="modal__input"
                 title={selectedPlace}
                 dropTitle="Places:"
                 height={15}

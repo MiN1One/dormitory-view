@@ -18,15 +18,15 @@ const Universities = () => {
           close={() => setSelectedUniver(null)}
           footer="Add"
           action={() => {}}>
-            <h5 className="heading heading--5 mb-1 c-grey f-normal">Webster university</h5>
+            <h5 className="modal__title">Webster university</h5>
             <div className="flex jce fdc">
               <div className="c-grace f-thin f-lg mb-1">
                 How long it takes from the property to react the university?
               </div>
               <input 
-                className="input input--main post__input" 
+                className="modal__input" 
                 placeholder="Distance in minutes"
-                type="text" />
+                type="number" />
             </div>
         </Modal>
       }
