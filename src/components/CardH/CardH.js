@@ -11,60 +11,71 @@ import 'swiper/swiper.scss';
 
 import image from '../../assets/images/minh-pham-OtXADkUh3-I-unsplash.jpg';
 import './CardH.scss';
+import { IoSchoolOutline } from "react-icons/io5";
 
 SwiperCore.use([Autoplay]);
 
 const CardH = ({ data }) => {
   return (
     <Link to="/city/region/apartment" className="cardh">
-      <figure className="cardh__figure">
-        <LazyLoadImage
-          className="img img--cover"
-          src={image}
-          alt="image"
-          width="100%"
-          height="100%"
-          effect="opacity"
-          placeholder={
-            <div className="wh-100 flex aic jcc">
-              <ImImage className="icon--lg icon--grey" />
-            </div>
-          } />
-        {/* <div className="cardh__panel">
-          <Swiper 
-            loopFillGroupWithBlank={true}
-            autoplay={{ delay: 3000 }}
-            direction="vertical"
-            slidesPerView={1}>
-              <SwiperSlide className="flex aic">
-                <AiFillTag className="icon--xs icon--yellow" />&nbsp;Discount $200
-              </SwiperSlide>
-              <SwiperSlide className="flex aic">
-                <AiFillTag className="icon--xs icon--yellow" />&nbsp;Hehe boay
-              </SwiperSlide>
-          </Swiper>
-        </div> */}
-      </figure>
+      <div className="cardh__head">
+        <figure className="cardh__figure">
+          <LazyLoadImage
+            className="img img--cover"
+            src={image}
+            alt="image"
+            width="100%"
+            height="100%"
+            effect="opacity"
+            placeholder={
+              <div className="wh-100 flex aic jcc">
+                <ImImage className="icon--lg icon--grey" />
+              </div>
+            } />
+          {/* <div className="cardh__panel">
+            <Swiper 
+              loopFillGroupWithBlank={true}
+              autoplay={{ delay: 3000 }}
+              direction="vertical"
+              slidesPerView={1}>
+                <SwiperSlide className="flex aic">
+                  <AiFillTag className="icon--xs icon--yellow" />&nbsp;Discount $200
+                </SwiperSlide>
+                <SwiperSlide className="flex aic">
+                  <AiFillTag className="icon--xs icon--yellow" />&nbsp;Hehe boay
+                </SwiperSlide>
+            </Swiper>
+          </div> */}
+        </figure>
+      </div>
       <div className="cardh__body">
-        <span className="text--title mb-1 flex aic">
+        <div className="text--title mb-1 flex aic">
           Tashkent city Apt
-          <div className="ml-5 flex aic">
-            <BiCheckDouble className="icon--xs icon--dark" />
+          <BiCheckDouble className="ml-5 icon--xs icon--dark" />
+        </div>
+        <div className="cardh__specs">
+          <div className="cardh__specs__item">
+            <IoSchoolOutline className="icon--xs icon--green mr-1" />
+            Again Some University | <span className="c-grey-l">&nbsp;15min walk</span>
           </div>
-        </span>
-        {/* <div className="text--xs mb-1">
-          <span className="price-tag">$255</span> / Week
-        </div> */}
-        <div className="text--xs w-max text--wrap">
-          <div className="flex aic mb-5">
-            <IoIosSchool className="icon--xs icon--grey mr-1" />
-            Again Some University | <span className="c-grace">&nbsp;Walking 15mins</span>
-          </div>
-          <div className="flex aic w-max text--wrap">
-            <IoIosSchool className="icon--xs icon--grey mr-1" />
-            Some University | <span className="c-grace">&nbsp;Walking 30mins</span>
+          <div className="cardh__specs__item">
+            <IoSchoolOutline className="icon--xs icon--green mr-1" />
+            Some University | <span className="c-grey-l">&nbsp;30min walk</span>
           </div>
         </div>
+        <button className="tooltip btn--sub">
+          More
+          <div className="tooltip__text">
+            <div className="flex aic mb-5">
+              <IoSchoolOutline className="icon--xs icon--green mr-1" />
+              Again Some University | <span className="c-grey-l">&nbsp;15min walk</span>
+            </div>
+            <div className="flex aic w-max f-mid text--wrap">
+              <IoSchoolOutline className="icon--xs icon--green mr-1" />
+              Some University | <span className="c-grey-l">&nbsp;30min walk</span>
+            </div>
+          </div>
+        </button>
       </div>
       <div className="cardh__footer">
         <button className="cardh__price">

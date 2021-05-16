@@ -34,9 +34,9 @@ const Popular = () => {
             <CardH />
             <CardH />
           </div>
-          <Link to="/" className="btn btn--outline btn--b-tertiary btn--wide btn--arrow">
+          <Link to="/" className="btn btn--cta btn--wide btn--arrow">
             <span>See all in Tashkent</span>
-            <HiArrowNarrowRight className="icon--tertiary" />
+            <HiArrowNarrowRight className="icon" />
           </Link>
         </div>
       </div>

@@ -1,0 +1,65 @@
+@use '../../assets/sass' as *;
+
+.e {
+  top: 0;
+  position: relative;
+  z-index: 9999;
+  min-height: calc(100vh - 7rem);
+  height: calc(100vh + 7rem);
+  margin-top: -7rem;
+  // background: $pure-white;
+  background: lighten($light, 3%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba($pitch, .1);
+
+  &__content {
+    margin-top: -35vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: max-content;
+  }
+
+  &__heading {
+    font-weight: 500;
+    font-size: 3.5rem;
+    color: $black;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  &__icon {
+    width: 8rem;
+    height: 8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__list {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 40rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    margin-bottom: 2.25rem;
+    font-size: 1.5rem;
+    color: $pitch;
+    text-align: center;
+    font-weight: 400;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid rgba($pitch, .15);
+    // border-bottom: 2px solid $color-yellow;
+
+    &:hover { border-color: $color-yellow; }
+
+    width: calc((100% - 4 * 3rem) / 5);
+
+    &:not(:nth-child(5n)) { margin-right: 3rem; }
+  }
+}

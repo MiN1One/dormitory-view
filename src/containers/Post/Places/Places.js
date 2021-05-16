@@ -38,7 +38,7 @@ const Places = () => {
     bus_station: () =>
       <div>
         <div className="modal__title">Bus numbers (Optional)</div>
-        <input type="text" className="post__input input input--main" placeholder="Buses e.g. 75, 90" />
+        <input type="text" className="modal__input" placeholder="Buses e.g. 75, 90" />
       </div>,
     school: () =>
       <>

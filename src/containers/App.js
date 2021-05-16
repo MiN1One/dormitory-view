@@ -4,6 +4,7 @@ import { Route, Switch, useLocation } from 'react-router';
 import Navigation from '../components/Navigation/Navigation';
 import Footer from '../components/Footer/Footer';
 import Scrollbar from '../components/UI/Scrollbar/Scrollbar';
+import ErrorView from '../components/ErrorView/ErrorView';
 
 const AsyncHeader = React.lazy(() => import('./Header/Header'));
 const AsyncAuth = React.lazy(() => import('./Auth/Auth'));
@@ -47,7 +48,7 @@ function App() {
               <AsyncProfile />
             </Route>
             <Route path="*">
-              <h1>Page not found</h1>
+              <ErrorView />
             </Route>
           </Switch>
           <Footer />

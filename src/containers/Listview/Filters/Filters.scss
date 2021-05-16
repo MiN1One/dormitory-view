@@ -45,7 +45,7 @@
   &__list {
     position: relative;
     background: $pure-white;
-    border: 1px solid rgba($pitch, .1);
+    border: 1px solid rgba($pitch, .075);
     border-radius: .25rem;
     overflow: hidden;
     height: 23.5rem;
@@ -78,7 +78,8 @@
   }
 
   &__item {
-    background: lighten($light, 4.25%);
+    background: lighten($light, 4.75%);
+    // background: $pure-white;
     width: 100%;
     padding: 1.45rem 2rem;
     font-size: 1.4rem;
@@ -205,5 +206,13 @@
   &__item--inp:focus + &__search-icon {
     fill: $color-tertiary;
     stroke: $color-tertiary;
+  }
+
+  &__btn {
+    position: fixed;
+    bottom: 5rem;
+    left: 32.5rem;
+    transform: translateX(-100%);
+    z-index: 1;
   }
 }

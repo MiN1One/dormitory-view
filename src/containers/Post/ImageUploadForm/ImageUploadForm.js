@@ -51,8 +51,6 @@ const ImageUploadForm = () => {
       };
     }
   }, [images, selectedOptions]);
-  
-  console.log(images);
 
   const imagePlaceholders = images.map((el, i) => {
     return (
@@ -115,11 +113,12 @@ const ImageUploadForm = () => {
               className="modal__input" />
           </div>
           <div className="mb-2">
-            <div className="modal__title">Room</div>
+            <div className="modal__title">Image of</div>
             <Dropdown 
               className="modal__input"
               title={selectedOptions.roomType}
               height={(roomTypes.length * 4.5) / 1.5}
+              dropTitle="Rooms: "
               items={roomTypes.map(el => 
                 ({
                   title: el,
@@ -181,7 +180,7 @@ const ImageUploadForm = () => {
             {images.length > 0 
               ? (
                 <>
-                  <div className="c-grace f-mid mb-15">Images: 3</div>
+                  <div className="c-grace f-mid mb-15">Images: {images.length}</div>
                   <Swiper
                     className="post__images"
                     slidesPerView={5}

@@ -1,7 +1,9 @@
+@use '../../../assets/sass' as *;
 
 .popular {
-  margin-top: 3rem;
-  margin-bottom: 5rem;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+  background: lighten($light, 3.5%);
 
   &__head {
     display: flex;

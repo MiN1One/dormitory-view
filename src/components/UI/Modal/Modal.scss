@@ -26,7 +26,7 @@
   &__title {
     font-size: 1.55rem;
     color: $black;
-    font-weight: 400;
+    font-weight: 300;
     margin-bottom: .75rem;
   }
 
@@ -39,7 +39,8 @@
     width: 100%;
     border-radius: .25rem;
     font-size: 1.35rem;
-    background: lighten($light, 2%);
+    background: $pure-white;
+    border: 1px solid rgba($pitch, .075);
   }
   
   &__head {

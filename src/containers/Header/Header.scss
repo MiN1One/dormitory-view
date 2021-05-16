@@ -46,11 +46,11 @@
     background: $grey-dark;
     background-size: cover;
     background-position: center;
-    // background-image: linear-gradient(rgba($black, .5), rgba($black, .5)), url('../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg');
+    background-image: linear-gradient(rgba($black, .5), rgba($black, .5)), url('../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg');
     
-    // &--2 {
-    //   background-image: linear-gradient(rgba($black, .5), rgba($black, .5)), url('../../assets/images/naomi-hebert-MP0bgaS_d1c-unsplash.jpg');
-    // }
+    &--2 {
+      background-image: linear-gradient(rgba($black, .5), rgba($black, .5)), url('../../assets/images/naomi-hebert-MP0bgaS_d1c-unsplash.jpg');
+    }
   }
 
   &__content {

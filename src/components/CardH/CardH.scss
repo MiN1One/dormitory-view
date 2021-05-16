@@ -7,6 +7,7 @@
   border-radius: .5rem;
   transition: all .3s ease;
   box-shadow: .5rem .5rem 1rem rgba($pitch, .035);
+  background: $pure-white;
   
   width: calc((100% - 2 * 4.5rem) / 3);
   margin-right: 4.5rem;
@@ -20,13 +21,21 @@
     transform: translateY(-.5rem);
   }
 
+  &__head {
+    width: 100%;
+    padding: 1rem;
+  }
+
   &__figure {
+    border: 1px solid rgba($pitch, .1);
     position: relative;
     width: 100%;
     height: 23rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: .5rem;
+    overflow: hidden;
   }
 
   &__body {
@@ -35,6 +44,19 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+  }
+
+  &__specs {
+    font-size: 1.3rem;
+    color: $grey-dark;
+    font-weight: 400;
+
+    &__item {
+      display: flex;
+      align-items: center;
+
+      &:not(:last-child) { margin-bottom: 1rem; }
+    }
   }
 
   &__panel {
@@ -54,28 +76,11 @@
     svg { fill: $color-yellow-light; }
   }
 
-  // &__badge {
-  //   width: 1.7rem;
-  //   height: 1.7rem;
-  //   border-radius: 50%;
-  //   // background: rgba($color-orange, .95);
-  //   // background: $color-tertiary;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-
-  //   svg {
-  //     width: 1.5rem;
-  //     height: 1.5rem;
-  //     fill: #000 !important;
-  //   }
-  // }
-
   &__footer {
     display: flex;
     justify-content: flex-end;
     padding: 1.5rem 2.25rem;
-    background: lighten($light, 2.5%);
+    // background: lighten($light, 2.5%);
   }
 
   &__price {
@@ -84,13 +89,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid rgba($color-yellow, .5);
+    border: 1px solid rgba($color-green, .5);
     background: darken($pure-white, 1%);
   }
 
   &:hover &__price,
   &:focus &__price {
-    background: $color-yellow;
+    background: $color-green;
 
     & * {
       color: $pure-white !important;

@@ -31,7 +31,9 @@ const Listview = () => {
           </Link>
         </div>
       </div>
-      <Filters slide={slide} onSlide={() => setSlide(prev => !prev)} />
+      <Filters 
+        slide={slide} 
+        onSlide={() => setSlide(prev => !prev)} />
       <div className="container">
         <div className="listview__content">
           <div className={`listview__container ${slide ? 'listview__container--expand' : ''}`}>
@@ -51,8 +53,9 @@ const Listview = () => {
               white />
             <div className="mb-3 mt-2 flex aie jcsb">
               <div className="">
-                <h6 className="heading heading--3 mb-5 c-black">Results</h6>
-                <div className="f-lg c-grace">found 158 properties by filter</div>
+                <h6 className="heading heading--3 mb-1 c-black">Results</h6>
+                <div className="f-xl c-grey mb-5"> for Tashkent, Mirzo-Ulugbek district</div>
+                <div className="f-mid c-grey-l">found 158 properties by filter</div>
               </div>
               <Dropdown 
                 title={sortBy.title}
