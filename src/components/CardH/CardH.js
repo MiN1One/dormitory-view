@@ -1,4 +1,4 @@
-import { BiCheckDouble } from "react-icons/bi";
+import { BiCheckDouble, BiDoorOpen } from "react-icons/bi";
 import { AiFillTag } from "react-icons/ai";
 import { IoIosSchool } from "react-icons/io";
 import { ImImage } from "react-icons/im";
@@ -18,36 +18,34 @@ SwiperCore.use([Autoplay]);
 const CardH = ({ data }) => {
   return (
     <Link to="/city/region/apartment" className="cardh">
-      <div className="cardh__head">
-        <figure className="cardh__figure">
-          <LazyLoadImage
-            className="img img--cover"
-            src={image}
-            alt="image"
-            width="100%"
-            height="100%"
-            effect="opacity"
-            placeholder={
-              <div className="wh-100 flex aic jcc">
-                <ImImage className="icon--lg icon--grey" />
-              </div>
-            } />
-          {/* <div className="cardh__panel">
-            <Swiper 
-              loopFillGroupWithBlank={true}
-              autoplay={{ delay: 3000 }}
-              direction="vertical"
-              slidesPerView={1}>
-                <SwiperSlide className="flex aic">
-                  <AiFillTag className="icon--xs icon--yellow" />&nbsp;Discount $200
-                </SwiperSlide>
-                <SwiperSlide className="flex aic">
-                  <AiFillTag className="icon--xs icon--yellow" />&nbsp;Hehe boay
-                </SwiperSlide>
-            </Swiper>
-          </div> */}
-        </figure>
-      </div>
+      <figure className="cardh__figure">
+        <LazyLoadImage
+          className="img img--cover"
+          src={image}
+          alt="image"
+          width="100%"
+          height="100%"
+          effect="opacity"
+          placeholder={
+            <div className="wh-100 flex aic jcc">
+              <ImImage className="icon--lg icon--grey" />
+            </div>
+          } />
+        <div className="cardh__panel">
+          <Swiper 
+            loopFillGroupWithBlank={true}
+            autoplay={{ delay: 3000 }}
+            direction="vertical"
+            slidesPerView={1}>
+              <SwiperSlide className="flex aic">
+                <AiFillTag className="icon--xs icon--yellow" />&nbsp;Discount $200
+              </SwiperSlide>
+              <SwiperSlide className="flex aic">
+                <AiFillTag className="icon--xs icon--yellow" />&nbsp;Hehe boay
+              </SwiperSlide>
+          </Swiper>
+        </div>
+      </figure>
       <div className="cardh__body">
         <div className="text--title mb-1 flex aic">
           Tashkent city Apt
@@ -65,12 +63,16 @@ const CardH = ({ data }) => {
         </div>
         <button className="tooltip btn--sub">
           More
-          <div className="tooltip__text">
-            <div className="flex aic mb-5">
+          <div className="tooltip__text tooltip__text--top cardh__tooltip">
+            <div className="cardh__specs__item">
+              <BiDoorOpen className="icon--xs icon--green mr-1" />
+              Room options: 5
+            </div>
+            <div className="cardh__specs__item">
               <IoSchoolOutline className="icon--xs icon--green mr-1" />
               Again Some University | <span className="c-grey-l">&nbsp;15min walk</span>
             </div>
-            <div className="flex aic w-max f-mid text--wrap">
+            <div className="cardh__specs__item">
               <IoSchoolOutline className="icon--xs icon--green mr-1" />
               Some University | <span className="c-grey-l">&nbsp;30min walk</span>
             </div>

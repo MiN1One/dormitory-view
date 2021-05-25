@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
+import { IoChevronBackOutline, IoChevronForwardOutline, IoHammer } from 'react-icons/io5';
 import Rating from 'react-rating';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
@@ -9,7 +9,7 @@ import { BsArrowsFullscreen, BsStar, BsStarFill } from 'react-icons/bs';
 import { FaBuilding, FaMapMarkerAlt } from 'react-icons/fa';
 import { IoIosSchool } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
-import { GiDoor, GiSpoon } from 'react-icons/gi';
+import { GiBathtub, GiDoor, GiKnifeFork, GiSpoon } from 'react-icons/gi';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import { AiOutlineTag } from 'react-icons/ai';
 
@@ -27,6 +27,7 @@ import Contact from './Contact/Contact';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
 import Features from './Features/Features';
+import useFetchData from '../../hooks/useFetchData';
 
 SwiperCore.use([Navigation]);
 
@@ -39,6 +40,14 @@ const APARTMENT = {
   region: 'Region',
   type: 'university-owned',
   city: 'Tashkent',
+  bath: ['private', 'private', 'private'],
+  kitchen: ['public', 'private', 'public'],
+  price: [150, 120, 130],
+  numberOfRooms: [1, 2, 1],
+  furnitured: [true, false, true],
+  condition: ['medium', 'good', 'poor'],
+  internet: [false, true, false],
+  gaming: [false, true, false],
   distances: [
     {
       name: 'Webster University',
@@ -51,23 +60,33 @@ const APARTMENT = {
       car: '5-7 minutes'
     },
   ],
-  numberOfRooms: 4,
   features: {
     facilities: ['internet', 'private_kitchen', 'parking', 'private_bath', 'furnitured', 'air_conditioner', 'gaming_area', 'washing_machine', 'personal_computer', 'public_libriary'],
     others: ['Single bed', 'Parking area'],
     security: ['cctv', 'health', 'controlled_access', 'card_access', 'additional_keys'],
     rules: ['no_smoking', 'no_late_access'],
     bills: ['water_bill', 'internet_bill', 'electricity_bill', 'gas_bill', 'heating_bill'],
-    places: ['market', 'school', 'libriary', 'restaurant', 'hospital', 'bus_station']
+    places: ['market', 'school', 'libriary', 'restaurant', 'hospital', 'bus_station', 'mosque']
   },
   images: [],
   description: '',
-  numberOfViews: 1,
   inFavorites: 0
 };
 
+const SCROLL_Y_OFFSET = -120;
+
 const Adview = () => {
   const { t } = useTranslation();
+
+  const { 
+    data, 
+    loading, 
+    error 
+  } = useFetchData({ 
+    url: '/apartments',
+    method: 'get',
+    cb: () => console.log(data)
+  });
 
   const params = useParams();
   const history = useHistory();
@@ -78,8 +97,6 @@ const Adview = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const [swiper, setSwiper] = useState(null);
   const [showWisher, setShowWisher] = useState(false);
-
-  const scrollYOffset = -120;
 
   useEffect(() => swiper && swiper.update());
 
@@ -93,7 +110,7 @@ const Adview = () => {
   };
 
   const distances = APARTMENT.distances.map((el, i) => 
-    <li className="adview__specs-distance">
+    <li className="adview__specs-separate">
       to {el.name} &mdash; <span className="c-grace">{el.walk} walking | {el.car} by car</span>
     </li>
   );
@@ -116,7 +133,7 @@ const Adview = () => {
           img2={image} />
       }
       <SpyNavigation
-        offset={scrollYOffset}
+        offset={SCROLL_Y_OFFSET}
         items={['main', 'options', 'details', 'features', 'similar']}
         onUpdate={(el) => {
           if (el && el.id !== 'main') setShowWisher(true);
@@ -195,7 +212,8 @@ const Adview = () => {
                   disabledClass: 'adview__btn-imgslider--disabled'
                 }}>
                 <SwiperSlide 
-                  className={`adview__image-item ${(swiper && swiper.activeIndex === 0) ? 'adview__image-item--active' : ''}`} onClick={() => onSelectImage(0)}
+                  className={`adview__image-item ${(swiper && swiper.activeIndex === 0) ? 'adview__image-item--active' : ''}`} 
+                  onClick={() => onSelectImage(0)}
                   tabIndex="0">
                     <img className="img img--contain" src={img} alt="imageer" />
                 </SwiperSlide>
@@ -233,6 +251,7 @@ const Adview = () => {
                       </span>
                       {APARTMENT.type}
                     </div>
+                    
                     <div className="flex mb-2 ais">
                       <span className="mr-1 flex aic f-bold f-lg">
                         <IoIosSchool className="icon--grey icon--sm mr-1" />
@@ -245,15 +264,35 @@ const Adview = () => {
                         <GiDoor className="icon--grey icon--sm mr-1" />
                         Number of rooms:
                       </span>
-                      {APARTMENT.numberOfRooms}
+                      {APARTMENT.numberOfRooms[0]}
                     </div>
                     <div className="flex mb-2">
                       <span className="mr-1 flex aic f-bold f-lg">
-                        <GiSpoon className="icon--grey icon--sm mr-1" />
-                        Facilities:
+                        <IoHammer className="icon--grey icon--sm mr-1" />
+                        Condition:
                       </span>
-                      <div className="flex aic">
-                        {APARTMENT.features.facilities.slice(0, 3).map(el => t(`features.${el}`)).join(', ')}..
+                      {APARTMENT.condition[0]}
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="mr-1 flex aic f-bold f-lg">
+                        Price:
+                      </span>
+                      ${APARTMENT.price[0]} / month
+                    </div>
+                    <div className="flex ais mb-2">
+                      <div className="mr-1 flex aic f-bold f-lg">
+                        Facilities:
+                      </div>
+                      <div className="">
+                        <div className="adview__specs-separate">
+                          <GiKnifeFork className="icon--sm icon--grey mr-1" />
+                          <span className="">Kitchen</span>: {APARTMENT.kitchen[0]}
+                        </div>
+                        <div className="adview__specs-separate">
+                          <GiBathtub className="icon--sm icon--grey mr-1" />
+                          <span className="">Bathroom</span>: {APARTMENT.bath[0]}
+                        </div>
+                        {/* {APARTMENT.features.facilities.slice(0, 3).map(el => t(`features.${el}`)).join(', ')}.. */}
                         <button 
                           className="btn--sub ml-5" 
                           onClick={() => history.push('#features')}>
@@ -286,7 +325,11 @@ const Adview = () => {
                   </div>
                   <Link to="/" className="c-grace undl--h undl">154 Reviews</Link>
                 </div>
-                <button className="btn btn--primary w-100 mb-1" onClick={() => setShowContact(true)}>Contact</button>
+                <button 
+                  className="btn btn--primary w-100 mb-1" 
+                  onClick={() => setShowContact(true)}>
+                    Contact
+                </button>
               </div>
               <Ratings open={() => setReviewInp(true)} />
             </div>

@@ -10,10 +10,12 @@ import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import Pagination from '../../components/Pagination/Pagination';
 import Dropdown from '../../components/UI/Dropdown/Dropdown';
 import { parseQuery } from '../../utilities/utils';
+import { useTranslation } from 'react-i18next';
 
 const Listview = () => {
   const params = useParams();
   const location = useLocation();
+  const { t } = useTranslation(['regions']);
   
   const [slide, setSlide] = useState(false);
   const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)) || 1);
@@ -40,12 +42,12 @@ const Listview = () => {
             <Breadcrumbs 
               items={[
                 {
-                  title: 'City',
+                  title: t(`regions:${params.city}.title`),
                   path: `/${params.city}`,
                   active: false
                 },
                 {
-                  title: 'Region',
+                  title: t(`regions:${params.city}.regions.${params.region}`),
                   path: `/${params.region}`,
                   active: true
                 }
@@ -54,7 +56,7 @@ const Listview = () => {
             <div className="mb-3 mt-2 flex aie jcsb">
               <div className="">
                 <h6 className="heading heading--3 mb-1 c-black">Results</h6>
-                <div className="f-xl c-grey mb-5"> for Tashkent, Mirzo-Ulugbek district</div>
+                <div className="f-xl c-grey mb-5"> for {t(`regions:${params.city}.title`)}, {t(`regions:${params.city}.regions.${params.region}`)} district</div>
                 <div className="f-mid c-grey-l">found 158 properties by filter</div>
               </div>
               <Dropdown 

@@ -10,9 +10,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import user from './store/reducers/reducer_user';
+import main from './store/reducers/reducer_main';
 
 const reducer = combineReducers({
-  user
+  user,
+  main
 });
 
 const store = createStore(

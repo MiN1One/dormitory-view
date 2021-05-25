@@ -8,6 +8,7 @@
   transition: all .3s ease;
   box-shadow: .5rem .5rem 1rem rgba($pitch, .035);
   background: $pure-white;
+  padding: 1rem;
   
   width: calc((100% - 2 * 4.5rem) / 3);
   margin-right: 4.5rem;
@@ -19,31 +20,27 @@
   &:focus {
     box-shadow: .5rem .5rem 1rem rgba($pitch, .1);
     transform: translateY(-.5rem);
-  }
 
-  &__head {
-    width: 100%;
-    padding: 1rem;
+    &__panel { background: $pure-white; }
   }
 
   &__figure {
-    border: 1px solid rgba($pitch, .1);
     position: relative;
     width: 100%;
     height: 23rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: .5rem;
+    border-radius: .5rem .5rem 0 0;
     overflow: hidden;
+    // border-top: 1px solid rgba($color-orange-light, .35);
   }
 
   &__body {
-    padding: 1.75rem 2.25rem;
+    padding: 1.15rem 1.25rem;
     width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
   }
 
   &__specs {
@@ -54,8 +51,7 @@
     &__item {
       display: flex;
       align-items: center;
-
-      &:not(:last-child) { margin-bottom: 1rem; }
+      margin-bottom: 1rem;
     }
   }
 
@@ -69,9 +65,11 @@
     justify-content: center;
     font-size: 1.2rem;
     font-weight: 600;
-    color: $pure-white;
-    background: $color-orange-light;
-    // border-radius: .25rem .25rem 0 0;
+    color: $pitch;
+    border: 1px solid rgba($color-orange-light, .35);
+    background: rgba($pure-white, .975);
+    border-radius: 0 0 .1rem .1rem;
+    border-top: none;
 
     svg { fill: $color-yellow-light; }
   }
@@ -79,13 +77,13 @@
   &__footer {
     display: flex;
     justify-content: flex-end;
-    padding: 1.5rem 2.25rem;
+    padding: .5rem 1.25rem;
     // background: lighten($light, 2.5%);
   }
 
   &__price {
     border-radius: .25rem;
-    padding: .5rem 2.25rem;
+    padding: .75rem 2.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -99,6 +97,14 @@
 
     & * {
       color: $pure-white !important;
+    }
+  }
+
+  &__tooltip {
+    left: 0;
+
+    &::before {
+      left: 10%;
     }
   }
 }

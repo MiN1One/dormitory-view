@@ -12,7 +12,7 @@
   box-shadow: 0 0 .15rem rgba($black, .15);
   
   &--hide { transform: translateY(-100%); }
-  &--active { transform: translate(0); }
+  &--active { transform: translateY(0); }
 
   &--sticky {
     position: sticky;
@@ -114,4 +114,6 @@
     visibility: visible;
     opacity: 1;
   }
+
+  // &--hide &__form { display: none; }
 }

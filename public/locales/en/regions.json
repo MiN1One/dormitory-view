@@ -1,0 +1,273 @@
+{
+  "toshkent": {
+    "title": "Tashkent",
+    "regions": {
+      "bektemir": "Bektemir",
+      "mirobod": "Mirabad",
+      "mirzo-ulug'bek": "Mirzo Ulugbek",
+      "sirg'ali": "Sergeli",
+      "olmazor": "Almazar",
+      "uchtepa": "Uchtepa",
+      "shayxontohur": "Shaykhontohur",
+      "yashnobod": "Yashnabad",
+      "chilonzor": "Chilanzar",
+      "yunusobod": "Yunusabad",
+      "yakkasaroy": "Yakkasaray",
+      "yangihayot": "Yangihayat"
+    }
+  },
+  "toshkent-viloyat": {
+    "title": "Tashkent region",
+    "regions": {
+      "angren": "Angren city",
+      "bekobod": "Bekabad",
+      "bekobod-shahar": "Bekabad city",
+      "bo'ka": "Buka",
+      "bo'stonliq": "Bustanlik",
+      "chinoz": "Chinaz",
+      "chirchiq": "Chirchik city",
+      "ohangaron": "Ohangaron city",
+      "olmaliq": "Olmalik city",
+      "oqqo'rg'on": "Akkurgan",
+      "o'rta-chirchiq": "Urta Chirchik",
+      "parkent": "Parkent",
+      "piskent": "Piskent",
+      "qibray": "Kibray",
+      "quyi-chirchiq": "Kuyi Chirchik",
+      "yangiyo'l": "Yangiyul",
+      "yuqori-chirchiq": "Yukori Chirchik",
+      "zangiota": "Zangiota",
+      "nurafshon": "Nurafshon city",
+      "toshkent-rayon": "Tashkent",
+      "yangiyo'l-shahar": "Yangiyul city"
+    }
+  },
+  "andijon": {
+    "title": "Andijan",
+    "regions": {
+      "honobod": "Xanabad city",
+      "andijon-shahar": "Andijan city",
+      "andijon-rayon": "Andijan",
+      "asaka": "Asaka",
+      "baliqchi": "Balikchi",
+      "bo'ston": "Bostan",
+      "buloqboshi": "Bulokboshi",
+      "izboskan": "Izboskan",
+      "jalaquduq": "Jalakuduk",
+      "xo'jaobod": "Khodjaobad",
+      "qo'rg'ontepa": "Kurgontepa",
+      "marhamat": "Marhamat",
+      "oltinko'l": "Altinkul",
+      "paxtaobod": "Pakhtaabad",
+      "shahrixon": "Shakhrihan",
+      "ulug'nor": "Ulugnor"
+    }
+  },
+  "farg'ona": {
+    "title": "Fergana",
+    "regions": {
+      "farg'ona-shahar": "Ferghana city",
+      "marg'ilon-shahar": "Margilan city",
+      "quvasoy-shahar": "Quvasoy city",
+      "qo'qon-shahar": "Kokand city",
+      "farg'ona-rayon": "Fergana",
+      "quva": "Quva",
+      "toshloq": "Toshloq",
+      "yozyovon": "Yozyovon",
+      "qo'shtepa": "Qoshtepa",
+      "oltiariq": "Oltiariq",
+      "Rishton": "Rishton",
+      "bag'dod": "Bagdod",
+      "buvayda": "Buvayda",
+      "uchko'prik": "Uchkuprik",
+      "dang'ara": "Dangara",
+      "furqat": "Furqat",
+      "o'zbekiston": "Uzbekistan",
+      "beshariq": "Beshariq",
+      "so'x": "Sox"
+    }
+  },
+  "namangan": {
+    "title": "Namangan",
+    "regions": {
+      "namangan-shahar": "Namangan city",
+      "davlatobod": "Davlatabad",
+      "mingbuloq": "Mingbulak",
+      "kosonsoy": "Kasansay",
+      "namangan-rayon": "Namangan",
+      "norin": "Naryn",
+      "quva": "Pap",
+      "to'raqo'rg'on": "Turakurgan",
+      "uychi": "Uychi",
+      "uchqo'rg'on": "Uchkurgan",
+      "chortoq": "Chartak",
+      "chust": "Chust",
+      "yangiqo'rg'on": "Yangikurgan"
+    }
+  },
+  "surxondaryo": {
+    "title": "Surkhandarya",
+    "regions": {
+      "angor": "Angor",
+      "boysun": "Boysun",
+      "denov": "Denov",
+      "jarqo'rg'on": "Jarkurgan",
+      "qiziriq": "Kizirik",
+      "qumqo'rg'on": "Kumkurgan",
+      "muzrabot": "Muzrabot",
+      "oltinsoy": "Oltinsoy",
+      "sariosiyo": "Sariosiyo",
+      "sherobod": "Sherobod",
+      "sho'rchi": "Shurchi",
+      "termiz": "Termiz",
+      "uzun": "Uzun",
+      "bandixon": "Bandixon",
+      "termiz-shahar": "Termiz city"
+    }
+  },
+  "sirdaryo": {
+    "title": "Syrdarya",
+    "regions": {
+      "boyovut": "Bayaut",
+      "guliston-shahar": "Gulistan city",
+      "guliston": "Gulistan",
+      "mirzaobod": "Mirzabad",
+      "oqoltin": "Oqoltin",
+      "sardoba": "Sardaba",
+      "sayxunobod": "Saykhonobod",
+      "sirdaryo-tuman": "Sirdarya",
+      "shirin": "Shirin city",
+      "xovos": "Havas",
+      "yangiyer": "Yangier city"
+    }
+  },
+  "samarqand": {
+    "title": "Samarkand",
+    "regions": {
+      "samarqand-shahar": "Samarkand city",
+      "kattaqo'rg'on-shahar": "Kattakurgan city",
+      "bulung'ur": "Bulungur",
+      "jomboy": "Jamboy",
+      "ishtixon": "Ishtikhon",
+      "kattaqo'rg'on": "Kattakurgan",
+      "narpay": "Narpay",
+      "nurobod": "Nurabad",
+      "oqdaryo": "Akdarya",
+      "payariq": "Payariq",
+      "pastdarg'om": "Pastdargom",
+      "paxtachi": "Pakhtachi",
+      "samarqand-tuman": "Samarkand",
+      "toyloq": "Taylak",
+      "urgut": "Urgut",
+      "qo'shrabot": "Kushrabat"
+    }
+  },
+  "karakalpakstan": {
+    "title": "Karakalpakstan",
+    "regions": {
+      "nukus": "Nukus city",
+      "amudaryo": "Amudarya",
+      "beruniy": "Beruniy",
+      "ellikqala": "Ellikala",
+      "qonliko'l": "Kanlikol",
+      "qorao'zak": "Karaozek",
+      "kegeyli": "Kegeyli",
+      "qo'ng'irot": "Kungrad",
+      "moynoq": "Muynak",
+      "nukus-tuman": "Nukus",
+      "taxtako'pir": "Takhtakopir",
+      "to'rtko'l": "Tortkul",
+      "xo'jayli": "Khodjeyli",
+      "chimboy": "Shimbay",
+      "shumanay": "Shomanay",
+      "taxiatosh": "Takhiatash"
+    }
+  },
+  "qashqadaryo": {
+    "title": "Qashqadaryo",
+    "regions": {
+      "qarshi": "Karshi city",
+      "g'uzor": "Guzar",
+      "dexqonobod": "Dehkanabad",
+      "qamashi": "Kamashi",
+      "qarshi-tuman": "Karshi",
+      "kasbi": "Kasby",
+      "kitob": "Kitob",
+      "koson": "Koson",
+      "mirishkor": "Myrishkor",
+      "muborak": "Muborak",
+      "nishon": "Nishon",
+      "shahrisabz": "Shahrisabz city",
+      "shahrisabz-tuman": "Shahrisabz",
+      "chiroqchi": "Chirakchi",
+      "yakkabog'": "Yakkabog"
+    }
+  },
+  "navoiy": {
+    "title": "Navoiy",
+    "regions": {
+      "navoiy": "Navoiy city",
+      "zarafshon": "Zarafshan city",
+      "karmana": "Karmana",
+      "navbahor": "Navbahor",
+      "konimex": "Kanimekh",
+      "qiziltepa": "Qiziltepa",
+      "nurota": "Nurata",
+      "xatirchi": "Khatyrchi",
+      "uchquduq": "Uchkuduk",
+      "tomdi": "Tamdy"
+    }
+  },
+  "xorazm": {
+    "title": "Khorezm",
+    "regions": {
+      "urganch": "Urgench city",
+      "xiva": "Khiva city",
+      "bog'ot": "Bagat",
+      "qo'shko'pir": "Koshkopir",
+      "hazorasp": "Hazarasp",
+      "xiva-tuman": "Khiva",
+      "xonqa": "Xanka",
+      "urganch-tuman": "Urgench",
+      "shovot": "Shavat",
+      "yangiariq": "Yangiarik",
+      "yangibozor": "Yangibazar",
+      "gurlan": "Gurlan"
+    }
+  },
+  "jizzax": {
+    "title": "Jizzakh",
+    "regions": {
+      "jizzax": "Jizzakh city",
+      "baxmal": "Bakhmal",
+      "do'stlik": "Dustlik",
+      "g'allaorol": "Gallaorol",
+      "sharof-rashidov": "Sharaf Rashidov",
+      "zarbdor": "Zarbdar",
+      "zafarobod": "Zafarabad",
+      "zomin": "Zaamin",
+      "paxtakor": "Pakhtakor",
+      "mirzacho'l": "Mirzachul",
+      "forish": "Forish",
+      "yangiobod": "Yangiabad"
+    }
+  },
+  "buxoro": {
+    "title": "Bukhara",
+    "regions": {
+      "buxoro": "Bukhara city",
+      "buxoro-tuman": "Bukhara",
+      "romitan": "Romitan",
+      "jondor": "Jondor",
+      "qorako'l": "Karakul",
+      "olot": "Olot",
+      "kogon": "Kogon city",
+      "kogon-tuman": "Kogon",
+      "qorovulbozor": "Qorovulbozor",
+      "peshko'": "Peshku",
+      "vobkent": "Vobkent",
+      "shofirkon": "Shofirkon",
+      "g'ijduvon": "Gijduvon"
+    }
+  }
+}

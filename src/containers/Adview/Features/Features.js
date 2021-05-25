@@ -3,6 +3,7 @@ import Specifications from '../../../components/Specs/Specifications';
 
 const Features = ({ data }) => {
 
+  // condition, price, furnitured, kitchen, bath, number of rooms
   const facilities = data.features.facilities.map((el, i) => {
     const Facility = Specifications('adview__specs-item').facilities[el];
     return Facility && <Facility key={i} />;
@@ -34,6 +35,9 @@ const Features = ({ data }) => {
     <div id="features">
       <div className="adview__specs-wrapper" >
         <h5 className="heading heading--5 c-black mb-3">Facilites:</h5>
+        {/* <div className="adview__specs-list adview__specs-list--main">
+
+        </div> */}
         <div className="adview__specs-list">
           {facilities}
           {others}

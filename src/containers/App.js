@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router';
 
 import Navigation from '../components/Navigation/Navigation';
 import Footer from '../components/Footer/Footer';
-import Scrollbar from '../components/UI/Scrollbar/Scrollbar';
 import ErrorView from '../components/ErrorView/ErrorView';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../store/actions';
 
-const AsyncHeader = React.lazy(() => import('./Header/Header'));
+const AsyncMainPage = React.lazy(() => import('./MainPage/MainPage'));
 const AsyncAuth = React.lazy(() => import('./Auth/Auth'));
 const AsyncProfile = React.lazy(() => import('./Profile/Profile'));
 const AsyncListview = React.lazy(() => import('./Listview/Listview'));
@@ -15,6 +17,22 @@ const AsyncPost = React.lazy(() => import('./Post/Post'));
 
 function App() {
   const location = useLocation();
+  const { t, ready } = useTranslation('regions', { useSuspense: false });
+  const regions = useSelector(state => state.main.regions);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const translatedList = [];
+    if (ready) {
+      for (let key in regions) {
+        translatedList.push({
+          city: t(`regions:${key}.title`),
+          regions: regions[key].map(reg => t(`regions:${key}.regions.${reg}`))
+        });
+      }
+      dispatch(actions.setPrerequisites('regionsLocal', translatedList));
+    }
+  }, [t, regions, dispatch, ready]);
 
   useEffect(() => {
     window.scroll({
@@ -33,7 +51,7 @@ function App() {
           <Navigation />
           <Switch>
             <Route path="/" exact>
-              <AsyncHeader />
+              <AsyncMainPage />
             </Route>
             <Route path="/post/:type" exact>
               <AsyncPost />

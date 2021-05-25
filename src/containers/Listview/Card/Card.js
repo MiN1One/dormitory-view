@@ -1,17 +1,25 @@
 import React from 'react';
-import { BiDoorOpen, BiStar } from 'react-icons/bi';
-import { BsBuilding, BsLayers, BsStar, BsStarFill } from 'react-icons/bs';
+import { BiDoorOpen } from 'react-icons/bi';
+import { BsBuilding, BsLayers, BsStar } from 'react-icons/bs';
 import { IoSchoolOutline } from 'react-icons/io5';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link } from 'react-router-dom';
+import img from '../../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
 
 import './Card.scss';
 
-const Card = ({ slide }) => {
+const Card = ({ slide, data }) => {
   return (
     <li className={`cardl ${slide ? 'cardl--3' : 'cardl--2'}`} tabIndex="0">
       <Link to="/city/region/apartment" className="cardl__content">
         <div className="cardl__top">
           <figure className="cardl__figure">
+            <LazyLoadImage
+              src={img}
+              width="100%"
+              height="100%"
+              alt=""
+              className="img img--cover" />
             <div className="cardl__tag">
               2 offers
             </div>

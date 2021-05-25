@@ -53,8 +53,13 @@
     color: #000;
   }
 
-  &__specs-distance:not(:last-child) {
-    margin-bottom: 1rem;
+  &__specs-separate {
+    display: flex;
+    align-items: center;
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
   }
 
   &__specs-list {
@@ -291,7 +296,7 @@
 
   &__btn {
     font-size: 1.45rem;
-    height: 5.5rem;
+    height: 5rem;
     padding: 0 2rem;
     background: lighten($light, 3%);
     color: $grey-dark;
@@ -320,9 +325,5 @@
     margin-bottom: .75rem;
     
     &:not(:last-child) { margin-right: 1rem; }
-  }
-
-  &__footer {
-
   }
 }

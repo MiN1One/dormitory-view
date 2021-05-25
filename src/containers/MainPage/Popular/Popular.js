@@ -15,11 +15,15 @@ const Popular = () => {
     
   }, [activeRegion]);
 
+  useEffect(() => {
+    
+  }, []);
+
   return (
     <section className="popular">
       <div className="container">
         <div className="popular__head">
-          <h2 className="heading heading--2 mb-3">{t('nav.popular properties')}</h2>
+          <h2 className="heading heading--2 mb-3">Popular properties</h2>
           <div className="flex">
             <div tabIndex="0" className="tab-item tab-item--active">Tashkent</div>
             <div tabIndex="0" className="tab-item">Bukhara</div>

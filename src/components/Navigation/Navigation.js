@@ -46,7 +46,7 @@ const Navigation = ({ className }) => {
 
   if (location.pathname === '/') {
     className = 'nav--hide';
-    if (scroll > 500) {
+    if (scroll > (window.innerHeight - window.innerHeight * 20 / 100)) {
       className = 'nav--active';
     }
   } else {

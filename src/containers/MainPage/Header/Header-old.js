@@ -10,10 +10,9 @@ import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/effect-fade/effect-fade.scss';
 
-import './Header.scss';
-import Searchbar from '../../components/Searchbar/Searchbar';
-import Cities from './Cities/Cities';
-import Popular from './Popular/Popular';
+import './Header-old.scss';
+import Searchbar from '../../../components/Searchbar/Searchbar';
+import Popular from '../Popular/Popular';
 import { useSelector } from 'react-redux';
 
 SwiperCore.use([Navigation, Pagination, EffectFade]);
@@ -48,7 +47,7 @@ const Header = () => {
                     Understanding conditional and unconditional offers
                   </h2>
                 </div>
-                <Link to="/" className="btn btn--outline btn--b-white">
+                <Link to="/all/all" className="btn btn--outline btn--b-white">
                   Discover
                 </Link>
               </div>

@@ -9,6 +9,7 @@
   transition: color 0.2s ease;
   display: flex;
   align-items: center;
+  text-transform: capitalize;
 
   &::after {
     content: "";

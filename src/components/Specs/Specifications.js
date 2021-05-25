@@ -1,6 +1,6 @@
 import { IoRestaurantOutline, IoSchoolOutline, IoWater, IoWifi } from "react-icons/io5";
 import { BsLock } from "react-icons/bs";
-import { FaRegHospital } from 'react-icons/fa';
+import { FaMosque, FaRegHospital } from 'react-icons/fa';
 import { GiBathtub, GiConsoleController, GiCookingPot, GiElectric, GiKeyLock, GiKnifeFork, GiMedicalThermometer, GiSofa,} from 'react-icons/gi';
 import { RiComputerLine, RiForbid2Line, RiHealthBookLine, RiParkingBoxFill } from "react-icons/ri";
 import { VscBook, VscDeviceCameraVideo } from "react-icons/vsc";
@@ -61,11 +61,11 @@ const Specifications = (className) => {
           <RiComputerLine className="icon--sm icon--grey mr-1" />
           Personal computer
         </span>,
-      public_libriary: () =>
-        <span className={className}>
-          <VscBook className="icon--sm icon--grey mr-1" />
-          Public libriary
-        </span>,
+      // public_libriary: () =>
+      //   <span className={className}>
+      //     <VscBook className="icon--sm icon--grey mr-1" />
+      //     Public libriary
+      //   </span>,
       others: (list) =>
         <div className="adview__specs-item--etc">
           <span className="f-bold">Others: </span>
@@ -177,6 +177,11 @@ const Specifications = (className) => {
         <span className={className}>
           <AiOutlineShop className="icon--sm icon--grey mr-1" />
           Shopping market
+        </span>,
+      mosque: () => 
+        <span className={className}>
+          <FaMosque className="icon--sm icon--grey mr-1" />
+          Mosque
         </span>
     }
   };

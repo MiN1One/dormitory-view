@@ -1,0 +1,273 @@
+{
+  "toshkent": {
+    "title": "Ташкент",
+    "regions": {
+      "bektemir": "Бектемирский",
+      "mirobod": "Мирзабадский",
+      "mirzo-ulug'bek": "Мирзо-Улугбекский",
+      "sirg'ali": "Сергелийский",
+      "olmazor": "Алмазарский",
+      "uchtepa": "Учтепинский",
+      "shayxontohur": "Шайхантахурский",
+      "yashnobod": "Яшнабадский",
+      "chilonzor": "Чиланзарский",
+      "yunusobod": "Юнусабадский",
+      "yakkasaroy": "Яккасарайский",
+      "yangihayot": "Янгихаетский"
+    }
+  },
+  "toshkent-viloyat": {
+    "title": "Ташкентская область",
+    "regions": {
+      "angren": "город Ангрен",
+      "bekobod": "Бекабадский",
+      "bekobod-shahar": "город Бекабад",
+      "bo'ka": "Букинский",
+      "bo'stonliq": "Бостанлыкский",
+      "chinoz": "Чиназский",
+      "chirchiq": "город Чирчик",
+      "ohangaron": "город Ахангаран",
+      "olmaliq": "город Алмалык",
+      "oqqo'rg'on": "Аккурганский",
+      "o'rta-chirchiq": "Уртачирчикский",
+      "parkent": "Паркентский",
+      "piskent": "Пскентский",
+      "qibray": "Кибрайский",
+      "quyi-chirchiq": "Куйичирчикский",
+      "yangiyo'l": "Янгиюльский",
+      "yuqori-chirchiq": "Юкарычирчикский",
+      "zangiota": "Зангиатинский",
+      "nurafshon": "город Нурафшан",
+      "toshkent-rayon": "Ташкентский",
+      "yangiyo'l-shahar": "город Янгиюль"
+    }
+  },
+  "andijon": {
+    "title": "Андижан",
+    "regions": {
+      "honobod": "город Ханабад",
+      "andijon-shahar": "город Андижан",
+      "andijon-rayon": "Андижанский",
+      "asaka": "Асакинский",
+      "baliqchi": "Балыкчинский",
+      "bo'ston": "Бустанский",
+      "buloqboshi": "Булакбашинский",
+      "izboskan": "Избасканский",
+      "jalaquduq": "Джалакудукский",
+      "xo'jaobod": "Ходжаабадский",
+      "qo'rg'ontepa": "Кургантепинский",
+      "marhamat": "Мархаматский",
+      "oltinko'l": "Алтынкульский",
+      "paxtaobod": "Пахтаабадский",
+      "shahrixon": "Шахриханский",
+      "ulug'nor": "Улугнорский"
+    }
+  },
+  "farg'ona": {
+    "title": "Фергана",
+    "regions": {
+      "farg'ona-shahar": "город Фергана",
+      "marg'ilon-shahar": "город Маргилан",
+      "quvasoy-shahar": "город Кувасай",
+      "qo'qon-shahar": "город Коканд",
+      "farg'ona-rayon": "Ферганский",
+      "quva": "Кувинский",
+      "toshloq": "Ташлакский",
+      "yozyovon": "Язяванский",
+      "qo'shtepa": "Куштепенский",
+      "oltiariq": "Олтиарикский",
+      "Rishton": "Риштанский",
+      "bag'dod": "Багдадский",
+      "buvayda": "Бувайденский",
+      "uchko'prik": "Учкуприкский",
+      "dang'ara": "Дангаринский",
+      "furqat": "Фуркатский",
+      "o'zbekiston": "Узбекистанский",
+      "beshariq": "Бешарикский",
+      "so'x": "Сохский"
+    }
+  },
+  "namangan": {
+    "title": "Наманган",
+    "regions": {
+      "namangan-shahar": "город Наманган",
+      "davlatobod": "Давлатабадский",
+      "mingbuloq": "Мингбулакский",
+      "kosonsoy": "Касансайский",
+      "namangan-rayon": "Наманганский",
+      "norin": "Нарынский",
+      "quva": "Папский",
+      "to'raqo'rg'on": "Туракурганский",
+      "uychi": "Уйчинский",
+      "uchqo'rg'on": "Учкурганский",
+      "chortoq": "Чартакский",
+      "chust": "Чустский",
+      "yangiqo'rg'on": "Янгикурганский"
+    }
+  },
+  "surxondaryo": {
+    "title": "Сурхандарья",
+    "regions": {
+      "angor": "Ангорский",
+      "boysun": "Байсунский",
+      "denov": "Денауский",
+      "jarqo'rg'on": "Джаркурганский",
+      "qiziriq": "Кизирикский",
+      "qumqo'rg'on": "Кумкурганский",
+      "muzrabot": "Музработский",
+      "oltinsoy": "Алтынсайский",
+      "sariosiyo": "Сариосийский",
+      "sherobod": "Шерабадский",
+      "sho'rchi": "Шурчинский",
+      "termiz": "Термезский",
+      "uzun": "Узунский",
+      "bandixon": "Бандиханский",
+      "termiz-shahar": "город Термез"
+    }
+  },
+  "sirdaryo": {
+    "title": "Сырдарья",
+    "regions": {
+      "boyovut": "Баявутский",
+      "guliston-shahar": "город Гулистан",
+      "guliston": "гулистанский",
+      "mirzaobod": "Мирзаабадский",
+      "oqoltin": "Акалтынский",
+      "sardoba": "Сардобинский",
+      "sayxunobod": "Сайхунободский",
+      "sirdaryo-tuman": "Сырдарьинский",
+      "shirin": "город Ширин",
+      "xovos": "Хавастский",
+      "yangiyer": "город Янгиер"
+    }
+  },
+  "samarqand": {
+    "title": "Самарканд",
+    "regions": {
+      "samarqand-shahar": "город Самарканд",
+      "kattaqo'rg'on-shahar": "город Каттакурган",
+      "bulung'ur": "Булунгурский",
+      "jomboy": "Джамбайский",
+      "ishtixon": "Иштыханский",
+      "kattaqo'rg'on": "Каттакурганский",
+      "narpay": "Нарпайский",
+      "nurobod": "Нурабадский",
+      "oqdaryo": "Акдарьинский",
+      "payariq": "Паярикский",
+      "pastdarg'om": "Пастдаргомский",
+      "paxtachi": "Пахтачинский",
+      "samarqand-tuman": "Самаркандский",
+      "toyloq": "Тайлякский",
+      "urgut": "Ургутский",
+      "qo'shrabot": "Кошрабатский"
+    }
+  },
+  "qoraqalpog'iston": {
+    "title": "Каракалпакстан",
+    "regions": {
+      "nukus": "город Нукус",
+      "amudaryo": "Амударьинский",
+      "beruniy": "Берунийский",
+      "ellikqala": "Элликкалинский",
+      "qonliko'l": "Канлыкульский",
+      "qorao'zak": "Караузякский",
+      "kegeyli": "Кегейлийский",
+      "qo'ng'irot": "Кунградский",
+      "moynoq": "Муйнакский",
+      "nukus-tuman": "Нукусский",
+      "taxtako'pir": "Тахтакупырский",
+      "to'rtko'l": "Турткульский",
+      "xo'jayli": "Ходжалинский",
+      "chimboy": "Чимбайский",
+      "shumanay": "Шуманайский",
+      "taxiatosh": "Тахиаташский"
+    }
+  },
+  "qashqadaryo": {
+    "title": "Кашкадарья",
+    "regions": {
+      "qarshi": "город Карши",
+      "g'uzor": "Гузарский",
+      "dexqonobod": "Дехканабадский",
+      "qamashi": "Камашинский",
+      "qarshi-tuman": "Каршинский",
+      "kasbi": "Касбийский",
+      "kitob": "Китабский",
+      "koson": "Касанский",
+      "mirishkor": "Миришкорский",
+      "muborak": "Мубарекский",
+      "nishon": "Нишанский",
+      "shahrisabz": "город Шахрисабз",
+      "shahrisabz-tuman": "Шахрисабзский",
+      "chiroqchi": "Чиракчинский",
+      "yakkabog'": "Яккабагский"
+    }
+  },
+  "navoiy": {
+    "title": "Навои",
+    "regions": {
+      "qarshi": "город Навои",
+      "zarafshon": "город Зарафшан",
+      "karmana": "Карманинский",
+      "navbahor": "Навбахорский",
+      "konimex": "Канимехский",
+      "qiziltepa": "Кызылтепинский",
+      "nurota": "Нуратинский",
+      "xatirchi": "Хатырчинский",
+      "uchquduq": "Учкудукский",
+      "tomdi": "Тамдынский"
+    }
+  },
+  "xorazm": {
+    "title": "Хорезм",
+    "regions": {
+      "urganch": "город Ургенч",
+      "xiva": "город Хива",
+      "bog'ot": "Багатский",
+      "qo'shko'pir": "Кошкупырский",
+      "hazorasp": "Хазараспский",
+      "xiva-tuman": "Хивинский",
+      "xonqa": "Ханкинский",
+      "urganch-tuman": "Ургенчский",
+      "shovot": "Шаватский",
+      "yangiariq": "Янгиарыкский",
+      "yangibozor": "Янгибазарский",
+      "gurlan": "Гурленский"
+    }
+  },
+  "jizzax": {
+    "title": "Джизак",
+    "regions": {
+      "jizzax": "город Джизак",
+      "baxmal": "Бахмальский",
+      "do'stlik": "Дустликский",
+      "g'allaorol": "Галляаральский",
+      "sharof-rashidov": "Шараф-Рашидовский",
+      "zarbdor": "Зарбдарский",
+      "zafarobod": "Зафарабадский",
+      "zomin": "Зааминский",
+      "paxtakor": "Пахтакорский",
+      "mirzacho'l": "Мирзачульский",
+      "forish": "Фаришский",
+      "yangiobod": "Янгиабадский"
+    }
+  },
+  "buxoro": {
+    "title": "Бухара",
+    "regions": {
+      "buxoro": "город Бухара",
+      "buxoro-tuman": "Бухарский",
+      "romitan": "Ромитанский",
+      "jondor": "Жондорский",
+      "qorako'l": "Каракульский",
+      "olot": "Алатский",
+      "kogon": "город Каган",
+      "kogon-tuman": "Каганский",
+      "qorovulbozor": "Караулбазарский",
+      "peshko'": "Пешкунский",
+      "vobkent": "Вабкентский",
+      "shofirkon": "Шафирканский",
+      "g'ijduvon": "Гиждуванский"
+    }
+  }
+}

@@ -10,14 +10,10 @@
 
   &--outline {
     padding: 0 3.5rem;
-    border: 1px solid rgba($color-tertiary, .7);
-    font-weight: 500;
-  }
-  
-  &--b-white {
+    border: 2px solid rgba($pure-white, .9);
     color: $pure-white;
-    border-color: rgba($pure-white, .9);
-    
+    font-weight: 500;
+
     &:hover,
     &:focus {
       background: $pure-white;
@@ -26,9 +22,9 @@
     }
   }
 
-  &--b-tertiary {
-    color: $color-tertiary;
-    border-color: $color-tertiary;
+  &--b-yellow {
+    border-color: $color-yellow;
+    color: $color-yellow;
   }
 
   &--cta {
