@@ -2,19 +2,25 @@
 
 .breadcrumbs {
   display: flex;
-  padding: 0.75rem 3rem;
-  background: lighten($light, 3.5%);
-  border-radius: 3rem;
-  width: max-content;
-  border: 1px solid rgba($pitch, .025);
+  align-items: center;
+  justify-content: space-between;
   
   &--white {
     border-color: rgba($pitch, .05);
     background: lighten($light, 5.5%);
   }
-
+  
   & > *:not(:last-child) {
     margin-right: 1.5rem;
+  }
+  
+  &__content {
+    display: flex;
+    padding: 0.75rem 3rem;
+    background: lighten($light, 3.5%);
+    border-radius: 3rem;
+    width: max-content;
+    border: 1px solid rgba($pitch, .025);
   }
 
   &__item {

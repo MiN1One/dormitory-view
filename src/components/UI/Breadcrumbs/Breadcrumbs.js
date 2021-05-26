@@ -2,7 +2,7 @@ import React from 'react';
 import { AiOutlineHome } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
-const Breadcrumbs = ({ items, white }) => {
+const Breadcrumbs = ({ items, white, children }) => {
   const breadItems = items.map((el, i) => {
     return !el.active
       ? <Link to={el.path} className="breadcrumbs__item" key={i}>{el.title}</Link>
@@ -10,12 +10,16 @@ const Breadcrumbs = ({ items, white }) => {
   });
 
   return (
+    
     <div className={`breadcrumbs ${white ? 'breadcrumbs--white' : ''}`}>
-      <Link to="/" className="breadcrumbs__item">
-        <AiOutlineHome className="icon--sm icon--grey mr-1" />
-        Home
-      </Link>
-      {breadItems}
+      <div className="breadcrumbs__content">
+        <Link to="/" className="breadcrumbs__item">
+          <AiOutlineHome className="icon--sm icon--grey mr-1" />
+          Home
+        </Link>
+        {breadItems}
+      </div>
+      {children}
     </div>
   );
 };

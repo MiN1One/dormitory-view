@@ -1,52 +1,54 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import axios from '../axios';
 
-/**
-* @param {object} options - Parameters
-* @param {string} options.url - Request URL
-* @param {string} options.method - HTTP Method
-* @param {function} options.cb - Callback to run after request is seccussful
-* @param {object} options.body - Request body
-*/
-
-const STATE = {};
-
-const REDUCER = () => {
-
+const STATE = {
+  loading: false,
+  data: null,
+  error: null
 };
 
-const useFetchData = ({ url, method, body, cb }) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const reducer = (state, action) => {
+  switch (action.type.toUpperCase()) {
+    case 'START':
+      return { ...state, loading: true, error: null };
+    case 'RESOLVE':
+      return { 
+        ...state, 
+        data: action.data, 
+        loading: false,
+        error: null
+      }
+    case 'REJECT':
+      return { ...state, loading: false, error: action.error };
+    default: 
+      return state;
+  }
+};
 
-  const makeRequest = () => {
+const useFetchData = () => {
+  const [httpData, dispatch] = useReducer(reducer, STATE);
 
-  };
-
-  useEffect(() => {
-    setError(null);
-    setLoading(true);
+  const makeRequest = useCallback((options) => {
+    dispatch({ type: 'start' });
     axios({
-      url: url,
-      method: method.toUpperCase()
-    }, body && body)
+      url: options.url,
+      method: options?.method?.toUpperCase() || 'GET',
+    }, options.body && options.body)
     .then(({ data }) => {
-      setData(data);
-      setLoading(false);
-      cb && cb();
+      options.dataAt?.forEach((el) => data = data[el]);
+      dispatch({ type: 'resolve', data });
     })
     .catch((er) => {
+      dispatch({ type: 'resolve', error: er });
       console.error(er);
-      setError(er);
-      setLoading(null);
     });
-  }, [url, method, body, cb]);
+  }, []);
 
   return {
-    data,
-    error,
-    loading
+    data: httpData.data,
+    error: httpData.error,
+    loading: httpData.loading,
+    makeRequest
   }
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { IoChevronBackOutline, IoChevronForwardOutline, IoHammer } from 'react-icons/io5';
@@ -9,7 +9,8 @@ import { BsArrowsFullscreen, BsStar, BsStarFill } from 'react-icons/bs';
 import { FaBuilding, FaMapMarkerAlt } from 'react-icons/fa';
 import { IoIosSchool } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
-import { GiBathtub, GiDoor, GiKnifeFork, GiSpoon } from 'react-icons/gi';
+import { GiBathtub, GiDoor, GiKnifeFork } from 'react-icons/gi';
+import { useSelector } from 'react-redux';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import { AiOutlineTag } from 'react-icons/ai';
 
@@ -33,6 +34,8 @@ SwiperCore.use([Navigation]);
 
 const AsyncFullscreen = React.lazy(() => import('./Fullscreen/Fullscreen'));
 const AsyncReviewInput = React.lazy(() => import('./ReviewInput/ReviewInput'));
+
+
 
 const APARTMENT = {
   title: 'Apartment',
@@ -77,19 +80,20 @@ const SCROLL_Y_OFFSET = -120;
 
 const Adview = () => {
   const { t } = useTranslation();
-
-  const { 
-    data, 
-    loading, 
-    error 
-  } = useFetchData({ 
-    url: '/apartments',
-    method: 'get',
-    cb: () => console.log(data)
-  });
-
   const params = useParams();
   const history = useHistory();
+  
+  const { 
+    data,
+    loading, 
+    error, 
+    makeRequest
+  } = useFetchData();
+
+  const { facilities, months } = useSelector(state => state.main);
+
+  const [newData, setNewData] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(0);
 
   const [showContact, setShowContact] = useState(false);
   const [reviewInp, setReviewInp] = useState(false);
@@ -98,7 +102,54 @@ const Adview = () => {
   const [swiper, setSwiper] = useState(null);
   const [showWisher, setShowWisher] = useState(false);
 
+  params.apartment = '60add4e0654ec717fc053574';
+
+  useEffect(() => {
+    if (!data) {
+      makeRequest({ 
+        url: `/apartments/${params.apartment}?count=true`,
+        method: 'get',
+        dataAt: ['data', 'doc']
+      });
+    }
+  }, [makeRequest, data, params.apartment]);
+
+  useEffect(() => {
+    console.log(data);
+    if (data) {
+      const propertyData = {
+        ...data,
+        roomOptions: []
+      };
+
+      for (let i = 0; i < data.price.length; i++) {
+        propertyData.roomOptions.push({});
+      }
+
+      facilities.forEach(f => {
+        for (const [key, val] of Object.entries(data)) {
+          if (key === f) {
+            for (let i = 0; i < val.length; i++) {
+              propertyData.roomOptions[i][key] = val[i];
+            }
+            delete propertyData[key];
+          }
+        }
+      });
+
+      setNewData(propertyData);
+    }
+  }, [data, facilities]);
+
   useEffect(() => swiper && swiper.update());
+
+  console.log(newData);
+
+  useEffect(() => {
+    if (newData) {
+      history.push(`/${params.city}/${params.region}/${newData._id}`);
+    }
+  }, [newData, params.city, params.region, history]);
 
   useEffect(() => {
     if (reviewInp) setShowContact(false);
@@ -109,16 +160,44 @@ const Adview = () => {
     setActiveImageIndex(index);
   };
 
+  const convertISOString = useCallback((iso) => {
+    const format = (inp) => {
+      return inp < 10 ? `0${inp}` : inp;
+    };
+
+    const 
+      d = new Date(iso),
+      month = d?.getMonth(),
+      date = d?.getDate(),
+      hours = d?.getHours(),
+      mins = d?.getMinutes();
+  
+    return `${date} ${months[month]} ${format(+hours)}:${format(+mins)}`;
+  }, [months]);
+
   const distances = APARTMENT.distances.map((el, i) => 
-    <li className="adview__specs-separate">
+    <li className="adview__specs-separate" key={i}>
       to {el.name} &mdash; <span className="c-grace">{el.walk} walking | {el.car} by car</span>
     </li>
   );
+
+  if (loading)
+    return <h1 className="heading heading--1">hehe boay</h1>;
+
+  const 
+    createdDate = convertISOString(newData?.createdAt),
+    userDateArr = newData?.landlord.createdAt.split('-'),
+    year = userDateArr && userDateArr[0],
+    month = userDateArr && userDateArr[1],
+    discount = newData?.roomOptions[selectedOption].discount,
+    price = newData?.roomOptions[selectedOption].price,
+    priceAfterDiscount = (discount && discount > 0) && price - (price * discount / 100);
 
   return (
     <>
       {showContact && 
         <Contact 
+          data={newData?.landlord}
           close={() => setShowContact(false)} 
           open={() => setReviewInp(true)} />
       }
@@ -150,32 +229,55 @@ const Adview = () => {
         <div className="container">
           <Breadcrumbs items={[
             {
-              title: 'City',
+              title: t(`regions:${params.city}.title`),
               path: `/${params.city}`,
               active: false
             },
             {
-              title: 'Region',
+              title: t(`regions:${params.city}.title`),
               path: `/${params.city}/${params.region}`,
               active: false
             },
             {
-              title: 'Apartment',
-              path: `/${params.city}/${params.region}/${params.apartment}`,
+              title: newData?.title,
               active: true
             }
-          ]} />
+          ]}>
+            <div className="flex aic">
+              <span className="f-lg c-grace mr-1">Slide to go to previous or next</span>
+              <div className="flex">
+                <button 
+                  className="btn--slider adview__btn-slider" 
+                  onClick={() => makeRequest({
+                    url: `/apartments/${params.apartment}?prev=true&count=true`,
+                    dataAt: ['data', 'doc']
+                  })}>
+                    <IoChevronBackOutline className="icon--xs icon--dark" />
+                </button>
+                <button 
+                  className="btn--slider adview__btn-slider" 
+                  onClick={() => makeRequest({
+                    url: `/apartments/${params.apartment}?next=true&count=true`,
+                    dataAt: ['data', 'doc']
+                  })}>
+                    <IoChevronForwardOutline className="icon--xs icon--dark" />
+                </button>
+              </div>
+            </div>
+          </Breadcrumbs>
           <div className="adview__body mt-2">
             <div className="adview__left">
               <figure className="adview__figure" id="main">
                 <img className="img img--cover" src={img} alt="apt" />
-                <span className="adview__tag">
-                  <AiOutlineTag className="icon--sm icon--yellow mr-5" />
-                  20% off
-                </span>
+                {newData?.roomOptions[selectedOption].discount && (
+                  <span className="adview__tag">
+                    <AiOutlineTag className="icon--sm icon--yellow mr-5" />
+                    {newData.roomOptions[selectedOption].discount}% off
+                  </span>
+                )}
                 <div className="adview__cover">
                   <div className="flex fdc w-100">
-                    <h1 className="adview__heading mb-5">Apartment</h1>
+                    <h1 className="adview__heading mb-5">{newData?.title}</h1>
                     <div className="f-lg c-light f-thin">Main hall</div>
                   </div>
                   <div className="flex aic">
@@ -192,10 +294,16 @@ const Adview = () => {
                       </div>
                     </button>
                     <div className="adview__price-tag">
-                      <span className="adview__price-tag__price" data-discount="$284">
-                        $350
-                      </span>
-                      <span className="f-thin f-sm">&nbsp;/&nbsp;week</span>
+                      <div 
+                        className={`adview__price-tag__price ${discount ? 'adview__price-tag__price--ds' : ''}`}>
+                          ${price}
+                          {discount && (
+                            <span className="adview__price-tag__discount">
+                              ${priceAfterDiscount}
+                            </span>
+                          )}
+                      </div>
+                      <span className="f-light f-sm">&nbsp;/&nbsp;month</span>
                     </div>
                   </div>
                 </div>
@@ -227,13 +335,16 @@ const Adview = () => {
                   <IoChevronForwardOutline className="icon--sm icon--white" />
                 </button>
               </Swiper>
-              <Rooms />
+              <Rooms 
+                data={newData?.roomOptions}
+                selectedIndex={selectedOption}
+                setSelectedIndex={setSelectedOption} />
               <div className="adview__specs">
                 <div className="w-100" id="details">
                   <div className="adview__outline">
                     <h3 className="heading heading--3">Details</h3>
                     <span className="f-thin c-grey-l f-sm w-max">
-                      Number of views: {APARTMENT.numberOfViews}&nbsp;&nbsp;|&nbsp;&nbsp;In favorites: {APARTMENT.inFavorites}
+                    Updated at: {createdDate}&nbsp;&nbsp;|&nbsp;&nbsp;Number of views: {newData?.numberOfViews}&nbsp;&nbsp;|&nbsp;&nbsp;In favorites: {newData?.inFavorites}
                     </span>
                   </div>
                   <div className="mb-lg">
@@ -242,16 +353,15 @@ const Adview = () => {
                         <FaMapMarkerAlt className="icon--grey icon--sm mr-1" />
                         Address:
                       </span>
-                      {APARTMENT.city}, {APARTMENT.region} district, {APARTMENT.address}
+                      {newData?.city}, {newData?.region} district, {newData?.address}
                     </div>
                     <div className="flex mb-2">
                       <span className="mr-1 flex aic f-bold f-lg">
                         <FaBuilding className="icon--grey icon--sm mr-1" />
                         Type:
                       </span>
-                      {APARTMENT.type}
+                      {newData?.ownership}
                     </div>
-                    
                     <div className="flex mb-2 ais">
                       <span className="mr-1 flex aic f-bold f-lg">
                         <IoIosSchool className="icon--grey icon--sm mr-1" />
@@ -264,20 +374,20 @@ const Adview = () => {
                         <GiDoor className="icon--grey icon--sm mr-1" />
                         Number of rooms:
                       </span>
-                      {APARTMENT.numberOfRooms[0]}
+                      {newData?.roomOptions[selectedOption].numberOfRooms}
                     </div>
                     <div className="flex mb-2">
                       <span className="mr-1 flex aic f-bold f-lg">
                         <IoHammer className="icon--grey icon--sm mr-1" />
                         Condition:
                       </span>
-                      {APARTMENT.condition[0]}
+                      {newData?.roomOptions[selectedOption].condition}
                     </div>
                     <div className="flex mb-2">
                       <span className="mr-1 flex aic f-bold f-lg">
                         Price:
                       </span>
-                      ${APARTMENT.price[0]} / month
+                      ${price} / month
                     </div>
                     <div className="flex ais mb-2">
                       <div className="mr-1 flex aic f-bold f-lg">
@@ -286,32 +396,33 @@ const Adview = () => {
                       <div className="">
                         <div className="adview__specs-separate">
                           <GiKnifeFork className="icon--sm icon--grey mr-1" />
-                          <span className="">Kitchen</span>: {APARTMENT.kitchen[0]}
+                          Kitchen: {newData?.roomOptions[selectedOption].kitchen}
                         </div>
-                        <div className="adview__specs-separate">
-                          <GiBathtub className="icon--sm icon--grey mr-1" />
-                          <span className="">Bathroom</span>: {APARTMENT.bath[0]}
+                        <div className="flex aic">
+                          <div className="adview__specs-separate m-0">
+                            <GiBathtub className="icon--sm icon--grey mr-1" />
+                            Bathroom: {newData?.roomOptions[selectedOption].bath}
+                          </div>
+                          <button 
+                            className="btn--sub ml-5" 
+                            onClick={() => history.push('#features')}>
+                              More
+                          </button>
                         </div>
-                        {/* {APARTMENT.features.facilities.slice(0, 3).map(el => t(`features.${el}`)).join(', ')}.. */}
-                        <button 
-                          className="btn--sub ml-5" 
-                          onClick={() => history.push('#features')}>
-                            More
-                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <Features data={APARTMENT} />
+                <Features data={newData} activeOption={selectedOption} />
               </div>
             </div>
             <div className="adview__right">
               <div className="adview__panel">
                 <div className="flex fdc mb-15">
                   <Link to="/" className="adview__user">
-                    Name
+                    {newData?.landlord.last_name} {newData?.landlord.name}
                   </Link>
-                  <span className="c-grace f-mid tc">Landlord</span>
+                  <span className="c-grace f-mid tc">Landlord since<br/>{year} {months[+month - 1]}</span>
                 </div>
                 <div className="adview__panel-rating-group">
                   <div className="flex aic mb-5">

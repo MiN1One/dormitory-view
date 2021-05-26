@@ -1,33 +1,35 @@
 import React from 'react';
 import Specifications from '../../../components/Specs/Specifications';
 
-const Features = ({ data }) => {
+const Features = ({ data, activeOption }) => {
 
-  // condition, price, furnitured, kitchen, bath, number of rooms
-  const facilities = data.features.facilities.map((el, i) => {
-    const Facility = Specifications('adview__specs-item').facilities[el];
-    return Facility && <Facility key={i} />;
-  });
+  const specs = Specifications('adview__specs-item');
 
-  const security = data.features.security.map((el, i) => {
-    const Security = Specifications('adview__specs-item').security[el];
+  const facilityItems = []; 
+  for (const [key, val] of Object.entries(specs.facilities)) {
+    if (data && data.roomOptions[activeOption][key]) {
+      const El = val;
+      facilityItems.push(<El key={key} />);
+    }
+  }
+
+  const security = data?.security.map((el, i) => {
+    const Security = specs.security[el];
     return Security && <Security key={i} />;
   });
 
-  const others = Specifications('adview__specs-item').facilities.others(data.features.others);
-
-  const bills = data.features.bills.map((el, i) => {
-    const Bill = Specifications('adview__specs-item').bills[el];
+  const bills = data?.bills.map((el, i) => {
+    const Bill = specs.bills[el];
     return Bill && <Bill key={i} />;
   });
   
-  const places = data.features.places.map((el, i) => {
-    const Place = Specifications('adview__specs-item').places[el];
+  const places = data?.places.map((el, i) => {
+    const Place = specs.places[el];
     return Place && <Place key={i} />;
   });
 
-  const rules = data.features.rules.map((el, i) => {
-    const Rule = Specifications('adview__specs-item').rules[el];
+  const rules = data?.rules.map((el, i) => {
+    const Rule = specs.rules[el];
     return Rule && <Rule key={i} />;
   });
 
@@ -35,12 +37,9 @@ const Features = ({ data }) => {
     <div id="features">
       <div className="adview__specs-wrapper" >
         <h5 className="heading heading--5 c-black mb-3">Facilites:</h5>
-        {/* <div className="adview__specs-list adview__specs-list--main">
-
-        </div> */}
+        <div className="f-mid-w c-black mb-15">For room option {activeOption + 1}</div>
         <div className="adview__specs-list">
-          {facilities}
-          {others}
+          {facilityItems}
         </div>
       </div>
       <div className="adview__specs-wrapper">

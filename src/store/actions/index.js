@@ -1,5 +1,5 @@
 export {
-  login
+  login,
 } from './actions_user';
 
 export {

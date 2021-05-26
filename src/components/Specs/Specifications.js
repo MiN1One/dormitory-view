@@ -26,12 +26,12 @@ const Specifications = (className) => {
           <RiParkingBoxFill className="icon--sm icon--grey mr-1" />
           Parking area
         </span>,
-      private_kitchen: () =>
+      kitchen: () =>
       <span className={className}>
         <GiKnifeFork className="icon--sm icon--grey mr-1" />
         Private kitchen
       </span>,
-      private_bath: () =>
+      bath: () =>
         <span className={className}>
           <GiBathtub className="icon--sm icon--grey mr-1" />
           Private bathroom
@@ -51,12 +51,12 @@ const Specifications = (className) => {
           <MdLocalLaundryService className="icon--sm icon--grey mr-1" />
           Washing machine
         </span>,
-      gaming_area: () => 
+      gaming: () => 
         <span className={className}>
           <GiConsoleController className="icon--sm icon--grey mr-1" />
           Gaming area
         </span>,
-      personal_computer: () =>
+      computer: () =>
         <span className={className}>
           <RiComputerLine className="icon--sm icon--grey mr-1" />
           Personal computer
