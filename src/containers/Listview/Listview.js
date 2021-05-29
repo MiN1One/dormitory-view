@@ -57,13 +57,13 @@ const Listview = () => {
               <div className="">
                 <h6 className="heading heading--3 mb-1 c-black">Results</h6>
                 <div className="f-xl c-grey mb-5"> for {t(`regions:${params.city}.title`)}, {t(`regions:${params.city}.regions.${params.region}`)} district</div>
-                <div className="f-mid c-grey-l">found 158 properties by filter</div>
+                <div className="f-lg c-grey-l">found 158 properties by filter</div>
               </div>
               <Dropdown 
                 title={sortBy.title}
                 dropTitle={'Sort by:'}
                 positionX="right"
-                width={'17rem'}
+                width="17rem"
                 height={15}
                 items={[
                   {

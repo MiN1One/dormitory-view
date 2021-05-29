@@ -28,14 +28,16 @@ import Contact from './Contact/Contact';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
 import Features from './Features/Features';
+import Loader from '../../components/UI/Loader/Loader';
 import useFetchData from '../../hooks/useFetchData';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import ErrorView from '../../components/ErrorView/ErrorView';
+import useEditFavorites from '../../hooks/useEditFavorites';
 
 SwiperCore.use([Navigation]);
 
 const AsyncFullscreen = React.lazy(() => import('./Fullscreen/Fullscreen'));
 const AsyncReviewInput = React.lazy(() => import('./ReviewInput/ReviewInput'));
-
-
 
 const APARTMENT = {
   title: 'Apartment',
@@ -83,17 +85,13 @@ const Adview = () => {
   const params = useParams();
   const history = useHistory();
   
-  const { 
-    data,
-    loading, 
-    error, 
-    makeRequest
-  } = useFetchData();
+  const { data, loading, error, makeRequest } = useFetchData();
 
   const { facilities, months } = useSelector(state => state.main);
 
   const [newData, setNewData] = useState(null);
   const [selectedOption, setSelectedOption] = useState(0);
+  const { editFavorites, favorites } = useEditFavorites();
 
   const [showContact, setShowContact] = useState(false);
   const [reviewInp, setReviewInp] = useState(false);
@@ -102,17 +100,17 @@ const Adview = () => {
   const [swiper, setSwiper] = useState(null);
   const [showWisher, setShowWisher] = useState(false);
 
-  params.apartment = '60add4e0654ec717fc053574';
+  console.log(params);
 
   useEffect(() => {
     if (!data) {
       makeRequest({ 
-        url: `/apartments/${params.apartment}?count=true`,
+        url: `/apartments/${params.apt}?count=true`,
         method: 'get',
         dataAt: ['data', 'doc']
       });
     }
-  }, [makeRequest, data, params.apartment]);
+  }, [makeRequest, data, params.apt]);
 
   useEffect(() => {
     console.log(data);
@@ -146,10 +144,10 @@ const Adview = () => {
   console.log(newData);
 
   useEffect(() => {
-    if (newData) {
+    if (newData && params.apt !== newData._id) {
       history.push(`/${params.city}/${params.region}/${newData._id}`);
     }
-  }, [newData, params.city, params.region, history]);
+  }, [newData, params.city, params.region, history, params.apt]);
 
   useEffect(() => {
     if (reviewInp) setShowContact(false);
@@ -161,9 +159,7 @@ const Adview = () => {
   };
 
   const convertISOString = useCallback((iso) => {
-    const format = (inp) => {
-      return inp < 10 ? `0${inp}` : inp;
-    };
+    const format = (inp) => +inp < 10 ? `0${inp}` : inp;
 
     const 
       d = new Date(iso),
@@ -182,16 +178,18 @@ const Adview = () => {
   );
 
   if (loading)
-    return <h1 className="heading heading--1">hehe boay</h1>;
+    return <Loader />;
 
   const 
     createdDate = convertISOString(newData?.createdAt),
     userDateArr = newData?.landlord.createdAt.split('-'),
     year = userDateArr && userDateArr[0],
-    month = userDateArr && userDateArr[1],
-    discount = newData?.roomOptions[selectedOption].discount,
-    price = newData?.roomOptions[selectedOption].price,
-    priceAfterDiscount = (discount && discount > 0) && price - (price * discount / 100);
+    month = userDateArr && +userDateArr[1],
+    discount = +newData?.roomOptions[selectedOption].discount,
+    price = +newData?.roomOptions[selectedOption].price,
+    priceAfterDiscount = (discount && discount > 0) 
+      ? price - (price * (discount / 100))
+      : null;
 
   return (
     <>
@@ -219,9 +217,21 @@ const Adview = () => {
           else setShowWisher(false);
         }}>
           {showWisher && 
-            <button className="adview__btn">
-              <BsStar className="icon--xs icon--yellow mr-5" />
-              Add to favorites
+            <button className="adview__btn" onClick={() => editFavorites(newData?._id)}>
+              {favorites.includes(newData?._id) 
+                ? (
+                  <>
+                    <BsStarFill className="icon--xs icon--yellow mr-5" />
+                    Remove from favorites
+                  </>
+                )
+                : (
+                  <>
+                    <BsStar className="icon--xs icon--yellow mr-5" />
+                    Add to favorites
+                  </>
+                )
+              }
             </button>
           }
       </SpyNavigation>
@@ -234,7 +244,7 @@ const Adview = () => {
               active: false
             },
             {
-              title: t(`regions:${params.city}.title`),
+              title: t(`regions:${params.city}.regions.${params.region}`),
               path: `/${params.city}/${params.region}`,
               active: false
             },
@@ -244,12 +254,12 @@ const Adview = () => {
             }
           ]}>
             <div className="flex aic">
-              <span className="f-lg c-grace mr-1">Slide to go to previous or next</span>
+              <span className="f-lg c-grace mr-1">Go to previous or next property</span>
               <div className="flex">
                 <button 
                   className="btn--slider adview__btn-slider" 
                   onClick={() => makeRequest({
-                    url: `/apartments/${params.apartment}?prev=true&count=true`,
+                    url: `/apartments/${params.apt}?prev=true&count=true`,
                     dataAt: ['data', 'doc']
                   })}>
                     <IoChevronBackOutline className="icon--xs icon--dark" />
@@ -257,7 +267,7 @@ const Adview = () => {
                 <button 
                   className="btn--slider adview__btn-slider" 
                   onClick={() => makeRequest({
-                    url: `/apartments/${params.apartment}?next=true&count=true`,
+                    url: `/apartments/${params.apt}?next=true&count=true`,
                     dataAt: ['data', 'doc']
                   })}>
                     <IoChevronForwardOutline className="icon--xs icon--dark" />
@@ -268,11 +278,12 @@ const Adview = () => {
           <div className="adview__body mt-2">
             <div className="adview__left">
               <figure className="adview__figure" id="main">
+                {/* <Spinner className="wh-100 loader--lg" /> */}
                 <img className="img img--cover" src={img} alt="apt" />
-                {newData?.roomOptions[selectedOption].discount && (
+                {discount && (
                   <span className="adview__tag">
                     <AiOutlineTag className="icon--sm icon--yellow mr-5" />
-                    {newData.roomOptions[selectedOption].discount}% off
+                    {discount}% off
                   </span>
                 )}
                 <div className="adview__cover">
@@ -281,11 +292,25 @@ const Adview = () => {
                     <div className="f-lg c-light f-thin">Main hall</div>
                   </div>
                   <div className="flex aic">
-                    <button className="tooltip mr-2">
-                      <BsStar className="icon" />
-                      <div className="tooltip__text tooltip__text--top tooltip__text--center">
-                        Add to wish list
-                      </div>
+                    <button className="tooltip mr-2" onClick={() => editFavorites(newData?._id)}>
+                      {favorites.includes(newData?._id) 
+                        ? (
+                          <>
+                            <BsStarFill className="icon icon--yellow" />
+                            <div className="tooltip__text tooltip__text--top tooltip__text--center">
+                              Remove from favorites
+                            </div>
+                          </>
+                        )
+                        : (
+                          <>
+                            <BsStar className="icon" />
+                            <div className="tooltip__text tooltip__text--top tooltip__text--center">
+                              Add to wish list
+                            </div>
+                          </>
+                        )
+                      }
                     </button>
                     <button className="tooltip mr-2" onClick={() => setFullScreen(true)}>
                       <BsArrowsFullscreen className="icon" />
@@ -297,7 +322,7 @@ const Adview = () => {
                       <div 
                         className={`adview__price-tag__price ${discount ? 'adview__price-tag__price--ds' : ''}`}>
                           ${price}
-                          {discount && (
+                          {priceAfterDiscount && (
                             <span className="adview__price-tag__discount">
                               ${priceAfterDiscount}
                             </span>
@@ -388,6 +413,11 @@ const Adview = () => {
                         Price:
                       </span>
                       ${price} / month
+                      {discount > 0 && (
+                        <span className="ml-5">
+                          With dicount ${priceAfterDiscount}
+                        </span>
+                      )}
                     </div>
                     <div className="flex ais mb-2">
                       <div className="mr-1 flex aic f-bold f-lg">
@@ -418,11 +448,12 @@ const Adview = () => {
             </div>
             <div className="adview__right">
               <div className="adview__panel">
-                <div className="flex fdc mb-15">
+                <div className="flex fdc mb-15 c-grey-l tc f-mid">
                   <Link to="/" className="adview__user">
                     {newData?.landlord.last_name} {newData?.landlord.name}
                   </Link>
-                  <span className="c-grace f-mid tc">Landlord since<br/>{year} {months[+month - 1]}</span>
+                  <span className="mb-5">Landlord</span>
+                  <span className="f-thin">Since {months[+month - 1]} {year}</span>
                 </div>
                 <div className="adview__panel-rating-group">
                   <div className="flex aic mb-5">
@@ -430,11 +461,20 @@ const Adview = () => {
                       readonly
                       emptySymbol={<BsStarFill className="icon--sm icon--star-e mx-25" />}
                       fullSymbol={<BsStarFill className="icon--sm icon--yellow mx-25" />}
-                      initialRating={4.5}
+                      initialRating={newData?.landlord.averageRating}
                       fractions={2} />
-                    <span className="adview__panel-rating mr-5 ml-5">4.5</span>
+                    {newData?.landlord.numberOfReviews > 0 && (
+                      <span className="adview__panel-rating mr-5 ml-5">
+                        {newData?.landlord.averageRating}
+                      </span>
+                    )}
                   </div>
-                  <Link to="/" className="c-grace undl--h undl">154 Reviews</Link>
+                  <Link to="/" className="c-grace undl--h undl">
+                    {newData?.landlord.numberOfReviews > 0
+                      ? newData?.landlord.numberOfReviews + ' Reviews'
+                      : 'No reviews'
+                    }
+                  </Link>
                 </div>
                 <button 
                   className="btn btn--primary w-100 mb-1" 
@@ -442,12 +482,23 @@ const Adview = () => {
                     Contact
                 </button>
               </div>
-              <Ratings open={() => setReviewInp(true)} />
+              <Ratings 
+                hide 
+                numberOfReviews={newData?.landlord.numberOfReviews}
+                open={() => setReviewInp(true)} 
+                userId={newData?.landlord._id} />
             </div>
           </div>
           <div id="similar">
-            <LazyLoadComponent placeholder={<div className="loading">Loading...</div>}>
-              <SimilarAds />
+            <LazyLoadComponent 
+              placeholder={
+                <div className="container">
+                  <div className="flex jcc">
+                    <Spinner className="adview__loader loader--lg" />
+                  </div>
+                </div>
+              }>
+                <SimilarAds data={data} apt={newData} />
             </LazyLoadComponent>
           </div>
         </div>

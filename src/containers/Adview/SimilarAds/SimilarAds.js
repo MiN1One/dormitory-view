@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import { Link } from 'react-router-dom';
@@ -11,25 +11,46 @@ import 'swiper/components/navigation/navigation.scss';
 import './SimilarAds.scss';
 import img from '../../../assets/images/naomi-hebert-MP0bgaS_d1c-unsplash.jpg';
 import { BiDoorOpen } from 'react-icons/bi';
+import useFetchData from '../../../hooks/useFetchData';
+import { useTranslation } from 'react-i18next';
 
 SwiperCore.use([Navigation]);
 
-const SimilarAds = () => {
-  const properties = Array.from(Array(7).keys()).map((el, i) => (
+const SimilarAds = ({ apt, data: rawData }) => {
+  const { data, loading, error, makeRequest } = useFetchData();
+  const [swiper, setSwiper] = useState(null);
+  const { t } = useTranslation('regions');
+  
+  useEffect(() => {
+    if (rawData) {
+      makeRequest({
+        url: `/apartments?region=${rawData.region}&city=${rawData.city}&kitchen[all]=${rawData.kitchen}&bath=${rawData.bath}&project=city,region,price,_id&limit=8`,
+        dataAt: ['data', 'docs']
+      });
+    }
+  }, [makeRequest, rawData]);
+
+  console.log(data);
+
+  useEffect(() => {
+    swiper && swiper.update();
+  });
+
+  const properties = data?.map((el, i) => (
     <SwiperSlide className="sads__item" key={i}>
-      <Link className="wh-100 inline" to="/">
+      <Link className="wh-100 inline" to={`/${el.city}/${el.region}/${el._id}`}>
         <figure className="sads__item__figure">
           <img className="img img--contain" alt="asfd" src={img} />
         </figure>
         <div className="sads__item__body">
-          <span className="sads__item__title">Apartment 2</span>
+          <span className="sads__item__title">Apartment {i + 1}</span>
           <span className="flex aic mb-1">
             <TiLocationOutline className="icon--sm icon--green mr-1" />
-            Tashkent, Mirza-Ulugbek district
+            {t(`regions:${el.city}.title`)}, {t(`regions:${el.city}.regions.${el.region}`)} district
           </span>
           <span className="flex aic mb-1">
             <BiDoorOpen className="icon--sm icon--green mr-1" />
-            3 Rooms
+            {el.price.length} Options
           </span>
           <span className="flex aic">
             <IoSchoolOutline className="icon--sm icon--green mr-1" />
@@ -39,13 +60,16 @@ const SimilarAds = () => {
         <div className="sads__item__footer">
           <span className="sads__item__price">
             <span className="f-sm">from&nbsp;</span>
-            $420
-            <span className="f-sm">&nbsp;/&nbsp;week</span>
+            ${el.price[0]}
+            <span className="f-sm">&nbsp;/&nbsp;month</span>
           </span>
         </div>
       </Link>
     </SwiperSlide>
   ));
+
+  if (loading) 
+    return <div className="">Loading...</div>;
 
   return (
     <div className="sads">
@@ -60,6 +84,7 @@ const SimilarAds = () => {
         <span className="ml-1 f-lg c-grace ml-1">Slide to see more properties</span>
       </div>
       <Swiper 
+        onInit={(sw) => setSwiper(sw)}
         navigation={{
           nextEl: '.sads__btn--next',
           prevEl: '.sads__btn--prev',

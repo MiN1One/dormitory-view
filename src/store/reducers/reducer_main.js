@@ -37,6 +37,7 @@ const initialState = {
   regions,
   months,
   facilities,
+  error: null,
   regionsLocal: null
 };
 
@@ -47,6 +48,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         [action.name]: action.value
       }
+
+    case actionTypes.ON_ERROR:
+      return { ...state, error: action.error }
+    
     default: return state;
   }
 };

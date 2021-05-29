@@ -53,6 +53,7 @@
     padding: 0 1.25rem;
     padding-left: .25rem;
     border-bottom: 2px solid transparent;
+    position: relative;
 
     &:hover,
     &:focus { border-color: $color-yellow; }
@@ -64,6 +65,22 @@
     
     &--user:hover,
     &--user:focus { border-color: $color-tertiary; }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 1.25rem;
+    z-index: 1;
+    right: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.825rem;
+    height: 1.825rem;
+    font-size: 1rem;
+    color: $pure-white;
+    background: $color-green;
   }
 
   &__form {

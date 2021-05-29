@@ -1,0 +1,32 @@
+@use '../index.scss' as *;
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__spinner {
+    display: inline-block;
+    width: 5rem;
+    height: 5rem;
+    border: .3rem solid rgba($black, .15);
+    border-radius: 50%;
+    border-top-color: $color-yellow;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+  }
+  
+  &--lg &__spinner {
+    width: 6.25rem;
+    height: 6.25rem;
+    border-width: .375rem;
+    margin-top: -7rem;
+  }
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}

@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useReducer, useState } from 'react';
-import axios from '../axios';
+import { useCallback, useReducer } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../store/actions';
+import axios from 'axios';
 
 const STATE = {
   loading: false,
@@ -27,22 +29,52 @@ const reducer = (state, action) => {
 
 const useFetchData = () => {
   const [httpData, dispatch] = useReducer(reducer, STATE);
+  const reduxDispatch = useDispatch();
+  const { user } = useSelector(state => state.user);
+  const token = user?.token;
 
   const makeRequest = useCallback((options) => {
     dispatch({ type: 'start' });
-    axios({
-      url: options.url,
+    reduxDispatch(actions.error(null));
+    console.log(token)
+
+    const axiosConf = {
+      url: `http://localhost:3005/api${options.url}`,
+      headers: {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
       method: options?.method?.toUpperCase() || 'GET',
-    }, options.body && options.body)
-    .then(({ data }) => {
-      options.dataAt?.forEach((el) => data = data[el]);
-      dispatch({ type: 'resolve', data });
-    })
-    .catch((er) => {
-      dispatch({ type: 'resolve', error: er });
-      console.error(er);
-    });
-  }, []);
+    };
+
+    if (options.body) 
+      axiosConf['data'] = options.body;
+
+    axios(axiosConf)
+      .then(({ data }) => {
+        options.dataAt?.forEach((el) => data = data[el]);
+        dispatch({ type: 'resolve', data });
+
+        // do not use callbacks with useEffect
+        options.callback && options.callback();
+      })
+      .catch((er) => {
+        dispatch({ type: 'reject', error: er });
+        console.error(er);
+
+        if (er.response) {
+          console.log(er.response.status);
+          reduxDispatch(actions.error(er.response));
+        } else {
+          er.status = 500;
+          reduxDispatch(actions.error(er));
+        }
+      });
+
+    console.log(axiosConf);
+
+  }, [reduxDispatch, token]);
 
   return {
     data: httpData.data,

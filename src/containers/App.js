@@ -18,7 +18,7 @@ const AsyncPost = React.lazy(() => import('./Post/Post'));
 function App() {
   const location = useLocation();
   const { t, ready } = useTranslation('regions', { useSuspense: false });
-  const regions = useSelector(state => state.main.regions);
+  const { regions, error } = useSelector(state => state.main);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,39 +39,46 @@ function App() {
       top: 0,
       behavior: 'smooth'
     });
-  }, [location.pathname]);
+
+    dispatch(actions.error(null));
+  }, [location.pathname, dispatch]);
 
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        <Route path="/auth/:type" exact>
-          <AsyncAuth />
-        </Route>
-        <Route path="*">
-          <Navigation />
-          <Switch>
-            <Route path="/" exact>
-              <AsyncMainPage />
-            </Route>
-            <Route path="/post/:type" exact>
-              <AsyncPost />
-            </Route>
-            <Route path="/:city/:region/:apt" exact>
-              <AsyncAdview />
-            </Route>
-            <Route path="/:city/:region" exact>
-              <AsyncListview />
-            </Route>
-            <Route path="/myprofile" exact>
-              <AsyncProfile />
-            </Route>
-            <Route path="*">
-              <ErrorView />
-            </Route>
-          </Switch>
-          <Footer />
-        </Route>
-      </Switch>
+      {error ? (
+        <ErrorView error={error} />
+      )
+      : (
+        <Switch>
+          <Route path="/auth/:type" exact>
+            <AsyncAuth />
+          </Route>
+          <Route path="*">
+            <Navigation />
+            <Switch>
+              <Route path="/" exact>
+                <AsyncMainPage />
+              </Route>
+              <Route path="/post/:type" exact>
+                <AsyncPost />
+              </Route>
+              <Route path="/:city/:region/:apt" exact>
+                <AsyncAdview />
+              </Route>
+              <Route path="/:city/:region" exact>
+                <AsyncListview />
+              </Route>
+              <Route path="/myprofile" exact>
+                <AsyncProfile />
+              </Route>
+              <Route path="*">
+                <ErrorView />
+              </Route>
+            </Switch>
+            <Footer />
+          </Route>
+        </Switch>
+      )}
     </React.Suspense>
   );
 }

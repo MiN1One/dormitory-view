@@ -5,11 +5,6 @@
   align-items: center;
   justify-content: space-between;
   
-  &--white {
-    border-color: rgba($pitch, .05);
-    background: lighten($light, 5.5%);
-  }
-  
   & > *:not(:last-child) {
     margin-right: 1.5rem;
   }
@@ -21,6 +16,11 @@
     border-radius: 3rem;
     width: max-content;
     border: 1px solid rgba($pitch, .025);
+  }
+
+  &--white &__content {
+    border-color: rgba($pitch, .05);
+    background: lighten($light, 5.5%);
   }
 
   &__item {

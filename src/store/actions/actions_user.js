@@ -5,5 +5,7 @@ export const login = (user) => ({
   user
 });
 
-
-
+export const editFavorites = (list) => ({
+  type: actionTypes.ON_EDIT_FAVORITES,
+  list
+});

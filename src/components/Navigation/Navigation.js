@@ -10,13 +10,14 @@ import './Navigation.scss';
 import { VscSignIn } from 'react-icons/vsc';
 import Dropdown from '../UI/Dropdown/Dropdown';
 import { BsPerson, BsStar } from 'react-icons/bs';
+import { RiUser6Line } from 'react-icons/ri';
 
 const Navigation = ({ className }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
   const params = useParams();
-  const { user } = useSelector(state => state.user);
+  const { user, favorites } = useSelector(state => state.user);
   const [scroll, setScroll] = useState(0);
   const [search, setSearch] = useState('');
 
@@ -50,11 +51,7 @@ const Navigation = ({ className }) => {
       className = 'nav--active';
     }
   } else {
-    // if (location.pathname.startsWith('/post/'))
-    //   className = 'none';
-    // else {
-      className = 'nav--sticky';
-    // }
+    className = 'nav--sticky';
   }
 
   const regions = regionsList.map((el, i) => (
@@ -110,21 +107,25 @@ const Navigation = ({ className }) => {
                   click: () => history.push('/help#refund')
                 }
               ]} />
-            {(user && user.token) 
-              ? <>
-                <Link to="/myprofile" className="nav__link ml-1">
-                  <BsStar className="icon--sm icon--yellow mr-5" />
-                  Wish list
-                </Link>
+            <Link to="/myprofile" className="nav__link ml-1">
+              <BsStar className="icon--sm icon--yellow mr-5" />
+              Favorites
+              <span className="nav__badge">{favorites.length}</span>
+            </Link>
+            {user?.token 
+              ? (
                 <Link to="/myprofile" className="nav__link nav__link--user ml-1">
                   <BsPerson className="icon icon--tertiary mr-5" />
                   {user.name}
+                  {/* <span className="nav__badge">0</span> */}
                 </Link>
-              </>
-              : <Link to="/auth/login" className="nav__link ml-1">
+              )
+              : (
+                <Link to="/auth/login" className="nav__link ml-1">
                   <VscSignIn className="icon icon--yellow mr-5" />
                   Signin
-              </Link>
+                </Link>
+              )
             }
           </div>
         </div>

@@ -2,12 +2,34 @@ import actionTypes from '../actions/actionTypes';
 
 const initialState = {
   user: null,
-  data: null
+  data: null,
+  favorites: localStorage.getItem('favorites')
+    ? JSON.parse(localStorage.getItem('favorites'))
+    : []
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.ON_LOG_IN_OUT: return { ...state, user: action.user }
+    case actionTypes.ON_LOG_IN_OUT: 
+      let favoritesList = [ ...action.user.favorites, ...state.favorites ];
+      favoritesList = favoritesList.filter((el, i) => {
+        return i === favoritesList.indexOf(el);
+      });
+
+
+      localStorage.setItem('favorites', JSON.stringify(favoritesList));
+      console.log(favoritesList);
+
+      return { 
+        ...state, 
+        user: action.user,
+        favorites: favoritesList
+        // favorites: action.user.favorites
+      }
+
+    case actionTypes.ON_EDIT_FAVORITES: 
+      localStorage.setItem('favorites', JSON.stringify(action.list));
+      return { ...state, favorites: action.list }
 
     default: return state;
   }

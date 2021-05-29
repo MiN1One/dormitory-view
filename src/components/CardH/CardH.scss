@@ -44,7 +44,7 @@
   }
 
   &__specs {
-    font-size: 1.3rem;
+    font-size: 1.325rem;
     color: $grey-dark;
     font-weight: 400;
 
@@ -94,7 +94,8 @@
   &:hover &__price,
   &:focus &__price {
     background: $color-green;
-
+    color: $pure-white !important;
+    
     & * {
       color: $pure-white !important;
     }

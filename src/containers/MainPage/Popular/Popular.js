@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { useTranslation } from 'react-i18next';
+import useFetchData from '../../../hooks/useFetchData';
 
 import CardH from '../../../components/CardH/CardH';
 import './Popular.scss';
@@ -9,15 +10,16 @@ import './Popular.scss';
 const Popular = () => {
   const { t } = useTranslation();
   const [activeRegion, setActiveRegion] = useState();
-  const [data, setData] = useState({});
+  const { data, error, loading, makeRequest } = useFetchData();
 
   useEffect(() => {
-    
-  }, [activeRegion]);
+    makeRequest({
+      url: '/apartments?project=price,imageCover,offers,region,city,_id,title',
+      dataAt: ['data', 'docs']
+    });
+  }, [activeRegion, makeRequest]);
 
-  useEffect(() => {
-    
-  }, []);
+  const cards = data?.map((el, i) => <CardH data={el} key={i} />);
 
   return (
     <section className="popular">
@@ -34,9 +36,7 @@ const Popular = () => {
         </div>
         <div className="popular__body">
           <div className="w-100 flex fwrap">
-            <CardH />
-            <CardH />
-            <CardH />
+            {cards}            
           </div>
           <Link to="/" className="btn btn--cta btn--wide btn--arrow">
             <span>See all in Tashkent</span>

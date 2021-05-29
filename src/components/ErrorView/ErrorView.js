@@ -1,10 +1,26 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { FcMediumPriority } from 'react-icons/fc';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import './ErrorView.scss';
 
-const ErrorView = () => {
+const ErrorView = ({ error }) => {
+  const { regions } = useSelector(state => state.main);
+  const { t } = useTranslation(['regions', 'translation']);
+
+  const regionsEl = [];
+  for (let key in regions) {
+    regionsEl.push((
+      <li className="e__item" key={key}>
+        <Link to={`/${key}/all`}>
+          {t(`regions:${key}.title`)}
+        </Link>
+      </li>
+    ));
+  }
+
   return (
     <div className="e">
       <div className="e__content">
@@ -12,8 +28,18 @@ const ErrorView = () => {
         <div className="flex aic">
           <div className="flex fdc aic">
             <div className="mb-15">
-              <h1 className="e__heading heading heading--1">Page is not found</h1>
-              <div className="f-xl c-grace mb-1">Please make sure, you have entered right address</div>
+              <h1 className="e__heading heading heading--1">
+                {error 
+                  ? t(`translation:error.${error.status}.main`) 
+                  : 'Page is not found'
+                }
+              </h1>
+              <div className="f-xl c-grace mb-1">
+                {error 
+                  ? t(`translation:error.${error.status}.sub`) 
+                  : 'Please make sure, you have entered right address'
+                }
+              </div>
             </div>
             <div className="flex">
               <Link to="/" className="btn btn--primary mr-1">Home</Link>
@@ -23,41 +49,8 @@ const ErrorView = () => {
         </div>
       </div>
       <ul className="e__list">
-        <li className="e__item">
-          <Link to="/">Tashkent</Link>
-        </li>
-        <li className="e__item">
-          <Link to="/">Andijan</Link>
-        </li>
-        <li className="e__item">
-          <Link to="/">Termez</Link>
-        </li>
-        <li className="e__item">
-          <Link to="/">Bukhara</Link>
-        </li>
-        <li className="e__item">
-          <Link to="/">Fergana</Link>
-        </li>
-        <li className="e__item">
-          <Link to="/">Samarkand</Link>
-        </li>
-        <li className="e__item">
-          <Link to="/">Sirdarya</Link>
-        </li>
-        <li className="e__item">
-          <Link to="/">Namangan</Link>
-        </li>
-        <li className="e__item">
-          <Link to="/">Navoi</Link>
-        </li>
-        <li className="e__item">
-          <Link to="/">Jizzakh</Link>
-        </li>
+        {regionsEl}
       </ul>
-      {/* <form className="e__form">
-        <input className="input input--main e__input" placeholder="Search" type="text" />
-        <button className="btn btn--cta e__btn">Search</button>
-      </form> */}
     </div>
   );
 };

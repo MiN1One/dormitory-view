@@ -2,51 +2,34 @@ import React, { useEffect, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { BsStarFill } from 'react-icons/bs';
 import Rating from 'react-rating';
+import Spinner from '../../../components/UI/Spinner/Spinner';
+import useFetchData from '../../../hooks/useFetchData';
 
 import './Ratings.scss';
 
-const reviewsList = [
-  {
-    name: 'Student',
-    days: '1.5 months',
-    rating: 4.5,
-    date: '2021/04/17',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus hendrerit nec justo nec rutrum. Class.'
-  },
-  {
-    name: 'Student 3',
-    days: '15 days',
-    rating: 4.0,
-    date: '2021/04/17',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus hendrerit nec justo nec rutrum. Class.'
-  },
-  {
-    name: 'Student 4',
-    days: '1 months',
-    rating: 4.7,
-    date: '2021/04/17',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus hendrerit nec justo nec rutrum. Class.'
-  },
-  {
-    name: 'Student 2',
-    days: '1 year',
-    rating: 4.2,
-    date: '2021/04/19',
-    text: 'Lorem sit amet, consectetur adipiscing elit. Vivamus hendrerit nec justo nec rutrum. Class.'
-  }
-];
-
-const Ratings = ({ open, hide }) => {
+const Ratings = ({ open, hide, userId, numberOfReviews }) => {
   const [expandText, setExpandText] = useState([]);
   const [showReviews, setShowReviews] = useState(hide ? false : true);
+  const { data, loading, makeRequest } = useFetchData();
 
   useEffect(() => {
-    reviewsList.forEach(() => 
-      setExpandText(prev => [...prev, false])
-    );
-  }, []);
+    if (showReviews && !data && userId && numberOfReviews > 0) {
+      makeRequest({
+        url: `/users/${userId}/reviews`,
+        dataAt: ['data', 'docs']
+      });
+    }
+  }, [showReviews, data, userId, makeRequest, numberOfReviews]);
+
+  useEffect(() => {
+    if (data && data.length > 0) {
+      data.forEach(() => 
+        setExpandText(prev => [...prev, false])
+      );
+    }
+  }, [data]);
   
-  const reviews = reviewsList.map((el, i) => {
+  const reviews = data?.map((el, i) => {
     // if (el.text.length > 15) {
     //   if (!expandText[i]) {
     //     const charArr = [];
@@ -62,7 +45,7 @@ const Ratings = ({ open, hide }) => {
         <div className="flex aic jcsb mb-1">
           <div className="flex fdc w-100">
             <span className="ratings__user mb-5">{el.name}</span>
-            <span className="ratings__date">Days lived: {el.days}</span>
+            <span className="ratings__date">Days lived: {el.livedFor}</span>
           </div>
           <span className="ratings__date">{el.date}</span>
         </div>
@@ -76,7 +59,7 @@ const Ratings = ({ open, hide }) => {
           <span className="ml-5">{el.rating}</span>
         </div>
         <p className={`ratings__text ${(expandText[i] && el.text.length > 50) ? 'ratings__text--show' : ''}`}>
-          {el.text}
+          {el.review}
         </p>
         <button 
           className="btn--sub" 
@@ -94,18 +77,44 @@ const Ratings = ({ open, hide }) => {
     );
   });
 
+  if (loading) {
+    return (
+      <div className="adview__panel">
+        <Spinner className="wh-100" />
+      </div>
+    );
+  }
+
   return (
     <div className="ratings">
       <div className="flex aic jcsb mb-1">
-        <div className={`f-lg f-thin ${showReviews ? 'c-black' : 'c-grace'}`}>Reviews</div>
+        <div className={`f-lg f-thin ${showReviews ? 'c-black' : 'c-grace'}`}>
+          Reviews
+        </div>
         <button className="btn--sub" onClick={() => setShowReviews(prev => !prev)}>
           {showReviews ? 'Hide' : 'Show'}
         </button>
       </div>
       {showReviews &&
         <Scrollbars className="ratings__content">
-          {reviews}
-          <button className="btn btn--cta w-100" onClick={open}>Write review</button>
+          {data && data.length > 0 
+            ? (
+              <>
+                {reviews}
+                <button className="btn btn--cta w-100" onClick={open}>
+                  Write a review
+                </button>
+              </>
+            )
+            : (
+              <div className="flex jcsb aic">
+                <div className="f-lg">No reviews</div>
+                <button className="btn btn--cta" onClick={open}>
+                  Write a review
+                </button>
+              </div>
+            )
+          }
         </Scrollbars>
       }
     </div>

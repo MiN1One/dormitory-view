@@ -52,9 +52,18 @@ const Contact = ({ close, open, data }) => {
             readonly
             emptySymbol={<BsStarFill className="icon--sm icon--star-e mx-25" />}
             fullSymbol={<BsStarFill className="icon--sm icon--yellow mx-25" />}
-            initialRating={4.5}
+            initialRating={data?.averageRating}
             fractions={2} />
-          <span className="flex ml-1 f-thin f-xl c-grey">4.5</span>
+            <span className="flex ml-1 f-thin f-xl c-grey">
+              {data?.numberOfReviews > 0 
+                ? data?.averageRating
+                : (
+                  <span className="f-mid">
+                    No reviews
+                  </span>
+                )
+              }
+            </span>
         </div>
         <div className="flex aic mb-1">
           <FcPhone className="icon--mid mr-5" />

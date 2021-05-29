@@ -1,11 +1,11 @@
+import React from 'react';
+import { HiArrowNarrowRight } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { GrFacebookOption, GrInstagram, GrLinkedinOption, GrTwitter } from 'react-icons/gr';
 import { FaTelegramPlane } from 'react-icons/fa';
 
 import Languages from '../Languages/Languages';
 import './Footer.scss';
-import { HiArrowNarrowRight } from 'react-icons/hi';
-import React from 'react';
 
 const Footer = () => {
   return (
@@ -20,7 +20,7 @@ const Footer = () => {
       <div className="container">
         <div className="footer__body">
           <div className="footer__main">
-            <Link className="heading heading--2 c-black">Logo</Link>
+            <Link to="/" className="heading heading--2 c-black">Logo</Link>
             <div className="flex fdc">
               <div className="footer__title">Company</div>
               <Link to="/" className="footer__item">About us</Link>

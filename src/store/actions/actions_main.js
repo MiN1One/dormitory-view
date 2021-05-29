@@ -5,3 +5,8 @@ export const setPrerequisites = (name, value) => ({
   name,
   value
 });
+
+export const error = (error) => ({
+  type: actionTypes.ON_ERROR,
+  error
+});
