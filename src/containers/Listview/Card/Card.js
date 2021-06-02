@@ -31,7 +31,7 @@ const Card = ({ slide, data }) => {
           </figure>
           <div className="cardl__right">
             <span className="cardl__title">
-              Apartment title
+              {data?.title}
             </span>
             <span className="flex mb-5 c-grace">{t(`regions:${data?.city}.title`)}</span>
             <span className="flex mb-5 c-grace">{t(`regions:${data?.city}.regions.${data?.region}`)}</span>

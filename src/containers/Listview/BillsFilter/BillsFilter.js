@@ -43,7 +43,7 @@ const BillsFilter = ({ filters, setFilters }) => {
 
   return (
     <div className="filters__section" id="bills">
-      <div className="f-xl f-thin c-black flex aic mb-15">
+      <div className="filters__title">
         <BiDollar className="icon--sm icon--grey mr-5" />
         By bills included
       </div>

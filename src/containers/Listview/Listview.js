@@ -18,17 +18,21 @@ import { FcIdea } from 'react-icons/fc';
 const Listview = () => {
   const params = useParams();
   const location = useLocation();
-  const { t } = useTranslation(['regions']);
-  
-  const [filter, setFilter] = useState({
+  const { t } = useTranslation('regions');
+
+  const defaultFilters = {
     facilities: {},
+    ownership: undefined,
     price: {},
     bills: [],
+    numberOfRooms: [],
     map: {
       city: params.city,
       region: [params.region]
     }
-  });
+  }
+
+  const [filter, setFilter] = useState(defaultFilters);
 
   const { data, loading, error, makeRequest } = useFetchData();
   const [newData, setNewData] = useState(null);
@@ -51,12 +55,22 @@ const Listview = () => {
     const priceFrom = filter.price.from ? `&price[from]=${filter.price.from}` : '';
     const priceTo = filter.price.to ? `&price[to]=${filter.price.to}` : '';
     const billsQuery = filter.bills.length > 0 ? `&bills[all]=${filter.bills.join(',')}` : '';
+    const ownership = filter.ownership ? `&ownership=${filter.ownership}` : '';
+    const numberOfRooms = `\\b(${filter.numberOfRooms.join('|')})\\b`
 
     makeRequest({
-      url: `/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}&project=price,_id,imageCover,city,region,ownership`,
+      url: `/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title`,
       dataAt: ['data', 'docs']
     });
-  }, [makeRequest, filter]);
+  }, [
+    makeRequest, 
+    filter.facilities, 
+    filter.map, 
+    filter.price, 
+    filter.ownership, 
+    filter.bills,
+    filter.numberOfRooms
+  ]);
 
   useEffect(() => {
     function sortByPrice(a, b) {
@@ -110,7 +124,8 @@ const Listview = () => {
         slide={slide} 
         onSlide={() => setSlide(prev => !prev)}
         setFilters={(f) => setFilter(f)}
-        filters={filter} />
+        filters={filter}
+        defaultFilters={defaultFilters} />
       <div className="container">
         <div className="listview__content">
           <div className={`listview__container ${slide ? 'listview__container--expand' : ''}`}>

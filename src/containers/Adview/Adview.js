@@ -146,7 +146,7 @@ const Adview = () => {
 
   useEffect(() => {
     if (newData && params.apt !== newData._id) {
-      history.push(`/${params.city}/${params.region}/${newData._id}`);
+      history.push(`/${newData.city}/${newData.region}/${newData._id}`);
     }
   }, [newData, params.city, params.region, history, params.apt]);
 
@@ -158,8 +158,6 @@ const Adview = () => {
     history.push('#main');
     setActiveImageIndex(index);
   };
-
-  
 
   const distances = APARTMENT.distances.map((el, i) => 
     <li className="adview__specs-separate" key={i}>
@@ -236,13 +234,13 @@ const Adview = () => {
         <div className="container">
           <Breadcrumbs items={[
             {
-              title: t(`regions:${params.city}.title`),
-              path: `/${params.city}`,
+              title: t(`regions:${newData?.city}.title`),
+              path: `/${newData?.city}`,
               active: false
             },
             {
-              title: t(`regions:${params.city}.regions.${params.region}`),
-              path: `/${params.city}/${params.region}`,
+              title: t(`regions:${newData?.city}.regions.${newData?.region}`),
+              path: `/${newData?.city}/${newData?.region}`,
               active: false
             },
             {
@@ -357,10 +355,12 @@ const Adview = () => {
                   <IoChevronForwardOutline className="icon--sm icon--white" />
                 </button>
               </Swiper>
-              <Rooms 
-                data={newData?.roomOptions}
-                selectedIndex={selectedOption}
-                setSelectedIndex={setSelectedOption} />
+              {newData?.roomOptions.length > 1 && (
+                <Rooms 
+                  data={newData?.roomOptions}
+                  selectedIndex={selectedOption}
+                  setSelectedIndex={setSelectedOption} />
+              )}
               <div className="adview__specs">
                 <div className="w-100" id="details">
                   <div className="adview__outline">

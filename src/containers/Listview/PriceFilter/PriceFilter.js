@@ -44,7 +44,7 @@ const PriceFilter = ({ setFilters, filters }) => {
 
   return (
     <div className="filters__section" id="price">
-      <div className="f-xl f-thin c-black mb-15 flex aic">
+      <div className="filters__title">
         By Price
       </div>
       <div className="filters__form">

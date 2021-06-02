@@ -81,7 +81,7 @@ const RegionsFilter = ({ setFilters, filters }) => {
 
   return (
     <div className="filters__section" id="regions">
-      <div className="f-xl f-thin c-black mb-15 flex aic">
+      <div className="filters__title">
         <GoLocation className="icon--sm mr-1 icon--grey" />
         By region
       </div>

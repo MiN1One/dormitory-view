@@ -55,7 +55,7 @@ const FacilitiesFilter = ({ filters, setFilters }) => {
 
   return (
     <div className="filters__section" id="facilities">
-      <div className="f-xl f-thin c-black flex aic mb-15">
+      <div className="filters__title">
         <GiForkKnifeSpoon className="icon--sm icon--dark mr-1" />
         By facilities
       </div>
