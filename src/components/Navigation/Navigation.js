@@ -107,18 +107,20 @@ const Navigation = ({ className }) => {
                   click: () => history.push('/help#refund')
                 }
               ]} />
-            <Link to="/myprofile" className="nav__link ml-1">
-              <BsStar className="icon--sm icon--yellow mr-5" />
-              Favorites
-              <span className="nav__badge">{favorites.length}</span>
-            </Link>
             {user?.token 
               ? (
-                <Link to="/myprofile" className="nav__link nav__link--user ml-1">
-                  <BsPerson className="icon icon--tertiary mr-5" />
-                  {user.name}
-                  {/* <span className="nav__badge">0</span> */}
-                </Link>
+                <>
+                  <Link to="/myprofile" className="nav__link ml-1">
+                    <BsStar className="icon--sm icon--yellow mr-5" />
+                    Favorites
+                    <span className="nav__badge">{favorites.length}</span>
+                  </Link>
+                  <Link to="/myprofile" className="nav__link nav__link--user ml-1">
+                    <BsPerson className="icon icon--tertiary mr-5" />
+                    {user.name}
+                    {/* <span className="nav__badge">0</span> */}
+                  </Link>
+                </>
               )
               : (
                 <Link to="/auth/login" className="nav__link ml-1">

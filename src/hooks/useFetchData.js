@@ -61,7 +61,7 @@ const useFetchData = () => {
       })
       .catch((er) => {
         dispatch({ type: 'reject', error: er });
-        console.error(er);
+        console.log(er.response && er.response);
 
         if (er.response) {
           console.log(er.response.status);

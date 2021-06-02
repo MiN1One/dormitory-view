@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { BsStarFill } from 'react-icons/bs';
 import Rating from 'react-rating';
+import { useSelector } from 'react-redux';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import useFetchData from '../../../hooks/useFetchData';
+import { convertISOString } from '../../../utilities/utils';
 
 import './Ratings.scss';
 
@@ -11,6 +13,7 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
   const [expandText, setExpandText] = useState([]);
   const [showReviews, setShowReviews] = useState(hide ? false : true);
   const { data, loading, makeRequest } = useFetchData();
+  const { months } = useSelector(s => s.main);
 
   useEffect(() => {
     if (showReviews && !data && userId && numberOfReviews > 0) {
@@ -28,6 +31,8 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
       );
     }
   }, [data]);
+
+  console.log(data);
   
   const reviews = data?.map((el, i) => {
     // if (el.text.length > 15) {
@@ -40,14 +45,16 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
     //     el.text = `${charArr.join('')}...`;
     //   }
     // }
+    const { month, date, year } = convertISOString(el.createdAt);
+
     return (
       <div className="ratings__item" key={i}>
-        <div className="flex aic jcsb mb-1">
+        <div className="flex ais jcsb mb-1">
           <div className="flex fdc w-100">
-            <span className="ratings__user mb-5">{el.name}</span>
-            <span className="ratings__date">Days lived: {el.livedFor}</span>
+            <span className="ratings__user mb-5">{el?.poster.name}</span>
+            <span className="ratings__subtext ratings__subtext--s">Days lived: {el.livedFor}</span>
           </div>
-          <span className="ratings__date">{el.date}</span>
+          <span className="ratings__subtext w-50">{year} {date} {months[month]}</span>
         </div>
         <div className="flex aic f-thin f-sm mb-1">
           <Rating 

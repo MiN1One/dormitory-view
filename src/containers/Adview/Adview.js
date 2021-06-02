@@ -32,12 +32,13 @@ import Loader from '../../components/UI/Loader/Loader';
 import useFetchData from '../../hooks/useFetchData';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import ErrorView from '../../components/ErrorView/ErrorView';
+import ReviewInp from './ReviewInput/ReviewInput';
 import useEditFavorites from '../../hooks/useEditFavorites';
+import { convertISOString } from '../../utilities/utils';
 
 SwiperCore.use([Navigation]);
 
 const AsyncFullscreen = React.lazy(() => import('./Fullscreen/Fullscreen'));
-const AsyncReviewInput = React.lazy(() => import('./ReviewInput/ReviewInput'));
 
 const APARTMENT = {
   title: 'Apartment',
@@ -158,18 +159,7 @@ const Adview = () => {
     setActiveImageIndex(index);
   };
 
-  const convertISOString = useCallback((iso) => {
-    const format = (inp) => +inp < 10 ? `0${inp}` : inp;
-
-    const 
-      d = new Date(iso),
-      month = d?.getMonth(),
-      date = d?.getDate(),
-      hours = d?.getHours(),
-      mins = d?.getMinutes();
   
-    return `${date} ${months[month]} ${format(+hours)}:${format(+mins)}`;
-  }, [months]);
 
   const distances = APARTMENT.distances.map((el, i) => 
     <li className="adview__specs-separate" key={i}>
@@ -179,6 +169,9 @@ const Adview = () => {
 
   if (loading)
     return <Loader />;
+
+  if (error)
+    return <ErrorView error={error} />
 
   const 
     createdDate = convertISOString(newData?.createdAt),
@@ -199,7 +192,11 @@ const Adview = () => {
           close={() => setShowContact(false)} 
           open={() => setReviewInp(true)} />
       }
-      {reviewInp && <AsyncReviewInput close={() => setReviewInp(false)} />}
+      {reviewInp && 
+        <ReviewInp 
+          userId={newData?.landlord._id}
+          close={() => setReviewInp(false)} />
+      }
       <PopScroll />
       {fullScreen &&
         <AsyncFullscreen 
@@ -369,7 +366,7 @@ const Adview = () => {
                   <div className="adview__outline">
                     <h3 className="heading heading--3">Details</h3>
                     <span className="f-thin c-grey-l f-sm w-max">
-                    Updated at: {createdDate}&nbsp;&nbsp;|&nbsp;&nbsp;Number of views: {newData?.numberOfViews}&nbsp;&nbsp;|&nbsp;&nbsp;In favorites: {newData?.inFavorites}
+                      Updated at: {createdDate.date} {months[createdDate.month]} {createdDate.hours}:{createdDate.minutes}&nbsp;&nbsp;|&nbsp;&nbsp;Number of views: {newData?.numberOfViews}&nbsp;&nbsp;|&nbsp;&nbsp;In favorites: {newData?.inFavorites}
                     </span>
                   </div>
                   <div className="mb-lg">
@@ -471,7 +468,7 @@ const Adview = () => {
                   </div>
                   <Link to="/" className="c-grace undl--h undl">
                     {newData?.landlord.numberOfReviews > 0
-                      ? newData?.landlord.numberOfReviews + ' Reviews'
+                      ? `${newData?.landlord.numberOfReviews} ${newData?.landlord.numberOfReviews.length > 1 ? 'Reviews' : 'Review'}`
                       : 'No reviews'
                     }
                   </Link>

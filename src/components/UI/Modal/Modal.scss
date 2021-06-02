@@ -27,6 +27,7 @@
     font-size: 1.55rem;
     color: $black;
     font-weight: 300;
+    display: inline-block;
     margin-bottom: .75rem;
   }
 
@@ -41,6 +42,8 @@
     font-size: 1.35rem;
     background: $pure-white;
     border: 1px solid rgba($pitch, .075);
+
+    &--text { height: 10rem }
   }
   
   &__head {

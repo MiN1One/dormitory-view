@@ -25,16 +25,6 @@ const onCopy = (num) => {
 
 const Contact = ({ close, open, data }) => {
 
-  // adverts: (2) [{…}, {…}]
-  // createdAt: "2021-05-19T01:24:03.286Z"
-  // email: "test@mail.com"
-  // id: "60a4691a8b05fd11f4add60e"
-  // last_name: "admin"
-  // name: "admin"
-  // phone_number: 9998995865
-  // reviews: [{…}]
-  // role: "admin"
-
   return (
     <Modal 
       close={close} 

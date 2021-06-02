@@ -1,24 +1,29 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { BiDoorOpen } from 'react-icons/bi';
-import { BsBuilding, BsLayers, BsStar } from 'react-icons/bs';
+import { BsBuilding, BsLayers, BsStar, BsStarFill } from 'react-icons/bs';
 import { IoSchoolOutline } from 'react-icons/io5';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link } from 'react-router-dom';
 import img from '../../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
+import useEditFavorites from '../../../hooks/useEditFavorites';
 
 import './Card.scss';
 
 const Card = ({ slide, data }) => {
+  const { t } = useTranslation('regions');
+  const { favorites, editFavorites } = useEditFavorites();
+
   return (
     <li className={`cardl ${slide ? 'cardl--3' : 'cardl--2'}`} tabIndex="0">
-      <Link to="/city/region/apartment" className="cardl__content">
+      <Link to={`/${data?.city}/${data?.region}/${data?._id}`} className="cardl__content">
         <div className="cardl__top">
           <figure className="cardl__figure">
             <LazyLoadImage
               src={img}
               width="100%"
               height="100%"
-              alt=""
+              alt={data?.title}
               className="img img--cover" />
             <div className="cardl__tag">
               2 offers
@@ -28,17 +33,17 @@ const Card = ({ slide, data }) => {
             <span className="cardl__title">
               Apartment title
             </span>
-            <span className="flex mb-5 c-grace">Tashkent</span>
-            <span className="flex mb-5 c-grace">Mirzo-Ulugbek</span>
+            <span className="flex mb-5 c-grace">{t(`regions:${data?.city}.title`)}</span>
+            <span className="flex mb-5 c-grace">{t(`regions:${data?.city}.regions.${data?.region}`)}</span>
             <span className="flex aic mb-5">
               <BsBuilding className="icon--xs icon--grey mr-5" />
-              <span className="cardl__label">Type:</span>&nbsp;<span className="f-sm f-thin c-grace">university-owned</span>
+              <span className="cardl__label">Type:</span>&nbsp;<span className="f-sm f-thin c-grace">{data?.ownership}</span>
             </span>
             <span className="flex aic mb-5">
               <BiDoorOpen className="icon--xs icon--grey mr-5" />
               <span className="cardl__label">Room</span>&nbsp;
               <span className="f-mid-w c-grey f-sm">Options:</span>&nbsp;
-              <span className="f-sm f-thin c-grace">5</span>
+              <span className="f-sm f-thin c-grace">{data?.price.length}</span>
             </span>
           </div>
         </div>
@@ -72,17 +77,31 @@ const Card = ({ slide, data }) => {
         <div className="flex jce">
           <span className="cardl__price">
             <span className="f-sm f-normal c-grace">from </span>
-            $355
+            ${data?.price[0]}
             <span className="f-sm f-normal c-grace"> / week</span>
           </span>
         </div>
       </Link>
       <div className="cardl__btn-group">
-        <button className="cardl__btn tooltip">
-          <BsStar className="icon--sm icon--grey" />
-          <div className="tooltip__text tooltip__text--top cardl__tooltip">
-            Add to favorites
-          </div>
+        <button className="cardl__btn tooltip" onClick={() => editFavorites(data?._id)}>
+          {favorites.includes(data?._id) 
+            ? (
+              <>
+                <BsStarFill className="icon--sm icon--yellow" />
+                <div className="tooltip__text tooltip__text--top cardl__tooltip">
+                  Remove from favorites
+                </div>
+              </>
+            )
+            : (
+              <>
+                <BsStar className="icon--sm icon--grey" />
+                <div className="tooltip__text tooltip__text--top cardl__tooltip">
+                  Add to wish list
+                </div>
+              </>
+            )
+          }
         </button>
         <button className="cardl__btn tooltip">
           <BsLayers className="icon--sm icon--grey" />

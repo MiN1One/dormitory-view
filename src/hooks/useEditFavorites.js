@@ -2,13 +2,18 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useFetchData from "./useFetchData";
 import * as actions from '../store/actions';
+import { useHistory } from "react-router";
 
 const useEditFavorites = () => {
-  const { favorites } = useSelector(state => state.user);
+  const { favorites, user } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const { makeRequest } = useFetchData();
+  const history = useHistory();
 
   const editFavorites = useCallback((id) => {
+    if (!user) 
+      return history.push('/auth/login');
+
     if (favorites.length < 20) {
       const existingItem = favorites.find(el => el === id);
       let newList = null;
@@ -32,8 +37,7 @@ const useEditFavorites = () => {
         });
       }
     }
-    console.log(id);
-  }, [favorites, makeRequest, dispatch]);
+  }, [favorites, makeRequest, dispatch, user, history]);
 
   return {
     editFavorites,

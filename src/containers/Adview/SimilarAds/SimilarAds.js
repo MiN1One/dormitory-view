@@ -24,7 +24,7 @@ const SimilarAds = ({ apt, data: rawData }) => {
   useEffect(() => {
     if (rawData) {
       makeRequest({
-        url: `/apartments?region=${rawData.region}&city=${rawData.city}&kitchen[all]=${rawData.kitchen}&bath=${rawData.bath}&project=city,region,price,_id&limit=8`,
+        url: `/apartments?region=${rawData?.region}&city=${rawData?.city}&kitchen[all]=${rawData?.kitchen}&bath=${rawData?.bath}&project=city,region,price,_id&limit=8&_id[ne]=${rawData?._id}`,
         dataAt: ['data', 'docs']
       });
     }
@@ -83,18 +83,27 @@ const SimilarAds = ({ apt, data: rawData }) => {
         </button>
         <span className="ml-1 f-lg c-grace ml-1">Slide to see more properties</span>
       </div>
-      <Swiper 
-        onInit={(sw) => setSwiper(sw)}
-        navigation={{
-          nextEl: '.sads__btn--next',
-          prevEl: '.sads__btn--prev',
-          disabledClass: 'btn--slider-disabled'
-        }}
-        className="sads__list"
-        slidesPerView={4}
-        spaceBetween={30}>
-          {properties}
-      </Swiper>
+      {data && data.length > 0
+        ? (
+          <Swiper 
+            onInit={(sw) => setSwiper(sw)}
+            navigation={{
+              nextEl: '.sads__btn--next',
+              prevEl: '.sads__btn--prev',
+              disabledClass: 'btn--slider-disabled'
+            }}
+            className="sads__list"
+            slidesPerView={4}
+            spaceBetween={30}>
+              {properties}
+          </Swiper>
+        )
+        : (
+          <span className="f-xl f-thin">
+            No similar properties found
+          </span>
+        )
+      }
     </div>
   );
 }

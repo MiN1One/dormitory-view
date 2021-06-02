@@ -28,3 +28,17 @@ export const parseQuery = (query, queryString) => {
       return element[1];
   }
 };
+
+export const convertISOString = (iso) => {
+  const format = (inp) => +inp < 10 ? `0${inp}` : inp;
+
+  const 
+    d = new Date(iso),
+    month = d?.getMonth(),
+    year = d?.getFullYear(),
+    date = format(d?.getDate()),
+    hours = format(d?.getHours()),
+    mins = format(d?.getMinutes());
+
+  return { year, month, date, hours, minutes: mins };
+};

@@ -162,6 +162,17 @@
     span { opacity: 0; }
   }
 
+  &__list &__item:not(.filters__item--inp):hover {
+  // &__list &__item:not(.filters__item--inp):focus {
+    background: $color-green; 
+    color: #fff;
+
+    svg:not(.icon--green) {
+      fill: #fff;
+      stroke: #fff;
+    }
+  }
+
   &__form {
     padding: 2rem;
     border-radius: .25rem;

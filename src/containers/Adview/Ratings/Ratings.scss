@@ -24,16 +24,23 @@
   }
 
   &__user {
-    width: 50%;
+    width: 70%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     font-size: 1.4rem;
   }
 
-  &__date {
+  &__subtext {
     font-size: 1.2rem;
-    color: lighten($grey-dark, 40%);
+    width: 50%;
+    text-align: end;
+    color: lighten($grey-dark, 40%); 
+  
+    &--s {
+      text-align: start;
+      width: 70%;
+    }
   }
 
   &__text {

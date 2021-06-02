@@ -22,17 +22,20 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const translatedList = [];
+    const translatedList = {};
     if (ready) {
       for (let key in regions) {
-        translatedList.push({
-          city: t(`regions:${key}.title`),
-          regions: regions[key].map(reg => t(`regions:${key}.regions.${reg}`))
-        });
+        translatedList[key] = {
+          regions: regions[key].regions,
+          translated: {
+            city: t(`regions:${key}.title`),
+            regions: regions[key].regions.map(reg => t(`regions:${key}.regions.${reg}`))
+          }
+        }
       }
-      dispatch(actions.setPrerequisites('regionsLocal', translatedList));
+      dispatch(actions.setPrerequisites('regions', translatedList));
     }
-  }, [t, regions, dispatch, ready]);
+  }, [t, dispatch, ready]);
 
   useEffect(() => {
     window.scroll({
@@ -45,40 +48,35 @@ function App() {
 
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
-      {error ? (
-        <ErrorView error={error} />
-      )
-      : (
-        <Switch>
-          <Route path="/auth/:type" exact>
-            <AsyncAuth />
-          </Route>
-          <Route path="*">
-            <Navigation />
-            <Switch>
-              <Route path="/" exact>
-                <AsyncMainPage />
-              </Route>
-              <Route path="/post/:type" exact>
-                <AsyncPost />
-              </Route>
-              <Route path="/:city/:region/:apt" exact>
-                <AsyncAdview />
-              </Route>
-              <Route path="/:city/:region" exact>
-                <AsyncListview />
-              </Route>
-              <Route path="/myprofile" exact>
-                <AsyncProfile />
-              </Route>
-              <Route path="*">
-                <ErrorView />
-              </Route>
-            </Switch>
-            <Footer />
-          </Route>
-        </Switch>
-      )}
+      <Switch>
+        <Route path="/auth/:type" exact>
+          <AsyncAuth />
+        </Route>
+        <Route path="*">
+          <Navigation />
+          <Switch>
+            <Route path="/" exact>
+              <AsyncMainPage />
+            </Route>
+            <Route path="/post/:type" exact>
+              <AsyncPost />
+            </Route>
+            <Route path="/:city/:region/:apt" exact>
+              <AsyncAdview />
+            </Route>
+            <Route path="/:city/:region" exact>
+              <AsyncListview />
+            </Route>
+            <Route path="/myprofile" exact>
+              <AsyncProfile />
+            </Route>
+            <Route path="*">
+              <ErrorView />
+            </Route>
+          </Switch>
+          <Footer />
+        </Route>
+      </Switch>
     </React.Suspense>
   );
 }
