@@ -11,10 +11,11 @@ const Popular = () => {
   const { t } = useTranslation();
   const [activeRegion, setActiveRegion] = useState();
   const { data, error, loading, makeRequest } = useFetchData();
+  const [newData, setNewData] = useState(null);
 
   useEffect(() => {
     makeRequest({
-      url: '/apartments?project=price,imageCover,offers,region,city,_id,title',
+      url: 'api/apartments?limit=50&project=price,imageCover,offers,region,city,_id,title',
       dataAt: ['data', 'docs']
     });
   }, [activeRegion, makeRequest]);

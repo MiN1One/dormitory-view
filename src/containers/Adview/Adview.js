@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { IoChevronBackOutline, IoChevronForwardOutline, IoHammer } from 'react-icons/io5';
@@ -106,7 +106,7 @@ const Adview = () => {
   useEffect(() => {
     if (!data) {
       makeRequest({ 
-        url: `/apartments/${params.apt}?count=true`,
+        url: `api/apartments/${params.apt}?count=true`,
         method: 'get',
         dataAt: ['data', 'doc']
       });
@@ -254,7 +254,7 @@ const Adview = () => {
                 <button 
                   className="btn--slider adview__btn-slider" 
                   onClick={() => makeRequest({
-                    url: `/apartments/${params.apt}?prev=true&count=true`,
+                    url: `api/apartments/${params.apt}?prev=true&count=true`,
                     dataAt: ['data', 'doc']
                   })}>
                     <IoChevronBackOutline className="icon--xs icon--dark" />
@@ -262,7 +262,7 @@ const Adview = () => {
                 <button 
                   className="btn--slider adview__btn-slider" 
                   onClick={() => makeRequest({
-                    url: `/apartments/${params.apt}?next=true&count=true`,
+                    url: `api/apartments/${params.apt}?next=true&count=true`,
                     dataAt: ['data', 'doc']
                   })}>
                     <IoChevronForwardOutline className="icon--xs icon--dark" />

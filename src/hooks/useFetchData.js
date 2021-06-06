@@ -39,7 +39,7 @@ const useFetchData = () => {
     console.log(token)
 
     const axiosConf = {
-      url: `http://localhost:3005/api${options.url}`,
+      url: `http://localhost:3005/${options.url}`,
       headers: {
         'Accept': '*/*',
         'Content-Type': 'application/json',

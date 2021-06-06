@@ -5,8 +5,8 @@ const useFindRegions = () => {
   const { regions: regList } = useSelector(s => s.main);
   const [regions, setRegions] = useState({ ...regList });
 
-  const onSearchForRegion = useCallback((e) => {
-    if (e.target.value === '')
+  const onSearchForRegion = useCallback((search) => {
+    if (search === '')
       return setRegions(regList);
       
     const newRegList = {};
@@ -15,8 +15,8 @@ const useFindRegions = () => {
       if (!val.hasOwnProperty('translated'))
         return setRegions(regList);
 
-      const searchByReg = val.translated.regions.findIndex(el => el.toUpperCase().includes(e.target.value.toUpperCase())) > -1;
-      const searchByCity = val.translated.city.toUpperCase().includes(e.target.value.toUpperCase());
+      const searchByReg = val.translated.regions.findIndex(el => el.toUpperCase().includes(search.toUpperCase())) > -1;
+      const searchByCity = val.translated.city.toUpperCase().includes(search.toUpperCase());
       if (searchByReg || searchByCity) 
         newRegList[key] = val;
     }

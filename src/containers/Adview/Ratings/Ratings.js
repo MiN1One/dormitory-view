@@ -18,7 +18,7 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
   useEffect(() => {
     if (showReviews && !data && userId && numberOfReviews > 0) {
       makeRequest({
-        url: `/users/${userId}/reviews`,
+        url: `api/users/${userId}/reviews`,
         dataAt: ['data', 'docs']
       });
     }

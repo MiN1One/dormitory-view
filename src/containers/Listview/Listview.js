@@ -59,7 +59,7 @@ const Listview = () => {
     const numberOfRooms = `\\b(${filter.numberOfRooms.join('|')})\\b`
 
     makeRequest({
-      url: `/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title`,
+      url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title`,
       dataAt: ['data', 'docs']
     });
   }, [

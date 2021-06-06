@@ -24,7 +24,7 @@ const SimilarAds = ({ apt, data: rawData }) => {
   useEffect(() => {
     if (rawData) {
       makeRequest({
-        url: `/apartments?region=${rawData?.region}&city=${rawData?.city}&kitchen[all]=${rawData?.kitchen}&bath=${rawData?.bath}&project=city,region,price,_id&limit=8&_id[ne]=${rawData?._id}`,
+        url: `api/apartments?region=${rawData?.region}&city=${rawData?.city}&kitchen[all]=${rawData?.kitchen}&bath=${rawData?.bath}&project=city,region,price,_id&limit=8&_id[ne]=${rawData?._id}`,
         dataAt: ['data', 'docs']
       });
     }

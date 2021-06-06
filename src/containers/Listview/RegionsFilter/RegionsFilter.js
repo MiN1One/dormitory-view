@@ -88,7 +88,7 @@ const RegionsFilter = ({ setFilters, filters }) => {
       <div className="filters__list">
         <div className="pos-rel">
           <input
-            onChange={onSearchForRegion}
+            onChange={(e) => onSearchForRegion(e.target.value)}
             className="filters__item filters__item--inp"
             placeholder="District or city name"
             type="text" />

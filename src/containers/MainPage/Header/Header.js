@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useTranslation } from 'react-i18next';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
@@ -13,17 +13,64 @@ import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import { IoChevronBackOutline, IoChevronDownOutline, IoChevronForward, IoChevronForwardOutline } from 'react-icons/io5';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 import { IoIosSearch } from 'react-icons/io';
-import Modalh from './Modalh/Modalh';
+import Modalh from '../Modalh/Modalh';
 import { useSelector } from 'react-redux';
+import useFetchData from '../../../hooks/useFetchData';
+import Searchbar from '../Searchbar/Searchbar';
 
 SwiperCore.use([ Navigation, Pagination ]);
 
 const Header = () => {
-  const { t } = useTranslation(['regions']);
+  const { t } = useTranslation();
   const history = useHistory();
 
   const [activeSection, setActiveSection] = useState(null);
   const state = useSelector(state => state.main);
+  const { data, loading, error, makeRequest } = useFetchData();
+  const [swiper, setSwiper] = useState(null);
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => 
+    swiper && swiper.update(), 
+  [data, swiper]);
+
+  useEffect(() => {
+    makeRequest({
+      url: 'data/home.json'
+    });
+  }, [makeRequest]);
+
+  const heroItems = data?.map((el, i) => {
+    const classes = ['header__hero__item'];
+    if (animate) 
+      classes.push('header__hero__item--animate');
+
+    return (
+      <SwiperSlide 
+        className={classes.join(' ')}
+        key={i+Date.now()} 
+        style={{ 
+          backgroundImage: 
+            `linear-gradient(rgba(0,0,0, .35), rgba(255,255,255, .15)),url("http://localhost:3005/images/home/${el.image}")`
+        }}>
+          <div className="flex fdc aic">
+            <div className="mb-15 tc">
+              <h1 className="heading heading--1">
+                {el.main}
+              </h1>
+              <h2 className="text text--sub">
+                {el.sub}
+              </h2>
+            </div>
+            <div className="flex">
+              <Link to={el.to} className="btn btn--outline mr-1">
+                {t(`main.${el.action}`)}
+              </Link>
+            </div>
+          </div>
+      </SwiperSlide>
+    );
+  });
 
   const 
     items = ['regions', 'universities', 'offers'],
@@ -32,6 +79,7 @@ const Header = () => {
       el === activeSection && classes.push('header__nav__item--active tab-item--active');
       return (
         <div 
+          key={i+Date.now}
           tabIndex="0"
           onClick={() => setActiveSection(el)}
           className={classes.join(' ')}>
@@ -39,6 +87,16 @@ const Header = () => {
         </div>
       );
     });
+
+  if (loading) {
+    return (
+      <div className="wh-100 flex aic jcc">
+        <h1 className="heading heading--1">
+          Loading 
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <header className="header">
@@ -96,7 +154,11 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <Searchbar
+        setAnimate={setAnimate}
+        animate={animate} />
       <Swiper 
+        onInit={(s) => setSwiper(s)}
         className="header__hero"
         slidesPerView={1}
         navigation={{
@@ -105,32 +167,7 @@ const Header = () => {
           disabledClass: 'btn--slider-disabled'
         }}
         simulateTouch={false}>
-          <SwiperSlide className="header__hero__item">
-            <div className="mb-15 tc">
-              <h1 className="heading heading--1">
-                Housing for students
-              </h1>
-              <h2 className="text text--sub">
-                Understanding conditional and unconditional offers
-              </h2>
-            </div>
-            <div className="flex">
-              <Link to="/all/all" className="btn btn--outline mr-1">Discover regions</Link>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="header__hero__item header__hero__item--2">
-            <div className="mb-15 tc">
-              <h1 className="heading heading--1">
-                Hehe boay
-              </h1>
-              <h2 className="text text--sub">
-                Understanding hehe
-              </h2>
-            </div>
-            <div className="flex">
-              <Link to="/all/all" className="btn btn--outline mr-1">Explore</Link>
-            </div>
-          </SwiperSlide>
+          {heroItems}
       </Swiper>
     </header>
   );

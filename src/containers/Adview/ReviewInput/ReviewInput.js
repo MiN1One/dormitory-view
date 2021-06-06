@@ -28,7 +28,7 @@ const ReviewInput = ({ close, userId }) => {
     }
 
     makeRequest({
-      url: `/users/${userId}/reviews`,
+      url: `api/users/${userId}/reviews`,
       method: 'post',
       body: {
         review: text,

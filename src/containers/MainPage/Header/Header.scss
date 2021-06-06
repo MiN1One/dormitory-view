@@ -84,17 +84,20 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
       background-size: cover;
-      background-image: 
-        linear-gradient(rgba(#000, .35), rgba(#fff, .15)),
-        url('../../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg');
-        
-      &--2 {
-        background-image: 
-          linear-gradient(rgba(#000, .35), rgba(#fff, .15)),
-          url('../../../assets/images/nathan-fertig-FBXuXp57eM0-unsplash.jpg');
+
+      & > div {
+        transition: all .3s ease;
       }
+
+      &--animate > div {
+        // opacity: 0;
+        transform: translateY(-30vh);
+      }
+    }
+
+    &--animate {
+      opacity: 0;
     }
   }
 
@@ -104,5 +107,127 @@
     z-index: 100;
     left: 0;
     width: 100%;
+  }
+
+  &__searchbar {
+    width: 100%;
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    font-size: 1.45rem;
+    transition: all .3s ease;
+
+    &--animate {
+      bottom: 65%;
+      transform: translate(-50%, 65%);
+    }
+    
+    &__content {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+      position: relative;
+      width: max-content;
+      // border-bottom: 2px solid rgba(#000, .15);
+    }
+
+    &__btn-search {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 3rem;
+      z-index: 3;
+      opacity: 0;
+      width: 2rem;
+      height: 2rem;
+      background: $light;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__input {
+      padding: 2rem 3.35rem;
+      background: rgba(#000, .25);
+      font-size: inherit;
+      width: 45rem;
+      padding-left: 6rem;
+      border-radius: .5rem 0 0 .5rem;
+      background: #fff;
+    }
+
+    &__input:not(:placeholder-shown) + &__btn-search {
+      opacity: 1;
+    }
+    
+    &__input,
+    &__btn {
+      position: relative;
+      z-index: 2;
+    }
+
+    &__btn {
+      padding: 2rem 3.35rem;
+      background: $color-tertiary;
+      border-radius: 0 .5rem .5rem 0;
+      color: #fff;
+
+      &:hover {
+        background: darken($color-tertiary, 5%);
+      }
+    }
+
+    &__icon {
+      position: absolute;
+      top: 50%;
+      left: 3rem;
+      transform: translateY(-50%);
+      z-index: 3;
+    }
+
+    &__drop {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 20rem;
+      background: #fff;
+      animation: fadeIn .3s ease;
+      animation-delay: .4s;
+      animation-fill-mode: backwards;
+      box-shadow: 0 0 1.5rem rgba(#000, .15);
+    }
+
+    &__title {
+      font-size: 1.35rem;
+      color: $black;
+      padding: 1.5rem 3rem;
+      width: 100%;
+      background: 
+        linear-gradient(
+          90deg,
+          lighten($light, .5%) 30%, 
+          lighten($light, 1%) 40%, 
+          lighten($light, 2%) 50%, 
+          lighten($light, 3%) 60%, 
+          lighten($light, 4%) 70%, 
+          transparent
+        );
+    }
+
+    &__list {
+      padding: 1rem 3rem;
+    }
+
+    &--animate &__input { border-radius: .5rem 0 0 0; }
+
+    &--animate &__input,
+    &--animate &__btn { box-shadow: 0 .5rem .5rem rgba(#000, .035); }
+
+    &--animate &__btn { border-radius: 0 .5rem 0 0; }
   }
 }
