@@ -3,7 +3,8 @@ import Modalh from '../Modalh/Modalh';
 
 const Regions = () => {
   return (
-    <Modalh>
+    <Modalh
+      title={<></>}>
       
     </Modalh>
   );

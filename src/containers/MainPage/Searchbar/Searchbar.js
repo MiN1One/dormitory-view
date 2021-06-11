@@ -1,31 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { GoLocation } from 'react-icons/go';
 import { IoIosClose, IoIosSearch } from 'react-icons/io';
-import { useSelector } from 'react-redux';
+import { IoChevronForward } from 'react-icons/io5';
+import { useHistory } from 'react-router-dom';
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
+import useFetchData from '../../../hooks/useFetchData';
 import useFindRegions from '../../../hooks/useFindRegions';
 
-const Searchbar = ({ animate, setAnimate }) => {
+const Searchbar = ({ animate, setAnimate, popular = [] }) => {
   const [search, setSearch] = useState('');
   const { t } = useTranslation('regions');
-  const { regions, onSearchForRegion } = useFindRegions();
+  const history = useHistory();
+  
+  const { onSearchForRegion, regions } = useFindRegions({
+    getBySearch: true,
+    regionSearch: true
+  });
+  const { data, makeRequest, loading } = useFetchData();
 
   const classes = ['header__searchbar'];
   if (animate)
     classes.push('header__searchbar--animate');
 
-  const items = [];
-  console.log(regions);
-  for (let key in regions) {
-    if (search !== '' && regions.length > 0) {
-      items.push((
-        <li className="header__searchbar__item">
-          {t(`regions:${key}.title`)}
-        </li>
-      ));
-    }
-  }
 
+  console.log(regions);
+  const items = [];
+  for (let key in regions) {
+    let el;
+    if (regions[key].regionOnly) {
+      el = (
+        <li
+          tabIndex="0"
+          className="header__searchbar__item" 
+          key={key}
+          onMouseDown={() => history.push(`/${regions[key].city}/${key}`)}>
+            <div className="flex fdc">
+              {t(`regions:${regions[key].city}.regions.${key}`)}
+              <span className="c-grey-l mt-5"> {t(`regions:${regions[key].city}.title`)}</span>
+            </div>
+            <IoChevronForward className="icon--xs" />
+        </li>
+      );
+    } else {
+      el = (
+        <li
+          tabIndex="0"
+          className="header__searchbar__item" 
+          key={key} 
+          onMouseDown={() => history.push(`/${key}/all`)}>
+            {t(`regions:${key}.title`)}
+            <IoChevronForward className="icon--xs" />
+        </li>
+      );
+    }
+
+    items.push(el);
+  }
+ 
   return (
     <div className={classes.join(' ')}>
       <div className="container">
@@ -41,13 +73,20 @@ const Searchbar = ({ animate, setAnimate }) => {
               onChange={(e) => {
                 setSearch(e.target.value);
                 onSearchForRegion(e.target.value);
+                // makeRequest({
+                //   url: `api/apartments`,
+                //   dataAt: ['data', 'docs']
+                // });
               }}
               value={search} />
             <button 
-              onMouseDown={() => setSearch('')}
+              onMouseDown={() => {
+                setSearch('');
+                onSearchForRegion('');
+              }}
               type="button" 
               className="header__searchbar__btn-search">
-              <IoIosClose className="icon icon--grey" />
+                <IoIosClose className="icon icon--grey" />
             </button>
           </div>
           <button type="submit" className="header__searchbar__btn">
@@ -56,10 +95,27 @@ const Searchbar = ({ animate, setAnimate }) => {
           {animate && (
             <div className="header__searchbar__drop">
               <Scrollbar style={{ height: '100%', width: '100%' }}>
-                <div className="header__searchbar__title">Popular regions</div>
-                <ul className="header__searchbar__list">
-                  {items}
-                </ul>
+                {data || items
+                  ? (
+                    <>
+                      <div className="header__searchbar__title">
+                        {(data || items.length > 0) 
+                          ? 'Search results' 
+                          : (
+                            <>
+                              <GoLocation className="icon--sm mr-1 icon--grey" />
+                              Popular regions
+                            </>
+                          )
+                        }
+                      </div>
+                      <ul className="header__searchbar__list">
+                        {data ? data : items}
+                      </ul>
+                    </>
+                  )
+                  : popular
+                }
               </Scrollbar>
             </div>
           )}

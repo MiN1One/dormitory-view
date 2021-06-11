@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { BsPlus } from 'react-icons/bs';
@@ -20,7 +20,7 @@ const Listview = () => {
   const location = useLocation();
   const { t } = useTranslation('regions');
 
-  const defaultFilters = {
+  const defaultFilters = useRef({
     facilities: {},
     ownership: undefined,
     price: {},
@@ -28,11 +28,11 @@ const Listview = () => {
     numberOfRooms: [],
     map: {
       city: params.city,
-      region: [params.region]
+      region: params.region !== 'all' ? [params.region] : []
     }
-  }
+  });
 
-  const [filter, setFilter] = useState(defaultFilters);
+  const [filter, setFilter] = useState(defaultFilters.current);
 
   const { data, loading, error, makeRequest } = useFetchData();
   const [newData, setNewData] = useState(null);
@@ -59,7 +59,7 @@ const Listview = () => {
     const numberOfRooms = `\\b(${filter.numberOfRooms.join('|')})\\b`
 
     makeRequest({
-      url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title`,
+      url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title,createdAt`,
       dataAt: ['data', 'docs']
     });
   }, [
@@ -73,40 +73,16 @@ const Listview = () => {
   ]);
 
   useEffect(() => {
-    function sortByPrice(a, b) {
-      if (a.price[0] > b.price[0]) {
-        return -1;
-      } else if (a.price[0] < b.price[0]) {
-        return 1;
-      }
-    }
-    
-    function sortByDate(a, b) {
-      if (a.createdAt > b.createdAt) {
-        return -1;
-      } else if (a.createdAt < b.createdAt) {
-        return 1;
-      }
-    }
-
     if (data) {
-      let sortedData;
-      if (sortBy === '-price' || sortBy === '+price') {
-        sortedData = data?.sort(sortByPrice);
-      } else if (sortBy === '-createdAt' || sortBy === '+createdAt') {
-        sortedData = data?.sort(sortByDate);
-      }
-
-      setNewData(sortedData);
+      setNewData(data);
     }
-  }, [sortBy, data]);
+  }, [data]);
 
-  console.log(currentPage);
   console.log(newData);
   console.log(data);
   console.log(filter);
 
-  const items = data?.map((el, i) => {
+  const items = newData?.map((el, i) => {
     return <Card slide={slide} data={el} key={i} />
   });
 
@@ -125,7 +101,7 @@ const Listview = () => {
         onSlide={() => setSlide(prev => !prev)}
         setFilters={(f) => setFilter(f)}
         filters={filter}
-        defaultFilters={defaultFilters} />
+        defaultFilters={defaultFilters.current} />
       <div className="container">
         <div className="listview__content">
           <div className={`listview__container ${slide ? 'listview__container--expand' : ''}`}>
@@ -146,7 +122,9 @@ const Listview = () => {
             <div className="mb-3 mt-2 flex aie jcsb">
               <div className="">
                 <h6 className="heading heading--3 mb-1 c-black">Results</h6>
-                <div className="f-xl c-grey mb-5"> for {t(`regions:${params.city}.title`)}, {t(`regions:${params.city}.regions.${params.region}`)} district</div>
+                <div className="f-xl c-grey mb-5">
+                  &nbsp;for {t(`regions:${params.city}.title`)}, {t(`regions:${params.city}.regions.${params.region}`)} district
+                </div>
                 {data?.length > 0 && (
                   <div className="f-lg c-grey-l">
                     found {data.length} properties by filter
@@ -162,22 +140,50 @@ const Listview = () => {
                 items={[
                   {
                     title: 'Date (ascend)',
-                    click: () => setSortBy({ val: '+date', title: 'Date (ascend)'}),
+                    click: () => {
+                      setNewData(p => {
+                        const newL = [...p];
+                        return newL.sort(
+                          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+                        );
+                      })
+                      console.log(newData);
+                    },
                     active: sortBy.val === '+createdAt'
                   },
                   {
                     title: 'Date (descend)',
-                    click: () => setSortBy({ val: '-date', title: 'Date (descend)'}),
+                    click: () => {
+                      setNewData(p => {
+                        const newL = [...p];
+                        return newL.sort((a, b) => 
+                          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                        );
+                      })
+                      console.log(newData);
+                    },
                     active: sortBy.val === '-createdAt'
                   },
                   {
                     title: 'Price (ascend)',
-                    click: () => setSortBy({ val: '+price', title: 'Price (ascend)'}),
+                    click: () => {
+                      setNewData(p => {
+                        const newL = [...p];
+                        return newL.sort((a, b) => a.price[0] - b.price[0]);
+                      })
+                      console.log(newData);
+                    },
                     active: sortBy.val === '+price[0]'
                   },
                   {
                     title: 'Price (descend)',
-                    click: () => setSortBy({ val: '-price', title: 'Price (descend)'}),
+                    click: () => {
+                      setNewData(p => {
+                        const newL = [...p];
+                        return newL.sort((a, b) => b.price[0] - a.price[0]);
+                      })
+                      console.log(newData);
+                    },
                     active: sortBy.val === '-price[0]'
                   }
                 ]} />

@@ -43,7 +43,7 @@ function App() {
       behavior: 'smooth'
     });
 
-    dispatch(actions.error(null));
+    // dispatch(actions.error(null));
   }, [location.pathname, dispatch]);
 
   return (
