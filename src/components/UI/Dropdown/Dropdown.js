@@ -25,7 +25,7 @@ const Dropdown = ({ title, items, dropTitle, positionX, positionY, className, no
             {el.title}
       </div>
       : <div className="pos-rel" key={i}>
-          <div 
+          <div
             tabIndex="0" 
             className="drop__dropdown__item"
             onClick={() => {

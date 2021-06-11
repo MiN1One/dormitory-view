@@ -60,6 +60,25 @@
 
   &--green { background: $color-green; }
 
+  &--white {
+    display: flex;
+    align-items: center;
+    padding: 1.15rem 2.3rem;
+    background: #fff;
+    border-radius: .25rem;
+    color: $black;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    box-shadow: 0 .25rem .5rem rgba($pitch, .075);
+
+    // &:hover,
+    // &:focus {
+    //   background: $color-tertiary;
+    //   color: #fff;
+    // }
+  }
+
   &--arrow {
     // min-width: 35rem;
 

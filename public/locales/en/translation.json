@@ -1,0 +1,8 @@
+{
+  "utils": {
+    "sort": {
+      "+createdAt": "Date (ascending)",
+      "-createdAt": "Date (descending)"
+    }
+  }
+}

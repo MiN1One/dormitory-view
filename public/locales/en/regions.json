@@ -2,70 +2,74 @@
   "toshkent": {
     "title": "Tashkent",
     "regions": {
-      "bektemir": "Bektemir",
-      "mirobod": "Mirabad",
-      "mirzo-ulug'bek": "Mirzo Ulugbek",
-      "sirg'ali": "Sergeli",
-      "olmazor": "Almazar",
-      "uchtepa": "Uchtepa",
-      "shayxontohur": "Shaykhontohur",
-      "yashnobod": "Yashnabad",
-      "chilonzor": "Chilanzar",
-      "yunusobod": "Yunusabad",
-      "yakkasaroy": "Yakkasaray",
-      "yangihayot": "Yangihayat"
+      "all": "All in Tashkent district",
+      "bektemir": "Bektemir district",
+      "mirobod": "Mirabad district",
+      "mirzo-ulug'bek": "Mirzo Ulugbek district",
+      "sirg'ali": "Sergeli district",
+      "olmazor": "Almazar district",
+      "uchtepa": "Uchtepa district",
+      "shayxontohur": "Shaykhontohur district",
+      "yashnobod": "Yashnabad district",
+      "chilonzor": "Chilanzar district",
+      "yunusobod": "Yunusabad district",
+      "yakkasaroy": "Yakkasaray district",
+      "yangihayot": "Yangihayat district"
     }
   },
   "toshkent-viloyat": {
     "title": "Tashkent region",
     "regions": {
-      "angren": "Angren city",
-      "bekobod": "Bekabad",
-      "bekobod-shahar": "Bekabad city",
-      "bo'ka": "Buka",
-      "bo'stonliq": "Bustanlik",
-      "chinoz": "Chinaz",
-      "chirchiq": "Chirchik city",
-      "ohangaron": "Ohangaron city",
-      "olmaliq": "Olmalik city",
-      "oqqo'rg'on": "Akkurgan",
-      "o'rta-chirchiq": "Urta Chirchik",
-      "parkent": "Parkent",
-      "piskent": "Piskent",
-      "qibray": "Kibray",
-      "quyi-chirchiq": "Kuyi Chirchik",
-      "yangiyo'l": "Yangiyul",
-      "yuqori-chirchiq": "Yukori Chirchik",
-      "zangiota": "Zangiota",
-      "nurafshon": "Nurafshon city",
-      "toshkent-rayon": "Tashkent",
-      "yangiyo'l-shahar": "Yangiyul city"
+      "all": "All in Tashkent region",
+      "angren": "Angren city district",
+      "bekobod": "Bekabad district",
+      "bekobod-shahar": "Bekabad city district",
+      "bo'ka": "Buka district",
+      "bo'stonliq": "Bustanlik district",
+      "chinoz": "Chinaz district",
+      "chirchiq": "Chirchik city district",
+      "ohangaron": "Ohangaron city district",
+      "olmaliq": "Olmalik city district",
+      "oqqo'rg'on": "Akkurgan district",
+      "o'rta-chirchiq": "Urta Chirchik district",
+      "parkent": "Parkent district",
+      "piskent": "Piskent district",
+      "qibray": "Kibray district",
+      "quyi-chirchiq": "Kuyi Chirchik district",
+      "yangiyo'l": "Yangiyul district",
+      "yuqori-chirchiq": "Yukori Chirchik district",
+      "zangiota": "Zangiota district",
+      "nurafshon": "Nurafshon city district",
+      "toshkent-rayon": "Tashkent district",
+      "yangiyo'l-shahar": "Yangiyul city district"
     }
   },
   "andijon": {
     "title": "Andijan",
     "regions": {
+      "all": "All in Andijan",
       "honobod": "Xanabad city",
       "andijon-shahar": "Andijan city",
-      "andijon-rayon": "Andijan",
-      "asaka": "Asaka",
-      "baliqchi": "Balikchi",
-      "bo'ston": "Bostan",
-      "buloqboshi": "Bulokboshi",
-      "izboskan": "Izboskan",
-      "jalaquduq": "Jalakuduk",
-      "xo'jaobod": "Khodjaobad",
-      "qo'rg'ontepa": "Kurgontepa",
-      "marhamat": "Marhamat",
-      "oltinko'l": "Altinkul",
-      "paxtaobod": "Pakhtaabad",
-      "shahrixon": "Shakhrihan",
-      "ulug'nor": "Ulugnor"
+      "andijon-rayon": "Andijan district",
+      "asaka": "Asaka district",
+      "baliqchi": "Balikchi district",
+      "bo'ston": "Bostan district",
+      "buloqboshi": "Bulokboshi district",
+      "izboskan": "Izboskan district",
+      "jalaquduq": "Jalakuduk district",
+      "xo'jaobod": "Khodjaobad district",
+      "qo'rg'ontepa": "Kurgontepa district",
+      "marhamat": "Marhamat district",
+      "oltinko'l": "Altinkul district",
+      "paxtaobod": "Pakhtaabad district",
+      "shahrixon": "Shakhrihan district",
+      "ulug'nor": "Ulugnor district"
     }
   },
   "farg'ona": {
     "title": "Fergana",
     "regions": {
+      "all": "All in Fergana",
       "farg'ona-shahar": "Ferghana city",
       "marg'ilon-shahar": "Margilan city",
       "quvasoy-shahar": "Quvasoy city",
@@ -90,6 +94,7 @@
   "namangan": {
     "title": "Namangan",
     "regions": {
+      "all": "All in Namangan",
       "namangan-shahar": "Namangan city",
       "davlatobod": "Davlatabad",
       "mingbuloq": "Mingbulak",
@@ -108,6 +113,7 @@
   "surxondaryo": {
     "title": "Surkhandarya",
     "regions": {
+      "all": "All in Surkhandarya",
       "angor": "Angor",
       "boysun": "Boysun",
       "denov": "Denov",
@@ -128,6 +134,7 @@
   "sirdaryo": {
     "title": "Syrdarya",
     "regions": {
+      "all": "All in Syrdarya",
       "boyovut": "Bayaut",
       "guliston-shahar": "Gulistan city",
       "guliston": "Gulistan",
@@ -144,6 +151,7 @@
   "samarqand": {
     "title": "Samarkand",
     "regions": {
+      "all": "All in Samarkand",
       "samarqand-shahar": "Samarkand city",
       "kattaqo'rg'on-shahar": "Kattakurgan city",
       "bulung'ur": "Bulungur",
@@ -165,6 +173,7 @@
   "karakalpakstan": {
     "title": "Karakalpakstan",
     "regions": {
+      "all": "All in Karakalpakstan",
       "nukus": "Nukus city",
       "amudaryo": "Amudarya",
       "beruniy": "Beruniy",
@@ -186,6 +195,7 @@
   "qashqadaryo": {
     "title": "Qashqadaryo",
     "regions": {
+      "all": "All in Qashqadaryo",
       "qarshi": "Karshi city",
       "g'uzor": "Guzar",
       "dexqonobod": "Dehkanabad",
@@ -206,6 +216,7 @@
   "navoiy": {
     "title": "Navoiy",
     "regions": {
+      "all": "All in Navoiy",
       "navoiy": "Navoiy city",
       "zarafshon": "Zarafshan city",
       "karmana": "Karmana",
@@ -221,6 +232,7 @@
   "xorazm": {
     "title": "Khorezm",
     "regions": {
+      "all": "All in Khorezm",
       "urganch": "Urgench city",
       "xiva": "Khiva city",
       "bog'ot": "Bagat",
@@ -238,6 +250,7 @@
   "jizzax": {
     "title": "Jizzakh",
     "regions": {
+      "all": "All in Jizzakh",
       "jizzax": "Jizzakh city",
       "baxmal": "Bakhmal",
       "do'stlik": "Dustlik",
@@ -255,6 +268,7 @@
   "buxoro": {
     "title": "Bukhara",
     "regions": {
+      "all": "All in Bukhara",
       "buxoro": "Bukhara city",
       "buxoro-tuman": "Bukhara",
       "romitan": "Romitan",

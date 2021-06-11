@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { BsPlus } from 'react-icons/bs';
+import { IoSchoolOutline } from 'react-icons/io5';
 
 import './Listview.scss';
 import Filters from './Filters/Filters';
@@ -14,11 +15,13 @@ import { useTranslation } from 'react-i18next';
 import useFetchData from '../../hooks/useFetchData';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { FcIdea } from 'react-icons/fc';
+import { sort } from '../../utilities/utils';
+import { useSelector } from 'react-redux';
 
 const Listview = () => {
   const params = useParams();
   const location = useLocation();
-  const { t } = useTranslation('regions');
+  const { t } = useTranslation(['regions', 'translation']);
 
   const defaultFilters = useRef({
     facilities: {},
@@ -39,7 +42,7 @@ const Listview = () => {
   
   const [slide, setSlide] = useState(false);
   const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)) || 1);
-  const [sortBy, setSortBy] = useState({ val: '+date', title: 'Date (ascend)'});
+  const [sortBy, setSortBy] = useState('-createdAt');
 
   useEffect(() => {
     const region = (filter.map.region && filter.map.region !== 'all') 
@@ -78,12 +81,30 @@ const Listview = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (data) {
+      const order = sortBy.charAt(0);
+      const prop = [sortBy.substr(1)];
+
+      if (prop[0] === 'price') prop.push(0);
+      
+      const sortedList = sort({
+        list: data,
+        property: prop, 
+        order,
+        isDate: prop[0] === 'createdAt'
+      });
+
+      setNewData(sortedList);
+    }
+  }, [data, sortBy]);
+
   console.log(newData);
   console.log(data);
   console.log(filter);
 
-  const items = newData?.map((el, i) => {
-    return <Card slide={slide} data={el} key={i} />
+  const items = newData?.map(el => {
+    return <Card slide={slide} data={el} key={el._id} />
   });
 
   return (
@@ -120,71 +141,54 @@ const Listview = () => {
               ]} 
               white />
             <div className="mb-3 mt-2 flex aie jcsb">
-              <div className="">
+              <div>
                 <h6 className="heading heading--3 mb-1 c-black">Results</h6>
                 <div className="f-xl c-grey mb-5">
-                  &nbsp;for {t(`regions:${params.city}.title`)}, {t(`regions:${params.city}.regions.${params.region}`)} district
+                  for {t(`regions:${params.city}.title`)}, {t(`regions:${params.city}.regions.${params.region}`)}
                 </div>
                 {data?.length > 0 && (
                   <div className="f-lg c-grey-l">
+                    {(filter.map.city !== defaultFilters.current.map.city ||
+                      filter.map.region !== defaultFilters.current.map.region
+                    ) && (
+                      <div className="listview__cur-region">
+                        Selected regions:&nbsp;
+                        {filter.map.region.map(el => 
+                          t(`regions:${filter.map.city}.regions.${el}`)
+                        ).join(', ')
+                        }
+                      </div>
+                    )}
                     found {data.length} properties by filter
                   </div>
                 )}
               </div>
               <Dropdown 
-                title={sortBy.title}
+                title={t(`translation:utils.sort.${sortBy}`)}
                 dropTitle={'Sort by:'}
                 positionX="right"
-                width="17rem"
+                width="19rem"
                 height={15}
                 items={[
                   {
-                    title: 'Date (ascend)',
-                    click: () => {
-                      setNewData(p => {
-                        const newL = [...p];
-                        return newL.sort(
-                          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-                        );
-                      })
-                      console.log(newData);
-                    },
-                    active: sortBy.val === '+createdAt'
+                    title: t('translation:utils.sort.+createdAt'),
+                    click: () => setSortBy('+createdAt'),
+                    active: sortBy === '+createdAt'
                   },
                   {
-                    title: 'Date (descend)',
-                    click: () => {
-                      setNewData(p => {
-                        const newL = [...p];
-                        return newL.sort((a, b) => 
-                          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-                        );
-                      })
-                      console.log(newData);
-                    },
-                    active: sortBy.val === '-createdAt'
+                    title: t('translation:utils.sort.-createdAt'),
+                    click: () => setSortBy('-createdAt'),
+                    active: sortBy === '-createdAt'
                   },
                   {
-                    title: 'Price (ascend)',
-                    click: () => {
-                      setNewData(p => {
-                        const newL = [...p];
-                        return newL.sort((a, b) => a.price[0] - b.price[0]);
-                      })
-                      console.log(newData);
-                    },
-                    active: sortBy.val === '+price[0]'
+                    title: t('translation:utils.sort.+price'),
+                    click: () => setSortBy('+price'),
+                    active: sortBy === '+price'
                   },
                   {
-                    title: 'Price (descend)',
-                    click: () => {
-                      setNewData(p => {
-                        const newL = [...p];
-                        return newL.sort((a, b) => b.price[0] - a.price[0]);
-                      })
-                      console.log(newData);
-                    },
-                    active: sortBy.val === '-price[0]'
+                    title: t('translation:utils.sort.-price'),
+                    click: () => setSortBy('-price'),
+                    active: sortBy === '-price'
                   }
                 ]} />
             </div>
@@ -194,9 +198,20 @@ const Listview = () => {
                 : (!data || data?.length === 0 
                     ? (
                       <div className="listview__empty">
-                        <div className="listview__empty__alert">
-                          <FcIdea className="icon--lg mr-1" />
-                          No properties found with this filter
+                        <div className="listview__empty__content">
+                          <div className="flex fdc aic mb-2">
+                            <FcIdea className="listview__empty__icon" />
+                            No properties found within this filter
+                          </div>
+                          <div className="flex">
+                            <button className="btn--white listview__empty__btn mr-1" onClick={() => setFilter(defaultFilters)}>
+                              Clear filters
+                            </button>
+                            <button className="btn--white listview__empty__btn">
+                              <IoSchoolOutline className="icon mr-1" />
+                              Post enquiry
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )

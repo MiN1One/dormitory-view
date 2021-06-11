@@ -9,10 +9,8 @@ import 'swiper/components/pagination/pagination.scss';
 
 import './Header.scss';
 import { Link, useHistory } from 'react-router-dom';
-import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
-import { IoChevronBackOutline, IoChevronDownOutline, IoChevronForward, IoChevronForwardOutline } from 'react-icons/io5';
+import { IoChevronBackOutline, IoChevronDownOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
-import { IoIosSearch } from 'react-icons/io';
 import Modalh from '../Modalh/Modalh';
 import { useSelector } from 'react-redux';
 import useFetchData from '../../../hooks/useFetchData';

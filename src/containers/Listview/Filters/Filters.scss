@@ -27,6 +27,17 @@
     align-items: center;
   }
 
+  &__price-indicator {
+    display: inline-block;
+    color: $grey-light;
+    width: 65%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    text-align: end;
+  }
+
   &__scroller {
     width: 35rem !important;
     height: calc(100% - 1px) !important;
@@ -92,15 +103,15 @@
     width: 100%;
     padding: 1.45rem 2rem;
     font-size: 1.4rem;
-    color: darken($black, 10%);
+    color: $pitch;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border: 1px solid transparent;
     position: relative;
 
-    &__notif {
-      display: inline-block;
+    &__dot {
+      display: none;
       width: .5rem;
       height: .5rem;
       background: rgba($color-tertiary, .85);
@@ -108,7 +119,16 @@
       border-radius: 50%;
     }
     // border-color: rgba($color-tertiary, .2);
-    &--active { border-color: rgba($color-green, .35); }
+    &--active {
+      // border-color: rgba($color-yellow, .7);
+      border-color: rgba($color-green, .35);
+      // background: $color-tertiary !important;
+      // color: #fff;
+    }
+
+    &--active &__dot {
+      display: inline-block;
+    }
 
     &
       :not(.filters__item-wrapper .filters__item)

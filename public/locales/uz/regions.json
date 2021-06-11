@@ -2,6 +2,7 @@
   "toshkent": {
     "title": "Toshkent",
     "regions": {
+      "all": "Toshkent bo'yicha",
       "bektemir": "Bektemir",
       "mirobod": "Mirobod",
       "mirzo-ulug'bek": "Mirzo Ulug'bek",
@@ -19,6 +20,7 @@
   "toshkent-viloyat": {
     "title": "Toshkent viloyati",
     "regions": {
+      "all": "Toshkent viloyati bo'yicha",
       "angren": "Angren shahar",
       "bekobod": "Bekobod",
       "bekobod-shahar": "Bekobod shahar",
@@ -45,6 +47,7 @@
   "andijon": {
     "title": "Andijon",
     "regions": {
+      "all": "Andijon bo'yicha",
       "honobod": "Xonobod shahar",
       "andijon-shahar": "Andijon shahar",
       "andijon-rayon": "Andijon",
@@ -66,6 +69,7 @@
   "farg'ona": {
     "title": "Farg'ona",
     "regions": {
+      "all": "Farg'ona bo'yicha",
       "farg'ona-shahar": "Farg'ona shahar",
       "marg'ilon-shahar": "Marg'ilon shahar",
       "quvasoy-shahar": "Quvasoy shahar",
@@ -90,6 +94,7 @@
   "namangan": {
     "title": "Namangan",
     "regions": {
+      "all": "Namangan bo'yicha",
       "namangan-shahar": "Namangan shahar",
       "davlatobod": "Davlatobod",
       "mingbuloq": "Mingbuloq",
@@ -108,6 +113,7 @@
   "surxondaryo": {
     "title": "Surxondaryo",
     "regions": {
+      "all": "Surxondaryo bo'yicha",
       "angor": "Angor",
       "boysun": "Boysun",
       "denov": "Denov",
@@ -128,6 +134,7 @@
   "sirdaryo": {
     "title": "Sirdaryo",
     "regions": {
+      "all": "Sirdaryo bo'yicha",
       "boyovut": "Boyovut",
       "guliston-shahar": "Guliston shahar",
       "guliston": "Guliston",
@@ -144,6 +151,7 @@
   "samarqand": {
     "title": "Samarqand",
     "regions": {
+      "all": "Samarqand bo'yicha",
       "samarqand-shahar": "Samarqand shahar",
       "kattaqo'rg'on-shahar": "Kattaqo'rg'on shahar",
       "bulung'ur": "Bulung'ur",
@@ -162,9 +170,10 @@
       "qo'shrabot": "Qo'shrabot"
     }
   },
-  "qoraqalpog'iston": {
+  "karakalpakstan": {
     "title": "Qoraqalpog'iston",
     "regions": {
+      "all": "Qoraqalpog'iston bo'yicha",
       "nukus": "Nukus shahar",
       "amudaryo": "Amudaryo",
       "beruniy": "Beruniy",
@@ -186,6 +195,7 @@
   "qashqadaryo": {
     "title": "Qashqadaryo",
     "regions": {
+      "all": "Qashqadaryo bo'yicha",
       "qarshi": "Qarshi shahar",
       "g'uzor": "G'uzor",
       "dexqonobod": "Dexqonobod",
@@ -206,6 +216,7 @@
   "navoiy": {
     "title": "Navoiy",
     "regions": {
+      "all": "Navoiy bo'yicha",
       "navoiy": "Navoiy shahar",
       "zarafshon": "Zarafshon shahar",
       "karmana": "Karmana",
@@ -221,6 +232,7 @@
   "xorazm": {
     "title": "Xorazm",
     "regions": {
+      "all": "Xorazm bo'yicha",
       "urganch": "Urganch shahar",
       "xiva": "Xiva shahar",
       "bog'ot": "Bog'ot",
@@ -238,6 +250,7 @@
   "jizzax": {
     "title": "Jizzax",
     "regions": {
+      "all": "Jizzax bo'yicha",
       "jizzax": "Jizzax shahar",
       "baxmal": "Baxmal",
       "do'stlik": "Do'stlik",
@@ -255,6 +268,7 @@
   "buxoro": {
     "title": "Buxoro",
     "regions": {
+      "all": "Buxoro bo'yicha",
       "buxoro": "Buxoro shahar",
       "buxoro-tuman": "Buxoro",
       "romitan": "Romitan",

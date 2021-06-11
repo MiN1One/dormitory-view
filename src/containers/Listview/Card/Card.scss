@@ -9,7 +9,7 @@
   padding: 1rem;
   box-shadow: 0 0 .75rem rgba($pitch, .025);
   backface-visibility: hidden;
-  height: 24rem;
+  height: 26.5rem;
   
   &--2 {
     width: calc(50% - 1.75%);
@@ -39,8 +39,15 @@
     margin-bottom: 1rem;
   }
 
-  &__bottom {
+  &__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 
+  &__bottom {
+    // margin-bottom: 2.25rem;
   }
 
   &__figure {
@@ -164,5 +171,11 @@
         right: 2.5rem;
       }
     }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
   }
 }

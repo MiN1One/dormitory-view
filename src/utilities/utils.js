@@ -38,7 +38,60 @@ export const convertISOString = (iso) => {
     year = d?.getFullYear(),
     date = format(d?.getDate()),
     hours = format(d?.getHours()),
-    mins = format(d?.getMinutes());
+    minutes = format(d?.getMinutes());
 
-  return { year, month, date, hours, minutes: mins };
+  return {
+    year: year && year,
+    month: month && month,
+    date: date && date,
+    hours: hours && hours,
+    minutes: minutes && minutes
+  };
+};
+
+export const isEmptyObject = (obj) => {
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export const sort = ({ list, property, order, isDate }) => {
+  function getMs(el) {
+    return new Date(el)?.getTime();
+  }
+
+  const temp = [...list];
+  if (order === '+') {
+    temp.sort((a, b) => {
+      property && property.forEach((el, i) => {
+        a = a[el];
+        b = b[el];
+
+        if (isDate) {
+          a = getMs(a);
+          b = getMs(b);
+        }
+      });
+      return +a - +b;
+    });
+  } else if (order === '-') {
+    temp.sort((a, b) => {
+      property && property.forEach(el => {
+        a = a[el];
+        b = b[el];
+
+        if (isDate) {
+          a = getMs(a);
+          b = getMs(b);
+        }
+      });
+      return +b - +a;
+    });
+  }
+
+  return temp;
 };

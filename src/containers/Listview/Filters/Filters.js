@@ -47,7 +47,7 @@ const Filters = props => {
             <BillsFilter {...props} />
             <FacilitiesFilter {...props} />
             <div className="filters__section" id="university">
-              <div className="f-xl f-thin c-black flex aic mb-15">
+              <div className="filters__title">
                 <IoSchoolOutline className="icon--sm icon--grey mr-1" />
                 By university
               </div>

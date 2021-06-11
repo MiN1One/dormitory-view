@@ -47,15 +47,16 @@
     }
     
     &__item {
+      width: 100%;
       font-size: 1.4rem;
       color: $black;
       padding: 0 2.65rem;
-      height: 4.5rem;
+      min-height: 4.5rem;
       display: flex;
       align-items: center;
       background: $pure-white;
-      overflow: hidden;
       position: relative;
+      line-height: 1.5rem;
 
       &::before {
         content: "";

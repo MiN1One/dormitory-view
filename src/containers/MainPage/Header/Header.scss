@@ -229,7 +229,7 @@
         );
     }
 
-    &__list { padding: 1rem 3rem; }
+    &__list { padding: 0 3rem; }
 
     &__item {
       display: flex;
@@ -238,10 +238,11 @@
       color: $pitch;
       padding: 1rem 0;
       min-height: 5.5rem;
-      border-top: 1px solid transparent;
-      border-bottom: 1px solid transparent;
-
+      
       svg { stroke: $grey-light; }
+      
+      &:not(:first-of-type) { border-top: 1px solid transparent; }
+      &:not(:last-child) { border-bottom: 1px solid transparent; }
     
       &:hover,
       &:focus {

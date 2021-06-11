@@ -40,13 +40,47 @@
     justify-content: center;
     width: 100%;
 
-    &__alert {
+    &__content {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      margin-top: -30%;
-      font-size: 1.85rem;
+      margin-top: 7.5%;
+      font-size: 2.15rem;
       font-weight: 300;
-      color: $black;
+      color: $grey-dark;
+
     }
+
+    &__icon {
+      margin-bottom: 2.5rem;
+      width: 6.25rem;
+      height: 6.25rem;
+    }
+    
+    &__btn {
+      background: $color-tertiary;
+      box-shadow: 0 .25rem .5rem rgba($pitch, .2);
+      color: #fff;
+
+      &:first-child {
+        background: #fff;
+        color: $black;
+      }
+
+      &:last-child:hover,
+      &:last-child:focus {
+        background: darken($color-tertiary, 5%);
+      }
+    }
+  }
+
+  &__cur-region {
+    font-size: 1.4rem;
+    color: $grey-light;
+    width: 75%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 1rem;
   }
 }

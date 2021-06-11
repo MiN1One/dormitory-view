@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoIosClose } from 'react-icons/io';
 
 const PriceFilter = ({ setFilters, filters }) => {
-  const [tempPrice, setTempPrice] = useState({
-    from: '',
-    to: ''
-  });
+  const defaultPrice = {
+    from: filters.price.from ? filters.price.from : '',
+    to: filters.price.to ? filters.price.to : ''
+  };
+
+  const [tempPrice, setTempPrice] = useState(defaultPrice);
+
+  useEffect(() => {
+    setTempPrice(defaultPrice);
+  }, [filters.price]);
 
   const onResetPrices = () => {
     setFilters(prev => ({
