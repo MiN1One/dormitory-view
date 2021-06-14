@@ -140,7 +140,7 @@ const RegionsFilter = ({ setFilters, filters }) => {
                     }
                   }));
                 }}>
-                  All in {t(`regions:${selectedCity}.title`)}
+                  {t(`regions:${selectedCity}.regions.all`)}
                   <div className="input__checkbox-wrapper">
                     <span className="input__checkbox filters__checkbox">
                       {(filters.map.region.length === 0 && selectedCity === filters.map.city) && (

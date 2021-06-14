@@ -12,7 +12,7 @@ import { convertISOString } from '../../../utilities/utils';
 
 import './Card.scss';
 
-const Card = ({ slide, data }) => {
+const Card = ({ slide, data, symbol }) => {
   const { t } = useTranslation('regions');
   const { favorites, editFavorites } = useEditFavorites();
   const { months } = useSelector(s => s.main);
@@ -84,7 +84,7 @@ const Card = ({ slide, data }) => {
           <span className="c-grey-l f-xs">{date} {months[month]} {hours}:{minutes}</span>
           <span className="cardl__price">
             <span className="f-sm f-normal c-grace">from </span>
-            ${data.price[0]}
+            {symbol}{data.price[0]}
             <span className="f-sm f-normal c-grace"> / week</span>
           </span>
         </div>

@@ -19,6 +19,15 @@
     &--expand { width: 100%; }
   }
 
+  &__top {
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+  }
+
   &__list {
     min-height: 65rem;
     width: 100%;
@@ -79,12 +88,19 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 75%;
+    width: 100%;
+  }
+
+  &__results {
+    color: $grey-dark;
+    margin-bottom: .75rem;
+    font-size: 1.65rem;
   }
 
   &__cur-region {
     font-size: 1.4rem;
     color: $grey-light;
-    margin-bottom: 1rem;
+    
+    &:not(:first-of-type) { margin-bottom: 1rem; }
   }
 }

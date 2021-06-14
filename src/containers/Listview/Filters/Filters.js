@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { BsArrowLeft, BsArrowUp } from 'react-icons/bs';
 import { IoSchoolOutline } from 'react-icons/io5';
 import { GoCheck } from 'react-icons/go';
@@ -16,7 +16,8 @@ import { IoIosSearch } from 'react-icons/io';
 
 const Filters = props => {
   const { onSlide, slide } = props;
-  const { t } = useTranslation('regions');
+  const { t } = useTranslation();
+  const [scroll, setScroll] = useState(0);
 
   const scrollRef = useRef();
   const filtersRef = useRef();
@@ -24,15 +25,21 @@ const Filters = props => {
   const classes = ['filters'];
   slide && classes.push('filters--slide');
 
+  console.log(scroll)
+
   return (
     <div className={classes.join(' ')} ref={filtersRef}>
       <Scrollbar
-        onScroll={() => scrollRef.current.getScrollTop()}
+        onScroll={() => setScroll(scrollRef.current.getScrollTop())}
         className="filters__scroller"
         ref={scrollRef}>
-          <button className="filters__btn btn--slider" onClick={() => scrollRef.current.scrollTop(0)}>
-            <BsArrowUp className="icon--mid icon--dark" />
-          </button>
+          {scroll > filtersRef.current?.offsetHeight * 0.6 && (
+            <button 
+              className="filters__btn btn--slider" 
+              onClick={() => scrollRef.current.scrollTop(0)}>
+                <BsArrowUp className="icon--mid icon--dark" />
+            </button>
+          )}
           <div className="filters__content">
             <div className="filters__head flex aie jcsb mb-2">
               <div className="heading heading--3 f-normal c-black">Filters</div>

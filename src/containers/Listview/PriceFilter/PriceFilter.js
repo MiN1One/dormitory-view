@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const PriceFilter = ({ setFilters, filters }) => {
+const PriceFilter = ({ setFilters, filters, currency }) => {
   const defaultPrice = {
     from: filters.price.from ? filters.price.from : '',
     to: filters.price.to ? filters.price.to : ''
@@ -31,8 +31,8 @@ const PriceFilter = ({ setFilters, filters }) => {
 
   return (
     <div className="filters__section" id="price">
-      <div className="filters__title">
-        By Price
+      <div className="filters__title aie">
+        By Price<span className="c-grace f-sm">&nbsp;&nbsp;in {currency.symbol}</span>
       </div>
       <div className="flex">
         <input 

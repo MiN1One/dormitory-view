@@ -1,10 +1,9 @@
 import React from 'react';
 import { IoIosClose } from 'react-icons/io';
-import { useParams } from 'react-router';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 import { isEmptyObject } from '../../../utilities/utils';
 
-const MainFilters = ({ scrollbar, setFilters, filters, defaultFilters }) => {
+const MainFilters = ({ scrollbar, differentRegion, setFilters, filters, defaultFilters }) => {
 
   const getToFilter = (filters) => {
     const el = document.getElementById(filters);
@@ -23,16 +22,13 @@ const MainFilters = ({ scrollbar, setFilters, filters, defaultFilters }) => {
     numberOfRooms: []
   };
 
-  const diffMap = 
-    defaultFilters.map.region !== filters.map.region || 
-    defaultFilters.map.city !== filters.map.city;
   const diffFacilites = !isEmptyObject(filters.facilities);
   const diffBills = filters.bills.length > 0;
   const diffPrice = !isEmptyObject(filters.price);
 
   const activeClass = 'filters__item--active';
 
-  diffMap && classes.region.push(activeClass);
+  differentRegion && classes.region.push(activeClass);
   diffFacilites && classes.facilities.push(activeClass);
   diffBills && classes.bills.push(activeClass);
   diffPrice && classes.price.push(activeClass);
@@ -76,7 +72,7 @@ const MainFilters = ({ scrollbar, setFilters, filters, defaultFilters }) => {
             Regions
             <span className="filters__item__dot" />
         </div>
-        {diffMap && (
+        {differentRegion && (
           <button 
             className="filters__item-btn filters__btn-close tooltip"
             onClick={() => 
