@@ -53,9 +53,22 @@ const useFetchData = () => {
 
     axios(axiosConf)
       .then(({ data }) => {
-        options.dataAt?.forEach((el) => data = data[el]);
-        dispatch({ type: 'resolve', data });
+        console.log(data);
 
+        if (options?.dataSecondary) {
+          const main = { ...data };
+          options.dataAt?.forEach((el) => data = data[el]);
+          
+          data = {
+            [options.dataSecondary]: main[options.dataSecondary],
+            data: [...data]
+          };
+        } else {
+          options?.dataAt?.forEach((el) => data = data[el]);
+        }
+
+        dispatch({ type: 'resolve', data });
+        
         // do not use callbacks with useEffect
         options.callback && options.callback();
       })
@@ -71,8 +84,6 @@ const useFetchData = () => {
           reduxDispatch(actions.error(er));
         }
       });
-
-    console.log(axiosConf);
 
   }, [reduxDispatch, token]);
 

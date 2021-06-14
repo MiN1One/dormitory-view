@@ -41,9 +41,9 @@ const Filters = props => {
               </button>
             </div>
             <MainFilters scrollbar={scrollRef} {...props} />
-            <NumRoomsFilter />
             <PriceFilter {...props} />
             <RegionsFilter {...props} />
+            <NumRoomsFilter {...props} />
             <BillsFilter {...props} />
             <FacilitiesFilter {...props} />
             <div className="filters__section" id="university">

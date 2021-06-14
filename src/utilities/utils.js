@@ -25,7 +25,7 @@ export const parseQuery = (query, queryString) => {
   for (let i = 0; i < queries.length; i++) {
     const element = queries[i].split('=');
     if (element[0] === query)
-      return element[1];
+      return decodeURI(element[1]);
   }
 };
 
@@ -67,7 +67,7 @@ export const sort = ({ list, property, order, isDate }) => {
   const temp = [...list];
   if (order === '+') {
     temp.sort((a, b) => {
-      property && property.forEach((el, i) => {
+      property && property.forEach((el) => {
         a = a[el];
         b = b[el];
 
@@ -76,6 +76,7 @@ export const sort = ({ list, property, order, isDate }) => {
           b = getMs(b);
         }
       });
+
       return +a - +b;
     });
   } else if (order === '-') {
@@ -89,9 +90,31 @@ export const sort = ({ list, property, order, isDate }) => {
           b = getMs(b);
         }
       });
+
       return +b - +a;
     });
   }
 
   return temp;
 };
+
+/*eslint no-extend-native: ["error", { "exceptions": ["Array"] }]*/
+Array.prototype.isEqual = function(arr) {
+  if (!arr) return false;
+
+  if (this.length !== arr.length)
+    return false;
+
+  for (let i = 0; i < arr.length; i++) {
+    if (this[i] instanceof Array && arr[i] instanceof Array) {
+      if (!this[i].isEqual(arr[i]))
+        return false;
+    } else if (this[i] !== arr[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+Object.defineProperty(Array.prototype, 'isEqual', { enumerable: false });

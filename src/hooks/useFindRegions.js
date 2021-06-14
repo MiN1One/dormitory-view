@@ -25,12 +25,12 @@ const useFindRegions = (options = {
       const searchByCity = val.translated.city.toUpperCase().indexOf(search.toUpperCase()) !== -1;
 
       if (regionIndex > -1 || searchByCity) {
-        if (options.regionSearch && regionIndex > -1) {
+        if (options.regionSearch && regionIndex > -1 && !searchByCity) {
           newRegList[val.regions[regionIndex]] = {
             city: key,
             regionOnly: true
           };
-        } else {
+        } else if (searchByCity) {
           newRegList[key] = val;
         }
       }

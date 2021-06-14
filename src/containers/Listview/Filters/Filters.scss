@@ -27,7 +27,7 @@
     align-items: center;
   }
 
-  &__price-indicator {
+  &__indicator {
     display: inline-block;
     color: $grey-light;
     width: 65%;
@@ -55,11 +55,8 @@
 
   // &--slide &__head { border-color: transparent; }
 
-  &__section {
-
-    &:not(:last-child) {
-      margin-bottom: 2.5rem;
-    }
+  &__section:not(:last-child) {
+    margin-bottom: 3.5rem;
   }
 
   &__list {
@@ -98,8 +95,6 @@
   }
 
   &__item {
-    background: lighten($light, 4.75%);
-    // background: $pure-white;
     width: 100%;
     padding: 1.45rem 2rem;
     font-size: 1.4rem;
@@ -108,6 +103,7 @@
     align-items: center;
     justify-content: space-between;
     border: 1px solid transparent;
+    background: lighten($light, 4.75%);
     position: relative;
 
     &__dot {
@@ -189,13 +185,11 @@
     border-radius: .25rem;
     background: lighten($light, 3.5%);
     height: 100%;
-    // border: 1px solid rgba($pitch, .05);
   }
 
   &__item-wrapper:hover &__item span { opacity: 0; }
 
   &__item:not(.filters__item--inp):hover {
-  // &__list &__item:not(.filters__item--inp):focus {
     background: $color-green; 
     color: #fff;
 
@@ -203,13 +197,6 @@
       fill: #fff;
       stroke: #fff;
     }
-  }
-
-  &__form {
-    padding: 2rem;
-    border-radius: .25rem;
-    background: lighten($light, 4.25%);
-    border: 1px solid rgba($pitch, .1);
   }
   
   &__input {
@@ -221,15 +208,16 @@
     font-size: 1.5rem;
     width: 100%;
     
-    &:focus {
-      background: $pure-white;
-      border-color: rgba($color-tertiary, .55);
-    }
+    &:focus { border-color: rgba($color-tertiary, .55); }
 
     &--sm {
       width: calc(50% - .5rem);
 
       &:not(:nth-child(2n)) { margin-right: 1rem; }
+    }
+
+    &--mid {
+      width: 65%;
     }
   }
 
@@ -259,18 +247,27 @@
     z-index: 1;
   }
 
-  &__btn-inc {
+  &__btn-sub {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
-    width: calc((50% - 1.25rem) / 2);
+    width: 15%;
+    border-radius: .25rem;
+    background: lighten($light, 3%);
 
     &:hover {
       border-color: transparent;
       background: $color-green;
       
-      svg { fill: #fff; }
+      svg {
+        fill: #fff;
+        stroke: #fff;
+      }
+    }
+
+    &--danger:hover {
+      background: $color-red;
     }
   }
 }

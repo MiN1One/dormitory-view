@@ -95,6 +95,25 @@ const RegionsFilter = ({ setFilters, filters }) => {
           <IoIosSearch className="icon filters__search-icon" />
         </div>
         <Scrollbar style={{ width: '100%', height: 'calc(100% - 4.75rem)' }}>
+          <div 
+            className="filters__item" 
+            onClick={() => 
+              setFilters(p => ({
+                ...p,
+                map: {
+                  city: 'all',
+                  region: []
+                }
+              }))
+            }
+            tabIndex="0">
+              {t('regions:all.regions.all')}
+              <span className="input__checkbox filters__checkbox">
+                {filters.map.city === 'all' && (
+                  <GoCheck className="icon--xs icon--green" />
+                )}
+              </span>
+          </div>
           {regionsEl}
         </Scrollbar>
         {selectedCity &&

@@ -76,7 +76,7 @@ const Footer = () => {
                 Terms
               </Link>
               <div className="footer__link">
-                &copy;&nbsp;Copied.com {new Date().getFullYear()}
+                &copy;&nbsp;Housing.com {new Date().getFullYear()}
               </div>
             </div>
             <Languages />

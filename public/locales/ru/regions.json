@@ -1,4 +1,10 @@
 {
+  "all": {
+    "title": "Узбекистан",
+    "regions": {
+      "all": "Вся страна"
+    }
+  },
   "toshkent": {
     "title": "Ташкент",
     "regions": {

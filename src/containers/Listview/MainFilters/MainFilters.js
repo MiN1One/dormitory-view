@@ -19,7 +19,8 @@ const MainFilters = ({ scrollbar, setFilters, filters, defaultFilters }) => {
     bills: [],
     price: [],
     facilities: [],
-    ownership: []
+    ownership: [],
+    numberOfRooms: []
   };
 
   const diffMap = 
@@ -36,6 +37,7 @@ const MainFilters = ({ scrollbar, setFilters, filters, defaultFilters }) => {
   diffBills && classes.bills.push(activeClass);
   diffPrice && classes.price.push(activeClass);
   filters.ownership && classes.ownership.push(activeClass);
+  filters.numberOfRooms && classes.numberOfRooms.push(activeClass);
 
   for (let key in classes) {
     classes[key].push('filters__item');
@@ -91,32 +93,28 @@ const MainFilters = ({ scrollbar, setFilters, filters, defaultFilters }) => {
           </button>
         )}
       </div>
-      <div className="filters__item-wrapper">  
-        <Dropdown
-          positionX="left"
-          className="filters__item"
-          noIcon
-          dropTitle="Number of rooms:"
-          title={
-            <>
-              Rooms
-              <span className="c-grace f-sm">{4}</span>
-            </>
-          }
-          height={15}
-          items={[
-            { title: 'Any', click: () => {}, active: false },
-            { title: 1, click: () => {}, active: false, checkbox: { val: false, click: () => {} } },
-            { title: 2, click: () => {}, active: false, checkbox: { val: false, click: () => {} } },
-            { title: 3, click: () => {}, active: false, checkbox: { val: false, click: () => {} } },
-            { title: 4, click: () => {}, active: false, checkbox: { val: true, click: () => {} } }
-          ]} />
-        <button className="filters__item-btn filters__btn-close tooltip">
-          <IoIosClose className="icon icon--grey" />
-          <span className="tooltip__text tooltip__text--top tooltip__text--center">
-            Clear
-          </span>
-        </button>
+      <div className="filters__item-wrapper"> 
+        <div 
+          onClick={() => getToFilter('rooms')}
+          tabIndex="0"
+          className={classes.numberOfRooms}>
+            Rooms
+            {filters.numberOfRooms && (
+              <span className="filters__indicator">
+                {filters.numberOfRooms}
+              </span>
+            )}
+        </div>
+        {filters.numberOfRooms && (
+          <button 
+            onClick={() => setFilters(p => ({ ...p, numberOfRooms: undefined }))}
+            className="filters__item-btn filters__btn-close tooltip">
+              <IoIosClose className="icon icon--grey" />
+              <span className="tooltip__text tooltip__text--top tooltip__text--center">
+                Clear
+              </span>
+          </button>
+        )}
       </div>
       <div className="filters__item-wrapper">
         <div 
@@ -210,7 +208,7 @@ const MainFilters = ({ scrollbar, setFilters, filters, defaultFilters }) => {
           className={classes.price}>
             Price 
             {diffPrice && (
-              <span className="filters__price-indicator"> 
+              <span className="filters__indicator"> 
                 {filters.price.from && filters.price.from} - {filters.price.to && filters.price.to}
               </span>
             )}

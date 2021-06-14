@@ -1,5 +1,4 @@
 import React from 'react';
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 import { useHistory } from 'react-router';
 
@@ -8,9 +7,14 @@ import './Pagination.scss';
 const Pagination = ({ itemsPerView, itemsCount, interval, onChange, currentPage }) => {
   const history = useHistory();
 
-  const pageCount = itemsCount / itemsPerView;
+  const pageCount = Math.ceil(itemsCount / itemsPerView);
+  
+  const scrollToTop = () => window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 
-  const pages = Array.from(Array(pageCount).keys()).map((el, i) => (
+  const pages = Array.from(Array(pageCount).keys()).map((_, i) => (
     <li 
       className={`pagination__item ${currentPage === i + 1} ${currentPage === i + 1 ? 'pagination__item--active' : ''}`} 
       key={i}
@@ -18,6 +22,7 @@ const Pagination = ({ itemsPerView, itemsCount, interval, onChange, currentPage 
       onClick={() => {
         onChange(i + 1);
         history.push(`?page=${i + 1}`);
+        scrollToTop();
       }}>
         {i + 1}
       </li>
@@ -32,6 +37,7 @@ const Pagination = ({ itemsPerView, itemsCount, interval, onChange, currentPage 
           if (currentPage > 1) {
             onChange(currentPage - 1);
             history.push(`?page=${currentPage - 1}`);
+            scrollToTop();
           }
         }}>
           <BsArrowLeftShort className="icon icon--grey" />
@@ -46,6 +52,7 @@ const Pagination = ({ itemsPerView, itemsCount, interval, onChange, currentPage 
           if (currentPage < pageCount) {
             onChange(currentPage + 1);
             history.push(`?page=${currentPage + 1}`);
+            scrollToTop();
           }
         }}>
           <BsArrowRightShort className="icon icon--grey" />

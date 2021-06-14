@@ -20,11 +20,12 @@
   }
 
   &__list {
-    // min-height: 100vh;
+    min-height: 65rem;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 2rem;
+    align-content: flex-start;
   }
 
   &__float {
@@ -35,7 +36,7 @@
   }
 
   &__empty {
-    height: calc(100vh - 7rem);
+    height: 50rem;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -48,7 +49,6 @@
       font-size: 2.15rem;
       font-weight: 300;
       color: $grey-dark;
-
     }
 
     &__icon {
@@ -74,13 +74,17 @@
     }
   }
 
-  &__cur-region {
-    font-size: 1.4rem;
-    color: $grey-light;
-    width: 75%;
+  &__cur-region,
+  &__results {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 75%;
+  }
+
+  &__cur-region {
+    font-size: 1.4rem;
+    color: $grey-light;
     margin-bottom: 1rem;
   }
 }

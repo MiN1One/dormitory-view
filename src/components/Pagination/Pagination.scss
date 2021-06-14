@@ -4,9 +4,7 @@
   display: flex;
   align-items: center;
 
-  &__list {
-    display: flex;
-  }
+  &__list { display: flex; }
 
   &__item {
     width: 4rem;
@@ -27,6 +25,7 @@
       cursor: default !important;
     }
 
+    &:not(:last-child) { margin-right: .35rem; }
   }
   
   &__btn {
@@ -38,9 +37,13 @@
     justify-content: center;
     background: $pure-white;
     border-radius: .25rem;
-    cursor: default !important;
+    
+    &:disabled { 
+      opacity: .6;
+      cursor: default !important;
+      border-color: transparent;
+    }
 
-    &:disabled { opacity: .6; }
     &:first-of-type { margin-right: 1rem; }
     &:last-of-type { margin-left: 1rem; }
   }

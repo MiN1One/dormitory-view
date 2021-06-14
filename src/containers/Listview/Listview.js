@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useLocation, useParams } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { BsPlus } from 'react-icons/bs';
 import { IoSchoolOutline } from 'react-icons/io5';
@@ -10,17 +10,20 @@ import Card from './Card/Card';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import Pagination from '../../components/Pagination/Pagination';
 import Dropdown from '../../components/UI/Dropdown/Dropdown';
-import { parseQuery } from '../../utilities/utils';
+import { parseQuery, sort } from '../../utilities/utils';
 import { useTranslation } from 'react-i18next';
 import useFetchData from '../../hooks/useFetchData';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { FcIdea } from 'react-icons/fc';
-import { sort } from '../../utilities/utils';
-import { useSelector } from 'react-redux';
+
+const 
+  NUM_ITEMS_PER_VIEW = 2,
+  PAGE_INTERVAL = 5;
 
 const Listview = () => {
   const params = useParams();
   const location = useLocation();
+  const history = useHistory();
   const { t } = useTranslation(['regions', 'translation']);
 
   const defaultFilters = useRef({
@@ -28,7 +31,7 @@ const Listview = () => {
     ownership: undefined,
     price: {},
     bills: [],
-    numberOfRooms: [],
+    numberOfRooms: undefined,
     map: {
       city: params.city,
       region: params.region !== 'all' ? [params.region] : []
@@ -37,6 +40,16 @@ const Listview = () => {
 
   const [filter, setFilter] = useState(defaultFilters.current);
 
+  const diffMap = 
+    (
+      parseQuery('city') && 
+      (parseQuery('city') !== defaultFilters.current.map.city)
+    ) ||
+    (
+      parseQuery('region') && 
+      (parseQuery('region').split(',').isEqual(defaultFilters.current.map.region))
+    );
+
   const { data, loading, error, makeRequest } = useFetchData();
   const [newData, setNewData] = useState(null);
   
@@ -44,11 +57,17 @@ const Listview = () => {
   const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)) || 1);
   const [sortBy, setSortBy] = useState('-createdAt');
 
+  // useEffect(() => {
+  //   const query = location.search !== '?' ? location.search : '';
+
+  //   history.replace(`/${filter.map.region}/${filter.map.city}${query}`);
+  // }, [filter.map.region, filter.map.city, location.search, history]);
+
   useEffect(() => {
-    const region = (filter.map.region && filter.map.region !== 'all') 
-      ? `?region[regex]=\\b(${filter.map.region.join('|')})\\b` : '';
-    const city = (filter.map.city && filter.map.city !== 'all') 
-      ? `&city=${filter.map.city}` : '';
+    let region = `?region[regex]=\\b(${filter.map.region.join('|')})\\b`;
+    let city = filter.map.city !== 'all' ? `&city=${filter.map.city}` : '';
+
+    // const page = parseQuery('page') ? `&page=${parseQuery('page')}` : '';
     
     let facilitiesQuery = '';
     for (const [key, val] of Object.entries(filter.facilities)) {
@@ -59,12 +78,15 @@ const Listview = () => {
     const priceTo = filter.price.to ? `&price[to]=${filter.price.to}` : '';
     const billsQuery = filter.bills.length > 0 ? `&bills[all]=${filter.bills.join(',')}` : '';
     const ownership = filter.ownership ? `&ownership=${filter.ownership}` : '';
-    const numberOfRooms = `\\b(${filter.numberOfRooms.join('|')})\\b`
+    const numberOfRooms = filter.numberOfRooms ? `&numberOfRooms[all]=${filter.numberOfRooms}` : '';
 
-    makeRequest({
-      url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title,createdAt`,
-      dataAt: ['data', 'docs']
-    });
+    setTimeout(() => {
+      makeRequest({
+        url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title,createdAt&count=true&limit=${NUM_ITEMS_PER_VIEW}&page=${currentPage}${numberOfRooms}`,
+        dataSecondary: 'numberOfDocuments',
+        dataAt: ['data', 'docs']
+      });
+    }, 75);
   }, [
     makeRequest, 
     filter.facilities, 
@@ -72,12 +94,13 @@ const Listview = () => {
     filter.price, 
     filter.ownership, 
     filter.bills,
-    filter.numberOfRooms
+    filter.numberOfRooms,
+    currentPage,
   ]);
 
   useEffect(() => {
     if (data) {
-      setNewData(data);
+      setNewData(data.data);
     }
   }, [data]);
 
@@ -89,7 +112,7 @@ const Listview = () => {
       if (prop[0] === 'price') prop.push(0);
       
       const sortedList = sort({
-        list: data,
+        list: data.data,
         property: prop, 
         order,
         isDate: prop[0] === 'createdAt'
@@ -99,8 +122,6 @@ const Listview = () => {
     }
   }, [data, sortBy]);
 
-  console.log(newData);
-  console.log(data);
   console.log(filter);
 
   const items = newData?.map(el => {
@@ -130,35 +151,32 @@ const Listview = () => {
               items={[
                 {
                   title: t(`regions:${params.city}.title`),
-                  path: `/${params.city}`,
-                  active: false
+                  path: `/${params.city}/all`,
+                  active: params.region === 'all'
                 },
                 {
                   title: t(`regions:${params.city}.regions.${params.region}`),
-                  path: `/${params.region}`,
-                  active: true
+                  path: `/${params.city}/${params.region}`,
+                  active: params.region !== 'all'
                 }
               ]} 
               white />
-            <div className="mb-3 mt-2 flex aie jcsb">
-              <div>
+            <div className="mb-3 mt-2 flex aie jcsb w-100">
+              <div className="listview__results">
                 <h6 className="heading heading--3 mb-1 c-black">Results</h6>
                 <div className="f-xl c-grey mb-5">
                   for {t(`regions:${params.city}.title`)}, {t(`regions:${params.city}.regions.${params.region}`)}
                 </div>
+                {(diffMap && filter.map.region.length > 0) && (
+                  <div className="listview__cur-region">
+                    Selected regions:&nbsp;
+                    {filter.map.region.map(el => 
+                      t(`regions:${filter.map.city}.regions.${el}`)
+                    ).join(', ')}
+                  </div>
+                )}
                 {data?.length > 0 && (
                   <div className="f-lg c-grey-l">
-                    {(filter.map.city !== defaultFilters.current.map.city ||
-                      filter.map.region !== defaultFilters.current.map.region
-                    ) && (
-                      <div className="listview__cur-region">
-                        Selected regions:&nbsp;
-                        {filter.map.region.map(el => 
-                          t(`regions:${filter.map.city}.regions.${el}`)
-                        ).join(', ')
-                        }
-                      </div>
-                    )}
                     found {data.length} properties by filter
                   </div>
                 )}
@@ -192,40 +210,39 @@ const Listview = () => {
                   }
                 ]} />
             </div>
-            <ul className="listview__list">
-              {loading
-                ? <Spinner />
-                : (!data || data?.length === 0 
-                    ? (
-                      <div className="listview__empty">
-                        <div className="listview__empty__content">
-                          <div className="flex fdc aic mb-2">
-                            <FcIdea className="listview__empty__icon" />
-                            No properties found within this filter
-                          </div>
-                          <div className="flex">
-                            <button className="btn--white listview__empty__btn mr-1" onClick={() => setFilter(defaultFilters)}>
-                              Clear filters
-                            </button>
-                            <button className="btn--white listview__empty__btn">
-                              <IoSchoolOutline className="icon mr-1" />
-                              Post enquiry
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                    : items
-                  )
-              }
-            </ul>
-            {data?.length > 12 && (
+            {!newData || newData?.length === 0
+              ? (
+                <div className="listview__empty">
+                  <div className="listview__empty__content">
+                    <div className="flex fdc aic mb-2">
+                      <FcIdea className="listview__empty__icon" />
+                      No properties found within this filter
+                    </div>
+                    <div className="flex">
+                      <button className="btn--white listview__empty__btn mr-1" onClick={() => setFilter(defaultFilters)}>
+                        Clear filters
+                      </button>
+                      <button className="btn--white listview__empty__btn">
+                        <IoSchoolOutline className="icon mr-1" />
+                        Post enquiry
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )
+              : (
+                <ul className="listview__list">
+                  {loading ? <Spinner /> : items}
+                </ul>
+              )
+            }
+            {data?.numberOfDocuments > NUM_ITEMS_PER_VIEW && (
               <Pagination 
                 onChange={setCurrentPage}
-                itemsCount={6}
-                interval={6}
+                itemsCount={data.numberOfDocuments}
+                interval={PAGE_INTERVAL}
                 currentPage={currentPage}
-                itemsPerView={6} />
+                itemsPerView={NUM_ITEMS_PER_VIEW} />
             )}
           </div>
         </div>

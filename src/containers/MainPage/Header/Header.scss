@@ -86,19 +86,12 @@
       justify-content: center;
       background-size: cover;
 
-      & > div {
-        transition: all .3s ease;
-      }
+      div { transition: all .3s ease; }
 
-      &--animate > div {
-        // opacity: 0;
-        transform: translateY(-30vh);
-      }
+      &--animate > div { opacity: 0; }
     }
 
-    &--animate {
-      opacity: 0;
-    }
+    &--animate { opacity: 0; }
   }
 
   &__btn-group {

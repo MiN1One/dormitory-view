@@ -3,13 +3,14 @@
 .cardl {
   background: $pure-white;
   border-radius: .25rem;
-  margin-bottom: 2rem;
   transition: all .2s ease;
   position: relative;
   padding: 1rem;
   box-shadow: 0 0 .75rem rgba($pitch, .025);
   backface-visibility: hidden;
   height: 26.5rem;
+
+  margin-bottom: 2rem;
   
   &--2 {
     width: calc(50% - 1.75%);
