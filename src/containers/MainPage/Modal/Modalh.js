@@ -7,7 +7,6 @@ import { IoChevronForward, IoSchoolOutline } from 'react-icons/io5';
 import { MdClose } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-import Backdrop from '../../../components/UI/Backdrop/Backdrop';
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import './Modalh.scss';
 

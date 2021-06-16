@@ -103,4 +103,8 @@
     
     &:not(:first-of-type) { margin-bottom: 1rem; }
   }
+
+  &__loader {
+    margin-top: 10vh;
+  }
 }

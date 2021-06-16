@@ -1,25 +1,30 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import useFetchData from '../../hooks/useFetchData';
 
 import Header from './Header/Header';
 import './Popular/Popular';
 import Popular from './Popular/Popular';
-import regions from '../../store/locales/regions_en';
 
 const MainPage = () => {
-  const temp = {};
-  regions.forEach((el, i) => {
-    const regions = el.regions.map(reg => reg.val);
-    temp[el.val] = regions;
-  });
+  const [activeRegion, setActiveRegion] = useState();
+  const { popular } = useSelector(s => s.main);
 
-  console.log([temp]);
+  useEffect(() => {
+    if (popular) {
+      setActiveRegion(Object.keys(popular)[0]);
+    }
+  }, [popular]);
 
   return (
     <main>
-      <Header />
-      <Popular />
+      <Header data={popular} />
+      <Popular 
+        data={popular} 
+        activeRegion={activeRegion}
+        setActiveRegion={setActiveRegion} />
     </main>
   );
 };
 
-export default MainPage;
+export default React.memo(MainPage);

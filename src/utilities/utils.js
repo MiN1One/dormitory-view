@@ -98,6 +98,32 @@ export const sort = ({ list, property, order, isDate }) => {
   return temp;
 };
 
+export const formatPrice = (price) => {
+  let p = `${price}`;
+  let decimal, arr = [], firstPart;
+
+  if (p.includes('.')) {
+    const [main, dec] = p.split('.');
+    p = main;
+    decimal = dec;
+  }
+
+  if (p.length % 3 !== 0) {
+    firstPart = p.slice(0, p.length % 3);
+    arr.unshift(firstPart);
+  }
+  
+  for (let i = p.length % 3; i < p.length; i+=3) {
+    arr.push(p.slice(i, i + 3));
+  }
+
+  if (arr.length > 1) {
+    p = arr.join(',');
+  }
+
+  return `${p}${decimal ? `.${decimal}` : ''}`;
+};
+
 /*eslint no-extend-native: ["error", { "exceptions": ["Array"] }]*/
 Array.prototype.isEqual = function(arr) {
   if (!arr) return false;

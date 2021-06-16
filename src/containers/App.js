@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router';
 
 import Navigation from '../components/Navigation/Navigation';
@@ -7,6 +7,7 @@ import ErrorView from '../components/ErrorView/ErrorView';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../store/actions';
+import useFetchData from '../hooks/useFetchData';
 
 const AsyncMainPage = React.lazy(() => import('./MainPage/MainPage'));
 const AsyncAuth = React.lazy(() => import('./Auth/Auth'));
@@ -20,6 +21,7 @@ function App() {
   const { t, ready } = useTranslation('regions', { useSuspense: false });
   const { regions, error } = useSelector(state => state.main);
   const dispatch = useDispatch();
+  const { data, makeRequest } = useFetchData();
 
   useEffect(() => {
     const translatedList = {};
@@ -37,13 +39,41 @@ function App() {
     }
   }, [t, dispatch, ready]);
 
+  const groupRegions = useCallback((list) => {
+    let regions = list.map(el => el.region);
+
+    const newList = {};
+    regions = regions.filter((el, i) => regions.indexOf(el) === i);
+
+    regions.forEach(r => {
+      newList[r] = { data: [] };
+      data.forEach(d => {
+        if (d.region === r) {
+          newList[r].city = d.city;
+          newList[r].data.push(d);
+        }
+      });
+    });
+
+    dispatch(actions.setPrerequisites('popular', newList));
+  }, [data, dispatch]);
+
+  useEffect(() => {
+    makeRequest({
+      url: 'api/apartments?limit=50&project=price,imageCover,offers,region,city,_id,title&sort=-numberOfViews',
+      dataAt: ['data', 'docs']
+    });
+  }, [makeRequest]);
+
+  useEffect(() => {
+    data && groupRegions(data);
+  }, [data, groupRegions]);
+
   useEffect(() => {
     window.scroll({
       top: 0,
       behavior: 'smooth'
     });
-
-    // dispatch(actions.error(null));
   }, [location.pathname, dispatch]);
 
   return (

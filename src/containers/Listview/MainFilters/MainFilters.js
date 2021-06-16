@@ -24,7 +24,7 @@ const MainFilters = ({ scrollbar, differentRegion, setFilters, filters, defaultF
 
   const diffFacilites = !isEmptyObject(filters.facilities);
   const diffBills = filters.bills.length > 0;
-  const diffPrice = !isEmptyObject(filters.price);
+  const diffPrice = filters.price.to > 0 || filters.price.from > 0;
 
   const activeClass = 'filters__item--active';
 
@@ -205,7 +205,7 @@ const MainFilters = ({ scrollbar, differentRegion, setFilters, filters, defaultF
             Price 
             {diffPrice && (
               <span className="filters__indicator"> 
-                {filters.price.from && filters.price.from} - {filters.price.to && filters.price.to}
+                {filters.price.from > 0 && filters.price.from} - {filters.price.to > 0 && filters.price.to}
               </span>
             )}
         </div>
@@ -214,7 +214,10 @@ const MainFilters = ({ scrollbar, differentRegion, setFilters, filters, defaultF
             onClick={() =>
               setFilters(p => ({
                 ...p,
-                price: {}
+                price: {
+                  to: 0,
+                  from: 0
+                }
               }))
             }
             className="filters__item-btn filters__btn-close tooltip">
@@ -235,4 +238,4 @@ const MainFilters = ({ scrollbar, differentRegion, setFilters, filters, defaultF
   );
 }
 
-export default MainFilters;
+export default React.memo(MainFilters);

@@ -38,6 +38,7 @@ const initialState = {
   months,
   facilities,
   error: null,
+  popular: null,
   regionsLocal: null
 };
 

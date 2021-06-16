@@ -6,7 +6,7 @@ import { GoCheck } from 'react-icons/go';
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import './Filters.scss';
 import { useTranslation } from 'react-i18next';
-import PriceFilter from '../PriceFilter/PriceFilter';
+import PriceFilter from '../PriceFilter/PriceFilter-class';
 import RegionsFilter from '../RegionsFilter/RegionsFilter';
 import BillsFilter from '../BillsFilter/BillsFilter';
 import FacilitiesFilter from '../FacilitiesFilter/FacilitiesFilter';
@@ -24,8 +24,6 @@ const Filters = props => {
 
   const classes = ['filters'];
   slide && classes.push('filters--slide');
-
-  console.log(scroll)
 
   return (
     <div className={classes.join(' ')} ref={filtersRef}>
@@ -89,4 +87,4 @@ const Filters = props => {
   );
 };
 
-export default Filters;
+export default React.memo(Filters);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GoLocation } from 'react-icons/go';
 import { IoIosClose, IoIosSearch } from 'react-icons/io';
@@ -8,7 +8,7 @@ import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import useFetchData from '../../../hooks/useFetchData';
 import useFindRegions from '../../../hooks/useFindRegions';
 
-const Searchbar = ({ animate, setAnimate, popular = [] }) => {
+const Searchbar = ({ animate, setAnimate, data: popular }) => {
   const [search, setSearch] = useState('');
   const { t } = useTranslation('regions');
   const history = useHistory();
@@ -17,14 +17,13 @@ const Searchbar = ({ animate, setAnimate, popular = [] }) => {
     getBySearch: true,
     regionSearch: true
   });
+
   const { data, makeRequest, loading } = useFetchData();
 
   const classes = ['header__searchbar'];
   if (animate)
     classes.push('header__searchbar--animate');
 
-
-  console.log(regions);
   const items = [];
   for (let key in regions) {
     let el;
@@ -57,6 +56,20 @@ const Searchbar = ({ animate, setAnimate, popular = [] }) => {
 
     items.push(el);
   }
+
+  const popularItems = popular && [...Object.keys(popular)].map((el, i) => (
+    <li
+      tabIndex="0"
+      className="header__searchbar__item" 
+      key={i}
+      onMouseDown={() => history.push(`/${popular[el].city}/${el}`)}>
+        <div className="flex fdc">
+          {t(`regions:${popular[el].city}.regions.${el}`)}
+          <span className="c-grey-l mt-5"> {t(`regions:${popular[el].city}.title`)}</span>
+        </div>
+        <IoChevronForward className="icon--xs" />
+    </li>
+  ));
  
   return (
     <div className={classes.join(' ')}>
@@ -95,27 +108,23 @@ const Searchbar = ({ animate, setAnimate, popular = [] }) => {
           {animate && (
             <div className="header__searchbar__drop">
               <Scrollbar style={{ height: '100%', width: '100%' }}>
-                {data || items
-                  ? (
-                    <>
-                      <div className="header__searchbar__title">
-                        {(data || items.length > 0) 
-                          ? 'Search results' 
-                          : (
-                            <>
-                              <GoLocation className="icon--sm mr-1 icon--grey" />
-                              Popular regions
-                            </>
-                          )
-                        }
-                      </div>
-                      <ul className="header__searchbar__list">
-                        {data ? data : items}
-                      </ul>
-                    </>
-                  )
-                  : popular
-                }
+                <div className="header__searchbar__title">
+                  {(data || items.length > 0) 
+                    ? 'Search results' 
+                    : (
+                      <>
+                        <GoLocation className="icon--sm mr-1 icon--grey" />
+                        Popular regions
+                      </>
+                    )
+                  }
+                </div>
+                <ul className="header__searchbar__list">
+                  {(data || items.length > 0) 
+                    ? (data ? data : items)
+                    : popularItems
+                  }
+                </ul>
               </Scrollbar>
             </div>
           )}

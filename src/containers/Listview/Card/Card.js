@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import img from '../../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
 import useEditFavorites from '../../../hooks/useEditFavorites';
-import { convertISOString } from '../../../utilities/utils';
+import { convertISOString, formatPrice } from '../../../utilities/utils';
 
 import './Card.scss';
 
@@ -16,6 +16,7 @@ const Card = ({ slide, data, symbol }) => {
   const { t } = useTranslation('regions');
   const { favorites, editFavorites } = useEditFavorites();
   const { months } = useSelector(s => s.main);
+
   const { date, month, hours, minutes } = convertISOString(data.createdAt);
 
   return (
@@ -30,9 +31,11 @@ const Card = ({ slide, data, symbol }) => {
                 height="100%"
                 alt={data.title}
                 className="img img--cover" />
-              <div className="cardl__tag">
-                2 offers
-              </div>
+              {data.offers && (
+                <div className="cardl__tag">
+                  {data.offers.length} offers
+                </div>
+              )}
             </figure>
             <div className="cardl__right">
               <span className="cardl__title">
@@ -84,8 +87,8 @@ const Card = ({ slide, data, symbol }) => {
           <span className="c-grey-l f-xs">{date} {months[month]} {hours}:{minutes}</span>
           <span className="cardl__price">
             <span className="f-sm f-normal c-grace">from </span>
-            {symbol}{data.price[0]}
-            <span className="f-sm f-normal c-grace"> / week</span>
+            {formatPrice(data.price[0])} {symbol}
+            <span className="f-sm f-normal c-grace"> / month</span>
           </span>
         </div>
       </Link>
@@ -121,4 +124,4 @@ const Card = ({ slide, data, symbol }) => {
   );
 };
 
-export default Card;
+export default React.memo(Card);

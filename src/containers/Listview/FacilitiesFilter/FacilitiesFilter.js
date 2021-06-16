@@ -1,7 +1,6 @@
 import React from 'react';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
 import { GoCheck } from 'react-icons/go';
-import { useSelector } from 'react-redux';
 import Specifications from '../../../components/Specs/Specifications';
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 
@@ -68,4 +67,4 @@ const FacilitiesFilter = ({ filters, setFilters }) => {
   );
 }
 
-export default FacilitiesFilter;
+export default React.memo(FacilitiesFilter);

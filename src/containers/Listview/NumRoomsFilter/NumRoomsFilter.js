@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { BsPlus } from "react-icons/bs"
 import { HiOutlineMinusSm } from "react-icons/hi";
@@ -52,4 +53,4 @@ const NumRoomsFilter = ({ setFilters, filters }) => {
   );
 };
 
-export default NumRoomsFilter;
+export default React.memo(NumRoomsFilter);

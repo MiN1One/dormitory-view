@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useReducer, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../store/actions';
 import axios from 'axios';
@@ -29,14 +29,13 @@ const reducer = (state, action) => {
 
 const useFetchData = () => {
   const [httpData, dispatch] = useReducer(reducer, STATE);
-  const reduxDispatch = useDispatch();
+  // const reduxDispatch = useDispatch();
   const { user } = useSelector(state => state.user);
+
   const token = user?.token;
 
   const makeRequest = useCallback((options) => {
     dispatch({ type: 'start' });
-    reduxDispatch(actions.error(null));
-    console.log(token)
 
     const axiosConf = {
       url: `http://localhost:3005/${options.url}`,
@@ -73,26 +72,24 @@ const useFetchData = () => {
         options.callback && options.callback();
       })
       .catch((er) => {
-        dispatch({ type: 'reject', error: er });
-        console.log(er.response && er.response);
-
         if (er.response) {
           console.log(er.response.status);
-          reduxDispatch(actions.error(er.response));
         } else {
           er.status = 500;
-          reduxDispatch(actions.error(er));
         }
+
+        dispatch({ type: 'reject', error: er });
+        console.log(er.response && er.response);
       });
 
-  }, [reduxDispatch, token]);
+  }, [token]);
 
   return {
     data: httpData.data,
     error: httpData.error,
     loading: httpData.loading,
     makeRequest
-  }
+  };
 };
 
 export default useFetchData;

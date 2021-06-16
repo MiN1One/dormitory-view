@@ -8,8 +8,10 @@
   padding: 1rem;
   box-shadow: 0 0 .75rem rgba($pitch, .025);
   backface-visibility: hidden;
-  height: 26.5rem;
+  animation: fadeIn .3s ease-in;
+  animation-fill-mode: backwards;
 
+  height: 26.5rem;
   margin-bottom: 2rem;
   
   &--2 {

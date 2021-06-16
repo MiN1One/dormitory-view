@@ -158,4 +158,4 @@ const RegionsFilter = ({ setFilters, filters }) => {
   );
 }
 
-export default RegionsFilter;
+export default React.memo(RegionsFilter);

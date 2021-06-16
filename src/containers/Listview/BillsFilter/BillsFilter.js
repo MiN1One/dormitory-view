@@ -56,4 +56,4 @@ const BillsFilter = ({ filters, setFilters }) => {
   );
 }
 
-export default BillsFilter;
+export default React.memo(BillsFilter);

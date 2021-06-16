@@ -8,7 +8,6 @@
   width: 100%;
   background: $pure-white;
   transition: transform .3s cubic-bezier(1,0,0,1);
-  // border-bottom: 1px solid rgba($black, .025);
   box-shadow: 0 0 .15rem rgba($black, .15);
   
   &--hide { transform: translateY(-100%); }

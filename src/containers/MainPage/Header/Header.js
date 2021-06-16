@@ -11,22 +11,24 @@ import './Header.scss';
 import { Link, useHistory } from 'react-router-dom';
 import { IoChevronBackOutline, IoChevronDownOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
-import Modalh from '../Modalh/Modalh';
+import Modalh from '../Modal/Modal';
 import { useSelector } from 'react-redux';
 import useFetchData from '../../../hooks/useFetchData';
 import Searchbar from '../Searchbar/Searchbar';
+import Regions from '../Regions/Regions';
 
 SwiperCore.use([ Navigation, Pagination ]);
 
-const Header = () => {
+const Header = ({ data: popularItems }) => {
   const { t } = useTranslation();
   const history = useHistory();
 
+  const { user } = useSelector((s) => s.user);
   const [activeSection, setActiveSection] = useState(null);
-  const state = useSelector(state => state.main);
   const { data, loading, error, makeRequest } = useFetchData();
   const [swiper, setSwiper] = useState(null);
   const [animate, setAnimate] = useState(false);
+  const [showRegions, setShowRegions] = useState(false); 
 
   useEffect(() => 
     swiper && swiper.update(), 
@@ -70,22 +72,6 @@ const Header = () => {
     );
   });
 
-  const 
-    items = ['regions', 'universities', 'offers'],
-    navItems = items.map((el, i) => {
-      const classes = ['header__nav__item tab-item'];
-      el === activeSection && classes.push('header__nav__item--active tab-item--active');
-      return (
-        <div 
-          key={i+Date.now}
-          tabIndex="0"
-          onClick={() => setActiveSection(el)}
-          className={classes.join(' ')}>
-            {el}
-        </div>
-      );
-    });
-
   if (loading) {
     return (
       <div className="wh-100 flex aic jcc">
@@ -98,18 +84,18 @@ const Header = () => {
 
   return (
     <header className="header">
-      {activeSection && (
-        <Modalh 
-          section={activeSection}
-          close={() => setActiveSection(null)}
-          list={state[activeSection]} />
-      )}
+      {showRegions && <Regions close={() => setShowRegions(false)} />}
       <nav className="header__nav">
         <div className="container">
           <div className="header__nav__content">
             <div className="flex aic">
               <h1 className="f-lg f-mid-w c-white mr-lg">LOGO</h1>
-              {navItems}
+              <div 
+                tabIndex="0"
+                onClick={() => setShowRegions(true)}
+                className={`header__nav__item tab-item ${showRegions ? 'header__nav__item--active tab-item--active' : ''}`}>
+                  Regions
+              </div>
             </div>
             <div className="flex aic">
               <Dropdown 
@@ -135,7 +121,19 @@ const Header = () => {
                     click: () => history.push('/help#refund')
                   }
                 ]} />
-              <Link to="/all/all" className="btn btn--primary header__btn">Sign up</Link>
+              {!user 
+                ? (
+                  <Link to="/auth/signin" className="btn btn--primary header__btn">
+                    Sign up
+                  </Link>
+                )
+                : (
+                  <Link to="/myprofile" className="btn btn--primary header__btn">
+                    My profile
+                  </Link>
+                )
+              }
+              
             </div>
           </div>
         </div>
@@ -153,6 +151,7 @@ const Header = () => {
         </div>
       </div>
       <Searchbar
+        data={popularItems}
         setAnimate={setAnimate}
         animate={animate} />
       <Swiper 
@@ -171,4 +170,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

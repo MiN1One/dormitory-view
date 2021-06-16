@@ -12,7 +12,7 @@ i18n
     fallbackLng: false,
     whitelist: ['en', 'ru', 'uz'],
     react: { useSuspense: false },
-    debug: true
+    debug: false
   });
 
 export default i18n;

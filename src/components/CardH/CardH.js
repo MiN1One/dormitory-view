@@ -1,24 +1,23 @@
 import { BiCheckDouble, BiDoorOpen } from "react-icons/bi";
 import { AiFillTag } from "react-icons/ai";
-import { IoIosSchool } from "react-icons/io";
 import { ImImage } from "react-icons/im";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay } from 'swiper';
+import { IoSchoolOutline } from "react-icons/io5";
+import { GoLocation } from "react-icons/go";
+import { useTranslation } from "react-i18next";
 
 import 'swiper/swiper.scss';
 
 import image from '../../assets/images/minh-pham-OtXADkUh3-I-unsplash.jpg';
 import './CardH.scss';
-import { IoSchoolOutline } from "react-icons/io5";
-import { GoLocation } from "react-icons/go";
-import { useTranslation } from "react-i18next";
 
 SwiperCore.use([Autoplay]);
 
 const CardH = ({ data }) => {
-  const { t } = useTranslation('regions');
+  const { t } = useTranslation(['regions', 'translation']);
 
   return (
     <Link to={`/${data.city}/${data.region}/${data._id}`} className="cardh" key={data._id}>
@@ -36,18 +35,19 @@ const CardH = ({ data }) => {
             </div>
           } />
         <div className="cardh__panel">
-          <Swiper 
-            loopFillGroupWithBlank={true}
-            autoplay={{ delay: 3000 }}
-            direction="vertical"
-            slidesPerView={1}>
-              <SwiperSlide className="flex aic">
-                <AiFillTag className="icon--xs icon--yellow" />&nbsp;Discount $200
-              </SwiperSlide>
-              <SwiperSlide className="flex aic">
-                <AiFillTag className="icon--xs icon--yellow" />&nbsp;Hehe boay
-              </SwiperSlide>
-          </Swiper>
+          {data.offers && (
+            <Swiper 
+              loopFillGroupWithBlank={true}
+              autoplay={{ delay: 3000 }}
+              direction="vertical"
+              slidesPerView={1}>
+                {data.offers.map((el, i) => (
+                  <SwiperSlide className="flex aic" key={i}>
+                    <AiFillTag className="icon--xs icon--yellow" />&nbsp;{t(`translation:offer.${el.type}`)} {el.value}
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          )}
         </div>
       </figure>
       <div className="cardh__body">

@@ -9,6 +9,8 @@
   box-shadow: .5rem .5rem 1rem rgba($pitch, .035);
   background: $pure-white;
   padding: 1rem;
+  animation: fadeIn .3s ease-in;
+  animation-fill-mode: backwards;
   
   width: calc((100% - 2 * 4.5rem) / 3);
   margin-right: 4.5rem;
@@ -39,7 +41,7 @@
   &__body {
     padding: 1.15rem 1.25rem;
     width: 100%;
-    text-overflow: ellipsis;
+    text-overflow: esllipsis;
     white-space: nowrap;
   }
 

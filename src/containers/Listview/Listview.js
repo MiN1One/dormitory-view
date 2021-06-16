@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { BsPlus } from 'react-icons/bs';
 import { IoSchoolOutline } from 'react-icons/io5';
+import { FcIdea } from 'react-icons/fc';
 
 import './Listview.scss';
 import Filters from './Filters/Filters';
@@ -11,10 +13,8 @@ import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import Pagination from '../../components/Pagination/Pagination';
 import Dropdown from '../../components/UI/Dropdown/Dropdown';
 import { parseQuery, sort } from '../../utilities/utils';
-import { useTranslation } from 'react-i18next';
 import useFetchData from '../../hooks/useFetchData';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { FcIdea } from 'react-icons/fc';
 
 const 
   NUM_ITEMS_PER_VIEW = 12,
@@ -28,7 +28,10 @@ const Listview = () => {
   const defaultFilters = useRef({
     facilities: {},
     ownership: undefined,
-    price: {},
+    price: {
+      from: 0,
+      to: 0
+    },
     bills: [],
     numberOfRooms: undefined,
     map: {
@@ -39,17 +42,18 @@ const Listview = () => {
 
   const [filter, setFilter] = useState(defaultFilters.current);
 
-  const diffMap = 
-    filter.map.city !== defaultFilters.current.map.city || 
-    !defaultFilters.current.map.region.isEqual(filter.map.region);
-
   const { data, loading, error, makeRequest } = useFetchData();
+
   const [newData, setNewData] = useState(null);
   
   const [slide, setSlide] = useState(false);
   const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)) || 1);
   const [sortBy, setSortBy] = useState('-createdAt');
   const [currency, setCurrency] = useState({ val: 'usd', symbol: 'USD'});
+
+  const diffMap = 
+      filter.map.city !== defaultFilters.current.map.city || 
+      !defaultFilters.current.map.region.isEqual(filter.map.region);
 
   useEffect(() => {
     let region = `?region[regex]=\\b(${filter.map.region.join('|')})\\b`;
@@ -60,12 +64,13 @@ const Listview = () => {
       facilitiesQuery = `${facilitiesQuery}&${key}[all]=${val[0]}`;
     }
 
-    const currencyQuery = currency !== 'usd' ? `&currency=${currency.val}` : '';
-    const priceFrom = filter.price.from ? `&price[from]=${filter.price.from}` : '';
-    const priceTo = filter.price.to ? `&price[to]=${filter.price.to}` : '';
-    const billsQuery = filter.bills.length > 0 ? `&bills[all]=${filter.bills.join(',')}` : '';
-    const ownership = filter.ownership ? `&ownership=${filter.ownership}` : '';
-    const numberOfRooms = filter.numberOfRooms ? `&numberOfRooms[all]=${filter.numberOfRooms}` : '';
+    const 
+      currencyQuery = currency !== 'usd' ? `&currency=${currency.val}` : '',
+      priceFrom = filter.price.from ? `&price[from]=${filter.price.from}` : '',
+      priceTo = filter.price.to ? `&price[to]=${filter.price.to}` : '',
+      billsQuery = filter.bills.length > 0 ? `&bills[all]=${filter.bills.join(',')}` : '',
+      ownership = filter.ownership ? `&ownership=${filter.ownership}` : '',
+      numberOfRooms = filter.numberOfRooms ? `&numberOfRooms[all]=${filter.numberOfRooms}` : '';
 
     setTimeout(() => {
       makeRequest({
@@ -78,7 +83,8 @@ const Listview = () => {
     makeRequest, 
     filter.facilities, 
     filter.map, 
-    filter.price, 
+    filter.price.from,
+    filter.price.to, 
     filter.ownership, 
     filter.bills,
     filter.numberOfRooms,
@@ -188,58 +194,60 @@ const Listview = () => {
                   </div>
                 )}
               </div>
-              <div className="flex">
-                <div className="mr-1">
+              {data?.data.length > 0 && (
+                <div className="flex">
+                  <div className="mr-1">
+                    <Dropdown 
+                      title={currency.symbol}
+                      dropTitle="Currency:"
+                      items={[
+                        {
+                          title: 'USD',
+                          click: () => setCurrency({ val: 'usd', symbol: 'USD'}),
+                          active: currency.val === 'usd'
+                        },
+                        {
+                          title: 'UZS',
+                          click: () => setCurrency({ val: 'uzsom', symbol: 'UZS' }),
+                          active: currency.val === 'uzsom'
+                        },
+                        {
+                          title: 'EUR',
+                          click: () => setCurrency({ val: 'eu', symbol: 'EU'}),
+                          active: currency.val === 'eu'
+                        }
+                      ]} />
+                  </div>
                   <Dropdown 
-                    title={currency.symbol}
-                    dropTitle="Currency:"
+                    title={t(`translation:utils.sort.${sortBy}`)}
+                    dropTitle="Sort by:"
+                    positionX="right"
+                    width="19rem"
+                    height={15}
                     items={[
                       {
-                        title: 'USD',
-                        click: () => setCurrency({ val: 'usd', symbol: 'USD'}),
-                        active: currency.val === 'usd'
+                        title: t('translation:utils.sort.+createdAt'),
+                        click: () => setSortBy('+createdAt'),
+                        active: sortBy === '+createdAt'
                       },
                       {
-                        title: 'UZS',
-                        click: () => setCurrency({ val: 'uzsom', symbol: 'UZS' }),
-                        active: currency.val === 'uzsom'
+                        title: t('translation:utils.sort.-createdAt'),
+                        click: () => setSortBy('-createdAt'),
+                        active: sortBy === '-createdAt'
                       },
                       {
-                        title: 'EUR',
-                        click: () => setCurrency({ val: 'eu', symbol: 'EU'}),
-                        active: currency.val === 'eu'
+                        title: t('translation:utils.sort.+price'),
+                        click: () => setSortBy('+price'),
+                        active: sortBy === '+price'
+                      },
+                      {
+                        title: t('translation:utils.sort.-price'),
+                        click: () => setSortBy('-price'),
+                        active: sortBy === '-price'
                       }
                     ]} />
                 </div>
-                <Dropdown 
-                  title={t(`translation:utils.sort.${sortBy}`)}
-                  dropTitle="Sort by:"
-                  positionX="right"
-                  width="19rem"
-                  height={15}
-                  items={[
-                    {
-                      title: t('translation:utils.sort.+createdAt'),
-                      click: () => setSortBy('+createdAt'),
-                      active: sortBy === '+createdAt'
-                    },
-                    {
-                      title: t('translation:utils.sort.-createdAt'),
-                      click: () => setSortBy('-createdAt'),
-                      active: sortBy === '-createdAt'
-                    },
-                    {
-                      title: t('translation:utils.sort.+price'),
-                      click: () => setSortBy('+price'),
-                      active: sortBy === '+price'
-                    },
-                    {
-                      title: t('translation:utils.sort.-price'),
-                      click: () => setSortBy('-price'),
-                      active: sortBy === '-price'
-                    }
-                  ]} />
-              </div>
+              )}
             </div>
             {!newData || newData?.length === 0
               ? (
@@ -250,7 +258,7 @@ const Listview = () => {
                       No properties found within this filter
                     </div>
                     <div className="flex">
-                      <button className="btn--white listview__empty__btn mr-1" onClick={() => setFilter(defaultFilters)}>
+                      <button className="btn--white listview__empty__btn mr-1" onClick={() => setFilter(defaultFilters.current)}>
                         Clear filters
                       </button>
                       <button className="btn--white listview__empty__btn">
@@ -263,7 +271,15 @@ const Listview = () => {
               )
               : (
                 <ul className="listview__list">
-                  {loading ? <Spinner /> : items}
+                  {loading 
+                    ? (
+                      <div className="listview__empty">
+                        <div className="listview__empty__content">
+                          <Spinner className="loader--lg listview__loader" />
+                        </div>
+                      </div>
+                    ) 
+                    : items}
                 </ul>
               )
             }
