@@ -5,7 +5,6 @@ import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
 import 'swiper/swiper.scss';
 
-import img from '../../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
 import { preloadImages } from '../../../utilities/utils';
 import './Fullscreen.scss';
 
@@ -40,35 +39,42 @@ const Fullscreen = (props) => {
     <div className="fulls">
       <div className="container">
         <div className="fulls__content">
-          <div className="flex aic jcsb mb-3">
-            <div>
-              <h5 className="heading heading--3 f-thin c-white mb-1">Apartment Interior</h5>
-              <p className="f-mid c-light f-thin">Press Escape to exit the screen</p>
-            </div>
-            <button onClick={props.close}>
-              <VscClose className="icon--mid icon--white" />
-            </button>
-          </div>
           <div className="fulls__body">
             <figure className="fulls__figure">
+              <button onClick={props.close} className="fulls__btn-close">
+                <VscClose className="icon icon--white" />
+              </button>
               {!loading
-                ? <>
-                  <img className="img img--contain" alt="img" src={props.img} />
-                  <button className="fulls__btn fulls__btn--prev">
-                    <IoChevronBackOutline className="icon--mid" />
-                  </button>
-                  <button className="fulls__btn fulls__btn--next">
-                    <IoChevronForwardOutline className="icon--mid" />
-                  </button>
-                </>
-                : <div className="full__loading">
-                  <h1 className="c-light">Loading</h1>
-                </div>
+                ? (
+                  <>
+                    <img className="img img--contain" alt="img" src={props.img} />
+                    <div className="fulls__btn-group">
+                      <div className="flex">
+                        <button className="btn--slider fulls__btn-slider--prev">
+                          <IoChevronBackOutline className="icon--sm icon--dark" />
+                        </button>
+                        <button className="btn--slider fulls__btn-slider--next">
+                          <IoChevronForwardOutline className="icon--sm icon--dark" />
+                        </button>
+                      </div>
+                      <div className="te">
+                        <h5 className="heading heading--3 f-thin c-white">Apartment Interior</h5>
+                        <span className="f-lg c-white mb-5 inline">Room option 1</span>
+                        <p className="f-mid c-light f-thin">Press Escape to exit the screen</p>
+                      </div>
+                    </div>
+                  </>
+                )
+                : (
+                  <div className="full__loading">
+                    <h1 className="c-light">Loading</h1>
+                  </div>
+                )
               }
             </figure>
             <Swiper 
               className="fulls__list"
-              slidesPerView={4}
+              slidesPerView={5}
               id="property"
               onInit={(sw) => setSwiper(sw)}
               simulateTouch={false}

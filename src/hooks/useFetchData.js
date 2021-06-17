@@ -2,6 +2,7 @@ import { useCallback, useReducer, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../store/actions';
 import axios from 'axios';
+import { FaGalacticSenate } from 'react-icons/fa';
 
 const STATE = {
   loading: false,
@@ -27,7 +28,10 @@ const reducer = (state, action) => {
   }
 };
 
-const useFetchData = () => {
+const useFetchData = (options = {
+  loading: false
+}) => {
+  STATE.loading = options.loading;
   const [httpData, dispatch] = useReducer(reducer, STATE);
   // const reduxDispatch = useDispatch();
   const { user } = useSelector(state => state.user);
@@ -38,6 +42,7 @@ const useFetchData = () => {
     dispatch({ type: 'start' });
 
     const axiosConf = {
+      // url: `/${options.url}`,
       url: `http://localhost:3005/${options.url}`,
       headers: {
         'Accept': '*/*',

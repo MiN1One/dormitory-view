@@ -101,7 +101,7 @@
     font-size: 1.4rem;
     color: $grey-light;
     
-    &:not(:first-of-type) { margin-bottom: 1rem; }
+    &:not(:last-of-type) { margin-bottom: .75rem; }
   }
 
   &__loader {

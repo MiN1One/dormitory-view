@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation, useParams } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BsPlus } from 'react-icons/bs';
@@ -18,14 +18,13 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 
 const 
   NUM_ITEMS_PER_VIEW = 12,
-  PAGE_INTERVAL = 5;
-
-const Listview = () => {
-  const params = useParams();
-  const location = useLocation();
-  const { t } = useTranslation(['regions', 'translation']);
-
-  const defaultFilters = useRef({
+  PAGE_INTERVAL = 5,
+  CURRENCIES = {
+    usd: { val: 'usd', symbol: 'USD' },
+    uzsom: { val: 'uzsom', symbol: 'UZSOM' },
+    eu: { val: 'eu', symbol: 'EUR' },
+  },
+  DEFAULT_FILTERS = {
     facilities: {},
     ownership: undefined,
     price: {
@@ -35,25 +34,59 @@ const Listview = () => {
     bills: [],
     numberOfRooms: undefined,
     map: {
-      city: params.city,
-      region: params.region !== 'all' ? [params.region] : []
+      city: 'all',
+      region: []
+    }
+  };
+
+const Listview = () => {
+  const params = useParams();
+  const location = useLocation();
+  const history = useHistory();
+  const { t } = useTranslation(['regions', 'translation']);
+
+  DEFAULT_FILTERS.map = {
+    city: params.city,
+    region: params.region !== 'all' ? [params.region] : []
+  };
+
+  const presetFilters = useRef({
+    facilities: {},
+    ownership: parseQuery('ownership') || undefined,
+    price: {
+      from: +parseQuery('price[from]') || 0,
+      to: +parseQuery('price[to]') || 0
+    },
+    bills: (parseQuery('bills[all]') && parseQuery('bills').split(',')) || [],
+    numberOfRooms: +parseQuery('numberOfRooms') || undefined,
+    map: {
+      city: parseQuery('city') || params.city,
+      region: 
+        parseQuery('region') 
+          ? (parseQuery('region') !== 'all' ? parseQuery('region').split(',') : [])
+          : (params.region !== 'all' ? [params.region] : [])
     }
   });
 
-  const [filter, setFilter] = useState(defaultFilters.current);
+  const [filter, setFilter] = useState(presetFilters.current);
 
-  const { data, loading, error, makeRequest } = useFetchData();
+  const { data, loading, error, makeRequest } = useFetchData({
+    loading: true
+  });
 
   const [newData, setNewData] = useState(null);
   
   const [slide, setSlide] = useState(false);
   const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)) || 1);
   const [sortBy, setSortBy] = useState('-createdAt');
-  const [currency, setCurrency] = useState({ val: 'usd', symbol: 'USD'});
+  const [currency, setCurrency] = useState(
+    (parseQuery('currency') && CURRENCIES[parseQuery('currency')]) ||
+    { val: 'usd', symbol: 'USD'}
+  );
 
   const diffMap = 
-      filter.map.city !== defaultFilters.current.map.city || 
-      !defaultFilters.current.map.region.isEqual(filter.map.region);
+    filter.map.city !== params.city || 
+    (params.region !== 'all' && ![params.region].isEqual(filter.map.region));
 
   useEffect(() => {
     let region = `?region[regex]=\\b(${filter.map.region.join('|')})\\b`;
@@ -65,16 +98,24 @@ const Listview = () => {
     }
 
     const 
-      currencyQuery = currency !== 'usd' ? `&currency=${currency.val}` : '',
+      currencyQuery = currency.val !== 'usd' ? `&currency=${currency.val}` : '',
       priceFrom = filter.price.from ? `&price[from]=${filter.price.from}` : '',
       priceTo = filter.price.to ? `&price[to]=${filter.price.to}` : '',
       billsQuery = filter.bills.length > 0 ? `&bills[all]=${filter.bills.join(',')}` : '',
       ownership = filter.ownership ? `&ownership=${filter.ownership}` : '',
       numberOfRooms = filter.numberOfRooms ? `&numberOfRooms[all]=${filter.numberOfRooms}` : '';
 
+    const 
+      userRegionQuery = params.city !== filter.map.city ? `&city=${filter.map.city}` : '',
+      userCityQuery = (params.region !== 'all' && ![params.region].isEqual(filter.map.region))
+        ? `&region=${filter.map.region.length > 0 ? filter.map.region.join(',') : 'all'}` 
+        : '';
+
+    history.push(`?query=true${userRegionQuery}${userCityQuery}${currencyQuery}${priceFrom}${priceTo}${billsQuery}${ownership}${numberOfRooms}`);
+
     setTimeout(() => {
       makeRequest({
-        url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title,createdAt&count=true&limit=${NUM_ITEMS_PER_VIEW}&page=${currentPage}${numberOfRooms}${currencyQuery}`,
+        url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title,createdAt,offers&count=true&limit=${NUM_ITEMS_PER_VIEW}&page=${currentPage}${numberOfRooms}${currencyQuery}`,
         dataSecondary: 'numberOfDocuments',
         dataAt: ['data', 'docs']
       });
@@ -82,14 +123,17 @@ const Listview = () => {
   }, [
     makeRequest, 
     filter.facilities, 
-    filter.map, 
+    filter.map,
     filter.price.from,
     filter.price.to, 
     filter.ownership, 
     filter.bills,
     filter.numberOfRooms,
     currentPage,
-    currency
+    currency,
+    params.city,
+    params.region,
+    history
   ]);
 
   useEffect(() => {
@@ -112,7 +156,6 @@ const Listview = () => {
     });
   }, [sortBy]);
 
-  // SORTING
   useEffect(() => {
     data && setNewData(sortData(data.data));
   }, [data, sortBy, sortData]);
@@ -145,7 +188,7 @@ const Listview = () => {
         onSlide={() => setSlide(prev => !prev)}
         setFilters={(f) => setFilter(f)}
         filters={filter}
-        defaultFilters={defaultFilters.current}
+        defaultFilters={DEFAULT_FILTERS}
         currency={currency} />
       <div className="container">
         <div className="listview__content">
@@ -172,25 +215,27 @@ const Listview = () => {
                 </div>
                 {diffMap && (
                   <>
-                    {(filter.map.city !== defaultFilters.current.map.city &&
-                      filter.map.city !== 'all'
-                    ) && (
+                    {filter.map.city !== params.city && (
                       <div className="listview__cur-region">
                         City:&nbsp;
-                        {t(`regions:${filter.map.city}.title`)}
+                        {filter.map.city === 'all'
+                          ? t('regions:all.regions.all')
+                          : t(`regions:${filter.map.city}.title`)
+                        }
                       </div>
                     )}
-                    {filter.map.region.length > 0 && (
-                      <div className="listview__cur-region">
-                        Selected regions:&nbsp;
-                        {filter.map.region.map(el => t(`regions:${filter.map.city}.regions.${el}`)).join(', ')}
-                      </div>
-                    )}
+                    <div className="listview__cur-region">
+                      Selected regions:&nbsp;
+                      {filter.map.region.length > 0 
+                        ? filter.map.region.map(el => t(`regions:${filter.map.city}.regions.${el}`)).join(', ')
+                        : t(`regions:${filter.map.city}.regions.all`)
+                      }
+                    </div>
                   </>
                 )}
                 {data?.numberOfDocuments > 0 && (
                   <div className="f-lg c-grey-l">
-                    found {data.numberOfDocuments} properties by filter
+                    found {data.numberOfDocuments} property/ies by filter
                   </div>
                 )}
               </div>
@@ -200,23 +245,13 @@ const Listview = () => {
                     <Dropdown 
                       title={currency.symbol}
                       dropTitle="Currency:"
-                      items={[
-                        {
-                          title: 'USD',
-                          click: () => setCurrency({ val: 'usd', symbol: 'USD'}),
-                          active: currency.val === 'usd'
-                        },
-                        {
-                          title: 'UZS',
-                          click: () => setCurrency({ val: 'uzsom', symbol: 'UZS' }),
-                          active: currency.val === 'uzsom'
-                        },
-                        {
-                          title: 'EUR',
-                          click: () => setCurrency({ val: 'eu', symbol: 'EU'}),
-                          active: currency.val === 'eu'
-                        }
-                      ]} />
+                      items={
+                        Object.keys(CURRENCIES).map((el) => ({
+                          title: CURRENCIES[el].symbol,
+                          click: () => setCurrency({ val: el, symbol: CURRENCIES[el].symbol }),
+                          active: currency.val === el
+                        }))
+                      } />
                   </div>
                   <Dropdown 
                     title={t(`translation:utils.sort.${sortBy}`)}
@@ -249,40 +284,40 @@ const Listview = () => {
                 </div>
               )}
             </div>
-            {!newData || newData?.length === 0
+            {loading 
               ? (
                 <div className="listview__empty">
                   <div className="listview__empty__content">
-                    <div className="flex fdc aic mb-2">
-                      <FcIdea className="listview__empty__icon" />
-                      No properties found within this filter
-                    </div>
-                    <div className="flex">
-                      <button className="btn--white listview__empty__btn mr-1" onClick={() => setFilter(defaultFilters.current)}>
-                        Clear filters
-                      </button>
-                      <button className="btn--white listview__empty__btn">
-                        <IoSchoolOutline className="icon mr-1" />
-                        Post enquiry
-                      </button>
-                    </div>
+                    <Spinner className="loader--lg listview__loader" />
                   </div>
                 </div>
-              )
-              : (
-                <ul className="listview__list">
-                  {loading 
-                    ? (
-                      <div className="listview__empty">
-                        <div className="listview__empty__content">
-                          <Spinner className="loader--lg listview__loader" />
-                        </div>
+              ) 
+              : (data?.data.length > 0
+                ? (
+                  <ul className="listview__list">
+                    {items}
+                  </ul>
+                )
+                : (
+                  <div className="listview__empty">
+                    <div className="listview__empty__content">
+                      <div className="flex fdc aic mb-2">
+                        <FcIdea className="listview__empty__icon" />
+                        No properties found within this filter
                       </div>
-                    ) 
-                    : items}
-                </ul>
-              )
-            }
+                      <div className="flex">
+                        <button className="btn--white listview__empty__btn mr-1" onClick={() => setFilter(presetFilters.current)}>
+                          Clear filters
+                        </button>
+                        <button className="btn--white listview__empty__btn">
+                          <IoSchoolOutline className="icon mr-1" />
+                          Post enquiry
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
             {data?.numberOfDocuments > NUM_ITEMS_PER_VIEW && (
               <Pagination 
                 onChange={setCurrentPage}

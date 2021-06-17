@@ -10,14 +10,13 @@ const Breadcrumbs = ({ items, white, children }) => {
   });
 
   return (
-    
     <div className={`breadcrumbs ${white ? 'breadcrumbs--white' : ''}`}>
       <div className="breadcrumbs__content">
         <Link to="/" className="breadcrumbs__item">
           <AiOutlineHome className="icon--sm icon--grey mr-1" />
           Home
         </Link>
-        {breadItems}
+        {breadItems} 
       </div>
       {children}
     </div>

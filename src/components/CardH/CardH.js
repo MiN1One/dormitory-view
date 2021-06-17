@@ -19,6 +19,11 @@ SwiperCore.use([Autoplay]);
 const CardH = ({ data }) => {
   const { t } = useTranslation(['regions', 'translation']);
 
+  let offers = [];
+  data.offers?.forEach(el => {
+    offers = [...offers, ...el];
+  });
+
   return (
     <Link to={`/${data.city}/${data.region}/${data._id}`} className="cardh" key={data._id}>
       <figure className="cardh__figure">
@@ -34,21 +39,21 @@ const CardH = ({ data }) => {
               <ImImage className="icon--lg icon--grey" />
             </div>
           } />
-        <div className="cardh__panel">
-          {data.offers && (
+        {data.offers && (
+          <div className="cardh__panel">
             <Swiper 
               loopFillGroupWithBlank={true}
               autoplay={{ delay: 3000 }}
               direction="vertical"
               slidesPerView={1}>
-                {data.offers.map((el, i) => (
+                {offers.map((el, i) => (
                   <SwiperSlide className="flex aic" key={i}>
                     <AiFillTag className="icon--xs icon--yellow" />&nbsp;{t(`translation:offer.${el.type}`)} {el.value}
                   </SwiperSlide>
                 ))}
             </Swiper>
-          )}
-        </div>
+          </div>
+        )}
       </figure>
       <div className="cardh__body">
         <div className="text--title mb-1 flex aic">

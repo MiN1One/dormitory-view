@@ -14,14 +14,18 @@ const RegionsFilter = ({ setFilters, filters }) => {
 
   const regionsEl = [];
   for (let key in regions) {
+    const active = filters.map.city === key;
     regionsEl.push((
       <div 
-        className="filters__item" 
+        className={`filters__item ${active ? 'filters__item--active' : ''}`} 
         key={key}
         onClick={() => setSelectedCity(key)}
         tabIndex="0">
           {t(`regions:${key}.title`)}
-          <IoChevronForward className="icon--xs icon--grey" />
+          {active
+            ? <GoCheck className="icons--xs icon--green" />
+            : <IoChevronForward className="icon--xs icon--grey" />
+          }
       </div>
     ));
   }
@@ -47,7 +51,7 @@ const RegionsFilter = ({ setFilters, filters }) => {
             className="input__checkbox-wrapper" 
             onClick={() => {
               let newRegionsList;
-              if (filters.map && filters.map.region.includes(el)) {
+              if (filters.map.region.includes(el)) {
                 newRegionsList = filters.map.region.filter(r => r !== el);
                 setFilters(prev => ({
                   ...prev,

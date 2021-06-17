@@ -19,6 +19,8 @@ const Card = ({ slide, data, symbol }) => {
 
   const { date, month, hours, minutes } = convertISOString(data.createdAt);
 
+  const offersCount = data.offers?.find(el => el.length > 0).length;
+
   return (
     <li className={`cardl ${slide ? 'cardl--3' : 'cardl--2'}`} tabIndex="0">
       <Link to={`/${data.city}/${data.region}/${data._id}`} className="cardl__content">
@@ -31,9 +33,9 @@ const Card = ({ slide, data, symbol }) => {
                 height="100%"
                 alt={data.title}
                 className="img img--cover" />
-              {data.offers && (
+              {offersCount && (
                 <div className="cardl__tag">
-                  {data.offers.length} offers
+                  {offersCount} offer/s
                 </div>
               )}
             </figure>

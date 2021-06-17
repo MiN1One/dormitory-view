@@ -35,49 +35,28 @@ import ErrorView from '../../components/ErrorView/ErrorView';
 import ReviewInp from './ReviewInput/ReviewInput';
 import useEditFavorites from '../../hooks/useEditFavorites';
 import { convertISOString } from '../../utilities/utils';
+import Fullscreen from './Fullscreen/Fullscreen';
 
 SwiperCore.use([Navigation]);
 
-const AsyncFullscreen = React.lazy(() => import('./Fullscreen/Fullscreen'));
-
-const APARTMENT = {
-  title: 'Apartment',
-  address: '14 Street',
-  region: 'Region',
-  type: 'university-owned',
-  city: 'Tashkent',
-  bath: ['private', 'private', 'private'],
-  kitchen: ['public', 'private', 'public'],
-  price: [150, 120, 130],
-  numberOfRooms: [1, 2, 1],
-  furnitured: [true, false, true],
-  condition: ['medium', 'good', 'poor'],
-  internet: [false, true, false],
-  gaming: [false, true, false],
-  distances: [
-    {
-      name: 'Webster University',
-      walk: '20 minutes',
-      car: '5-7 minutes'
-    },
-    {
-      name: 'National Institute of Architecture',
-      walk: '20 minutes',
-      car: '5-7 minutes'
-    },
-  ],
-  features: {
-    facilities: ['internet', 'private_kitchen', 'parking', 'private_bath', 'furnitured', 'air_conditioner', 'gaming_area', 'washing_machine', 'personal_computer', 'public_libriary'],
-    others: ['Single bed', 'Parking area'],
-    security: ['cctv', 'health', 'controlled_access', 'card_access', 'additional_keys'],
-    rules: ['no_smoking', 'no_late_access'],
-    bills: ['water_bill', 'internet_bill', 'electricity_bill', 'gas_bill', 'heating_bill'],
-    places: ['market', 'school', 'libriary', 'restaurant', 'hospital', 'bus_station', 'mosque']
+const DISTANCES = [
+  {
+    name: 'Webster University',
+    walk: '20 minutes',
+    car: '5-7 minutes'
   },
-  images: [],
-  description: '',
-  inFavorites: 0
-};
+  {
+    name: 'National Institute of Architecture',
+    walk: '20 minutes',
+    car: '5-7 minutes'
+  },
+];
+// facilities: ['internet', 'private_kitchen', 'parking', 'private_bath', 'furnitured', 'air_conditioner', 'gaming_area', 'washing_machine', 'personal_computer', 'public_libriary'],
+// others: ['Single bed', 'Parking area'],
+// security: ['cctv', 'health', 'controlled_access', 'card_access', 'additional_keys'],
+// rules: ['no_smoking', 'no_late_access'],
+// bills: ['water_bill', 'internet_bill', 'electricity_bill', 'gas_bill', 'heating_bill'],
+// places: ['market', 'school', 'libriary', 'restaurant', 'hospital', 'bus_station', 'mosque']
 
 const SCROLL_Y_OFFSET = -120;
 
@@ -127,7 +106,7 @@ const Adview = () => {
 
       facilities.forEach(f => {
         for (const [key, val] of Object.entries(data)) {
-          if (key === f) {
+          if (key === f || key === 'offers') {
             for (let i = 0; i < val.length; i++) {
               propertyData.roomOptions[i][key] = val[i];
             }
@@ -159,7 +138,7 @@ const Adview = () => {
     setActiveImageIndex(index);
   };
 
-  const distances = APARTMENT.distances.map((el, i) => 
+  const distances = DISTANCES.map((el, i) => 
     <li className="adview__specs-separate" key={i}>
       to {el.name} &mdash; <span className="c-grace">{el.walk} walking | {el.car} by car</span>
     </li>
@@ -197,7 +176,7 @@ const Adview = () => {
       }
       <PopScroll />
       {fullScreen &&
-        <AsyncFullscreen 
+        <Fullscreen 
           activeImageIndex={activeImageIndex}
           onImageChange={(i) => swiper.slideTo(i, 250, false)}
           close={() => setFullScreen(false)}
@@ -235,7 +214,7 @@ const Adview = () => {
           <Breadcrumbs items={[
             {
               title: t(`regions:${newData?.city}.title`),
-              path: `/${newData?.city}`,
+              path: `/${newData?.city}/all`,
               active: false
             },
             {
@@ -468,7 +447,7 @@ const Adview = () => {
                   </div>
                   <Link to="/" className="c-grace undl--h undl">
                     {newData?.landlord.numberOfReviews > 0
-                      ? `${newData?.landlord.numberOfReviews} ${newData?.landlord.numberOfReviews.length > 1 ? 'Reviews' : 'Review'}`
+                      ? `${newData?.landlord.numberOfReviews} Review/s`
                       : 'No reviews'
                     }
                   </Link>

@@ -11,7 +11,6 @@ import './Header.scss';
 import { Link, useHistory } from 'react-router-dom';
 import { IoChevronBackOutline, IoChevronDownOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
-import Modalh from '../Modal/Modal';
 import { useSelector } from 'react-redux';
 import useFetchData from '../../../hooks/useFetchData';
 import Searchbar from '../Searchbar/Searchbar';
@@ -24,7 +23,6 @@ const Header = ({ data: popularItems }) => {
   const history = useHistory();
 
   const { user } = useSelector((s) => s.user);
-  const [activeSection, setActiveSection] = useState(null);
   const { data, loading, error, makeRequest } = useFetchData();
   const [swiper, setSwiper] = useState(null);
   const [animate, setAnimate] = useState(false);
@@ -48,9 +46,10 @@ const Header = ({ data: popularItems }) => {
     return (
       <SwiperSlide 
         className={classes.join(' ')}
-        key={i+Date.now()} 
+        key={i} 
         style={{ 
           backgroundImage: 
+            // `linear-gradient(rgba(0,0,0, .35), rgba(255,255,255, .15)),url("/images/home/${el.image}")`
             `linear-gradient(rgba(0,0,0, .35), rgba(255,255,255, .15)),url("http://localhost:3005/images/home/${el.image}")`
         }}>
           <div className="flex fdc aic">
