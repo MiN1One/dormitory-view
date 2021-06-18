@@ -16,15 +16,19 @@ import { useTranslation } from 'react-i18next';
 
 SwiperCore.use([Navigation]);
 
-const SimilarAds = ({ apt, data: rawData }) => {
+const SimilarAds = ({ data: rawData }) => {
   const { data, loading, error, makeRequest } = useFetchData();
   const [swiper, setSwiper] = useState(null);
   const { t } = useTranslation('regions');
-  
+
   useEffect(() => {
     if (rawData) {
+      const 
+        priceMin = Math.min(...rawData.price),
+        priceMax = Math.max(...rawData.price);
+
       makeRequest({
-        url: `api/apartments?region=${rawData?.region}&city=${rawData?.city}&kitchen[all]=${rawData?.kitchen}&bath=${rawData?.bath}&project=city,region,price,_id&limit=8&_id[ne]=${rawData?._id}`,
+        url: `api/apartments?region[regex]=\\b(${rawData.region})\\b&city=${rawData.city}&price[from]=${priceMin}&price[to]=${priceMax}&project=city,region,price,_id&limit=8&_id[ne]=${rawData._id}`,
         dataAt: ['data', 'docs']
       });
     }
@@ -72,7 +76,7 @@ const SimilarAds = ({ apt, data: rawData }) => {
     return <div className="">Loading...</div>;
 
   return (
-    <div className="sads">
+    <div className="sads"> 
       <h3 className="heading heading--3 mb-15">Similar properties</h3>
       <div className="flex w-100 mb-2 aic">
         <button className="btn--slider sads__btn--prev">
@@ -108,4 +112,4 @@ const SimilarAds = ({ apt, data: rawData }) => {
   );
 }
 
-export default SimilarAds;
+export default React.memo(SimilarAds);

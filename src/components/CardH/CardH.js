@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { BiCheckDouble, BiDoorOpen } from "react-icons/bi";
 import { AiFillTag } from "react-icons/ai";
 import { ImImage } from "react-icons/im";
@@ -101,4 +102,4 @@ const CardH = ({ data }) => {
   );
 };
 
-export default CardH;
+export default memo(CardH);

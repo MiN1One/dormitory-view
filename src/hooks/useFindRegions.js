@@ -30,7 +30,7 @@ const useFindRegions = (options = {
             city: key,
             regionOnly: true
           };
-        } else if (searchByCity) {
+        } else {
           newRegList[key] = val;
         }
       }

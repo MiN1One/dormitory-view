@@ -14,7 +14,7 @@ import { useHistory, useLocation } from 'react-router';
 
 SwiperCore.use([Navigation]);
 
-const Rooms = ({ data, selectedIndex, setSelectedIndex }) => {
+const Rooms = ({ data, selectedIndex, setSelectedIndex, discount }) => {
   const [swiper, setSwiper] = useState(null);
   const history = useHistory();
   const location = useLocation();
@@ -39,6 +39,12 @@ const Rooms = ({ data, selectedIndex, setSelectedIndex }) => {
         <figure className="rooms__item__figure">
           <img className="img img--contain" alt="standard" src={img} />
           {i === selectedIndex && <div className="rooms__item__badge">Selected</div>}
+          {el.offers && el.offers.length > 0 && (
+            <span className="rooms__item__badge rooms__item__badge--tag">
+              {/* {discount.discount}% off */}
+              {el.offers.length} offer/s
+            </span>
+          )}
         </figure>
         <div className="rooms__item__body">
           <span className="rooms__item__title">Room option {i+1}</span>
@@ -102,4 +108,4 @@ const Rooms = ({ data, selectedIndex, setSelectedIndex }) => {
   );
 };
 
-export default Rooms;
+export default React.memo(Rooms);

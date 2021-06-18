@@ -46,6 +46,18 @@
     margin-right: 3rem;
   }
 
+  &__details {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.55rem;
+    margin-right: 1rem;
+    color: $black;
+    padding: .75rem 2rem;
+    background: lighten($light, 1.25%);
+    border-radius: .25rem;
+  }
+
   &__specs {
     width: 100%;
     font-size: 1.6rem;

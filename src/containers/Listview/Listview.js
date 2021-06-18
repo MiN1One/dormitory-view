@@ -224,13 +224,15 @@ const Listview = () => {
                         }
                       </div>
                     )}
-                    <div className="listview__cur-region">
-                      Selected regions:&nbsp;
-                      {filter.map.region.length > 0 
-                        ? filter.map.region.map(el => t(`regions:${filter.map.city}.regions.${el}`)).join(', ')
-                        : t(`regions:${filter.map.city}.regions.all`)
-                      }
-                    </div>
+                    {filter.map.city !== 'all' && (
+                      <div className="listview__cur-region">
+                        Selected regions:&nbsp;
+                        {filter.map.region.length > 0 
+                          ? filter.map.region.map(el => t(`regions:${filter.map.city}.regions.${el}`)).join(', ')
+                          : t(`regions:${filter.map.city}.regions.all`)
+                        }
+                      </div>
+                    )}
                   </>
                 )}
                 {data?.numberOfDocuments > 0 && (

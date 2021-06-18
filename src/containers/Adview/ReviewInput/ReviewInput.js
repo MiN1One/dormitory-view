@@ -147,4 +147,4 @@ const ReviewInput = ({ close, userId }) => {
   );
 };
 
-export default ReviewInput;
+export default React.memo(ReviewInput);

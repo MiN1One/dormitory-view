@@ -12,13 +12,10 @@
     border: 1px solid rgba($black, .085);
     border-radius: .25rem;
     overflow: hidden;
-    // transition: transform .2s ease;
-
-    // &:not(.rooms__item--active):hover,
-    // &:not(.rooms__item--active):focus { transform: scale(1.025); }
 
     &--active {
       box-shadow: .15rem .15rem .5rem rgba($black, .085);
+      cursor: default !important;
     }
 
     &__badge {
@@ -30,6 +27,13 @@
       padding: .7rem 1.25rem;
       border-radius: .25rem 0 0 .25rem;
       animation: slideFromRight .5s ease;
+
+      &--tag {
+        background-color: $color-yellow;
+        left: 0;
+        right: initial;
+        color: $pitch;
+      }
     }
     
     &__body {
@@ -60,6 +64,8 @@
 
       img { transition: transform .2s ease; }
     }
+
+    &:hover:not(.rooms__item--active) img { transform: scale(1.025); }
     
     &__price {
       padding: .75rem 1.25rem;
