@@ -17,26 +17,9 @@ const months = [
   'dec'
 ];
 
-const facilities = [
-  'price',
-  'kitchen',
-  'condition',
-  'numberOfRooms',
-  'bath',
-  'furnitured',
-  'internet',
-  'parking',
-  'discount',
-  'gaming',
-  'computer',
-  'air_conditioner',
-  'washing_machine'
-];
-
 const initialState = {
   regions,
   months,
-  facilities,
   error: null,
   popular: null,
   regionsLocal: null

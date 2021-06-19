@@ -112,6 +112,18 @@
     font-size: 1.45rem;
     transition: all .3s ease;
 
+    &__figure {
+      width: 6.5rem;
+      height: 4rem;
+      margin-right: 1.5rem;
+    }
+    
+    &__price {
+      font-size: 1.75rem;
+      color: $pitch;
+      font-weight: 300;
+    }
+
     &--animate {
       bottom: 65%;
       transform: translate(-50%, 65%);

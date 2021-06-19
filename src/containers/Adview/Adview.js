@@ -3,7 +3,6 @@ import { useHistory, useParams } from 'react-router';
 import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import { BsStar, BsStarFill } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import './Adview.scss';
@@ -16,7 +15,6 @@ import Contact from './Contact/Contact';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
 import Features from './Features/Features';
-import Loader from '../../components/UI/Loader/Loader';
 import useFetchData from '../../hooks/useFetchData';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import ErrorView from '../../components/ErrorView/ErrorView';
@@ -26,6 +24,7 @@ import Fullscreen from './Fullscreen/Fullscreen';
 import MainImagery from './MainImagery/MainImagery';
 import Details from './Details/Details';
 import Panel from './Panel/Panel';
+import usePrevious from '../../hooks/usePrevious';
 
 const AsyncRooms = React.lazy(() => import('./Rooms/Rooms'));
 
@@ -45,9 +44,6 @@ const Adview = () => {
   
   const { data, loading, error, makeRequest } = useFetchData();
 
-  const { facilities } = useSelector(state => state.main);
-
-  const [newData, setNewData] = useState(null);
   const [selectedOption, setSelectedOption] = useState(0);
   const { editFavorites, favorites } = useEditFavorites();
 
@@ -57,51 +53,23 @@ const Adview = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const [showWisher, setShowWisher] = useState(false);
 
-  console.log(params);
+  const previousApt = usePrevious(data && data._id);
 
   useEffect(() => {
-    if (!data) {
-      makeRequest({ 
-        url: `api/apartments/${params.apt}?count=true`,
-        method: 'get',
-        dataAt: ['data', 'doc']
-      });
-    }
-  }, [makeRequest, data, params.apt]);
+    makeRequest({ 
+      url: `api/apartments/${params.apt}?count=true`,
+      method: 'get',
+      dataAt: ['data', 'doc']
+    });
+  }, [makeRequest, params.apt]);
+
+  console.log(data);
 
   useEffect(() => {
-    if (data) {
-      const propertyData = {
-        ...data,
-        roomOptions: []
-      };
-
-      for (let i = 0; i < data.price.length; i++) {
-        propertyData.roomOptions.push({});
-      }
-
-      facilities.forEach(f => {
-        for (const [key, val] of Object.entries(data)) {
-          if (key === f || key === 'offers') {
-            for (let i = 0; i < val.length; i++) {
-              propertyData.roomOptions[i][key] = val[i];
-            }
-            delete propertyData[key];
-          }
-        }
-      });
-
-      setNewData(propertyData);
+    if (data && previousApt !== data?._id) {
+      history.push(`/${data.city}/${data.region}/${data._id}`);
     }
-  }, [data, facilities]);
-
-  console.log(newData);
-
-  useEffect(() => {
-    if (newData && params.apt !== newData._id) {
-      history.push(`/${newData.city}/${newData.region}/${newData._id}`);
-    }
-  }, [newData, params.city, params.region, history, params.apt]);
+  }, [data, history, params.apt, previousApt]);
 
   useEffect(() => {
     if (reviewInp) setShowContact(false);
@@ -112,38 +80,35 @@ const Adview = () => {
     setActiveImageIndex(index);
   };
 
-  if (loading)
-    return <Loader />;
-
   if (error)
     return <ErrorView error={error} />
 
   const 
-    discount = +newData?.roomOptions[selectedOption].offers?.find(el => el.type === 'discount')?.value,
-    price = +newData?.roomOptions[selectedOption].price,
+    discount = +data?.roomOptions[selectedOption].offers?.find(el => el.type === 'discount')?.value,
+    price = +data?.roomOptions[selectedOption].price,
     priceAfterDiscount = (discount && !isNaN(discount) && discount > 0)
       ? price - (price * (discount / 100))
       : null;
 
   const breadcrumbs = [
     {
-      title: t(`regions:${newData?.city}.title`),
-      path: `/${newData?.city}/all`,
+      title: t(`regions:${data?.city}.title`),
+      path: `/${data?.city}/all`,
       active: false
     },
     {
-      title: t(`regions:${newData?.city}.regions.${newData?.region}`),
-      path: `/${newData?.city}/${newData?.region}`,
+      title: t(`regions:${data?.city}.regions.${data?.region}`),
+      path: `/${data?.city}/${data?.region}`,
       active: false
     },
     {
-      title: newData?.title,
+      title: data?.title,
       active: true
     }
   ];
 
   const spyNavItems = ['main', 'options', 'details', 'features', 'similar'];
-  if (newData && newData.roomOptions.length === 1) {
+  if (data && data.roomOptions.length === 1) {
     delete spyNavItems[1];
   }
 
@@ -151,13 +116,13 @@ const Adview = () => {
     <>
       {showContact && (
         <Contact 
-          data={newData?.landlord}
+          data={data?.landlord}
           close={() => setShowContact(false)} 
           open={() => setReviewInp(true)} />
       )}
       {reviewInp && (
         <ReviewInp 
-          userId={newData?.landlord._id}
+          userId={data?.landlord._id}
           close={() => setReviewInp(false)} />
       )}
       <PopScroll />
@@ -177,8 +142,8 @@ const Adview = () => {
           else setShowWisher(false);
         }}>
           {showWisher && 
-            <button className="adview__btn" onClick={() => editFavorites(newData?._id)}>
-              {favorites.includes(newData?._id) 
+            <button className="adview__btn" onClick={() => editFavorites(data?._id)}>
+              {favorites.includes(data?._id) 
                 ? (
                   <>
                     <BsStarFill className="icon--xs icon--yellow mr-5" />
@@ -199,22 +164,26 @@ const Adview = () => {
         <div className="container">
           <Breadcrumbs items={breadcrumbs}>
             <div className="flex aic">
-              <span className="f-lg c-grace mr-1">Go to previous or next property</span>
+              <span className="f-lg c-grace mr-1">See properties in this region</span>
               <div className="flex">
                 <button 
                   className="btn--slider adview__btn-slider" 
-                  onClick={() => makeRequest({
-                    url: `api/apartments/${params.apt}?prev=true&count=true`,
-                    dataAt: ['data', 'doc']
-                  })}>
+                  onClick={() => 
+                    makeRequest({
+                      url: `api/apartments/${params.apt}?prev=true&count=true&city=${data?.city}`,
+                      dataAt: ['data', 'doc']
+                    })
+                  }>
                     <IoChevronBackOutline className="icon--xs icon--dark" />
                 </button>
                 <button 
                   className="btn--slider adview__btn-slider" 
-                  onClick={() => makeRequest({
-                    url: `api/apartments/${params.apt}?next=true&count=true`,
-                    dataAt: ['data', 'doc']
-                  })}>
+                  onClick={() => 
+                    makeRequest({
+                      url: `api/apartments/${params.apt}?next=true&count=true&city=${data?.city}`,
+                      dataAt: ['data', 'doc']
+                    })
+                  }>
                     <IoChevronForwardOutline className="icon--xs icon--dark" />
                 </button>
               </div>
@@ -223,32 +192,32 @@ const Adview = () => {
           <div className="adview__body mt-2">
             <div className="adview__left">
               <MainImagery 
-                data={newData && { ...newData, price }}
+                data={data && { ...data, price }}
                 discount={{ discount, priceAfterDiscount }}
                 setFullScreen={setFullScreen} />
-              {newData?.roomOptions.length > 1 && (
+              {data && data.roomOptions.length > 1 && (
                 <AsyncRooms 
-                  data={newData?.roomOptions}
+                  data={data?.roomOptions}
                   selectedIndex={selectedOption}
                   setSelectedIndex={setSelectedOption} />
               )}
               <div className="adview__specs">
                 <Details
-                  data={newData && { ...newData, price }}
+                  data={data && { ...data, price }}
                   discount={{ discount, priceAfterDiscount }}
                   selectedOption={selectedOption} />
-                <Features data={newData} activeOption={selectedOption} />
+                <Features data={data} activeOption={selectedOption} />
               </div>
             </div>
             <div className="adview__right">
               <Panel
-                data={newData}
+                data={data}
                 setShowContact={setShowContact} />
               <Ratings 
                 hide 
-                numberOfReviews={newData?.landlord.numberOfReviews}
+                numberOfReviews={data?.landlord.numberOfReviews}
                 open={() => setReviewInp(true)} 
-                userId={newData?.landlord._id} />
+                userId={data?.landlord._id} />
             </div>
           </div>
           <div id="similar">

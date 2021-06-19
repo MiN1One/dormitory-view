@@ -16,7 +16,6 @@ const reducer = (state, action) => {
       return { ...state, loading: true, error: null };
     case 'RESOLVE':
       return { 
-        ...state, 
         data: action.data, 
         loading: false,
         error: null
@@ -73,7 +72,7 @@ const useFetchData = (options = {
 
         dispatch({ type: 'resolve', data });
         
-        // do not use callbacks with useEffect
+        // do not use callbacks with useEffect to manipulate data
         options.callback && options.callback();
       })
       .catch((er) => {
@@ -93,7 +92,8 @@ const useFetchData = (options = {
     data: httpData.data,
     error: httpData.error,
     loading: httpData.loading,
-    makeRequest
+    makeRequest,
+    setData: (data) => dispatch({ type: 'resolve', data })
   };
 };
 

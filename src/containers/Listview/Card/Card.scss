@@ -28,6 +28,11 @@
   &:focus {
     box-shadow: 0 0 1.5rem rgba($pitch, .075);
     // transform: scale(1.0035);
+
+    img {
+      transform: scale(1.035);
+      backface-visibility: hidden;
+    }
   }
 
   &:hover &__btn-group,
@@ -49,10 +54,6 @@
     justify-content: space-between;
   }
 
-  &__bottom {
-    // margin-bottom: 2.25rem;
-  }
-
   &__figure {
     background: $grey-light;
     width: calc(50% - .5rem);
@@ -61,6 +62,8 @@
     border-radius: .25rem;
     margin-right: 1rem;
     position: relative;
+
+    img { transition: transform .3s ease; }
   }
 
   &__tag {
@@ -152,7 +155,7 @@
     border-radius: .25rem;
     font-weight: 500;
     color: $grey-dark;
-    font-size: 1.6rem;
+    font-size: 1.45rem;
   }
 
   &--3 &__label {

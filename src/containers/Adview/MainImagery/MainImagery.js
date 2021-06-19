@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import { AiOutlineTag } from 'react-icons/ai';
@@ -17,6 +17,8 @@ SwiperCore.use([Navigation]);
 const MainImagery = ({ data, discount, setFullScreen }) => {
   const [swiper, setSwiper] = useState(null);
   const { favorites, editFavorites } = useEditFavorites();
+
+  useEffect(() => swiper && swiper.update());
 
   return (
     <>

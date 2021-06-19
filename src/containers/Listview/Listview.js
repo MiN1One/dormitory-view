@@ -24,6 +24,7 @@ const
     uzsom: { val: 'uzsom', symbol: 'UZSOM' },
     eu: { val: 'eu', symbol: 'EUR' },
   },
+  SORT_OPTIONS = ['-createdAt', '+createdAt', '+price', '-price'],
   DEFAULT_FILTERS = {
     facilities: {},
     ownership: undefined,
@@ -57,7 +58,7 @@ const Listview = () => {
       from: +parseQuery('price[from]') || 0,
       to: +parseQuery('price[to]') || 0
     },
-    bills: (parseQuery('bills[all]') && parseQuery('bills').split(',')) || [],
+    bills: (parseQuery('bills[all]') && parseQuery('bills[all]').split(',')) || [],
     numberOfRooms: +parseQuery('numberOfRooms') || undefined,
     map: {
       city: parseQuery('city') || params.city,
@@ -78,10 +79,10 @@ const Listview = () => {
   
   const [slide, setSlide] = useState(false);
   const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)) || 1);
-  const [sortBy, setSortBy] = useState('-createdAt');
+  const [sortBy, setSortBy] = useState(SORT_OPTIONS[1]);
   const [currency, setCurrency] = useState(
     (parseQuery('currency') && CURRENCIES[parseQuery('currency')]) ||
-    { val: 'usd', symbol: 'USD'}
+    CURRENCIES.usd
   );
 
   const diffMap = 
@@ -111,13 +112,14 @@ const Listview = () => {
         ? `&region=${filter.map.region.length > 0 ? filter.map.region.join(',') : 'all'}` 
         : '';
 
-    history.push(`?query=true${userRegionQuery}${userCityQuery}${currencyQuery}${priceFrom}${priceTo}${billsQuery}${ownership}${numberOfRooms}`);
-
     setTimeout(() => {
       makeRequest({
         url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title,createdAt,offers&count=true&limit=${NUM_ITEMS_PER_VIEW}&page=${currentPage}${numberOfRooms}${currencyQuery}`,
         dataSecondary: 'numberOfDocuments',
-        dataAt: ['data', 'docs']
+        dataAt: ['data', 'docs'],
+        callback: () => {
+          history.push(`?query=true${userRegionQuery}${userCityQuery}${currencyQuery}${priceFrom}${priceTo}${billsQuery}${ownership}${numberOfRooms}`);
+        }
       });
     }, 75);
   }, [
@@ -172,6 +174,8 @@ const Listview = () => {
     return <Card slide={slide} data={el} key={el._id} symbol={currency.symbol} />
   });
 
+  const resultsFound = data?.numberOfDocuments > 0;
+
   return (
     <main className="listview">
       <div className="listview__float">
@@ -198,93 +202,73 @@ const Listview = () => {
                 {
                   title: t(`regions:${params.city}.title`),
                   path: `/${params.city}/all`,
-                  active: params.region === 'all'
+                  active: true
                 },
                 {
                   title: t(`regions:${params.city}.regions.${params.region}`),
                   path: `/${params.city}/${params.region}`,
-                  active: params.region !== 'all'
+                  active: true
                 }
               ]} 
               white />
             <div className="listview__top">
-              <div className="w-50">
-                <h6 className="heading heading--3 mb-1 c-black">Results</h6>
-                <div className="listview__results">
-                  for {t(`regions:${params.city}.title`)}, {t(`regions:${params.city}.regions.${params.region}`)}
-                </div>
-                {diffMap && (
-                  <>
-                    {filter.map.city !== params.city && (
-                      <div className="listview__cur-region">
-                        City:&nbsp;
-                        {filter.map.city === 'all'
-                          ? t('regions:all.regions.all')
-                          : t(`regions:${filter.map.city}.title`)
-                        }
-                      </div>
-                    )}
-                    {filter.map.city !== 'all' && (
-                      <div className="listview__cur-region">
-                        Selected regions:&nbsp;
-                        {filter.map.region.length > 0 
-                          ? filter.map.region.map(el => t(`regions:${filter.map.city}.regions.${el}`)).join(', ')
-                          : t(`regions:${filter.map.city}.regions.all`)
-                        }
-                      </div>
-                    )}
-                  </>
-                )}
-                {data?.numberOfDocuments > 0 && (
-                  <div className="f-lg c-grey-l">
-                    found {data.numberOfDocuments} property/ies by filter
-                  </div>
-                )}
-              </div>
-              {data?.data.length > 0 && (
-                <div className="flex">
-                  <div className="mr-1">
-                    <Dropdown 
-                      title={currency.symbol}
-                      dropTitle="Currency:"
-                      items={
-                        Object.keys(CURRENCIES).map((el) => ({
-                          title: CURRENCIES[el].symbol,
-                          click: () => setCurrency({ val: el, symbol: CURRENCIES[el].symbol }),
-                          active: currency.val === el
-                        }))
-                      } />
-                  </div>
-                  <Dropdown 
-                    title={t(`translation:utils.sort.${sortBy}`)}
-                    dropTitle="Sort by:"
-                    positionX="right"
-                    width="19rem"
-                    height={15}
-                    items={[
-                      {
-                        title: t('translation:utils.sort.+createdAt'),
-                        click: () => setSortBy('+createdAt'),
-                        active: sortBy === '+createdAt'
-                      },
-                      {
-                        title: t('translation:utils.sort.-createdAt'),
-                        click: () => setSortBy('-createdAt'),
-                        active: sortBy === '-createdAt'
-                      },
-                      {
-                        title: t('translation:utils.sort.+price'),
-                        click: () => setSortBy('+price'),
-                        active: sortBy === '+price'
-                      },
-                      {
-                        title: t('translation:utils.sort.-price'),
-                        click: () => setSortBy('-price'),
-                        active: sortBy === '-price'
+                <div className="w-50">
+                  {resultsFound && (
+                    <h6 className="heading heading--3 mb-1 c-black">Results</h6>
+                  )}
+                  {filter.map.city !== params.city && (
+                    <div className="listview__cur-region">
+                      City:&nbsp;
+                      {filter.map.city === 'all'
+                        ? t('regions:all.regions.all')
+                        : t(`regions:${filter.map.city}.title`)
                       }
-                    ]} />
+                    </div>
+                  )}
+                  {(
+                    filter.map.city !== 'all' && 
+                    !filter.map.region.isEqual(
+                      params.region !== 'all' ? [params.region] : []
+                    )
+                  ) && (
+                    <div className="listview__cur-region">
+                      Selected regions:&nbsp;
+                      {filter.map.region.map(el => t(`regions:${filter.map.city}.regions.${el}`)).join(', ')}
+                    </div>
+                  )}
+                  {resultsFound && (
+                    <div className="f-lg c-grey-l">
+                      {data.numberOfDocuments} property/ies found by filter
+                    </div>
+                  )}
                 </div>
-              )}
+                {resultsFound && (
+                  <div className="flex">
+                    <div className="mr-1">
+                      <Dropdown 
+                        title={currency.symbol}
+                        dropTitle="Currency:"
+                        items={
+                          Object.keys(CURRENCIES).map((el) => ({
+                            title: CURRENCIES[el].symbol,
+                            click: () => setCurrency({ val: el, symbol: CURRENCIES[el].symbol }),
+                            active: currency.val === el
+                          }))
+                        } />
+                    </div>
+                    <Dropdown 
+                      title={t(`translation:utils.sort.${sortBy}`)}
+                      dropTitle="Sort by:"
+                      positionX="right"
+                      width="19rem"
+                      height={15}
+                      items={SORT_OPTIONS.map(el => ({
+                        title: t(`translation:utils.sort.${el}`),
+                        click: () => setSortBy(el),
+                        active: sortBy === el
+                      }))} />
+                  </div>
+                )}
             </div>
             {loading 
               ? (

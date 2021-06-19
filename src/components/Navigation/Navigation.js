@@ -1,6 +1,6 @@
+import React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IoIosSearch } from 'react-icons/io';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { BsPerson, BsStar } from 'react-icons/bs';
 import { VscSignIn } from 'react-icons/vsc';
@@ -8,28 +8,15 @@ import { useSelector } from 'react-redux';
 
 import './Navigation.scss';
 import Dropdown from '../UI/Dropdown/Dropdown';
-import Scrollbars from '../UI/Scrollbar/Scrollbar';
-import useFindRegions from '../../hooks/useFindRegions';
-import useFetchData from '../../hooks/useFetchData';
+import NavSearchbar from '../NavSearchbar/NavSearchbar';
 
 const Navigation = ({ className }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
-  const {
-    user: { user, favorites }, 
-    main: { popular }
-  } = useSelector(state => state);
+  const { user, favorites } = useSelector(state => state.user);
   const [scroll, setScroll] = useState(0);
-  const [search, setSearch] = useState('');
 
-  const { regions, onSearchForRegion } = useFindRegions({
-    getBySearch: true,
-    regionSearch: true
-  });
-
-  const { data, makeRequest } = useFetchData();
-  
   const handleScroll = useCallback(() => {
     setScroll(document.documentElement.scrollTop);
   }, []);
@@ -50,80 +37,13 @@ const Navigation = ({ className }) => {
     className = 'nav--sticky';
   }
 
-  const popularItems = popular && [...Object.keys(popular)].map((el) => (
-    <div 
-      className="dropdown__item" 
-      key={el}
-      onMouseDown={() => history.replace(`/${popular[el].city}/${el}`)}>
-        {t(`regions:${popular[el].city}.regions.${el}`)}
-        <span className="c-grey-l f-xs flex">{t(`regions:${popular[el].city}.title`)}</span>
-    </div>
-  ));
-
-  const regionsEl = [];
-  for (const [key, val] of Object.entries(regions)) {
-    let el;
-    if (val.regionOnly) {
-      el = (
-        <div 
-          className="dropdown__item" 
-          key={key} 
-          onMouseDown={() => history.replace(`/${val.city}/${key}`)}>
-            {t(`regions:${val.city}.regions.${key}`)}
-            <span className="c-grey-l f-xs flex">{t(`regions:${val.city}.title`)}</span>
-        </div>
-      )
-    } else {
-      el = (
-        <div 
-          className="dropdown__item" 
-          key={key} 
-          onMouseDown={() => history.replace(`/${key}/all`)}>
-            {t(`regions:${key}.title`)}
-        </div>
-      );
-    }
-
-    regionsEl.push(el);
-  }
-
   return (
     <nav role="navigation" className={`nav ${className ? className : ''}`}>
       <div className="container">
         <div className="nav__content">
           <div className="flex aic">
             <Link to="/" className="mr-3 c-black">LOGO</Link>
-            <form className="nav__form">
-              <input 
-                className="nav__input"
-                type="text"
-                placeholder="Search"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  onSearchForRegion(e.target.value);
-                }} />
-              <button type="submit" className="nav__btn nav__btn--search">Search</button>
-              <div className="nav__dropdown">
-                <Scrollbars style={{ width: '100%', height: '25rem' }}>
-                  <div className="dropdown__body">
-                    {data || regionsEl.length > 0 
-                      ? (data ? data : regionsEl)
-                      : popularItems
-                    }
-                  </div>
-                </Scrollbars>
-                <div className="dropdown__head">
-                  <h6 className="heading heading--6">
-                    {data || regionsEl.length > 0
-                      ? 'Search results'
-                      : 'Popular regions'
-                    }
-                  </h6>
-                </div>
-              </div>
-              <IoIosSearch className="icon nav__icon icon--dark" />
-            </form>
+            <NavSearchbar />
           </div>
           <div className="flex h-100">
             <Dropdown
@@ -173,4 +93,4 @@ const Navigation = ({ className }) => {
   );
 };
 
-export default Navigation;
+export default React.memo(Navigation);

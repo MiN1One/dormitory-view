@@ -12,38 +12,58 @@
     border: 1px solid rgba($black, .09);
     border-radius: .25rem;
     overflow: hidden;
-    transition: all .3s ease;
+    transition: box-shadow .3s ease;
+    box-shadow: 0 0 1rem rgba($black, .035);
 
     &:hover,
     &:focus {
-      transform: translateY(-.25rem);
       box-shadow: .5rem .5rem 1rem rgba($black, .075);
+
+      img {
+        backface-visibility: hidden;
+        transform: scale(1.0175);
+      }
     }
     
     &__figure {
       width: 100%;
-      height: 12rem;
-      background-color: $grey-light;
+      height: 15rem;
+      position: relative;
+      border-bottom: 1px solid rgba($black, .075);
+      overflow: hidden;
     }
+
+    img { transition: transform .3s ease; }
 
     &__body {
       padding: 1.25rem 1.75rem;
       display: flex;
       flex-direction: column;
+      align-items: flex-end;
       color: $grey-dark;
       font-size: 1.25rem;
       line-height: 1.5;
     }
     
+    &__tag {
+      padding: .7rem 1.25rem;
+      background: $color-yellow;
+      position: absolute;
+      top: 2rem;
+      left: 0;
+      z-index: 1;
+    }
+
     &__title {
       font-size: 1.7rem;
       margin-bottom: 1.75rem;
       color: $pitch;
+      width: 100%;
     }
     
     &__footer {
       padding: 1.25rem 1.75rem;
-      background: lighten($light, 3%);
+      padding-top: 0;
       display: flex;
       justify-content: flex-end;
     }
@@ -55,7 +75,32 @@
       color: $pitch;
       padding: .75rem 1rem;
       background: $pure-white;
-      border: 1px solid rgba($color-green, .7);
+      border: 1px solid rgba($color-yellow, .7);
+    }
+
+    &__spec {
+      margin-bottom: .85rem;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    font-size: 2rem;
+    padding: 4rem 0;
+
+    &__icon {
+      width: 5.75rem;
+      height: 5.75rem;
     }
   }
 }

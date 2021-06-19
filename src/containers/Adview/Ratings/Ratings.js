@@ -128,4 +128,4 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
   );
 };
 
-export default Ratings;
+export default React.memo(Ratings);
