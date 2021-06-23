@@ -158,16 +158,10 @@
       padding: 2rem 3.35rem;
       background: rgba(#000, .25);
       font-size: inherit;
-      width: 45rem;
+      width: 47.5rem;
       padding-left: 6rem;
       border-radius: .5rem 0 0 .5rem;
       background: #fff;
-      // transition: width .3s ease;
-      // transition-delay: .4s;
-
-      // &:focus {
-      //   width: 55rem;
-      // }
     }
 
     &__input:not(:placeholder-shown) + &__btn-search {

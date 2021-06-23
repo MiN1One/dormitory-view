@@ -20,4 +20,24 @@
     width: 100%;
     align-items: center;
   }
+
+  &__icon {
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+
+  &__empty {
+
+    &__content {
+      margin-top: 13.5rem;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    height: 70rem;
+    width: 100%;
+    font-size: 2.5rem;
+    color: $grey-dark;
+  }
 }

@@ -1,13 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoIosSearch, IoIosClose } from 'react-icons/io';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import Scrollbar from '../UI/Scrollbar/Scrollbar';
 import useFetchData from '../../hooks/useFetchData';
 import useFindRegions from '../../hooks/useFindRegions';
 import './NavSearchbar.scss';
+import * as actions from '../../store/actions';
+import { parseQuery } from '../../utilities/utils';
 
 const NavSearchbar = () => {
   const searchRef = useRef();
@@ -20,13 +22,37 @@ const NavSearchbar = () => {
     regionSearch: true
   });
 
+  const dispatch = useDispatch();
+  const { search } = useSelector(s => s.main);
+  const { data, makeRequest, setData } = useFetchData();
+
+  useEffect(() => {
+    dispatch(
+      actions.setPrerequisites('searchRef', searchRef.current)
+    );
+  }, [dispatch]);
+
   const onPerformSearch = (e) => {
     e.preventDefault();
 
-    history.push(`/all/all?search=${searchRef.current.value}`);
+    if (e.target.value !== '') {
+      dispatch(actions.setSearch(searchRef.current.value));
+      
+      if (!parseQuery('query')) {
+        history.replace(`/all/all?search=${searchRef.current.value}`);
+      }
+    }
   };
 
-  const { data, makeRequest, setData } = useFetchData();
+  useEffect(() => {
+    if (search === '') {
+      setData(null);
+    }
+
+    if (searchRef.current.value !== search) {
+      searchRef.current.value = search;
+    }
+  }, [search, setData]);
   
   const popularItems = popular && [...Object.keys(popular)].map((el) => (
     <div 
@@ -39,7 +65,7 @@ const NavSearchbar = () => {
   ));
 
   const searchItems = data?.map((el) => (
-    <div className="navsearch__item navsearch__item--full">
+    <div className="navsearch__item navsearch__item--full" key={el._id}>
       <div className="navsearch__item__title">
         {el.title}
         <span className="f-xs c-grey-l">
@@ -106,6 +132,7 @@ const NavSearchbar = () => {
           type="button"
           className="navsearch__btn-clear" 
           onClick={() => {
+            dispatch(actions.setSearch(''));
             searchRef.current.value = '';
             setData(null);
             onSearchForRegion('');

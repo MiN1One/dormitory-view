@@ -5,5 +5,6 @@ export {
 
 export {
   setPrerequisites,
-  error
+  error,
+  setSearch
 } from './actions_main';

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -15,70 +15,36 @@ import Dropdown from '../../components/UI/Dropdown/Dropdown';
 import { parseQuery, sort } from '../../utilities/utils';
 import useFetchData from '../../hooks/useFetchData';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import useDefaultFilters from '../../hooks/useDefaultFilters';
+import { useSelector } from 'react-redux';
 
 const 
-  NUM_ITEMS_PER_VIEW = 12,
+  NUM_ITEMS_PER_VIEW = 9,
   PAGE_INTERVAL = 5,
   CURRENCIES = {
     usd: { val: 'usd', symbol: 'USD' },
     uzsom: { val: 'uzsom', symbol: 'UZSOM' },
     eu: { val: 'eu', symbol: 'EUR' },
   },
-  SORT_OPTIONS = ['-createdAt', '+createdAt', '+price', '-price'],
-  DEFAULT_FILTERS = {
-    facilities: {},
-    ownership: undefined,
-    price: {
-      from: 0,
-      to: 0
-    },
-    bills: [],
-    numberOfRooms: undefined,
-    map: {
-      city: 'all',
-      region: []
-    }
-  };
+  SORT_OPTIONS = ['-createdAt', '+createdAt', '+price', '-price'];
 
 const Listview = () => {
   const params = useParams();
   const location = useLocation();
   const history = useHistory();
   const { t } = useTranslation(['regions', 'translation']);
+  const { search } = useSelector(s => s.main);
 
-  DEFAULT_FILTERS.map = {
-    city: params.city,
-    region: params.region !== 'all' ? [params.region] : []
-  };
-
-  const presetFilters = useRef({
-    facilities: {},
-    ownership: parseQuery('ownership') || undefined,
-    price: {
-      from: +parseQuery('price[from]') || 0,
-      to: +parseQuery('price[to]') || 0
-    },
-    bills: (parseQuery('bills[all]') && parseQuery('bills[all]').split(',')) || [],
-    numberOfRooms: +parseQuery('numberOfRooms') || undefined,
-    map: {
-      city: parseQuery('city') || params.city,
-      region: 
-        parseQuery('region') 
-          ? (parseQuery('region') !== 'all' ? parseQuery('region').split(',') : [])
-          : (params.region !== 'all' ? [params.region] : [])
-    }
-  });
-
-  const [filter, setFilter] = useState(presetFilters.current);
-
-  const { data, loading, error, makeRequest } = useFetchData({
+  const { defaultFilters, presetFilters } = useDefaultFilters();
+  const [filter, setFilter] = useState(presetFilters);
+  const { data, loading, makeRequest } = useFetchData({
     loading: true
   });
-
   const [newData, setNewData] = useState(null);
-  
   const [slide, setSlide] = useState(false);
-  const [currentPage, setCurrentPage] = useState(parseInt(parseQuery('page', location.search)) || 1);
+  const [currentPage, setCurrentPage] = useState(
+    parseInt(parseQuery('page', location.search)) || 1
+  );
   const [sortBy, setSortBy] = useState(SORT_OPTIONS[1]);
   const [currency, setCurrency] = useState(
     (parseQuery('currency') && CURRENCIES[parseQuery('currency')]) ||
@@ -98,13 +64,16 @@ const Listview = () => {
       facilitiesQuery = `${facilitiesQuery}&${key}[all]=${val[0]}`;
     }
 
+    alert('hehe')
+
     const 
       currencyQuery = currency.val !== 'usd' ? `&currency=${currency.val}` : '',
       priceFrom = filter.price.from ? `&price[from]=${filter.price.from}` : '',
       priceTo = filter.price.to ? `&price[to]=${filter.price.to}` : '',
       billsQuery = filter.bills.length > 0 ? `&bills[all]=${filter.bills.join(',')}` : '',
       ownership = filter.ownership ? `&ownership=${filter.ownership}` : '',
-      numberOfRooms = filter.numberOfRooms ? `&numberOfRooms[all]=${filter.numberOfRooms}` : '';
+      numberOfRooms = filter.numberOfRooms ? `&numberOfRooms[all]=${filter.numberOfRooms}` : '',
+      searchQuery = search !== '' ? `&search=${search}` : '';
 
     const 
       userRegionQuery = params.city !== filter.map.city ? `&city=${filter.map.city}` : '',
@@ -114,11 +83,13 @@ const Listview = () => {
 
     setTimeout(() => {
       makeRequest({
-        url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title,createdAt,offers&count=true&limit=${NUM_ITEMS_PER_VIEW}&page=${currentPage}${numberOfRooms}${currencyQuery}`,
+        url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title,createdAt,offers&count=true&limit=${NUM_ITEMS_PER_VIEW}&page=${currentPage}${numberOfRooms}${currencyQuery}${searchQuery}`,
+
         dataSecondary: 'numberOfDocuments',
         dataAt: ['data', 'docs'],
+
         callback: () => {
-          history.push(`?query=true${userRegionQuery}${userCityQuery}${currencyQuery}${priceFrom}${priceTo}${billsQuery}${ownership}${numberOfRooms}`);
+          history.push(`?query=true${userRegionQuery}${userCityQuery}${currencyQuery}${priceFrom}${priceTo}${billsQuery}${ownership}${numberOfRooms}${searchQuery}`);
         }
       });
     }, 75);
@@ -135,7 +106,8 @@ const Listview = () => {
     currency,
     params.city,
     params.region,
-    history
+    history,
+    search
   ]);
 
   useEffect(() => {
@@ -192,7 +164,7 @@ const Listview = () => {
         onSlide={() => setSlide(prev => !prev)}
         setFilters={(f) => setFilter(f)}
         filters={filter}
-        defaultFilters={DEFAULT_FILTERS}
+        defaultFilters={defaultFilters}
         currency={currency} />
       <div className="container">
         <div className="listview__content">
@@ -292,8 +264,10 @@ const Listview = () => {
                         No properties found within this filter
                       </div>
                       <div className="flex">
-                        <button className="btn--white listview__empty__btn mr-1" onClick={() => setFilter(presetFilters.current)}>
-                          Clear filters
+                        <button 
+                          className="btn--white listview__empty__btn mr-1" 
+                          onClick={() => setFilter(presetFilters.current)}>
+                            Clear filters
                         </button>
                         <button className="btn--white listview__empty__btn">
                           <IoSchoolOutline className="icon mr-1" />

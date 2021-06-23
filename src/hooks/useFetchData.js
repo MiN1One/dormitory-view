@@ -93,7 +93,7 @@ const useFetchData = (options = {
     error: httpData.error,
     loading: httpData.loading,
     makeRequest,
-    setData: (data) => dispatch({ type: 'resolve', data })
+    setData: useCallback((data) => dispatch({ type: 'resolve', data }), [])
   };
 };
 

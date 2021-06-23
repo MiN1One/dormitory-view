@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GoLocation } from 'react-icons/go';
 import { IoIosClose, IoIosSearch } from 'react-icons/io';
@@ -8,14 +8,16 @@ import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import useFetchData from '../../../hooks/useFetchData';
 import useFindRegions from '../../../hooks/useFindRegions';
 import img from '../../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
+import { useDispatch } from 'react-redux';
+import * as actions from '../../../store/actions';
 
 const Searchbar = ({ animate, setAnimate, data: popular }) => {
   // const [search, setSearch] = useState('');
   const { t } = useTranslation(['regions', 'translation']);
   const history = useHistory();
-
   const searchRef = useRef();
-  
+  const dispatch = useDispatch();
+
   const { onSearchForRegion, regions } = useFindRegions({
     getBySearch: true,
     regionSearch: true
@@ -26,6 +28,15 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
   const classes = ['header__searchbar'];
   if (animate)
     classes.push('header__searchbar--animate');
+
+  const onPerformSearch = (e) => {
+    e.preventDefault();
+
+    if (searchRef.current.value !== '') {
+      dispatch(actions.setSearch(searchRef.current.value));
+      history.replace(`/all/all`);
+    }
+  };
 
   const items = [];
   for (let key in regions) {
@@ -102,11 +113,11 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
   return (
     <div className={classes.join(' ')}>
       <div className="container">
-        <form className="header__searchbar__content">
+        <form className="header__searchbar__content" onSubmit={onPerformSearch}>
           <div className="pos-rel">
             <IoIosSearch className="header__searchbar__icon icon icon--grey" />
             <input 
-              placeholder="Search by city, region or university name"
+              placeholder="Search by city, region, university name or by title"
               className="header__searchbar__input"
               type="text"
               onFocus={() => setAnimate(true)}
@@ -128,8 +139,8 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
             <button 
               onMouseDown={() => {
                 onSearchForRegion('');
-                setData(null);
                 searchRef.current.value = '';
+                setData(null);
               }}
               type="button" 
               className="header__searchbar__btn-search">

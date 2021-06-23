@@ -30,7 +30,7 @@
   &__indicator {
     display: inline-block;
     color: $grey-light;
-    width: 65%;
+    width: 45%;
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 1.2rem;
@@ -106,6 +106,19 @@
     background: lighten($light, 4.75%);
     position: relative;
 
+    &__btn {
+      position: absolute;
+      background: $pure-white;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 1.45rem;
+      z-index: 1;
+      opacity: 0;
+      display: none;
+
+      &:hover { opacity: 1; }
+    }
+
     &__dot {
       display: none;
       width: .5rem;
@@ -115,7 +128,17 @@
       border-radius: 50%;
     }
 
-    &--active { border-color: rgba($color-green, .35); }
+    &--active {
+      border-color: rgba($color-green, .35);
+    }
+
+    &--active + &__btn {
+      display: flex;
+    }
+
+    &:hover + &__btn {
+      opacity: 1;
+    }
 
     &--active &__dot { display: inline-block; }
 
@@ -152,16 +175,6 @@
     padding: 1rem 1.5rem;
   }
 
-  &__item-btn {
-    position: absolute;
-    background: $pure-white;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 1.45rem;
-    z-index: 1;
-    opacity: 0;
-  }
-
   &__item-wrapper {
     position: relative;
     width: calc(50% - .375rem);
@@ -169,8 +182,6 @@
 
     &:not(.filters__form):not(:nth-of-type(2n)) { margin-right: .75rem; }
   }
-
-  &__item-wrapper:hover &__item-btn { opacity: 1; }
 
   &__item-wrapper &__item {
     border-radius: .25rem;

@@ -1,5 +1,6 @@
 import actionTypes from '../actions/actionTypes';
 import regions from '../locales/regions';
+import { parseQuery } from '../../utilities/utils';
 
 const months = [
   'jan', 
@@ -22,7 +23,9 @@ const initialState = {
   months,
   error: null,
   popular: null,
-  regionsLocal: null
+  regionsLocal: null,
+  search: (parseQuery('query') && parseQuery('search')) ? parseQuery('search') : '',
+  searchRef: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -35,6 +38,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ON_ERROR:
       return { ...state, error: action.error }
+
+    case actionTypes.ON_INPUT_SEARCH:
+      return { ...state, search: action.search }
     
     default: return state;
   }

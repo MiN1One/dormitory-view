@@ -23,14 +23,12 @@ const Header = ({ data: popularItems }) => {
   const history = useHistory();
 
   const { user } = useSelector((s) => s.user);
-  const { data, loading, error, makeRequest } = useFetchData();
+  const { data, loading, makeRequest } = useFetchData();
   const [swiper, setSwiper] = useState(null);
   const [animate, setAnimate] = useState(false);
   const [showRegions, setShowRegions] = useState(false); 
 
-  useEffect(() => 
-    swiper && swiper.update(), 
-  [data, swiper]);
+  useEffect(() => swiper && swiper.update(), [data, swiper]);
 
   useEffect(() => {
     makeRequest({
@@ -49,7 +47,6 @@ const Header = ({ data: popularItems }) => {
         key={i} 
         style={{ 
           backgroundImage: 
-            // `linear-gradient(rgba(0,0,0, .35), rgba(255,255,255, .15)),url("/images/home/${el.image}")`
             `linear-gradient(rgba(0,0,0, .35), rgba(255,255,255, .15)),url("http://localhost:3005/images/home/${el.image}")`
         }}>
           <div className="flex fdc aic">

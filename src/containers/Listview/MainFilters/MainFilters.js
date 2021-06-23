@@ -1,151 +1,121 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { IoIosClose } from 'react-icons/io';
+import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 import { isEmptyObject } from '../../../utilities/utils';
+import FilterItems from '../FilterItems/FilterItems';
+import * as actions from '../../../store/actions';
 
-const MainFilters = ({ scrollbar, differentRegion, setFilters, filters, defaultFilters }) => {
+const OWNERSHIP = ['any', 'university', 'private'];
 
-  const getToFilter = (filters) => {
-    const el = document.getElementById(filters);
-    if (el) {
-      scrollbar.current.scrollTop(el.offsetTop - el.offsetLeft);
-      // el.scrollIntoView();
+const MainFilters = ({ 
+  scrollbar, 
+  differentRegion, 
+  setFilters, 
+  filters, 
+  defaultFilters
+}) => {
+
+  const { t } = useTranslation();
+  const { search, searchRef } = useSelector(s => s.main);
+  const dispatch = useDispatch();
+
+  const itemClass = ['filters__item'];
+
+  const filtersConfig = {
+    search: {
+      active: search !== '', 
+      className: itemClass,
+      clear: () => {
+        dispatch(actions.setSearch(''));
+        searchRef.value = '';
+      }, 
+      title: 'Search',
+      click: () => searchRef?.focus(),
+      value: search !== '' && search
+    },
+    facilities: {
+      active: !isEmptyObject(filters.facilities), 
+      className: itemClass, 
+      clear: () => 
+        setFilters(prev => ({
+          ...prev,
+          facilities: {}
+        })), 
+      title: 'Facilities',
+      name: 'facilities'
+    },
+    bills: {
+      active: filters.bills.length > 0,
+      className: itemClass,
+      clear: () => 
+        setFilters(prev => ({
+          ...prev,
+          bills: []
+        })),
+      title: 'Bills',
+      name: 'bills'
+    },
+    price: {
+      active: filters.price.to > 0 || filters.price.from > 0,
+      className: itemClass,
+      title: 'Price',
+      name: 'price',
+      value: `${filters.price.from > 0 ? filters.price.from : ''} - ${filters.price.to > 0 ? filters.price.to : ''}`,
+      clear: () => 
+        setFilters(p => ({
+          ...p,
+          price: {
+            to: 0,
+            from: 0
+          }
+        }))
+    },
+    numberOfRooms: {
+      active: filters.numberOfRooms,
+      className: itemClass,
+      title: 'Rooms',
+      name: 'rooms',
+      value: filters.numberOfRooms,
+      clear: () => setFilters(p => ({ ...p, numberOfRooms: undefined }))
+    },
+    regions: {
+      active: differentRegion,
+      className: itemClass,
+      title: 'Regions',
+      name: 'regions',
+      clear: () => 
+        setFilters(prev => ({
+          ...prev,
+          map: {
+            city: defaultFilters.map.city,
+            region: defaultFilters.map.region
+          }
+        }))
+    },
+    university: {
+      active: false,
+      className: itemClass,
+      title: 'University',
+      name: 'university',
+      clear: () => {}
     }
   };
 
-  const classes = {
-    region: [],
-    bills: [],
-    price: [],
-    facilities: [],
-    ownership: [],
-    numberOfRooms: []
-  };
-
-  const diffFacilites = !isEmptyObject(filters.facilities);
-  const diffBills = filters.bills.length > 0;
-  const diffPrice = filters.price.to > 0 || filters.price.from > 0;
-
-  const activeClass = 'filters__item--active';
-
-  differentRegion && classes.region.push(activeClass);
-  diffFacilites && classes.facilities.push(activeClass);
-  diffBills && classes.bills.push(activeClass);
-  diffPrice && classes.price.push(activeClass);
-  filters.ownership && classes.ownership.push(activeClass);
-  filters.numberOfRooms && classes.numberOfRooms.push(activeClass);
-
-  for (let key in classes) {
-    classes[key].push('filters__item');
-    classes[key] = classes[key].join(' ');
+  const filterItems = [];
+  for (let key in filtersConfig) {
+    filterItems.push((
+      <FilterItems 
+        key={key}
+        scrollbar={scrollbar}
+        {...filtersConfig[key]} />
+    ));
   }
 
   return (
     <div className="filters__list--row">
-      <div className="filters__item-wrapper">
-        <div 
-          tabIndex="0" 
-          onClick={() => getToFilter('facilities')} 
-          className={classes.facilities}>
-            Facilities
-            <span className="filters__item__dot" />
-        </div>
-        {diffFacilites && (
-          <button 
-            className="filters__item-btn filters__btn-close tooltip"
-            onClick={() => 
-              setFilters(prev => ({
-                ...prev,
-                facilities: {}
-              }))
-            }>
-              <IoIosClose className="icon icon--grey" />
-              <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
-          </button>
-        )}
-      </div>
-      <div className="filters__item-wrapper">
-        <div 
-          tabIndex="0" 
-          onClick={() => getToFilter('regions')} 
-          className={classes.region}>
-            Regions
-            <span className="filters__item__dot" />
-        </div>
-        {differentRegion && (
-          <button 
-            className="filters__item-btn filters__btn-close tooltip"
-            onClick={() => 
-              setFilters(prev => ({
-                ...prev,
-                map: {
-                  city: defaultFilters.map.city,
-                  region: defaultFilters.map.region
-                }
-              }))
-            }>
-              <IoIosClose className="icon icon--grey" />
-              <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
-          </button>
-        )}
-      </div>
-      <div className="filters__item-wrapper"> 
-        <div 
-          onClick={() => getToFilter('rooms')}
-          tabIndex="0"
-          className={classes.numberOfRooms}>
-            Rooms
-            {filters.numberOfRooms && (
-              <span className="filters__indicator">
-                {filters.numberOfRooms}
-              </span>
-            )}
-        </div>
-        {filters.numberOfRooms && (
-          <button 
-            onClick={() => setFilters(p => ({ ...p, numberOfRooms: undefined }))}
-            className="filters__item-btn filters__btn-close tooltip">
-              <IoIosClose className="icon icon--grey" />
-              <span className="tooltip__text tooltip__text--top tooltip__text--center">
-                Clear
-              </span>
-          </button>
-        )}
-      </div>
-      <div className="filters__item-wrapper">
-        <div 
-          tabIndex="0" 
-          onClick={() => getToFilter('university')} 
-          className="filters__item">
-            University
-        </div>
-        <button className="filters__item-btn filters__btn-close tooltip">
-          <IoIosClose className="icon icon--grey" />
-          <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
-        </button>
-      </div>
-      <div className="filters__item-wrapper">
-        <div 
-          tabIndex="0" 
-          onClick={() => getToFilter('bills')} 
-          className={classes.bills}>
-            Bills
-            <span className="filters__item__dot" />
-        </div>
-        {diffBills && (
-          <button 
-            onClick={() => 
-              setFilters(prev => ({
-                ...prev,
-                bills: []
-              }))
-            }
-            className="filters__item-btn filters__btn-close tooltip">
-              <IoIosClose className="icon icon--grey" />
-              <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
-          </button>
-        )}
-      </div>
+      {filterItems}
       <div className="filters__item-wrapper">
         <Dropdown
           title={
@@ -155,74 +125,31 @@ const MainFilters = ({ scrollbar, differentRegion, setFilters, filters, defaultF
             </>
           }
           noIcon
-          className={classes.ownership}
-          items={[
-            {
-              title: 'Any',
-              active: !filters.ownership,
-              click: () => setFilters(prev => ({
-                ...prev,
-                ownership: undefined
-              }))
+          className={`filters__item ${filters.ownership ? 'filters__item--active' : ''}`}
+          items={OWNERSHIP.map(el => ({
+            active: filters.ownership && (el !== 'any' && filters.ownership === el),
+            click: () => {
+              setFilters(p => ({
+                ...p,
+                ownership: el !== 'any' ? el : undefined
+              }));
             },
-            {
-              title: 'University',
-              active: filters.ownership === 'university-owned',
-              click: () => setFilters(prev => ({
-                ...prev,
-                ownership: 'university-owned'
-              }))
-            },
-            {
-              title: 'Private',
-              active: filters.ownership === 'private',
-              click: () => setFilters(prev => ({
-                ...prev,
-                ownership: 'private'
-              }))
-            }
-          ]}
+            title: t(`filters.ownership.${el}`)
+          }))}
           dropTitle="Owned by:"
           positionX="right" />
         {filters.ownership && (
           <button 
-            className="filters__item-btn filters__btn-close tooltip" 
+            className="filters__item__btn filters__btn-close tooltip" 
             onClick={() => 
               setFilters(prev => ({
                 ...prev,
                 ownership: undefined
             }))}>
             <IoIosClose className="icon icon--grey" />
-            <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
-          </button>
-        )}
-      </div>
-      <div className="filters__item-wrapper">
-        <div 
-          tabIndex="0" 
-          onClick={() => getToFilter('price')} 
-          className={classes.price}>
-            Price 
-            {diffPrice && (
-              <span className="filters__indicator"> 
-                {filters.price.from > 0 && filters.price.from} - {filters.price.to > 0 && filters.price.to}
-              </span>
-            )}
-        </div>
-        {diffPrice && (
-          <button 
-            onClick={() =>
-              setFilters(p => ({
-                ...p,
-                price: {
-                  to: 0,
-                  from: 0
-                }
-              }))
-            }
-            className="filters__item-btn filters__btn-close tooltip">
-              <IoIosClose className="icon icon--grey" />
-              <span className="tooltip__text tooltip__text--top tooltip__text--center">Clear</span>
+            <span className="tooltip__text tooltip__text--top tooltip__text--center">
+              Clear
+            </span>
           </button>
         )}
       </div>
