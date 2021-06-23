@@ -64,8 +64,6 @@ const Listview = () => {
       facilitiesQuery = `${facilitiesQuery}&${key}[all]=${val[0]}`;
     }
 
-    alert('hehe')
-
     const 
       currencyQuery = currency.val !== 'usd' ? `&currency=${currency.val}` : '',
       priceFrom = filter.price.from ? `&price[from]=${filter.price.from}` : '',
