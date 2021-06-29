@@ -50,7 +50,7 @@ const ReviewInput = ({ close, userId }) => {
       <Modal
         close={close}
         title=""
-        footer="Post">
+        actionTitle="Post">
           {error && error.response
             ? t(`error.${error.response.data.message}`)
             : 'Something went wrong'

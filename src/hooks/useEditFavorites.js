@@ -12,7 +12,7 @@ const useEditFavorites = () => {
 
   const editFavorites = useCallback((id) => {
     if (!user) 
-      return history.push('/auth/login');
+      return history.push('/auth/signin');
 
     if (favorites.length < 20) {
       const existingItem = favorites.find(el => el === id);
@@ -24,7 +24,9 @@ const useEditFavorites = () => {
           url: '/users/favorites',
           method: 'delete',
           body: { favorite: id },
-          callback: () => dispatch(actions.editFavorites(newList))
+          callback: () => {
+            dispatch(actions.editFavorites(newList))
+          }
         });
       } else {
         newList = [...favorites, id];
@@ -33,7 +35,9 @@ const useEditFavorites = () => {
           method: 'post',
           dataAt: ['data', 'favorites'],
           body: { favorite: id },
-          callback: () => dispatch(actions.editFavorites(newList))
+          callback: () => {
+            dispatch(actions.editFavorites(newList))
+          }
         });
       }
     }

@@ -1,22 +1,118 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { IoIosSearch, IoMdCheckmark } from 'react-icons/io';
+import React, { useState } from 'react';
+import { IoMdCheckmark } from 'react-icons/io';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 
-import Dropdown from '../../components/UI/Dropdown/Dropdown';
 import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
 import './Post.scss';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
-import FacilitiesBills from './FacilitiesBills/FacilitiesBills';
 import Region from './Region/Region';
 import ImageUploadForm from './ImageUploadForm/ImageUploadForm';
 import Universities from './Universities/Universities';
-import SecurityRules from './SecurityRules/SecurityRules';
-import Places from './Places/Places';
+import SecurityRules from './SecurityRules';
+import PlacesBills from './PlacesBills';
 import Rooms from './Rooms/Rooms';
+import Main from './Main/Main';
+import useTitle from '../../hooks/useTitle';
+
+// {
+//   "region": "mirzo-ulug'bek",
+//   "city": "toshkent",
+//   "ownership": "university-owned",
+//   "security": [
+//     "cctv",
+//     "health",
+//     "controlled_access",
+//     "card_access",
+//     "additional_keys"
+//   ],
+//   "rules": [
+//     "no_smoking",
+//     "no_late_access"
+//   ],
+//   "bills": [
+//     "water_bill",
+//     "gas_bill",
+//     "heating_bill",
+//     "internet_bill"
+//   ],
+//   "places": [
+//     "market",
+//     "libriary",
+//     "restaurant",
+//     "hospital",
+//     "bus_station"
+//   ],
+//   "images": [
+//     "image.jpg"
+//   ],
+//   "title": "Test apartment 2",
+//   "address": "20, Kocha 100550",
+//   "imageCover": "image-1.jpg",
+//   "landlord": "id",
+//   "roomOptions": [
+//     {
+//         "air_conditioner": true,
+//         "bath": "private",
+//         "gaming": false,
+//         "washing_machine": true,
+//         "condition": "good",
+//         "numberOfRooms": 3,
+//         "computer": false,
+//         "parking": true,
+//         "internet": true,
+//         "furnitured": true,
+//         "price": 130,
+//         "kitchen": "private",
+//         "offers": []
+//     },
+//     {
+//         "air_conditioner": true,
+//         "bath": "private",
+//         "gaming": false,
+//         "washing_machine": true,
+//         "condition": "good",
+//         "numberOfRooms": 2,
+//         "computer": false,
+//         "parking": true,
+//         "internet": true,
+//         "furnitured": true,
+//         "price": 140,
+//         "kitchen": "private",
+//         "offers": [
+//             {
+//                 "type": "discount",
+//                 "value": 20
+//             }
+//         ]
+//     }
+//   ]
+// }
+
+const SECTIONS = ['main', 'securityandrules', 'places', 'rooms', 'offers'];
 
 const Post = () => {
+  useTitle('Post property');
+
+  const [data, setData] = useState({
+    region: 'mirzo-ulug\'bek',
+    city: 'toshkent',
+    ownership: 'university-owned',
+    security: [],
+    bills: [],
+    rules: [],
+    places: [],
+    images: [],
+    title: '',
+    address: '',
+    imageCover: '',
+    roomOptions: []
+  });
+
+  console.log(data);
 
   return (
     <>
@@ -32,8 +128,8 @@ const Post = () => {
           </div>
         </div>
         <SpyNavigation 
-          offset={-115}
-          items={['main', 'facilitiesandbills', 'securityandrules', 'places', 'rooms', 'images', 'offers']} />
+          offset={-50}
+          items={SECTIONS} />
         <div className="post__head">
           <div className="container">
             <Breadcrumbs 
@@ -43,74 +139,27 @@ const Post = () => {
                   path: '/post/new', 
                   active: true 
                 }
-              ]}/>
-            <h2 className="heading heading--2 mt-15">Post</h2>
+              ]} />
           </div>
         </div>
         <div className="post__body">
           <div className="w-100" id="main">
             <div className="container">
-              <div className="post__form">
-                <label className="post__input-group input__label">
-                  <span className="post__title">Title</span>
-                  <input 
-                    className="input input--main post__input"
-                    placeholder="Main Title"
-                    minLength="5"
-                    type="text" />
-                  <span className="input__label-text">25 Characters left</span>
-                </label>
-                <label className="post__input-group input__label">
-                  <span className="post__title">Area</span>
-                  <input 
-                    className="input input--main post__input"
-                    placeholder="Area in square meters"
-                    type="number" />
-                </label>
-                <label className="post__input-group input__label">
-                  <span className="post__title">Address</span>
-                  <input 
-                    className="input input--main post__input"
-                    placeholder="Address"
-                    type="text" />
-                </label>
-                <div className="post__input-group input__label">
-                  <span className="post__title">Property type</span>
-                  <Dropdown
-                    title="Private"
-                    positionX="left"
-                    className="input input--main post__input"
-                    items={[
-                      { title: 'Private', click: () => {}, active: true },
-                      { title: 'University property', click: () => {}, active: false }
-                    ]} />
-                </div>
-                {/* <div className="post__input-group input__label">
-                  <span className="post__title">Property condition</span>
-                  <Dropdown
-                    title="N/A"
-                    positionX="left"
-                    className="input input--main post__input"
-                    items={[
-                      { title: 'Poor', click: () => {}, active: false },
-                      { title: 'Medium', click: () => {}, active: true },
-                      { title: 'Euro', click: () => {}, active: false }
-                    ]} />
-                </div> */}
-              </div>
+              <Main setData={setData} data={data} />
             </div>
             <div className="post__section">
               <div className="container">
-                <Region />
-                <Universities />
+                <Region setData={setData} data={data} />
+                <Universities setData={setData} data={data} />
               </div>
             </div>
           </div>
-          <FacilitiesBills />
-          <SecurityRules />
-          <Places />
-          <Rooms />
+          {/* <RoomOptions /> */}
+          <Rooms setData={setData} data={data} />
           <ImageUploadForm />
+          {/* <FacilitiesBills setData={setData} data={data} /> */}
+          <SecurityRules setData={setData} data={data} />
+          <PlacesBills setData={setData} data={data} />
         </div>
       </main>
     </>

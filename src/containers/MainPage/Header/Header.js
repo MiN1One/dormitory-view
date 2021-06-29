@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useTranslation } from 'react-i18next';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
+import { Link, useHistory } from 'react-router-dom';
+import { IoChevronBackOutline, IoChevronDownOutline, IoChevronForwardOutline } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 
 import './Header.scss';
-import { Link, useHistory } from 'react-router-dom';
-import { IoChevronBackOutline, IoChevronDownOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
-import { useSelector } from 'react-redux';
 import useFetchData from '../../../hooks/useFetchData';
 import Searchbar from '../Searchbar/Searchbar';
 import Regions from '../Regions/Regions';
@@ -47,7 +47,7 @@ const Header = ({ data: popularItems }) => {
         key={i} 
         style={{ 
           backgroundImage: 
-            `linear-gradient(rgba(0,0,0, .35), rgba(255,255,255, .15)),url("http://localhost:3005/images/home/${el.image}")`
+            `linear-gradient(rgba(0,0,0, .35), rgba(255,255,255, .15)),url("/images/home/${el.image}")`
         }}>
           <div className="flex fdc aic">
             <div className="mb-15 tc">
@@ -117,19 +117,18 @@ const Header = ({ data: popularItems }) => {
                     click: () => history.push('/help#refund')
                   }
                 ]} />
-              {!user 
+              {!user
                 ? (
-                  <Link to="/auth/signin" className="btn btn--primary header__btn">
+                  <Link to="/auth/" className="btn btn--primary header__btn">
                     Sign up
                   </Link>
                 )
                 : (
-                  <Link to="/myprofile" className="btn btn--primary header__btn">
+                  <Link to="/user/myprofile" className="btn btn--primary header__btn">
                     My profile
                   </Link>
                 )
               }
-              
             </div>
           </div>
         </div>

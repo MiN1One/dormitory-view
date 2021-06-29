@@ -16,11 +16,16 @@
     min-height: 58rem;
     margin: 4.5rem auto;
     width: max-content;
+
+    &--signin { height: 62rem; }
+
+    &--signup { height: 87rem; }
   }
 
   &__left {
     width: 22.5rem;
-    background: $grey-light;
+    background-size: cover;
+    background-color: $light;
     padding: 2rem;
   }
 
@@ -49,6 +54,9 @@
   }
 
   &__head {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     margin-bottom: 3rem;
   }
 

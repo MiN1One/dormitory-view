@@ -1,26 +1,42 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import * as emailValidator from 'email-validator';
 import { useDispatch } from "react-redux";
 import { GoCheck } from "react-icons/go";
 
-import axios from '../../../axios';
 import * as actions from '../../../store/actions';
+import useFetchData from "../../../hooks/useFetchData";
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(null);
   const [remember, setRemember] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  console.log(location.state);
+
+  const { data, makeRequest, loading, error, setError } = useFetchData();
 
   const emailRef = useRef();
   const passRef = useRef();
 
+  useEffect(() => {
+    if (data && !error) {
+      const response = { ...data };
+      
+      dispatch(actions.setAuthStatus(response.user));
+      const prevPath = location.state?.pathname || '/';
+
+      history.replace(prevPath);
+    }
+  }, [data, history, error, dispatch, remember, location]);
+
   const onSubmit = (e) => {
     e.preventDefault();
+    setError(null);
 
     if (
       emailRef.current.value === '' || 
@@ -30,26 +46,20 @@ const Signin = () => {
     if (!emailValidator.validate(emailRef.current.value))
       return setError('Please provide valid email address');
 
-    axios.post('/users/login', {
-      email: emailRef.current.value,
-      password: passRef.current.value,
-      remember
-    }).then(res => {
-      console.log(res);
-      setError(null);
-      history.replace('/');
-      res.data.user.token = res.data.token;
-      dispatch(actions.login(res.data.user))
-    }).catch(er => {
-      if (er.response)
-        setError(er.response.data.message);
-      else setError(er.message);
+    makeRequest({
+      url: 'api/users/login',
+      method: 'post',
+      body: {
+        email: emailRef.current.value,
+        password: passRef.current.value,
+        remember
+      }
     });
   };
 
   return (
-    <form className="auth__body" onSubmit={(e) => onSubmit(e)}>
-      {error && <p className="input__invalid">{error}</p>}
+    <form className="auth__body" onSubmit={onSubmit}>
+      {error && <p className="input__invalid">{error.message || error}</p>}
       <label className="input__label mb-15">
         <input 
           className="input input--main auth__input" 

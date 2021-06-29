@@ -47,7 +47,7 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
           tabIndex="0"
           className="header__searchbar__item" 
           key={key}
-          onMouseDown={() => history.push(`/${regions[key].city}/${key}`)}>
+          onMouseDown={() => history.push(`/list/${regions[key].city}/${key}`)}>
             <div className="flex fdc">
               {t(`regions:${regions[key].city}.regions.${key}`)}
               <span className="c-grey-l f-sm mt-5"> {t(`regions:${regions[key].city}.title`)}</span>
@@ -61,7 +61,7 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
           tabIndex="0"
           className="header__searchbar__item" 
           key={key} 
-          onMouseDown={() => history.push(`/${key}/all`)}>
+          onMouseDown={() => history.push(`/list/${key}/all`)}>
             {t(`regions:${key}.title`)}
             <IoChevronForward className="icon--xs" />
         </li>
@@ -76,7 +76,7 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
       tabIndex="0"
       className="header__searchbar__item" 
       key={i}
-      onMouseDown={() => history.push(`/${popular[el].city}/${el}`)}>
+      onMouseDown={() => history.push(`/list/${popular[el].city}/${el}`)}>
         <div className="flex fdc">
           {t(`regions:${popular[el].city}.regions.${el}`)}
           <span className="c-grey-l f-sm mt-5"> {t(`regions:${popular[el].city}.title`)}</span>
@@ -90,7 +90,7 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
       className="header__searchbar__item" 
       tabIndex="0"
       key={el._id}
-      onMouseDown={() => history.push(`/${el.city}/${el.region}/${el._id}`)}>
+      onMouseDown={() => history.push(`/list/${el.city}/${el.region}/${el._id}`)}>
         <div className="flex aic">
           <figure className="header__searchbar__figure">
             <img className="img img--cover" src={img} alt={el.title} />

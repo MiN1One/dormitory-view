@@ -1,15 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import * as emailValidator from 'email-validator';
 import { GoCheck } from "react-icons/go";
 
-import axios from '../../../axios';
+import useFetchData from "../../../hooks/useFetchData";
+import { useHistory } from "react-router";
 
 const Signup = () => {
   const [isLandlord, setIsLandlord] = useState();
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(null);
+  const history = useHistory();
+
+  const { setError, data, loading, error, makeRequest } = useFetchData();
 
   const passRef = useRef();
   const passConfRef = useRef();
@@ -18,8 +21,15 @@ const Signup = () => {
   const phoneRef = useRef();
   const emailRef = useRef();
 
+  useEffect(() => {
+    if (data && !error) {
+      history.push('/auth/signup/success');
+    }
+  }, [data, error, history]);
+
   const onSubmit = (e) => {
     e.preventDefault();
+    setError(null);
 
     if (
       passRef.current.value === '' ||
@@ -39,26 +49,23 @@ const Signup = () => {
     if (phoneRef.current.value.length < 7 || phoneRef.current.value.length > 15) 
       return setError('Please provide valid phone number');
 
-    axios.post('/users/signup', {
-      name: nameRef.current.value,
-      last_name: lNameRef.current.value,
-      email: emailRef.current.value,
-      phone_number: phoneRef.current.value,
-      password: passRef.current.value,
-      role: isLandlord ? 'landlord' : 'user'
-    }).then(res => {
-      console.log(res);
-      setError(null);
-    }).catch(er => {
-      if (er.response)
-        setError(er.response.data.message)
-      else setError(er.message);
+    makeRequest({
+      url: 'api/users/signup',
+      body: {
+        name: nameRef.current.value,
+        last_name: lNameRef.current.value,
+        email: emailRef.current.value,
+        phone_number: phoneRef.current.value,
+        password: passRef.current.value,
+        role: isLandlord ? 'landlord' : 'user'
+      },
+      method: 'post'
     });
   };
 
   return (
     <form className="auth__body" onSubmit={(e) => onSubmit(e)}>
-      {error && <p className="input__invalid">{error}</p>}
+      {error && <p className="input__invalid">{error.message || error}</p>}
       <div className="flex jcse mb-2">
         <div 
           className={`input__checkbox-wrapper mr-lg ${!isLandlord ? 'input__checkbox-wrapper--active' : ''}`} 

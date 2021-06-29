@@ -16,7 +16,7 @@ const Universities = () => {
         <Modal
           title="Distance"
           close={() => setSelectedUniver(null)}
-          footer="Add"
+          actionTitle="Add"
           action={() => {}}>
             <h5 className="modal__title">Webster university</h5>
             <div className="flex jce fdc">

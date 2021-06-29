@@ -1,10 +1,11 @@
 export {
   login,
-  editFavorites
+  editFavorites,
+  setAuthStatus
 } from './actions_user';
 
 export {
   setPrerequisites,
   error,
-  setSearch
+  setSearch,
 } from './actions_main';

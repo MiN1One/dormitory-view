@@ -18,7 +18,6 @@
     &:focus {
       background: $pure-white;
       color: $black;
-      // border-color: $color-yellow;
     }
   }
 
@@ -74,8 +73,6 @@
   }
 
   &--arrow {
-    // min-width: 35rem;
-
     span {
       transition: all .3s ease;
     }

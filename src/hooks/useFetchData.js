@@ -1,8 +1,6 @@
-import { useCallback, useReducer, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import * as actions from '../store/actions';
+import { useCallback, useReducer } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { FaGalacticSenate } from 'react-icons/fa';
 
 const STATE = {
   loading: false,
@@ -32,7 +30,6 @@ const useFetchData = (options = {
 }) => {
   STATE.loading = options.loading;
   const [httpData, dispatch] = useReducer(reducer, STATE);
-  // const reduxDispatch = useDispatch();
   const { user } = useSelector(state => state.user);
 
   const token = user?.token;
@@ -41,8 +38,7 @@ const useFetchData = (options = {
     dispatch({ type: 'start' });
 
     const axiosConf = {
-      // url: `/${options.url}`,
-      url: `http://localhost:3005/${options.url}`,
+      url: `/${options.url}`,
       headers: {
         'Accept': '*/*',
         'Content-Type': 'application/json',
@@ -78,6 +74,7 @@ const useFetchData = (options = {
       .catch((er) => {
         if (er.response) {
           console.log(er.response.status);
+          er.message = er.response.data.message;
         } else {
           er.status = 500;
         }
@@ -93,6 +90,7 @@ const useFetchData = (options = {
     error: httpData.error,
     loading: httpData.loading,
     makeRequest,
+    setError: useCallback((error) => dispatch({ type: 'reject', error }), []),
     setData: useCallback((data) => dispatch({ type: 'resolve', data }), [])
   };
 };

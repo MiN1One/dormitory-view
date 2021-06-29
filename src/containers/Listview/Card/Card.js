@@ -23,7 +23,7 @@ const Card = ({ slide, data, symbol }) => {
 
   return (
     <li className={`cardl ${slide ? 'cardl--3' : 'cardl--2'}`} tabIndex="0">
-      <Link to={`/${data.city}/${data.region}/${data._id}`} className="cardl__content">
+      <Link to={`/list/${data.city}/${data.region}/${data._id}`} className="cardl__content">
         <div className="cardl__main">
           <div className="cardl__top">
             <figure className="cardl__figure">
@@ -96,7 +96,7 @@ const Card = ({ slide, data, symbol }) => {
       </Link>
       <div className="cardl__btn-group">
         <button className="cardl__btn tooltip" onClick={() => editFavorites(data._id)}>
-          {favorites.includes(data._id) 
+          {favorites?.includes(data._id) 
             ? (
               <>
                 <BsStarFill className="icon--sm icon--yellow" />

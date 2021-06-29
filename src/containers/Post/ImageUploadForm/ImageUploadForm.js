@@ -19,7 +19,9 @@ const initialOptions = {
   file: null
 };
 
-const roomTypes = ['main_hall', 'corridor', 'kitchen', 'bathroom', 'balcony'];
+const 
+  ROOM_TYPES = ['main_hall', 'corridor', 'kitchen', 'bathroom', 'balcony'],
+  MAX_IMAGES_COUNT = 12;
 
 const ImageUploadForm = () => {
   const [modal, setModal] = useState(false);
@@ -33,13 +35,11 @@ const ImageUploadForm = () => {
     setSelectedOptions(initialOptions);
   }, [modal]);
   
-  useEffect(() => {
-    swiper && swiper.update();
-  }, [images.length, swiper]);
+  useEffect(() => swiper && swiper.update());
   
   const onUploadImage = useCallback(() => {
     const files = imageUploadRef.current.files
-    if (files.length && images.length < 12) {
+    if (files.length && images.length < MAX_IMAGES_COUNT) {
       
       const fileReader = new FileReader();
       fileReader.readAsDataURL(files[0]);
@@ -54,7 +54,7 @@ const ImageUploadForm = () => {
 
   const imagePlaceholders = images.map((el, i) => {
     return (
-      <SwiperSlide className="post__images__item" key={i}>
+      <SwiperSlide className="post__images__item" key={i+Date.now()}>
         <div className="flex aic jcsb">
           <div className="post__images__title">
             {images[i].roomType}
@@ -86,7 +86,7 @@ const ImageUploadForm = () => {
           title="Upload photo"
           close={() => setModal(false)}
           action={onUploadImage}
-          footer="Upload"
+          actionTitle="Upload"
         >
           <div className="mb-2">
             <div className="modal__title">Option number</div>
@@ -117,9 +117,9 @@ const ImageUploadForm = () => {
             <Dropdown 
               className="modal__input"
               title={selectedOptions.roomType}
-              height={(roomTypes.length * 4.5) / 1.5}
+              height={(ROOM_TYPES.length * 4.5) / 1.5}
               dropTitle="Rooms: "
-              items={roomTypes.map(el => 
+              items={ROOM_TYPES.map(el => 
                 ({
                   title: el,
                   click: () =>
@@ -130,7 +130,10 @@ const ImageUploadForm = () => {
                 })
               )} />
           </div>
-          <div className="flex jce">
+          <div className="flex w-100 jcsb aic">
+            <div className="w-50 inline text--wrap f-mid c-grace f-thin te">
+              {selectedOptions.file && selectedOptions.file.name}
+            </div>
             <button 
               className="post__btn-main" 
               onClick={() => imageUploadRef.current.click()}>
@@ -138,11 +141,6 @@ const ImageUploadForm = () => {
                 Image 
             </button>
           </div>
-          {selectedOptions.file && (
-            <div className="w-100 mt-1">
-              <span className="inline w-100 text--wrap f-mid c-grace f-thin te">{selectedOptions.file.name}</span>
-            </div>
-          )}
         </Modal>
       )}
       <div className="post__section" id="images">
@@ -196,9 +194,9 @@ const ImageUploadForm = () => {
                 </>
               )
               : (
-                <h3 className="heading heading--3 mb-3">
+                <p className="heading heading--5 c-black mb-15">
                   Upload images for your property
-                </h3>
+                </p>
               )
             }
             <div className="c-grey-l f-sm">

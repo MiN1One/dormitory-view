@@ -26,7 +26,7 @@ const CardH = ({ data }) => {
   });
 
   return (
-    <Link to={`/${data.city}/${data.region}/${data._id}`} className="cardh" key={data._id}>
+    <Link to={`/list/${data.city}/${data.region}/${data._id}`} className="cardh" key={data._id}>
       <figure className="cardh__figure">
         <LazyLoadImage
           className="img img--cover"

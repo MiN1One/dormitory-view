@@ -1,8 +1,9 @@
 import React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { BsPerson, BsStar } from 'react-icons/bs';
+import { BsFillPersonFill, BsFolder } from 'react-icons/bs';
+import { IoChevronDownOutline } from 'react-icons/io5';
 import { VscSignIn } from 'react-icons/vsc';
 import { useSelector } from 'react-redux';
 
@@ -17,22 +18,21 @@ const Navigation = ({ className }) => {
   const { user, favorites } = useSelector(state => state.user);
   const [scroll, setScroll] = useState(0);
 
-  const handleScroll = useCallback(() => {
-    setScroll(document.documentElement.scrollTop);
-  }, []);
-  
   useEffect(() => {
     if (location.pathname === '/') {
+      const handleScroll = () => setScroll(document.documentElement.scrollTop);
       document.addEventListener('scroll', handleScroll);
       return () => document.removeEventListener('scroll', handleScroll);
     }
-  }, [handleScroll, location.pathname]);
+  }, [location.pathname]);
 
   if (location.pathname === '/') {
     className = 'nav--hide';
     if (scroll > (window.innerHeight - window.innerHeight * 20 / 100)) {
       className = 'nav--active';
     }
+  } else if (location.pathname.includes('/post/')) {
+    className = 'nav--none';
   } else {
     className = 'nav--sticky';
   }
@@ -47,9 +47,15 @@ const Navigation = ({ className }) => {
           </div>
           <div className="flex h-100">
             <Dropdown
-              title={<span className="inline ml-5">Help</span>}
+              title={
+                <>
+                  <IoChevronDownOutline className="icon--xs icon--grey ml-1" />
+                  <span className="inline">Help</span>
+                </>
+              }
               className="nav__link nav__link--drop"
               dropTitle="Help"
+              noIcon
               items={[
                 {
                   title: 'About',
@@ -64,25 +70,30 @@ const Navigation = ({ className }) => {
                   click: () => history.push('/help#refund')
                 }
               ]} />
-            {user?.token 
+            {user
               ? (
                 <>
-                  <Link to="/myprofile" className="nav__link ml-1">
-                    <BsStar className="icon--sm icon--yellow mr-5" />
+                  <Link to="/user/myprofile/favorites" className="nav__link">
+                    <BsFolder className="icon--sm icon--yellow mr-1" />
                     Favorites
-                    <span className="nav__badge">{favorites.length}</span>
+                    <span className="nav__badge">{favorites?.length || 0}</span>
                   </Link>
-                  <Link to="/myprofile" className="nav__link nav__link--user ml-1">
-                    <BsPerson className="icon icon--tertiary mr-5" />
-                    {user.name}
+                  <Link to="/user/myprofile/main" className="nav__link nav__link--user">
+                    PROFILE
+                    <BsFillPersonFill className="icon--white icon ml-1" />
                     {/* <span className="nav__badge">0</span> */}
                   </Link>
                 </>
               )
               : (
-                <Link to="/auth/login" className="nav__link ml-1">
-                  <VscSignIn className="icon icon--yellow mr-5" />
-                  Signin
+                <Link
+                  to={{
+                    pathname: '/auth/signin',
+                    state: { ...location }
+                  }}
+                  className="nav__link">
+                    <VscSignIn className="icon icon--yellow mr-5" />
+                    Signin
                 </Link>
               )
             }

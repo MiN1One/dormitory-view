@@ -6,6 +6,10 @@
   top: 6.5rem;
   z-index: 99;
   border-bottom: 1px solid rgba($pitch, .05);
+
+  &--top {
+    top: 0;
+  }
   
   &__list {
     height: 5rem;

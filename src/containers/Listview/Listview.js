@@ -12,7 +12,7 @@ import Card from './Card/Card';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import Pagination from '../../components/Pagination/Pagination';
 import Dropdown from '../../components/UI/Dropdown/Dropdown';
-import { parseQuery, sort } from '../../utilities/utils';
+import { isEmptyObject, parseQuery, sort } from '../../utilities/utils';
 import useFetchData from '../../hooks/useFetchData';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import useDefaultFilters from '../../hooks/useDefaultFilters';
@@ -87,10 +87,10 @@ const Listview = () => {
         dataAt: ['data', 'docs'],
 
         callback: () => {
-          history.push(`?query=true${userRegionQuery}${userCityQuery}${currencyQuery}${priceFrom}${priceTo}${billsQuery}${ownership}${numberOfRooms}${searchQuery}`);
+          history.push(`?query=true${userRegionQuery}${userCityQuery}${currencyQuery}${priceFrom}${priceTo}${billsQuery}${ownership}${numberOfRooms}${searchQuery}${facilitiesQuery}`);
         }
       });
-    }, 75);
+    }, 100);
   }, [
     makeRequest, 
     filter.facilities, 
@@ -171,12 +171,12 @@ const Listview = () => {
               items={[
                 {
                   title: t(`regions:${params.city}.title`),
-                  path: `/${params.city}/all`,
+                  path: `/list/${params.city}/all`,
                   active: true
                 },
                 {
                   title: t(`regions:${params.city}.regions.${params.region}`),
-                  path: `/${params.city}/${params.region}`,
+                  path: `/list/${params.city}/${params.region}`,
                   active: true
                 }
               ]} 
@@ -203,7 +203,10 @@ const Listview = () => {
                   ) && (
                     <div className="listview__cur-region">
                       Selected regions:&nbsp;
-                      {filter.map.region.map(el => t(`regions:${filter.map.city}.regions.${el}`)).join(', ')}
+                      {filter.map.region.length > 0
+                        ? filter.map.region.map(el => t(`regions:${filter.map.city}.regions.${el}`)).join(', ')
+                        : t(`regions:${filter.map.city}.regions.all`)
+                      }
                     </div>
                   )}
                   {resultsFound && (

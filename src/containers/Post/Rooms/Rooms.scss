@@ -1,0 +1,90 @@
+@use '../../../assets/sass' as *;
+
+.rooms {
+  width: 100%;
+
+  &__item {
+    border-radius: .25rem;
+    border: 1px solid rgba($pitch, .075);
+    position: relative;
+    cursor: default !important;
+    background: #fff;
+    
+    &:focus { border-color: rgba($color-green, .5); }
+  }
+
+  &__head {
+    border-bottom: 1px solid rgba($pitch, .075);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  &__body { padding: 2.5rem; }
+  
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: .35rem;
+    margin-right: 1rem;
+  }
+
+  &__title { font-size: 1.55rem; }
+
+  &__btn {
+    display: flex;
+    width: 3rem;
+    height: 3rem;
+    background: $light;
+    align-items: center;
+    border-radius: 50%;
+    justify-content: center;
+
+    &:not(:last-child) { margin-right: .75rem; }
+  }
+
+  &__footer {
+    text-align: end;
+    width: 100%;
+    padding: 1.5rem 2.5rem;
+    border-top: 1px solid rgba($pitch, .075);
+  }
+  
+  &__feature {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    color: $black;
+    width: 100%;
+    justify-content: space-between;
+
+    &--price {
+      font-size: 1.85rem;
+      font-weight: 300;
+      display: inline-block;
+    }
+  
+    &:not(:last-child) { margin-bottom: 1.75rem; }
+  }
+
+  &__modal {
+
+    &__footer {
+      width: 100%;
+      padding-top: 1.25rem;
+      text-align: end;
+    }
+
+    &__btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      font-size: 1.4rem;
+      background: lighten($light, 3%);
+      border-radius: .25rem;
+    }
+  }
+}

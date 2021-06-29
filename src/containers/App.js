@@ -1,13 +1,16 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Route, Switch, useLocation } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 import Navigation from '../components/Navigation/Navigation';
 import Footer from '../components/Footer/Footer';
 import ErrorView from '../components/ErrorView/ErrorView';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../store/actions';
 import useFetchData from '../hooks/useFetchData';
+import axios from 'axios';
+import ProtectedRoute from '../hoc/ProtectedRoute';
 
 const AsyncMainPage = React.lazy(() => import('./MainPage/MainPage'));
 const AsyncAuth = React.lazy(() => import('./Auth/Auth'));
@@ -19,9 +22,34 @@ const AsyncPost = React.lazy(() => import('./Post/Post'));
 function App() {
   const location = useLocation();
   const { t, ready } = useTranslation('regions', { useSuspense: false });
-  const { regions, error } = useSelector(state => state.main);
+  const { main: { regions }, user: { user } } = useSelector(s => s);
+  const [loading, setLoading] = useState(true);
+  const mounted = useRef(false);
   const dispatch = useDispatch();
   const { data, makeRequest } = useFetchData();
+
+  useEffect(() => mounted.current = true, []);
+
+  if (!mounted.current) {
+    axios.get('/api/users/status', {
+      withCredentials: true
+    }).then(({ data: { user } }) => {
+      console.log({ user });
+      setLoading(false);
+      dispatch(actions.setAuthStatus(user));
+    }).catch((e) => {
+      console.error(e);
+      setLoading(false);
+      dispatch(actions.setAuthStatus(null));
+    });
+  }
+
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [location.pathname, dispatch]);
 
   useEffect(() => {
     const translatedList = {};
@@ -69,44 +97,54 @@ function App() {
     data && groupRegions(data);
   }, [data, groupRegions]);
 
-  useEffect(() => {
-    window.scroll({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, [location.pathname, dispatch]);
-
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        <Route path="/auth/:type" exact>
-          <AsyncAuth />
-        </Route>
-        <Route path="*">
-          <Navigation />
+      {loading 
+        ? <h1>Checking auth</h1>
+        : (
           <Switch>
-            <Route path="/" exact>
-              <AsyncMainPage />
-            </Route>
-            <Route path="/post/:type" exact>
-              <AsyncPost />
-            </Route>
-            <Route path="/:city/:region/:apt" exact>
-              <AsyncAdview />
-            </Route>
-            <Route path="/:city/:region" exact>
-              <AsyncListview />
-            </Route>
-            <Route path="/myprofile" exact>
-              <AsyncProfile />
-            </Route>
+            {!user && (
+              <Route path="/auth">
+                <AsyncAuth />
+              </Route>
+            )}
             <Route path="*">
-              <ErrorView />
+              <Navigation />
+              <Switch>
+                <Route path="/" exact>
+                  <AsyncMainPage />
+                </Route>
+                <ProtectedRoute path="/post/:type" exact>
+                  <AsyncPost />
+                </ProtectedRoute>
+                <Route path="/list/:city/:region/:apt" exact>
+                  <AsyncAdview />
+                </Route>
+                <Route path="/list/:city/:region" exact>
+                  <AsyncListview />
+                </Route>
+                <ProtectedRoute path="/user/myprofile/:section" exact>
+                  <AsyncProfile />
+                </ProtectedRoute>
+                <Route path="*">
+                  <ErrorView />
+                </Route>
+              </Switch>
+              <Footer />
             </Route>
           </Switch>
-          <Footer />
-        </Route>
-      </Switch>
+      )}
+      <button onClick={() => {
+        axios('/api/users/logout', {
+          withCredentials: true
+        })
+          .then(() => {
+            dispatch(actions.setAuthStatus(null));
+          })
+          .catch(e => console.error(e));
+      }}>
+        LOGOUT
+      </button>
     </React.Suspense>
   );
 }

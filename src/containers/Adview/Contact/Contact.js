@@ -29,7 +29,7 @@ const Contact = ({ close, open, data }) => {
     <Modal 
       close={close} 
       title="Contact"
-      footer="Call"
+      actionTitle="Call"
       action={() => window.open(data?.phone_number)}>
         <div className="c-grace f-thin f-lg mb-1">Landlord: </div>
         <div className="flex aic jcsb mb-2">

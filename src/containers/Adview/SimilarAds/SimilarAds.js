@@ -44,10 +44,12 @@ const SimilarAds = ({ data }) => {
 
   const properties = similarProperties?.map((el, i) => {
     const offers = [];
-    el.offers && el.offers.forEach(el => el.forEach(offer => offers.push(offer)));
+    el.offers && el.offers.forEach(el => 
+      el.forEach(offer => offers.push(offer))
+    );
     return (
       <SwiperSlide className="sads__item" key={i}>
-        <Link className="wh-100 inline" to={`/${el.city}/${el.region}/${el._id}`}>
+        <Link className="wh-100 inline" to={`/list/${el.city}/${el.region}/${el._id}`}>
           <figure className="sads__item__figure">
             <img className="img img--contain" alt="asfd" src={img} />
             {offers.length > 0 && (

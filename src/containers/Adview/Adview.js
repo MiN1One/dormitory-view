@@ -67,7 +67,7 @@ const Adview = () => {
 
   useEffect(() => {
     if (data && previousApt !== data?._id) {
-      history.push(`/${data.city}/${data.region}/${data._id}`);
+      history.push(`/list/${data.city}/${data.region}/${data._id}`);
     }
   }, [data, history, params.apt, previousApt]);
 
@@ -93,12 +93,12 @@ const Adview = () => {
   const breadcrumbs = [
     {
       title: t(`regions:${data?.city}.title`),
-      path: `/${data?.city}/all`,
+      path: `/list/${data?.city}/all`,
       active: false
     },
     {
       title: t(`regions:${data?.city}.regions.${data?.region}`),
-      path: `/${data?.city}/${data?.region}`,
+      path: `/list/${data?.city}/${data?.region}`,
       active: false
     },
     {
@@ -143,7 +143,7 @@ const Adview = () => {
         }}>
           {showWisher && 
             <button className="adview__btn" onClick={() => editFavorites(data?._id)}>
-              {favorites.includes(data?._id) 
+              {favorites?.includes(data?._id) 
                 ? (
                   <>
                     <BsStarFill className="icon--xs icon--yellow mr-5" />

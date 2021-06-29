@@ -12,6 +12,7 @@
   
   &--hide { transform: translateY(-100%); }
   &--active { transform: translateY(0); }
+  &--none { display: none; }
 
   &--sticky {
     position: sticky;
@@ -34,9 +35,9 @@
     color: $grey-dark;
     font-weight: 500;
     padding: 0 1.25rem;
-    padding-left: .25rem;
     border-bottom: 2px solid transparent;
     position: relative;
+    transition: all .15s ease;
 
     &:hover,
     &:focus { border-color: $color-yellow; }
@@ -45,9 +46,23 @@
       flex-direction: row-reverse;
       height: 100%;
     }
-    
-    &--user:hover,
-    &--user:focus { border-color: $color-tertiary; }
+
+    &--user {
+      padding: .9rem 3rem;
+      background: $color-green;
+      border-radius: .25rem;
+      font-weight: 400;
+      height: max-content;
+      align-self: center;
+      color: #fff;
+      margin-left: 2rem;
+      border: none;
+
+      &:hover,
+      &:focus {
+        background: lighten($color-green, 2%);
+      }
+    }
   }
 
   &__badge {

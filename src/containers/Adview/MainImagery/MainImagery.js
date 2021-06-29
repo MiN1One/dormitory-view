@@ -38,7 +38,7 @@ const MainImagery = ({ data, discount, setFullScreen }) => {
           </div>
           <div className="flex aic">
             <button className="tooltip mr-2" onClick={() => editFavorites(data?._id)}>
-              {favorites.includes(data?._id) 
+              {favorites && favorites.includes(data?._id) 
                 ? (
                   <>
                     <BsStarFill className="icon icon--yellow" />

@@ -9,3 +9,8 @@ export const editFavorites = (list) => ({
   type: actionTypes.ON_EDIT_FAVORITES,
   list
 });
+
+export const setAuthStatus = (user) => ({
+  type: actionTypes.ON_SET_AUTH,
+  user
+});

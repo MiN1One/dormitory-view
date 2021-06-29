@@ -33,7 +33,7 @@ const Regions = ({ close }) => {
       className="modalh__item" 
       key={el}
       tabIndex="0">
-        <Link to={`/${activeItem}/${el}`} className="flex aic jcsb w-100">
+        <Link to={`/list/${activeItem}/${el}`} className="flex aic jcsb w-100">
           {t(`regions:${activeItem}.regions.${el}`)}
           <IoChevronForward className="icon--xs icon--grey-l" />
         </Link>

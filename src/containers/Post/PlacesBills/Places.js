@@ -5,7 +5,6 @@ import Specifications from '../../../components/Specs/Specifications';
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import Modal from '../../../components/UI/Modal/Modal';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
-import { RiPencilLine } from 'react-icons/ri';
 
 const Places = () => {
   const [addModal, setAddModal] = useState(false);
@@ -85,7 +84,7 @@ const Places = () => {
         <div className="modal__title">Market name</div>
         <input type="text" className="modal__input" placeholder="Name" />
       </div>
-  }
+  };
 
   return (
     <>
@@ -110,28 +109,20 @@ const Places = () => {
           </Modal>
         )
       }
-      <div className="post__section" id="places">
-        <div className="container">
-          <div className="post__section__item">
-            <div className="post__list-wrapper">
-              <div className="post__title post__title--lg">
-                Nearby places
-              </div>
-              <div className="post__list">
-                <div className="post__input input input--main">
-                  <span className="c-grey-l">Place</span>
-                  <span className="c-grey-l">Name</span>
-                </div>
-                <Scrollbar style={{ width: '100%', height: 'calc(100% - 5rem)' }}>
-                  {places}
-                </Scrollbar>
-                <button className="post__btn" onClick={() => setAddModal(true)}>
-                  <BsPlus className="icon--mid icon--dark" />
-                </button>
-              </div>
-            </div>
-          </div>
+      <div className="post__title post__title--lg">
+        Nearby places
+      </div>
+      <div className="post__list">
+        <div className="post__input input input--main">
+          <span className="c-grey-l">Place</span>
+          <span className="c-grey-l">Name</span>
         </div>
+        <Scrollbar style={{ width: '100%', height: 'calc(100% - 5rem)' }}>
+          {places}
+        </Scrollbar>
+        <button className="post__btn" onClick={() => setAddModal(true)}>
+          <BsPlus className="icon--mid icon--dark" />
+        </button>
       </div>
     </>
   );

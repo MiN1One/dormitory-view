@@ -3,10 +3,25 @@ import { memo, PureComponent } from "react";
 
 class PriceFilter extends PureComponent {
   state = {
-    from: this.props.filters.price.from,
-    to: this.props.filters.price.to,
+    from: this.props.filters.price.from || '',
+    to: this.props.filters.price.to || '',
     currencies: null
   }
+
+  // static getDerivedStateFromProps(nextProps, state) {
+  //   if (
+  //     nextProps.filters.price.from !== +state.from ||
+  //     nextProps.filters.price.to !== +state.to
+  //   ) {
+  //     console.log(nextProps, state);
+  //     return {
+  //       from: nextProps.filters.price.from,
+  //       to: nextProps.filters.price.to
+  //     };
+  //   }
+
+  //   return null;
+  // }
 
   componentDidMount() {
     axios('http://localhost:3005/data/currency.json')
@@ -59,9 +74,9 @@ class PriceFilter extends PureComponent {
   }
 
   onApplyPrice(e, price) {
-    if (!this.state[price] || this.state[price] === '') {
+    if (this.state[price] === '') {
       const f = { ...this.props.filters };
-      delete f.price[price];
+      f.price[price] = 0;
       return this.props.setFilters(f);
     }
 
@@ -75,7 +90,6 @@ class PriceFilter extends PureComponent {
   };
 
   render() {
-    console.log(this.state)
 
     return (
       <div className="filters__section" id="price">
@@ -87,14 +101,14 @@ class PriceFilter extends PureComponent {
             type="number" 
             className="filters__input filters__input--sm" 
             placeholder="from"
-            value={this.state.from || ''}
+            value={this.state.from}
             onBlur={(e) => this.onApplyPrice(e, 'from')}
             onChange={(e) => this.setState({ from: +e.target.value })} />
           <input 
             type="number" 
             className="filters__input filters__input--sm" 
             placeholder="to"
-            value={this.state.to || ''}
+            value={this.state.to}
             onChange={(e) => this.setState({ to: +e.target.value })}
             onBlur={(e) => this.onApplyPrice(e, 'to')} />
         </div>
