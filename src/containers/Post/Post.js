@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { IoMdCheckmark } from 'react-icons/io';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
@@ -92,7 +90,14 @@ import useTitle from '../../hooks/useTitle';
 //   ]
 // }
 
-const SECTIONS = ['main', 'securityandrules', 'places', 'rooms', 'offers'];
+const SECTIONS = [
+  'main', 
+  'universities', 
+  'rooms', 
+  'images', 
+  'securityrules', 
+  'placesbills'
+];
 
 const Post = () => {
   useTitle('Post property');
@@ -150,14 +155,12 @@ const Post = () => {
             <div className="post__section">
               <div className="container">
                 <Region setData={setData} data={data} />
-                <Universities setData={setData} data={data} />
               </div>
             </div>
           </div>
-          {/* <RoomOptions /> */}
+          <Universities setData={setData} data={data} />
           <Rooms setData={setData} data={data} />
           <ImageUploadForm />
-          {/* <FacilitiesBills setData={setData} data={data} /> */}
           <SecurityRules setData={setData} data={data} />
           <PlacesBills setData={setData} data={data} />
         </div>

@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Facilities from '../Facilities/Facilities';
-import ModalUI from '../../../components/UI/Modal/Modal';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 
 const CONFIG = {
@@ -11,36 +9,7 @@ const CONFIG = {
   bath: ['private', 'public']
 };
 
-const Modal = ({ close }) => {
-  const [facilities, setFacilities] = useState(false);
-  const { t } = useTranslation();
-
-  return (
-    <ModalUI
-      title={facilities ? t('cats.facilities.title') : 'Room options'}
-      close={close}
-      action={() => {}}
-      size="lg"
-      actionTitle="Add"
-    >
-      {!facilities
-        ? <Main setFacilities={() => setFacilities(true)} />
-        : <Facilities setFacilities={() => setFacilities(false)} />
-      }
-      {facilities && (
-        <div className="rooms__modal__footer" onClick={() => setFacilities(null)}>
-          <button className="rooms__modal__btn">
-            Close
-          </button>
-        </div>
-      )}
-    </ModalUI>
-  );
-};
-
-export default Modal;
-
-const Main = ({ setFacilities, facilities, bills }) => {
+const Main = ({ setFacilities, setRoom, room }) => {
   const { t } = useTranslation();
 
   return (
@@ -48,12 +17,17 @@ const Main = ({ setFacilities, facilities, bills }) => {
       <div className="modal__item">
         <div className="modal__title">Condition</div>
         <Dropdown
-          title="Medium"
+          title={t(`condition.${room.condition}`)}
           className="modal__input"
           items={CONFIG.condition.map(el => ({
             title: t(`condition.${el}`),
-            click: () => {},
-            active: false
+            click: () => {
+              setRoom(p => ({
+                ...p,
+                condition: el
+              }));
+            },
+            active: room.condition === el
           }))} />
       </div>
       <div className="modal__item">
@@ -61,7 +35,14 @@ const Main = ({ setFacilities, facilities, bills }) => {
         <input 
           className="modal__input " 
           placeholder="Rooms"
-          type="number" /> 
+          type="number"
+          value={room.numberOfRooms}
+          onChange={(e) => 
+            setRoom(p => ({
+              ...p,
+              numberOfRooms: e.target.value
+            }))
+          } /> 
       </div>
       <div className="modal__item">
         <div className="modal__title">Rooms</div>
@@ -70,13 +51,19 @@ const Main = ({ setFacilities, facilities, bills }) => {
           placeholder="e.g. kitchen, bedroom, balcony"
           type="text" />
       </div>
-      
       <div className="modal__item">
         <div className="modal__title">Price</div>
         <input
           type="number"
           placeholder="Price in $ per month"
-          className="modal__input" />
+          className="modal__input"
+          value={room.price}
+          onChange={(e) => 
+            setRoom(p => ({
+              ...p,
+              price: e.target.value
+            }))
+          } />
       </div>
       <div className="modal__item">
         <div className="modal__title">Facilities</div>
@@ -87,3 +74,5 @@ const Main = ({ setFacilities, facilities, bills }) => {
     </div>
   );
 };
+
+export default React.memo(Main);

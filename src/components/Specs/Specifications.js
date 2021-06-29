@@ -66,6 +66,11 @@ const Specifications = (className) => {
       //     <VscBook className="icon--sm icon--grey mr-1" />
       //     Public libriary
       //   </span>,
+      // heating: () => 
+      //   <span className={className}>
+      //     <BiWater className="icon--sm icon--grey mr-1" />
+      //     Heating
+      //   </span>,
       others: (list) =>
         <div className="adview__specs-item--etc">
           <span className="f-bold">Others: </span>

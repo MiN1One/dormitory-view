@@ -3,7 +3,7 @@ import Places from './Places';
 
 const PlacesBills = (props) => {
   return (
-    <div className="post__section">
+    <div className="post__section" id="placesbills">
       <div className="container">
         <div className="post__section__item">
           <div className="post__list-wrapper">

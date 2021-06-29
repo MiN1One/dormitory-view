@@ -209,4 +209,4 @@ const ImageUploadForm = () => {
   );
 }
 
-export default ImageUploadForm;
+export default React.memo(ImageUploadForm);

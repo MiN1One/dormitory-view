@@ -9,84 +9,106 @@ import { BiMinus } from 'react-icons/bi';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 
-import Modal from './Modal';
+import RoomAddModal from './RoomAddModal';
 import './Rooms.scss';
 
 SwiperCore.use([Navigation]);
 
-
-const Rooms = () => {
+const Rooms = ({ data, setData }) => {
   const [modal, setModal] = useState(false);
   const [swiper, setSwiper] = useState(null);
   const { t } = useTranslation();
+  const [forEdit, setForEdit] = useState(null);
 
   useEffect(() => swiper && swiper.update());
 
-  const rooms = Array.from(Array(5).keys()).map((el, i) => {
-    
-    return (
-      <SwiperSlide className="rooms__item" key={i+Date.now()} tabIndex="0">
-        <div className="rooms__head">
-          <div className="rooms__title">Room {i+1}</div>
-          <div className="flex">
-            <button className="rooms__btn">
-              <BsPen className="icon--xs icon--dark" />
-            </button>
-            <button className="rooms__btn">
-              <BiMinus className="icon--xs icon--dark" />
-            </button>
-          </div>
+  const onRemoveRoom = (index) => {
+    const newList = data.roomOptions.filter((_, i) => i !== index);
+    setData(p => ({
+      ...p,
+      roomOptions: newList
+    }));
+  };
+
+  const setValue = (field) => field ? 'Yes' : 'No';
+
+  console.log(data);
+
+  const rooms = data.roomOptions.map((el, i) => (
+    <SwiperSlide className="rooms__item" key={i+Date.now()} tabIndex="0">
+      <div className="rooms__head">
+        <div className="rooms__title">Room option {i+1}</div>
+        <div className="flex">
+          <button 
+            className="rooms__btn" 
+            onClick={() => {
+              setForEdit(i);
+              setModal(true);
+            }}
+          >
+            <BsPen className="icon--xs icon--dark" />
+          </button>
+          <button className="rooms__btn" onClick={() => onRemoveRoom(i)}>
+            <BiMinus className="icon--xs icon--dark" />
+          </button>
         </div>
-        <div className="rooms__body">
-          <div className="rooms__feature">
-            <span className="f-mid-w">Condition:</span>
-            Medium
-          </div>
-          <span className="rooms__feature">
-            <span className="f-mid-w">Rooms:</span>
-            4
-          </span>
-          <span className="rooms__feature">
-            <span className="f-mid-w">Kitchen:</span>
-            Public
-          </span>
-          <span className="rooms__feature">
-            <span className="f-mid-w">Bath:</span>
-            Private
-          </span>
-          <span className="rooms__feature">
-            <span className="f-mid-w">Air conditioner:</span>
-            Yes
-          </span>
-          <span className="rooms__feature">
-            <span className="f-mid-w">Computer:</span>
-            Yes
-          </span>
-          <span className="rooms__feature">
-            <span className="f-mid-w">Parking:</span>
-            Yes
-          </span>
-          <span className="rooms__feature">
-            <span className="f-mid-w">Furnitured:</span>
-            Yes
-          </span>
-          <span className="rooms__feature">
-            <span className="f-mid-w">Washing machine:</span>
-            Yes
-          </span>
+      </div>
+      <div className="rooms__body">
+        <div className="rooms__feature">
+          <span className="f-mid-w">Condition:</span>
+          {el.condition}
         </div>
-        <div className="rooms__footer">
-          <span className="rooms__feature rooms__feature--price">
-            $350 / month
-          </span>
-        </div>
-      </SwiperSlide>
-    );
-  });
+        <span className="rooms__feature">
+          <span className="f-mid-w">Rooms:</span>
+          {el.numberOfRooms}
+        </span>
+        <span className="rooms__feature">
+          <span className="f-mid-w">Kitchen:</span>
+          {el.kitchen}
+        </span>
+        <span className="rooms__feature">
+          <span className="f-mid-w">Bath:</span>
+          {el.bath}
+        </span>
+        <span className="rooms__feature">
+          <span className="f-mid-w">Air conditioner:</span>
+          {setValue(el.air_condition)}
+        </span>
+        <span className="rooms__feature">
+          <span className="f-mid-w">Computer:</span>
+          {setValue(el.computer)}
+        </span>
+        <span className="rooms__feature">
+          <span className="f-mid-w">Parking:</span>
+          {setValue(el.parking)}
+        </span>
+        <span className="rooms__feature">
+          <span className="f-mid-w">Furnitured:</span>
+          {setValue(el.furnitured)}
+        </span>
+        <span className="rooms__feature">
+          <span className="f-mid-w">Washing machine:</span>
+          {setValue(el.washing_machine)}
+        </span>
+      </div>
+      <div className="rooms__footer">
+        <span className="rooms__feature rooms__feature--price">
+          ${el.price} / month
+        </span>
+      </div>
+    </SwiperSlide>
+  ));
 
   return (
     <>
-      {modal && <Modal close={() => setModal(false)} />}
+      {modal && (
+        <RoomAddModal 
+          setData={setData}
+          data={data}
+          close={() => setModal(false)}
+          editIndex={forEdit}
+          resetEditIndex={() => setForEdit(null)} />
+      )}
       <div className="post__section" id="rooms">
         <div className="container">
           <div className="post__title post__title--lg">Room options</div>
@@ -127,4 +149,4 @@ const Rooms = () => {
   );
 }
 
-export default Rooms;
+export default React.memo(Rooms);

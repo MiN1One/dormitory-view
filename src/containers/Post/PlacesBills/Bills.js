@@ -50,4 +50,4 @@ const Bills = ({ data, setData }) => {
   );
 };
 
-export default Bills;
+export default React.memo(Bills);

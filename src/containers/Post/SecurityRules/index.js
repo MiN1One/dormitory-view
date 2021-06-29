@@ -3,7 +3,7 @@ import Security from './Security';
 
 const SecurityRules = (props) => {
   return (
-    <div className="post__section" id="securityandrules">
+    <div className="post__section" id="securityrules">
       <div className="container">
         <div className="post__section__item">
           <div className="post__list-wrapper">

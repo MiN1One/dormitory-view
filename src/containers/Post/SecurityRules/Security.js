@@ -2,6 +2,7 @@ import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import Specifications from '../../../components/Specs/Specifications';
 import { GoCheck } from 'react-icons/go';
 import { RiLock2Line } from 'react-icons/ri';
+import React from 'react';
 
 const Security = ({ data, setData }) => {
   const security = [];
@@ -50,4 +51,4 @@ const Security = ({ data, setData }) => {
   );
 };
 
-export default Security;
+export default React.memo(Security);

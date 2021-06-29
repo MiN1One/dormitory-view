@@ -45,7 +45,7 @@ const Places = () => {
           <div className="modal__title">School number (Optional)</div>
           <input type="number" className="modal__input" placeholder="Number" />
         </div>
-        <div>
+        {/* <div>
           <div className="modal__title">Type</div>
           <Dropdown
             title="Public"
@@ -62,7 +62,7 @@ const Places = () => {
                 active: false
               }
             ]} />
-        </div>
+        </div> */}
       </>,
     hospital: () =>
       <div>
@@ -83,6 +83,11 @@ const Places = () => {
       <div>
         <div className="modal__title">Market name</div>
         <input type="text" className="modal__input" placeholder="Name" />
+      </div>,
+    mosque: () => 
+      <div>
+        <div className="modal__title">Mosque name</div>
+        <input type="text" className="modal__input" placeholder="Name" />
       </div>
   };
 
@@ -91,7 +96,7 @@ const Places = () => {
       {addModal && (
           <Modal
             title="Nearby places"
-            footer="Add"
+            actionTitle="Add"
             action={() => {}}
             close={() => setAddModal(false)}
           >
@@ -128,4 +133,4 @@ const Places = () => {
   );
 };
 
-export default Places;
+export default React.memo(Places);

@@ -9,8 +9,6 @@
     position: relative;
     cursor: default !important;
     background: #fff;
-    
-    &:focus { border-color: rgba($color-green, .5); }
   }
 
   &__head {
@@ -45,6 +43,10 @@
     justify-content: center;
 
     &:not(:last-child) { margin-right: .75rem; }
+  }
+
+  &__tooltip {
+
   }
 
   &__footer {

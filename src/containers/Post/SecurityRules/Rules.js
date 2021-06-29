@@ -1,3 +1,4 @@
+import React from 'react';
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import Specifications from '../../../components/Specs/Specifications';
 import { GoCheck } from 'react-icons/go';
@@ -54,4 +55,4 @@ const Rules = ({ data, setData }) => {
   );
 };
 
-export default Rules;
+export default React.memo(Rules);
