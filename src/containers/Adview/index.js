@@ -5,7 +5,7 @@ import { BsStar, BsStarFill } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
-import './Adview.scss';
+import './index.scss';
 import image from '../../assets/images/avery-klein-JaXs8Tk5Iww-unsplash.jpg';
 import Ratings from './Ratings/Ratings';
 import img from '../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';

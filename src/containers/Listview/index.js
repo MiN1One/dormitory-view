@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BsPlus } from 'react-icons/bs';
 import { IoSchoolOutline } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
 import { FcIdea } from 'react-icons/fc';
 
-import './Listview.scss';
+import './index.scss';
 import Filters from './Filters/Filters';
 import Card from './Card/Card';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import Pagination from '../../components/Pagination/Pagination';
 import Dropdown from '../../components/UI/Dropdown/Dropdown';
-import { isEmptyObject, parseQuery, sort } from '../../utilities/utils';
+import { parseQuery, sort } from '../../utilities/utils';
 import useFetchData from '../../hooks/useFetchData';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import useDefaultFilters from '../../hooks/useDefaultFilters';
-import { useSelector } from 'react-redux';
 
 const 
   NUM_ITEMS_PER_VIEW = 9,

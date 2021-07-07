@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 
-import './Profile.scss';
+import './index.scss';
 
 const Profile = () => {
   const { user } = useSelector(state => state.user);

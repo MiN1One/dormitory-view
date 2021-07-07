@@ -13,11 +13,11 @@ import axios from 'axios';
 import ProtectedRoute from '../hoc/ProtectedRoute';
 
 const AsyncMainPage = React.lazy(() => import('./MainPage/MainPage'));
-const AsyncAuth = React.lazy(() => import('./Auth/Auth'));
-const AsyncProfile = React.lazy(() => import('./Profile/Profile'));
-const AsyncListview = React.lazy(() => import('./Listview/Listview'));
-const AsyncAdview = React.lazy(() => import('./Adview/Adview'));
-const AsyncPost = React.lazy(() => import('./Post/Post'));
+const AsyncAuth = React.lazy(() => import('./Auth'));
+const AsyncProfile = React.lazy(() => import('./Profile'));
+const AsyncListview = React.lazy(() => import('./Listview'));
+const AsyncAdview = React.lazy(() => import('./Adview'));
+const AsyncPost = React.lazy(() => import('./Post'));
 
 function App() {
   const location = useLocation();

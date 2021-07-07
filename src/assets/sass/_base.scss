@@ -37,7 +37,10 @@ textarea {
 }
 
 button {
-  &:disabled { cursor: default !important; }
+  &:disabled {
+    cursor: default !important;
+    opacity: .5;
+  }
   &:hover { cursor: pointer; }
 }
 

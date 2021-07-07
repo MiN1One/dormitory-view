@@ -37,18 +37,25 @@
     font-weight: 500;
     display: inline-block;
     margin-bottom: .75rem;
+    width: 100%;
   }
 
   &__input {
     background: $pure-white;
+    
+    &--text { height: 10rem }
+  }
+  
+  &__select,
+  &__input {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1.25rem 1.75rem;
-    width: 100%;
     border-radius: .25rem;
     font-size: 1.35rem;
     background: lighten($light, 3%);
+    width: 100%;
     border: 1px solid transparent;
     
     &:hover { 
@@ -57,10 +64,25 @@
     
     &:focus {
       background: lighten($light, 5.15%);
-      border-color: rgba($color-tertiary, .75);
+      border-color: rgba($color-tertiary, .5);
     }
+  }
 
-    &--text { height: 10rem }
+  &__select {
+    border-radius: 0;
+    padding: 1.5rem 1.75rem;
+    font-size: 1.45rem;
+  }
+
+  &__text {
+    width: 23rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--lg {
+      width: 40rem;
+    }
   }
   
   &__head {
@@ -91,6 +113,11 @@
     background: lighten($light, 2%);
     display: flex;
     justify-content: flex-end;
+
+    button {
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
   }
 
   &__bg-icon {

@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
-import { BsPen } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
-import { BiMinus } from 'react-icons/bi';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 
-import RoomAddModal from './RoomAddModal';
-import './Rooms.scss';
+import RoomAddModal from './Modal';
+import './index.scss';
+import RoomOptionCard from './RoomOptionCard';
 
 SwiperCore.use([Navigation]);
 
@@ -22,80 +21,25 @@ const Rooms = ({ data, setData }) => {
 
   useEffect(() => swiper && swiper.update());
 
-  const onRemoveRoom = (index) => {
+  const onRemoveRoom = useCallback((index) => {
     const newList = data.roomOptions.filter((_, i) => i !== index);
     setData(p => ({
       ...p,
       roomOptions: newList
     }));
-  };
-
-  const setValue = (field) => field ? 'Yes' : 'No';
-
-  console.log(data);
+  }, [data, setData]);
 
   const rooms = data.roomOptions.map((el, i) => (
     <SwiperSlide className="rooms__item" key={i+Date.now()} tabIndex="0">
-      <div className="rooms__head">
-        <div className="rooms__title">Room option {i+1}</div>
-        <div className="flex">
-          <button 
-            className="rooms__btn" 
-            onClick={() => {
-              setForEdit(i);
-              setModal(true);
-            }}
-          >
-            <BsPen className="icon--xs icon--dark" />
-          </button>
-          <button className="rooms__btn" onClick={() => onRemoveRoom(i)}>
-            <BiMinus className="icon--xs icon--dark" />
-          </button>
-        </div>
-      </div>
-      <div className="rooms__body">
-        <div className="rooms__feature">
-          <span className="f-mid-w">Condition:</span>
-          {el.condition}
-        </div>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Rooms:</span>
-          {el.numberOfRooms}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Kitchen:</span>
-          {el.kitchen}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Bath:</span>
-          {el.bath}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Air conditioner:</span>
-          {setValue(el.air_condition)}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Computer:</span>
-          {setValue(el.computer)}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Parking:</span>
-          {setValue(el.parking)}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Furnitured:</span>
-          {setValue(el.furnitured)}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Washing machine:</span>
-          {setValue(el.washing_machine)}
-        </span>
-      </div>
-      <div className="rooms__footer">
-        <span className="rooms__feature rooms__feature--price">
-          ${el.price} / month
-        </span>
-      </div>
+      <RoomOptionCard
+        data={el}
+        index={i}
+        setData={setData}
+        onRemoveRoom={() => onRemoveRoom(i)}
+        onEdit={() => {
+          setForEdit(i);
+          setModal(true);
+        }} />
     </SwiperSlide>
   ));
 

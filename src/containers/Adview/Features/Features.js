@@ -6,9 +6,8 @@ const Features = ({ data, activeOption }) => {
   const specs = Specifications('adview__specs-item');
 
   const facilityItems = []; 
-  for (const [key, val] of Object.entries(specs.facilities)) {
+  for (const [key, El] of Object.entries(specs.facilities)) {
     if (data && data.roomOptions[activeOption][key]) {
-      const El = val;
       facilityItems.push(<El key={key} />);
     }
   }

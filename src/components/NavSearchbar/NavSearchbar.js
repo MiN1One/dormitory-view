@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { IoIosSearch, IoIosClose } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
 
 import Scrollbar from '../UI/Scrollbar/Scrollbar';
 import useFetchData from '../../hooks/useFetchData';
@@ -40,7 +39,7 @@ const NavSearchbar = () => {
       dispatch(actions.setSearch(searchRef.current.value));
       
       if (!parseQuery('query')) {
-        history.replace(`/all/all?search=${searchRef.current.value}`);
+        history.replace(`/list/all/all?search=${searchRef.current.value}`);
       }
     }
   };

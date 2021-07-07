@@ -5,7 +5,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
-import './Auth.scss';
+import './index.scss';
 import useFetchData from "../../hooks/useFetchData";
 
 const AsyncSignin = React.lazy(() => import('./Signin/Signin'));

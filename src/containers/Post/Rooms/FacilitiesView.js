@@ -14,17 +14,12 @@ const Facilities = ({ room: data, setRoom: setData }) => {
         className="post__input input input--main" 
         key={key} 
         tabIndex="0"
-        onClick={() => {
-          let tempData = { ...data };
-
-          if (key === 'kitchen' || key === 'bath') {
-            tempData[key] = 'private';
-          } else {
-            tempData[key] = !tempData[key];
-          }
-
-          setData(tempData);
-        }}>
+        onClick={() => 
+          setData(p => ({
+            ...p,
+            [key]: !p[key]
+          }))
+        }>
           <Element />
           <div className="input__checkbox-wrapper">
             <span className="input__checkbox filters__checkbox">
@@ -34,8 +29,6 @@ const Facilities = ({ room: data, setRoom: setData }) => {
       </div>
     ));
   }
-
-  console.log(data);
 
   return (
     <div className="post__list post__list--sm">

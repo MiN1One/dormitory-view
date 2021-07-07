@@ -33,18 +33,6 @@
 
   &__title { font-size: 1.55rem; }
 
-  &__btn {
-    display: flex;
-    width: 3rem;
-    height: 3rem;
-    background: $light;
-    align-items: center;
-    border-radius: 50%;
-    justify-content: center;
-
-    &:not(:last-child) { margin-right: .75rem; }
-  }
-
   &__tooltip {
 
   }

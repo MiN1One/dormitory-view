@@ -7,6 +7,7 @@ import { GiBathtub, GiDoor, GiKnifeFork } from 'react-icons/gi';
 import { convertISOString } from '../../../utilities/utils';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 const DISTANCES = [
   {
@@ -23,6 +24,7 @@ const DISTANCES = [
 
 const Details = ({ data, selectedOption, discount }) => {
   const { months } = useSelector(s => s.main);
+  const { t } = useTranslation();
   const history = useHistory();
 
   const createdDate = convertISOString(data?.createdAt);
@@ -94,12 +96,20 @@ const Details = ({ data, selectedOption, discount }) => {
           <div className="">
             <div className="adview__specs-separate">
               <GiKnifeFork className="icon--sm icon--grey mr-1" />
-              Kitchen: {data?.roomOptions[selectedOption].kitchen}
+              Kitchen:&nbsp;
+              {data?.roomOptions[selectedOption].kitchen 
+                ? t('facilities.private')
+                : t('facilities.public')
+              }
             </div>
             <div className="flex aic">
               <div className="adview__specs-separate m-0">
                 <GiBathtub className="icon--sm icon--grey mr-1" />
-                Bathroom: {data?.roomOptions[selectedOption].bath}
+                Bathroom:&nbsp;
+                {data?.roomOptions[selectedOption].bath 
+                  ? t('facilities.private')
+                  : t('facilities.public')
+                }
               </div>
               <button 
                 className="btn--sub ml-5" 

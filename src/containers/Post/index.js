@@ -5,90 +5,23 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 
 import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
-import './Post.scss';
+import './index.scss';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
 import Region from './Region/Region';
 import ImageUploadForm from './ImageUploadForm/ImageUploadForm';
 import Universities from './Universities/Universities';
 import SecurityRules from './SecurityRules';
 import PlacesBills from './PlacesBills';
-import Rooms from './Rooms/Rooms';
+import Rooms from './Rooms';
 import Main from './Main/Main';
 import useTitle from '../../hooks/useTitle';
 
-// {
-//   "region": "mirzo-ulug'bek",
-//   "city": "toshkent",
-//   "ownership": "university-owned",
-//   "security": [
-//     "cctv",
-//     "health",
-//     "controlled_access",
-//     "card_access",
-//     "additional_keys"
-//   ],
-//   "rules": [
-//     "no_smoking",
-//     "no_late_access"
-//   ],
-//   "bills": [
-//     "water_bill",
-//     "gas_bill",
-//     "heating_bill",
-//     "internet_bill"
-//   ],
-//   "places": [
-//     "market",
-//     "libriary",
-//     "restaurant",
-//     "hospital",
-//     "bus_station"
-//   ],
-//   "images": [
-//     "image.jpg"
-//   ],
-//   "title": "Test apartment 2",
-//   "address": "20, Kocha 100550",
-//   "imageCover": "image-1.jpg",
-//   "landlord": "id",
-//   "roomOptions": [
+// "offers": [
 //     {
-//         "air_conditioner": true,
-//         "bath": "private",
-//         "gaming": false,
-//         "washing_machine": true,
-//         "condition": "good",
-//         "numberOfRooms": 3,
-//         "computer": false,
-//         "parking": true,
-//         "internet": true,
-//         "furnitured": true,
-//         "price": 130,
-//         "kitchen": "private",
-//         "offers": []
-//     },
-//     {
-//         "air_conditioner": true,
-//         "bath": "private",
-//         "gaming": false,
-//         "washing_machine": true,
-//         "condition": "good",
-//         "numberOfRooms": 2,
-//         "computer": false,
-//         "parking": true,
-//         "internet": true,
-//         "furnitured": true,
-//         "price": 140,
-//         "kitchen": "private",
-//         "offers": [
-//             {
-//                 "type": "discount",
-//                 "value": 20
-//             }
-//         ]
+//         "type": "discount",
+//         "value": 20
 //     }
-//   ]
-// }
+// ]
 
 const SECTIONS = [
   'main', 
