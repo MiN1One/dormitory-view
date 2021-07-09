@@ -35,8 +35,13 @@ const Features = ({ data, activeOption }) => {
   return (
     <div id="features">
       <div className="adview__specs-wrapper" >
-        <h5 className="heading heading--5 c-black mb-3">Facilites:</h5>
-        <div className="f-mid-w c-black mb-15">For room option {activeOption + 1}</div>
+        <h5 className="heading heading--5 c-black mb-3">
+          Facilites&nbsp;&nbsp;
+          <span className="f-light c-grace f-xl">
+            Room option {activeOption + 1}
+          </span>
+        </h5>
+        {/* <div className="f-mid-w c-black mb-15"></div> */}
         <div className="adview__specs-list">
           {facilityItems}
         </div>

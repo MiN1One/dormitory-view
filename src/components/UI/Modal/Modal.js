@@ -10,7 +10,8 @@ const Modal = ({
   title,
   actionTitle,
   action,
-  children
+  children,
+  hideClose
 }) => (
   <>
     <Backdrop close={close} z={9998} />
@@ -27,9 +28,11 @@ const Modal = ({
         </div>
       </div>
       <div className="modal__footer">
-        <button className="btn btn--cta mr-5" onClick={close}>
-          Close
-        </button>
+        {!hideClose && (
+          <button className="btn btn--cta mr-5" onClick={close}>
+            Close
+          </button>
+        )}
         <button className="btn btn--primary" onClick={action}>
           {actionTitle}
         </button>

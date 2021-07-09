@@ -12,7 +12,7 @@ const Universities = () => {
 
   return (
     <>
-      {selectedUniver && 
+      {/* {false && 
         <Modal
           title="Distance"
           close={() => setSelectedUniver(null)}
@@ -29,7 +29,7 @@ const Universities = () => {
                 type="number" />
             </div>
         </Modal>
-      }
+      } */}
       <div className="post__section" id="universities">
         <div className="container">
           <div className="post__section__item">

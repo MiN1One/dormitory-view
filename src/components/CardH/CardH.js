@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 
 import 'swiper/swiper.scss';
 
-import image from '../../assets/images/minh-pham-OtXADkUh3-I-unsplash.jpg';
 import './CardH.scss';
 
 SwiperCore.use([Autoplay]);
@@ -25,12 +24,18 @@ const CardH = ({ data }) => {
     offers = [...offers, ...el];
   });
 
+  const offerSlides = offers.map((el, i) => (
+    <SwiperSlide className="flex aic" key={i}>
+      <AiFillTag className="icon--xs icon--yellow" />&nbsp;{t(`translation:offer.${el.type}`)} {el.value}
+    </SwiperSlide>
+  ));
+
   return (
     <Link to={`/list/${data.city}/${data.region}/${data._id}`} className="cardh" key={data._id}>
       <figure className="cardh__figure">
         <LazyLoadImage
           className="img img--cover"
-          src={image}
+          src={`/images/apartments/${data._id}/${data.imageCover}`}
           alt="image"
           width="100%"
           height="100%"
@@ -40,18 +45,14 @@ const CardH = ({ data }) => {
               <ImImage className="icon--lg icon--grey" />
             </div>
           } />
-        {data.offers && (
+        {offers.length > 0 && (
           <div className="cardh__panel">
             <Swiper 
               loopFillGroupWithBlank={true}
               autoplay={{ delay: 3000 }}
               direction="vertical"
               slidesPerView={1}>
-                {offers.map((el, i) => (
-                  <SwiperSlide className="flex aic" key={i}>
-                    <AiFillTag className="icon--xs icon--yellow" />&nbsp;{t(`translation:offer.${el.type}`)} {el.value}
-                  </SwiperSlide>
-                ))}
+                {offerSlides}
             </Swiper>
           </div>
         )}

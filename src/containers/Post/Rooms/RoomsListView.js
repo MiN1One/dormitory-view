@@ -65,7 +65,7 @@ const RoomInput = ({ setRoom, room }) => {
       </div>
       <div className="post__list post__list--sm">
         <Scrollbar style={{ width: '100%', height: '100%' }}>
-          <div clasName="w-100 flex fwrap">
+          <div className="w-100 flex fwrap">
             {rooms}
           </div>
         </Scrollbar>

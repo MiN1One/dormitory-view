@@ -52,15 +52,16 @@ const Modal = ({
   return (
     <ModalUI
       title={mode === 'facilities' ? t('cats.facilities.title') : 'Room options'}
+      hideClose={mode}
       close={() => {
         if (!mode) {
           close();
           resetEditIndex();
         }
       }}
-      action={onSaveRoom}
+      action={mode ? () => setMode(null) : onSaveRoom}
       size="lg"
-      actionTitle={editIndex !== null ? 'Save' : 'Add'}
+      actionTitle={(editIndex !== null || mode)  ? 'Save' : 'Add'}
     >
       {!mode
         ? (
@@ -84,13 +85,13 @@ const Modal = ({
             )
         )
       }
-      {mode && (
+      {/* {mode && (
         <div className="rooms__modal__footer">
           <button className="rooms__modal__btn" onClick={() => setMode(null)}>
             Save
           </button>
         </div>
-      )}
+      )} */}
     </ModalUI>
   );
 };

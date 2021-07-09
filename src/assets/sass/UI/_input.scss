@@ -16,6 +16,8 @@
   }
 
   &__invalid {
+    display: flex;
+    align-items: center;
     font-size: 1.45rem;
     color: rgba($color-red, .85);
     margin-bottom: 1rem;

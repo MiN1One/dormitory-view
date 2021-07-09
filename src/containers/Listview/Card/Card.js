@@ -6,7 +6,6 @@ import { IoSchoolOutline } from 'react-icons/io5';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import img from '../../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
 import useEditFavorites from '../../../hooks/useEditFavorites';
 import { convertISOString, formatPrice } from '../../../utilities/utils';
 
@@ -19,7 +18,8 @@ const Card = ({ slide, data, symbol }) => {
 
   const { date, month, hours, minutes } = convertISOString(data.createdAt);
 
-  const offersCount = data.offers?.find(el => el.length > 0).length;
+  console.log(data.offers);
+  const offersCount = data.offers && data.offers.find(el => el.length > 0)?.length;
 
   return (
     <li className={`cardl ${slide ? 'cardl--3' : 'cardl--2'}`} tabIndex="0">
@@ -28,7 +28,7 @@ const Card = ({ slide, data, symbol }) => {
           <div className="cardl__top">
             <figure className="cardl__figure">
               <LazyLoadImage
-                src={img}
+                src={`/images/apartments/${data._id}/${data.imageCover}`}
                 width="100%"
                 height="100%"
                 alt={data.title}

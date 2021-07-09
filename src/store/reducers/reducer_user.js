@@ -3,7 +3,8 @@ import actionTypes from '../actions/actionTypes';
 const initialState = {
   user: null,
   data: null,
-  favorites: null
+  favorites: null,
+  token: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,7 +24,11 @@ const reducer = (state = initialState, action) => {
       }
 
     case actionTypes.ON_SET_AUTH:
-      return { ...state, user: action.user };
+      return {
+        ...state,
+        user: action.user,
+        token: action.token
+      };
 
     case actionTypes.ON_EDIT_FAVORITES: 
       localStorage.setItem('favorites', JSON.stringify(action.list));

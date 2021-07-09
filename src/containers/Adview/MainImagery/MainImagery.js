@@ -8,11 +8,11 @@ import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 
-import img from '../../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
 import useEditFavorites from '../../../hooks/useEditFavorites';
-import image from '../../../assets/images/avery-klein-JaXs8Tk5Iww-unsplash.jpg';
 
 SwiperCore.use([Navigation]);
+
+const IMAGES_PATH = '/images/apartments';
 
 const MainImagery = ({ data, discount, setFullScreen }) => {
   const [swiper, setSwiper] = useState(null);
@@ -20,11 +20,24 @@ const MainImagery = ({ data, discount, setFullScreen }) => {
 
   useEffect(() => swiper && swiper.update());
 
+  const imageThumbs = data?.images.map((el, i) => (
+    <SwiperSlide 
+      key={i}
+      className={`adview__image-item ${(swiper && swiper.activeIndex === i) ? 'adview__image-item--active' : ''}`} 
+      onClick={() => {}}
+      tabIndex="0">
+        <img 
+          className="img img--contain" 
+          src={`${IMAGES_PATH}/${data?._id}/${el}`} 
+          alt="images" />
+    </SwiperSlide>
+  ));
+
   return (
     <>
       <figure className="adview__figure" id="main">
         {/* <Spinner className="wh-100 loader--lg" /> */}
-        <img className="img img--cover" src={img} alt="apt" />
+        <img className="img img--cover" src={`${IMAGES_PATH}/${data?._id}/${data?.images[0]}`} alt="apt" />
         {discount.discount && (
           <span className="adview__tag">
             <AiOutlineTag className="icon--sm icon--yellow mr-5" />
@@ -89,21 +102,13 @@ const MainImagery = ({ data, discount, setFullScreen }) => {
           nextEl: '.adview__btn-imgslider--next',
           disabledClass: 'adview__btn-imgslider--disabled'
         }}>
-        <SwiperSlide 
-          className={`adview__image-item ${(swiper && swiper.activeIndex === 0) ? 'adview__image-item--active' : ''}`} 
-          onClick={() => {}}
-          tabIndex="0">
-            <img className="img img--contain" src={img} alt="imageer" />
-        </SwiperSlide>
-        <SwiperSlide className="adview__image-item" onClick={() => {}}>
-          <img className="img img--contain" src={image} alt="imageer" />
-        </SwiperSlide>
-        <button className="adview__btn-imgslider adview__btn-imgslider--prev">
-          <IoChevronBackOutline className="icon--sm icon--white" />
-        </button>
-        <button className="adview__btn-imgslider adview__btn-imgslider--next">
-          <IoChevronForwardOutline className="icon--sm icon--white" />
-        </button>
+          {imageThumbs}
+          <button className="adview__btn-imgslider adview__btn-imgslider--prev">
+            <IoChevronBackOutline className="icon--sm icon--white" />
+          </button>
+          <button className="adview__btn-imgslider adview__btn-imgslider--next">
+            <IoChevronForwardOutline className="icon--sm icon--white" />
+          </button>
       </Swiper>
     </>
   );

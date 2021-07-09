@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
 import CONFIG from './Config';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
@@ -12,7 +13,12 @@ const Main = ({ setMode, setRoom, room, error }) => {
 
   return (
     <>
-      {error && <p className="input__invalid">{error}</p>}
+      {error && (
+        <div className="input__invalid mb-15">
+          <AiOutlineExclamationCircle className="mr-5 icon--sm icon--red" />
+          {error}
+        </div>
+      )}
       <div className="modal__list">
         <div className="modal__item">
           <div className="modal__title">Condition</div>

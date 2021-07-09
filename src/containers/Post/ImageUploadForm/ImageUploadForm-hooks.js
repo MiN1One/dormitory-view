@@ -23,7 +23,11 @@ const
   ROOM_TYPES = ['main_hall', 'corridor', 'kitchen', 'bathroom', 'balcony'],
   MAX_IMAGES_COUNT = 12;
 
-const ImageUploadForm = () => {
+const ImageUploadForm = ({
+  images: data,
+  setImages: setData,
+  roomOptions
+}) => {
   const [modal, setModal] = useState(false);
   const [swiper, setSwiper] = useState(null);
   const [images, setImages] = useState([]);
@@ -36,21 +40,39 @@ const ImageUploadForm = () => {
   }, [modal]);
   
   useEffect(() => swiper && swiper.update());
+
+  const onRemoveImage = (index) => {
+    setImages(prev => prev.filter((el, i) => i !== index));
+  };
   
-  const onUploadImage = useCallback(() => {
-    const files = imageUploadRef.current.files
+  const onSelectImages = useCallback(() => {
+    const files = imageUploadRef.current.files;
     if (files.length && images.length < MAX_IMAGES_COUNT) {
       
       const fileReader = new FileReader();
       fileReader.readAsDataURL(files[0]);
 
       fileReader.onload = () => {
-        const options = { ...selectedOptions, image: fileReader.result };
+        const options = {
+          ...selectedOptions, 
+          image: fileReader.result,
+          file: files[0]
+        };
+
+        const namedImageFiles = images.map(el => {
+          el.file.name = el.roomType;
+          return el;
+        });
+
+        setData([ ...namedImageFiles, files[0] ]);
         setImages(prev => [...prev, options]);
         setModal(false);
       };
     }
-  }, [images, selectedOptions]);
+  }, [images, selectedOptions, setData]);
+
+  console.log(images);
+  console.log(data);
 
   const imagePlaceholders = images.map((el, i) => {
     return (
@@ -62,11 +84,7 @@ const ImageUploadForm = () => {
           </div>
           <button 
             className="post__images__btn" 
-            onClick={() => 
-              setImages(prev => 
-                prev.filter((image, index) => index !== i)  
-              )
-            }>
+            onClick={() => onRemoveImage(i)}>
             <BiX className="icon--sm icon--grey" />
           </button>
         </div>
@@ -85,31 +103,19 @@ const ImageUploadForm = () => {
         <Modal
           title="Upload photo"
           close={() => setModal(false)}
-          action={onUploadImage}
+          action={onSelectImages}
           actionTitle="Upload"
         >
           <div className="mb-2">
             <div className="modal__title">Option number</div>
             <Dropdown 
               title="Room 1"
-              height="13"
-              items={[
-                {
-                  title: 'Room 1',
-                  click: () => {},
-                  active: true
-                },
-                {
-                  title: 'Room 2',
-                  click: () => {},
-                  active: false
-                },
-                {
-                  title: 'Room 3',
-                  click: () => {},
-                  active: false
-                },
-              ]}
+              height={roomOptions.length >= 3 ? 13 : roomOptions.length * 4.5}
+              items={roomOptions.map((el, i) => ({
+                title: `Room option ${i+1}`,
+                click: () => setSelectedOptions(p => ({ ...p, room: i })),
+                active: true
+              }))}
               className="modal__input" />
           </div>
           <div className="mb-2">

@@ -74,19 +74,29 @@ const Rooms = ({ data, setData }) => {
                 Add option
             </button>
           </div>
-          <Swiper
-            navigation={{
-              prevEl: '.post__room--prev',
-              nextEl: '.post__room--next',
-              disabledClass: 'btn--slider-disabled'
-            }}
-            className="rooms"
-            slidesPerView={3}
-            spaceBetween={25}
-            simulateTouch={false}
-            onInit={(sw) => setSwiper(sw)}>
-              {rooms}
-          </Swiper>
+          {data.roomOptions.length > 0
+            ? (
+              <Swiper
+                navigation={{
+                  prevEl: '.post__room--prev',
+                  nextEl: '.post__room--next',
+                  disabledClass: 'btn--slider-disabled'
+                }}
+                className="rooms"
+                slidesPerView={3}
+                spaceBetween={25}
+                simulateTouch={false}
+                onInit={(sw) => setSwiper(sw)}>
+                  {rooms}
+              </Swiper>
+            )
+            : (
+              <div className="rooms__empty">
+                <p>Add room options...</p>
+              </div>
+            )
+          }
+          
         </div>
       </div>
     </>

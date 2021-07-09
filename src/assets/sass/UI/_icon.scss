@@ -68,4 +68,8 @@
       fill: lighten($grey-dark, 35%);
       stroke: lighten($grey-dark, 35%);
     }
+    &--red {
+      fill: $color-red;
+      stroke: $color-red;
+    }
   }

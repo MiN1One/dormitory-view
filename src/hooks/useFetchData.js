@@ -20,8 +20,8 @@ const reducer = (state, action) => {
       }
     case 'REJECT':
       return { ...state, loading: false, error: action.error };
-    default: 
-      return state;
+      
+    default: return state;
   }
 };
 
@@ -30,22 +30,27 @@ const useFetchData = (options = {
 }) => {
   STATE.loading = options.loading;
   const [httpData, dispatch] = useReducer(reducer, STATE);
-  const { user } = useSelector(state => state.user);
-
-  const token = user?.token;
+  const { token } = useSelector(state => state.user);
+  
+  const setData = (data) => dispatch({ type: 'resolve', data });
 
   const makeRequest = useCallback((options) => {
     dispatch({ type: 'start' });
 
     const axiosConf = {
       url: `/${options.url}`,
+      withCreditentials: true,
       headers: {
         'Accept': '*/*',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
       },
       method: options?.method?.toUpperCase() || 'GET',
     };
+
+    console.log(token);
+
+    if (token)
+      axiosConf.headers['Authorization'] = `Bearer ${token}`;
 
     if (options.body) 
       axiosConf['data'] = options.body;
@@ -68,8 +73,7 @@ const useFetchData = (options = {
 
         dispatch({ type: 'resolve', data });
         
-        // do not use callbacks with useEffect to manipulate data
-        options.callback && options.callback();
+        options.callback && options.callback(data, setData);
       })
       .catch((er) => {
         if (er.response) {
@@ -91,7 +95,7 @@ const useFetchData = (options = {
     loading: httpData.loading,
     makeRequest,
     setError: useCallback((error) => dispatch({ type: 'reject', error }), []),
-    setData: useCallback((data) => dispatch({ type: 'resolve', data }), [])
+    setData: useCallback(setData, [])
   };
 };
 

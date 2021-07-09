@@ -12,28 +12,33 @@
     margin-bottom: 1.5rem;
     border-radius: .25rem;
 
-    &__title {
-      display: flex;
-      flex-direction: column;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
     &__figure {
       background: $grey-light;
-      border-radius: .25rem;
-      height: 14rem;
+      border-radius: .25rem .25rem 0 0;
+      height: 18.5rem;
       overflow: hidden;
+      position: relative;
+    }
+
+    &__panel {
+      background: darken($grey-light, 1.5%);
+      border-radius: 0 0 .25rem .25rem;
+      padding: 1rem 1.5rem;
+      color: #fff;
     }
 
     &__btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 2.5rem;
       height: 2.5rem;
       border-radius: 50%;
-      border: 1px solid rgba($pitch, .075);
+      background: #fff;
     }
   }
   
@@ -98,7 +103,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    // border: none;
     padding: 1.25rem 2.25rem;
     font-size: 1.4rem;
     border-color: rgba($pitch, .05);
@@ -243,11 +247,80 @@
     }
   }
 
-  &__float {
-    width: 100%;
+  &__cta-area {
     position: fixed;
-    bottom: 5rem;
-    right: 0;
+    background: #fff;
+    box-shadow: 0 0 1rem rgba($pitch, .075);
+    bottom: 3rem;
+    right: calc((100vw - 114rem) / 2 - .5rem);
     z-index: 10;
+    border: 1px solid rgba($pitch, .075);
+    border-radius: .5rem;
+    min-width: 30vw;
+    max-width: 30rem;
+
+    &,
+    &__popup {
+      border: 1px solid rgba($pitch, .075);
+      box-shadow: 0 0 1rem rgba($pitch, .075);
+      animation: fadeIn .45s ease;
+      animation-fill-mode: backwards;
+    }
+    
+    &__footer {
+      display: flex;
+      width: 100%;
+      padding: 1.5rem 2rem;
+      font-size: 1.4rem;
+    }
+
+    &__popup {
+      background: #fff;
+      position: absolute;
+      font-size: 1.4rem;
+      bottom: 112.5%;
+      right: 0;
+      width: 100%;
+      padding: 2.25rem 3rem;
+    }
+
+    &__icon {
+      width: 1.75rem;
+      height: 1.75rem;
+      stroke: $black;
+      margin-right: .5rem;
+      transition: transform .3s ease;
+
+      &--rotate {
+        transform: rotate(180deg);
+      }
+    }
+
+    &__footer {
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__btn {
+      display: flex;
+      padding: .75rem 2.5rem;
+      background: #fff;
+      border: 2px solid $color-yellow;
+      font-size: 1.4rem; 
+      text-transform: uppercase;
+      font-weight: 600;
+      border-radius: .25rem;
+
+      &,
+      svg {
+        transition: all .2s ease;
+      }
+
+      &:hover {
+        background: $color-yellow;
+
+        svg { fill: $black !important; }
+      }
+    }
   }
 }

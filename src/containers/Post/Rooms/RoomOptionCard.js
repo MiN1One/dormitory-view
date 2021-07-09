@@ -1,16 +1,31 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { BiMinus } from 'react-icons/bi';
 import { BsPen } from 'react-icons/bs';
+
+import Specifications from '../../../components/Specs/Specifications';
 
 const RoomOptionCard = ({
   onEdit,
   data,
   index,
-  setData,
   onRemoveRoom
 }) => {
+  const { t } = useTranslation();
 
-  const setValue = (field) => field ? 'Yes' : 'No';
+  const setDisplayValue = (field) => field ? 'Yes' : 'No';
+
+  const facilitiesList = [];
+  const Facilities = Specifications('flex aic').facilities;
+  delete Facilities.others;
+  for (const [key, Element] of Object.entries(Facilities)) {
+    facilitiesList.push((
+      <div className="rooms__feature" key={key}>
+        <Element />
+        {setDisplayValue(data[key])}
+      </div>
+    ));
+  }
 
   return (
     <>
@@ -30,41 +45,14 @@ const RoomOptionCard = ({
       </div>
       <div className="rooms__body">
         <div className="rooms__feature">
-          <span className="f-mid-w">Condition:</span>
+          <span>Number of rooms</span>
+          {data.numberOfRooms}
+        </div>
+        <div className="rooms__feature">
+          <span>Condition</span>
           {data.condition}
         </div>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Rooms:</span>
-          {data.numberOfRooms}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Kitchen:</span>
-          {data.kitchen}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Bath:</span>
-          {data.bath}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Air conditioner:</span>
-          {setValue(data.air_condition)}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Computer:</span>
-          {setValue(data.computer)}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Parking:</span>
-          {setValue(data.parking)}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Furnitured:</span>
-          {setValue(data.furnitured)}
-        </span>
-        <span className="rooms__feature">
-          <span className="f-mid-w">Washing machine:</span>
-          {setValue(data.washing_machine)}
-        </span>
+        {facilitiesList}
       </div>
       <div className="rooms__footer">
         <span className="rooms__feature rooms__feature--price">

@@ -33,10 +33,9 @@ function App() {
   if (!mounted.current) {
     axios.get('/api/users/status', {
       withCredentials: true
-    }).then(({ data: { user } }) => {
-      console.log({ user });
+    }).then(({ data }) => {
       setLoading(false);
-      dispatch(actions.setAuthStatus(user));
+      dispatch(actions.setAuthStatus(data));
     }).catch((e) => {
       console.error(e);
       setLoading(false);
