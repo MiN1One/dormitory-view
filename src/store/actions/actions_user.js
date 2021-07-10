@@ -1,8 +1,9 @@
 import actionTypes from './actionTypes';
 
-export const login = (user) => ({
+export const login = (user, token) => ({
   type: actionTypes.ON_LOG_IN_OUT,
-  user
+  user,
+  token
 });
 
 export const editFavorites = (list) => ({

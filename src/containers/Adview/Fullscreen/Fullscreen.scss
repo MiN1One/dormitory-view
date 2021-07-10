@@ -9,6 +9,8 @@
   background: rgba($pitch, .95);
   z-index: 9998;
   overflow: auto;
+  animation: fadeIn 1s ease;
+  animation-fill-mode: backwards;
 
   &__content {
     border-radius: .25rem;
@@ -58,10 +60,13 @@
   &__loading {
     height: 50rem;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__item {
-    background: $pitch;
+    background: $grey-light;
     border-radius: .25rem;
     border: 2px solid transparent;
     position: relative;

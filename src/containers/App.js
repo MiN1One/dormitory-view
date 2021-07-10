@@ -3,7 +3,6 @@ import { Route, Switch, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-
 import Navigation from '../components/Navigation/Navigation';
 import Footer from '../components/Footer/Footer';
 import ErrorView from '../components/ErrorView/ErrorView';

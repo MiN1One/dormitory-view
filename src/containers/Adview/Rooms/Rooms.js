@@ -7,23 +7,36 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 
 import './Rooms.scss';
-import img from '../../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
 import { BiDoorOpen } from 'react-icons/bi';
 import { GiBathtub, GiKnifeFork } from 'react-icons/gi';
 import { useHistory, useLocation } from 'react-router';
 
 SwiperCore.use([Navigation]);
 
-const Rooms = ({ data, selectedIndex, setSelectedIndex, discount }) => {
+const Rooms = ({ 
+  data, 
+  selectedIndex, 
+  setSelectedIndex, 
+  images,
+  id
+}) => {
   const [swiper, setSwiper] = useState(null);
   const history = useHistory();
   const location = useLocation();
 
   useEffect(() => swiper && swiper.update());
 
+  const outputString = (priv) => priv ? 'private' : 'public';
+
   const options = data?.map((el, i) => {
+    const imageIndex = images && images.find(img => {
+      const imgRoomNum = parseInt(img.split('-')[1]);
+      return imgRoomNum === i;
+    });
+
     const classes = ['rooms__item'];
     if (i === selectedIndex) classes.push('rooms__item--active');
+
     return (
       <SwiperSlide 
         className={classes.join(' ')} 
@@ -37,11 +50,17 @@ const Rooms = ({ data, selectedIndex, setSelectedIndex, discount }) => {
           }, 0);
         }}>
         <figure className="rooms__item__figure">
-          <img className="img img--contain" alt="standard" src={img} />
-          {i === selectedIndex && <div className="rooms__item__badge">Selected</div>}
+          <img 
+            className="img img--contain" 
+            alt="room-thumbnail" 
+            src={`/images/apartments/${id}/${imageIndex}`} />
+          {i === selectedIndex && (
+            <div className="rooms__item__badge">
+              Selected
+            </div>
+          )}
           {el.offers && el.offers.length > 0 && (
             <span className="rooms__item__badge rooms__item__badge--tag">
-              {/* {discount.discount}% off */}
               {el.offers.length} offer/s
             </span>
           )}
@@ -59,11 +78,11 @@ const Rooms = ({ data, selectedIndex, setSelectedIndex, discount }) => {
             </div>
             <div className="flex aic mb-1">
               <GiKnifeFork className="icon--sm icon--grey mr-1" />
-              Kitchen: {el.kitchen}
+              Kitchen: {outputString(el.kitchen)}
             </div>
             <div className="flex aic">
               <GiBathtub className="icon--sm icon--grey mr-1" />
-              Bathroom: {el.bath}
+              Bathroom: {outputString(el.bath)}
             </div>
           </div>
         </div>

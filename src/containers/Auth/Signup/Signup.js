@@ -21,12 +21,6 @@ const Signup = () => {
   const phoneRef = useRef();
   const emailRef = useRef();
 
-  useEffect(() => {
-    if (data && !error) {
-      history.push('/auth/signup/success');
-    }
-  }, [data, error, history]);
-
   const onSubmit = (e) => {
     e.preventDefault();
     setError(null);
@@ -59,7 +53,8 @@ const Signup = () => {
         password: passRef.current.value,
         role: isLandlord ? 'landlord' : 'user'
       },
-      method: 'post'
+      method: 'post',
+      callback: () => history.push('/auth/signup/success')
     });
   };
 

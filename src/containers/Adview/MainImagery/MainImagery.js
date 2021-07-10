@@ -8,23 +8,39 @@ import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 
+import Fullscreen from '../Fullscreen/Fullscreen';
 import useEditFavorites from '../../../hooks/useEditFavorites';
+import Spinner from '../../../components/UI/Spinner/Spinner';
+import { preloadImages } from '../../../utilities/utils';
 
 SwiperCore.use([Navigation]);
 
 const IMAGES_PATH = '/images/apartments';
 
-const MainImagery = ({ data, discount, setFullScreen }) => {
+const MainImagery = ({ data, discount }) => {
   const [swiper, setSwiper] = useState(null);
   const { favorites, editFavorites } = useEditFavorites();
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [fullScreen, setFullScreen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => swiper && swiper.update());
+
+  const mainImage = `${IMAGES_PATH}/${data?._id}/${data?.images[selectedImage]}`;
+
+  useEffect(() => {
+    preloadImages(
+      mainImage,
+      () => setLoading(true),
+      () => setLoading(false)
+    )
+  }, [mainImage]);
 
   const imageThumbs = data?.images.map((el, i) => (
     <SwiperSlide 
       key={i}
-      className={`adview__image-item ${(swiper && swiper.activeIndex === i) ? 'adview__image-item--active' : ''}`} 
-      onClick={() => {}}
+      className={`adview__image-item ${selectedImage === i ? 'adview__image-item--active' : ''}`} 
+      onClick={() => setSelectedImage(i)}
       tabIndex="0">
         <img 
           className="img img--contain" 
@@ -33,12 +49,29 @@ const MainImagery = ({ data, discount, setFullScreen }) => {
     </SwiperSlide>
   ));
 
+  const roomType = data?.images[selectedImage].split('-')[0];
+
   return (
     <>
+      {fullScreen && (
+        <Fullscreen 
+          id={data?._id}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+          close={() => setFullScreen(false)}
+          images={data?.images} />
+      )}
       <figure className="adview__figure" id="main">
-        {/* <Spinner className="wh-100 loader--lg" /> */}
-        <img className="img img--cover" src={`${IMAGES_PATH}/${data?._id}/${data?.images[0]}`} alt="apt" />
-        {discount.discount && (
+        {loading
+          ? <Spinner className="loader--lg" />
+          : (
+            <img 
+              className="img img--cover" 
+              src={mainImage} 
+              alt="apt" />
+          )
+        }
+        {(!isNaN(discount.discount) && discount.discount) && (
           <span className="adview__tag">
             <AiOutlineTag className="icon--sm icon--yellow mr-5" />
             {discount.discount}% off
@@ -47,7 +80,7 @@ const MainImagery = ({ data, discount, setFullScreen }) => {
         <div className="adview__cover">
           <div className="flex fdc w-100">
             <h1 className="adview__heading mb-5">{data?.title}</h1>
-            <div className="f-lg c-light f-thin">Main hall</div>
+            <div className="f-lg c-light f-thin">{roomType}</div>
           </div>
           <div className="flex aic">
             <button className="tooltip mr-2" onClick={() => editFavorites(data?._id)}>
@@ -98,15 +131,15 @@ const MainImagery = ({ data, discount, setFullScreen }) => {
         simulateTouch={false}
         spaceBetween={10}
         navigation={{
-          prevEl: '.adview__btn-imgslider--prev',
-          nextEl: '.adview__btn-imgslider--next',
-          disabledClass: 'adview__btn-imgslider--disabled'
+          prevEl: '.btn--prev',
+          nextEl: '.btn--next',
+          disabledClass: 'none'
         }}>
           {imageThumbs}
-          <button className="adview__btn-imgslider adview__btn-imgslider--prev">
+          <button className="btn--imgslider btn--prev">
             <IoChevronBackOutline className="icon--sm icon--white" />
           </button>
-          <button className="adview__btn-imgslider adview__btn-imgslider--next">
+          <button className="btn--imgslider btn--next">
             <IoChevronForwardOutline className="icon--sm icon--white" />
           </button>
       </Swiper>

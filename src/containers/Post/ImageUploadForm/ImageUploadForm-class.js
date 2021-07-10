@@ -71,7 +71,7 @@ class ImageUploadForm extends PureComponent {
 
         const renamedImageFile = new File(
           [blob], 
-          `${this.state.selectedOptions.roomType}`, 
+          `${this.state.selectedOptions.roomType}-${this.state.selectedOptions.room}`, 
           { type: type }
         );
 
@@ -91,29 +91,6 @@ class ImageUploadForm extends PureComponent {
         }));
       }
     });
-
-
-    // fileReader.onload = () => {
-    //   // const { size, type } = files[0];
-    //   // const blob = files[0].slice(0, size, type);
-
-    //   // const renamedImageFile = new File(
-    //   //   [blob], 
-    //   //   `${this.state.selectedOptions.roomType}`, 
-    //   //   { type: type }
-    //   // );
-
-    //   // this.props.setImages(renamedImageFile);
-
-    //   const options = {
-    //     ...this.state.selectedOptions, 
-    //     image: fileReader.result
-    //   };
-
-    //   this.setState(prev => ({
-    //     images: [ ...prev.images, options ],
-    //     modal: false
-    //   }));
   }
 
   onImageSelect = (e) => {

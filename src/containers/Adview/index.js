@@ -6,9 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import './index.scss';
-import image from '../../assets/images/avery-klein-JaXs8Tk5Iww-unsplash.jpg';
 import Ratings from './Ratings/Ratings';
-import img from '../../assets/images/dan-gold-4HG3Ca3EzWw-unsplash.jpg';
 import SimilarAds from './SimilarAds/SimilarAds';
 import PopScroll from '../../components/UI/PopScroll/PopScroll';
 import Contact from './Contact/Contact';
@@ -20,7 +18,6 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import ErrorView from '../../components/ErrorView/ErrorView';
 import ReviewInp from './ReviewInput/ReviewInput';
 import useEditFavorites from '../../hooks/useEditFavorites';
-import Fullscreen from './Fullscreen/Fullscreen';
 import MainImagery from './MainImagery/MainImagery';
 import Details from './Details/Details';
 import Panel from './Panel/Panel';
@@ -49,8 +46,6 @@ const Adview = () => {
 
   const [showContact, setShowContact] = useState(false);
   const [reviewInp, setReviewInp] = useState(false);
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [fullScreen, setFullScreen] = useState(false);
   const [showWisher, setShowWisher] = useState(false);
 
   const previousApt = usePrevious(data && data._id);
@@ -74,11 +69,6 @@ const Adview = () => {
   useEffect(() => {
     if (reviewInp) setShowContact(false);
   }, [reviewInp]);
-
-  const onSelectImage = (index) => {
-    history.push('#main');
-    setActiveImageIndex(index);
-  };
 
   if (error)
     return <ErrorView error={error} />
@@ -126,14 +116,6 @@ const Adview = () => {
           close={() => setReviewInp(false)} />
       )}
       <PopScroll />
-      {fullScreen && (
-        <Fullscreen 
-          activeImageIndex={activeImageIndex}
-          onImageChange={(i) => {}}
-          close={() => setFullScreen(false)}
-          img={img}
-          img2={image} />
-      )}
       <SpyNavigation
         offset={SCROLL_Y_OFFSET}
         items={spyNavItems}
@@ -193,10 +175,11 @@ const Adview = () => {
             <div className="adview__left">
               <MainImagery 
                 data={data && { ...data, price }}
-                discount={{ discount, priceAfterDiscount }}
-                setFullScreen={setFullScreen} />
+                discount={{ discount, priceAfterDiscount }} />
               {data && data.roomOptions.length > 1 && (
                 <AsyncRooms 
+                  id={data?._id}
+                  images={data?.images}
                   data={data?.roomOptions}
                   selectedIndex={selectedOption}
                   setSelectedIndex={setSelectedOption} />

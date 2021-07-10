@@ -62,7 +62,7 @@ const Regions = ({ close }) => {
                 </div>
               </li>
               <li className="modalh__item" onClick={() => setActiveItem(null)}>
-                <Link to={`/${activeItem}/all`} className="flex aic jcsb wh-100">
+                <Link to={`/list/${activeItem}/all`} className="flex aic jcsb wh-100">
                   {t(`regions:${activeItem}.regions.all`)}
                   <IoChevronForward className="icon--xs icon--grey-l" />
                 </Link>

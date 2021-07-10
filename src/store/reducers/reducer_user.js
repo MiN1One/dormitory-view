@@ -20,6 +20,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state, 
         user: action.user,
+        token: action.token
         // favorites: favoritesList
       }
 

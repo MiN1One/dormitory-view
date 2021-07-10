@@ -156,4 +156,21 @@
       background: darken($color-green, 5%);
     }
   }
+
+  &--imgslider {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background: rgba($pitch, .5);
+
+    &:disabled { display: none; }
+  }
+
+  &--prev { left: 0; }
+  &--next { right: 0; }
 }

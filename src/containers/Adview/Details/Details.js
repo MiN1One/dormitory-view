@@ -24,7 +24,7 @@ const DISTANCES = [
 
 const Details = ({ data, selectedOption, discount }) => {
   const { months } = useSelector(s => s.main);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'regions']);
   const history = useHistory();
 
   const createdDate = convertISOString(data?.createdAt);
@@ -48,7 +48,7 @@ const Details = ({ data, selectedOption, discount }) => {
             <FaMapMarkerAlt className="icon--grey icon--sm mr-1" />
             Address:
           </span>
-          {data?.city}, {data?.region} district, {data?.address}
+          {t(`regions:${data?.city}.title`)}, {t(`regions:${data?.city}.regions.${data?.region}`)}, {data?.address}
         </div>
         <div className="flex mb-2 aic">
           <span className="adview__details">

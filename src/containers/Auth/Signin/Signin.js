@@ -23,17 +23,6 @@ const Signin = () => {
   const emailRef = useRef();
   const passRef = useRef();
 
-  useEffect(() => {
-    if (data && !error) {
-      const response = { ...data };
-      
-      dispatch(actions.setAuthStatus(response.user));
-      const prevPath = location.state?.pathname || '/';
-
-      history.replace(prevPath);
-    }
-  }, [data, history, error, dispatch, remember, location]);
-
   const onSubmit = (e) => {
     e.preventDefault();
     setError(null);
@@ -53,6 +42,14 @@ const Signin = () => {
         email: emailRef.current.value,
         password: passRef.current.value,
         remember
+      },
+      callback: ({ user, token }) => {
+        console.log(user, token);
+        dispatch(actions.login(user, token));
+
+        const prevPath = location.state?.pathname || '/';
+
+        history.replace(prevPath);
       }
     });
   };

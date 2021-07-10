@@ -168,6 +168,9 @@
     overflow: hidden;
     margin-bottom: 1.5rem;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__cover {
@@ -290,23 +293,6 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-  }
-
-  &__btn-imgslider {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 100%;
-    width: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-    background: rgba($pitch, .5);
-
-    &--prev { left: 0; }
-    &--next { right: 0; }
-    &--disabled { display: none; }
   }
 
   &__btn {
