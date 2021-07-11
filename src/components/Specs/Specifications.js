@@ -153,41 +153,93 @@ const Specifications = (className) => {
     
     // NEARBY PLACES
     places: {
-      bus_station: () =>
+      bus_station: ({ spec }) =>
         <span className={className}>
           <BiBusSchool className="icon--sm icon--grey mr-1" />
-          Bus station
+          Bus station {spec}
         </span>,
-      hospital: () =>
+      hospital: ({ spec }) =>
         <span className={className}>
           <FaRegHospital className="icon--sm icon--grey mr-1" />
-          Hospital
+          Hospital {spec}
         </span>,
-      school: () =>
+      school: ({ spec }) =>
         <span className={className}>
           <IoSchoolOutline className="icon--sm icon--grey mr-1" />
-          School №15
+          School {spec}
         </span>,
-      libriary: () =>
+      libriary: ({ spec }) =>
         <span className={className}>
           <VscBook className="icon--sm icon--grey mr-1" />
-          Libriary
+          Libriary {spec}
         </span>,
-      restaurant: () =>
+      restaurant: ({ spec }) =>
         <span className={className}>
           <IoRestaurantOutline className="icon--sm icon--grey mr-1" />
-          Restaurant
+          Restaurant {spec}
         </span>,
-      market: () => 
+      market: ({ spec }) => 
         <span className={className}>
           <AiOutlineShop className="icon--sm icon--grey mr-1" />
-          Shopping market
+          Shopping market {spec}
         </span>,
-      mosque: () => 
+      mosque: ({ spec }) => 
         <span className={className}>
           <FaMosque className="icon--sm icon--grey mr-1" />
-          Mosque
+          Mosque {spec}
         </span>
+    },
+
+    placesOptions: {
+      mosque: {
+        title: 'Mosque name',
+        spec: {
+          type: 'text',
+          placeholder: 'Name'
+        }
+      },
+      bus_station: {
+        title: 'Bus numbers (Optional)',
+        spec: {
+          type: 'text',
+          placeholder: 'Buses e.g. 75, 90'
+        }
+      },
+      school: {
+        title: 'School number (Optional)',
+        spec: {
+          type: 'number',
+          placeholder: 'School number'
+        }
+      },
+      hospital: {
+        title: 'Hospital name',
+        spec: {
+          type: 'text',
+          placeholder: 'Name or number'
+        }
+      },
+      libriary: {
+        title: 'Bus numbers (Optional)',
+        spec: {
+          type: 'text',
+          placeholder: 'Buses e.g. 75, 90'
+        }
+      },
+      restaurant: {
+        title: 'Name of the restaurant',
+        spec: {
+          type: 'text',
+          placeholder: 'Name'
+        }
+      },
+      market: {
+        title: 'Market name',
+        spec: {
+          type: 'text',
+          placeholder: 'Name'
+        }
+      }
     }
   };
 };

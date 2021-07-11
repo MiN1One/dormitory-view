@@ -128,7 +128,6 @@ const MainImagery = ({ data, discount }) => {
         className="adview__images"
         onInit={(sw) => setSwiper(sw)}
         slidesPerView={4}
-        simulateTouch={false}
         spaceBetween={10}
         navigation={{
           prevEl: '.btn--prev',

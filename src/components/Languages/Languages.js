@@ -4,25 +4,25 @@ import { VscGlobe } from 'react-icons/vsc';
 
 import './Languages.scss';
 
+const LANG_LIST = [
+  {
+    title: 'English',
+    val: 'en'
+  }, 
+  {
+    title: 'Russian',
+    val: 'ru'
+  }, 
+  {
+    title: 'O\'zbek',
+    val: 'uz'
+  }, 
+];
+
 const Languages = ({ className }) => {
   const { i18n } = useTranslation();
 
-  const languageList = [
-    {
-      title: 'English',
-      val: 'en'
-    }, 
-    {
-      title: 'Russian',
-      val: 'ru'
-    }, 
-    {
-      title: 'O\'zbek',
-      val: 'uz'
-    }, 
-  ];
-
-  const languages = languageList.map((el, i) => (
+  const languages = LANG_LIST.map((el, i) => (
     <div 
       className="language__item" 
       key={i}
@@ -35,7 +35,7 @@ const Languages = ({ className }) => {
     </div>
   ));
 
-  const curLanguage = i18n.language && languageList.find(el => el.val === i18n.language).title;
+  const curLanguage = i18n.language && LANG_LIST.find(el => el.val === i18n.language).title;
 
   return (
     <div className={`language ${className}`}>

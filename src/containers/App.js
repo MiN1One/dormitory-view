@@ -11,7 +11,7 @@ import useFetchData from '../hooks/useFetchData';
 import axios from 'axios';
 import ProtectedRoute from '../hoc/ProtectedRoute';
 
-const AsyncMainPage = React.lazy(() => import('./MainPage/MainPage'));
+const AsyncMainPage = React.lazy(() => import('./MainPage'));
 const AsyncAuth = React.lazy(() => import('./Auth'));
 const AsyncProfile = React.lazy(() => import('./Profile'));
 const AsyncListview = React.lazy(() => import('./Listview'));

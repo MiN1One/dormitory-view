@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import useFetchData from '../../hooks/useFetchData';
 
+import useTitle from '../../hooks/useTitle';
 import Header from './Header/Header';
-import './Popular/Popular';
 import Popular from './Popular/Popular';
 
 const MainPage = () => {
+  useTitle('HOLIS | Housing for students');
+
   const [activeRegion, setActiveRegion] = useState();
   const { popular } = useSelector(s => s.main);
 

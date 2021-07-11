@@ -55,7 +55,7 @@ const Post = () => {
     security: [],
     bills: [],
     rules: [],
-    places: [],
+    places: {},
     title: '',
     address: '',
     roomOptions: []

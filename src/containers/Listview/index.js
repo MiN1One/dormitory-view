@@ -17,6 +17,7 @@ import { parseQuery, sort } from '../../utilities/utils';
 import useFetchData from '../../hooks/useFetchData';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import useDefaultFilters from '../../hooks/useDefaultFilters';
+import useTitle from '../../hooks/useTitle';
 
 const 
   NUM_ITEMS_PER_VIEW = 9,
@@ -35,11 +36,13 @@ const Listview = () => {
   const { t } = useTranslation(['regions', 'translation']);
   const { search } = useSelector(s => s.main);
 
+  useTitle(
+    `${t(`regions:${params.city}.title`)}, ${t(`regions:${params.city}.regions.${params.region}`)}`
+  );
+
   const { defaultFilters, presetFilters } = useDefaultFilters();
   const [filter, setFilter] = useState(presetFilters);
-  const { data, loading, makeRequest } = useFetchData({
-    loading: true
-  });
+  const { data, loading, makeRequest } = useFetchData({ loading: true });
   const [newData, setNewData] = useState(null);
   const [slide, setSlide] = useState(false);
   const [currentPage, setCurrentPage] = useState(

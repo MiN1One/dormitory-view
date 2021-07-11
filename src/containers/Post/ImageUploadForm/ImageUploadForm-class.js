@@ -71,7 +71,7 @@ class ImageUploadForm extends PureComponent {
 
         const renamedImageFile = new File(
           [blob], 
-          `${this.state.selectedOptions.roomType}-${this.state.selectedOptions.room}`, 
+          `${this.state.selectedOptions.roomType}-${+this.state.selectedOptions.room + 1}`, 
           { type: type }
         );
 

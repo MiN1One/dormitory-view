@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 import './index.scss';
 import useFetchData from "../../hooks/useFetchData";
+import useTitle from "../../hooks/useTitle";
 
 const AsyncSignin = React.lazy(() => import('./Signin/Signin'));
 const AsyncSignup = React.lazy(() => import('./Signup/Signup'));
@@ -18,6 +19,8 @@ const Auth = () => {
   const { t } = useTranslation();
   const [type, setType] = useState(null);
 
+  useTitle('Authorization');
+
   const { data, makeRequest, loading } = useFetchData();
 
   useEffect(() => {
@@ -25,8 +28,8 @@ const Auth = () => {
   }, [makeRequest]);
   
   useEffect(() => {
-    const t = location.pathname.substr(1).split('/')[1];
-    t && setType(t);
+    const authType = location.pathname.substr(1).split('/')[1];
+    authType && setType(authType);
   }, [location.pathname]);
   
   console.log(type);

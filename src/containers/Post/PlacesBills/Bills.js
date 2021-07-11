@@ -5,6 +5,22 @@ import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 import Specifications from '../../../components/Specs/Specifications';
 
 const Bills = ({ data, setData }) => {
+
+  const onAddRemoveBill = (bill) => {
+    let newList = [ ...data.bills ];
+    
+    if (data.bills.includes(bill)) {
+      newList = newList.filter(el => el !== bill);
+    } else {
+      newList.push(bill);
+    }
+
+    setData(p => ({
+      ...p,
+      bills: newList
+    }));
+  };
+
   const bills = [];
   const Bills = { ...Specifications('flex aic').bills };
   for (const [key, Element] of Object.entries(Bills)) {
@@ -13,19 +29,7 @@ const Bills = ({ data, setData }) => {
         className="post__input input input--main" 
         key={key} 
         tabIndex="0"
-        onClick={() => {
-          let newList = [ ...data.bills ];
-          if (data.bills.includes(key)) {
-            newList = newList.filter(el => el !== key);
-          } else {
-            newList.push(key);
-          }
-
-          setData(p => ({
-            ...p,
-            bills: newList
-          }));
-        }}>
+        onClick={() => onAddRemoveBill(key)}>
         <Element />
         <div className="input__checkbox-wrapper">
           <span className="input__checkbox filters__checkbox">

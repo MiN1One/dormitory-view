@@ -22,10 +22,22 @@ const Features = ({ data, activeOption }) => {
     return Bill && <Bill key={i} />;
   });
   
-  const places = data?.places.map((el, i) => {
-    const Place = specs.places[el];
-    return Place && <Place key={i} />;
-  });
+  let places = [];
+  // {
+  //   school: ['42', '55']
+  // }
+  if (data && data.places.length) {
+    for (const [key, val] of Object.entries(data.places)) {
+      
+      if (key in specs.places) {
+        const El = specs.places[key];
+
+        val.forEach(el => {
+          places.push(<El spec={el} key={key+el+Date.now()} />);
+        });
+      }
+    }
+  }
 
   const rules = data?.rules.map((el, i) => {
     const Rule = specs.rules[el];

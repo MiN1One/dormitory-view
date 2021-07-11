@@ -22,6 +22,7 @@ import MainImagery from './MainImagery/MainImagery';
 import Details from './Details/Details';
 import Panel from './Panel/Panel';
 import usePrevious from '../../hooks/usePrevious';
+import useTitle from '../../hooks/useTitle';
 
 const AsyncRooms = React.lazy(() => import('./Rooms/Rooms'));
 
@@ -47,6 +48,8 @@ const Adview = () => {
   const [showContact, setShowContact] = useState(false);
   const [reviewInp, setReviewInp] = useState(false);
   const [showWisher, setShowWisher] = useState(false);
+
+  useTitle(data?.title || document.title);
 
   const previousApt = usePrevious(data && data._id);
 

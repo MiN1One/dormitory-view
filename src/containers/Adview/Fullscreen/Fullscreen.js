@@ -23,7 +23,9 @@ const Fullscreen = ({
 
   useEffect(() => swiper && swiper.update());
 
-  const mainImage = `${IMAGES_PATH}/${id}/${images[selectedImage]}`;
+  const 
+    mainImage = `${IMAGES_PATH}/${id}/${images[selectedImage]}`,
+    roomOptionNum = images && images[selectedImage].split('-')[1];
 
   useEffect(() => {
     preloadImages(
@@ -50,7 +52,7 @@ const Fullscreen = ({
       className={`fulls__item ${(selectedImage === i) ? 'fulls__item--active' : ''}`}
       tabIndex="0"
       onClick={() => setSelectedImage(i)}>
-        <img className="img img--contain" src={`${IMAGES_PATH}/${id}/${el}`} alt="images" />
+        <img className="img img--contain" src={`${IMAGES_PATH}/${id}/${el}`} alt="property-images" />
     </SwiperSlide>
   ));
 
@@ -93,7 +95,7 @@ const Fullscreen = ({
                       </div>
                       <div className="te">
                         <h5 className="heading heading--3 f-thin c-white">{roomType}</h5>
-                        <span className="f-lg c-white mb-5 inline">Room option 1</span>
+                        <span className="f-lg c-white mb-5 inline">Room option {roomOptionNum}</span>
                         <p className="f-mid c-light f-thin">Press Escape to exit the screen</p>
                       </div>
                     </div>
@@ -111,7 +113,6 @@ const Fullscreen = ({
               slidesPerView={5}
               id="property"
               onInit={(sw) => setSwiper(sw)}
-              simulateTouch={false}
               navigation={{
                 prevEl: '.btn--prev',
                 nextEl: '.btn--next',
