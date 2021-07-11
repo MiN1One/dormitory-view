@@ -2,25 +2,22 @@
 
 .pscroll {
   position: fixed;
-  left: 0;
+  left: calc((100vw - 114rem) / 2 - .5rem);
   bottom: 3rem;
   z-index: 100;
-  width: 100%;
-  
-  &__btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 5rem;
-    height: 5rem;
-    border-radius: .4rem;
-    background: $pure-white;
-    animation: popFromTop .3s ease;
-    border: 1px solid $color-yellow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: .25rem;
+  background: $pure-white;
+  animation: popFromTop .3s ease;
+  border: 1px solid $color-yellow;
+  box-shadow: 0 0 1rem rgba($black, .075);
 
-    &:hover,
-    &:focus {
-      background: lighten($light, 2.5%);
-    }
+  &:hover,
+  &:focus {
+    background: lighten($light, 4%);
   }
 }

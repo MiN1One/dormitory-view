@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 
-const Main = ({ data, setData }) => {
+const MainDetails = ({ data, setData }) => {
   const { t } = useTranslation();
 
   return (
@@ -62,4 +62,4 @@ const Main = ({ data, setData }) => {
   );
 }
 
-export default Main;
+export default MainDetails;

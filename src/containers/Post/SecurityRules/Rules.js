@@ -4,8 +4,25 @@ import Specifications from '../../../components/Specs/Specifications';
 import { GoCheck } from 'react-icons/go';
 import { GiForkKnifeSpoon } from 'react-icons/gi';
 import { BsPlus } from 'react-icons/bs';
+import { FaKeycdn } from 'react-icons/fa';
 
 const Rules = ({ data, setData }) => {
+  
+  const onAddRemoveRule = (rule) => {
+    let newList = [ ...data.rules ];
+
+    if (newList.includes(rule)) {
+      newList = newList.filter(el => el !== rule);
+    } else {
+      newList.push(rule);
+    }
+
+    setData(p => ({
+      ...p,
+      rules: newList
+    }));
+  };
+
   const rules = [];
   const Rules = { ...Specifications('flex aic').rules };
   for (const [key, Element] of Object.entries(Rules)) {
@@ -14,19 +31,7 @@ const Rules = ({ data, setData }) => {
         className="post__input input input--main" 
         key={key} 
         tabIndex="0"
-        onClick={() => {
-          let newList = [ ...data.rules ];
-          if (newList.includes(key)) {
-            newList = newList.filter(el => el !== key);
-          } else {
-            newList.push(key);
-          }
-
-          setData(p => ({
-            ...p,
-            rules: newList
-          }));
-        }}>
+        onClick={() => onAddRemoveRule(key)}>
           <Element />
           <div className="input__checkbox-wrapper">
             <span className="input__checkbox filters__checkbox">
@@ -46,9 +51,9 @@ const Rules = ({ data, setData }) => {
       <div className="post__list">
         <Scrollbar style={{ width: '100%', height: '100%' }}>
           {rules}
-          <button className="post__btn">
+          {/* <button className="post__btn">
             <BsPlus className="icon--mid icon--dark" />
-          </button>
+          </button> */}
         </Scrollbar>
       </div>
     </>

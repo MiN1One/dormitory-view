@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
+import { FcPackage } from 'react-icons/fc';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
@@ -74,6 +75,9 @@ const Rooms = ({ data, setData }) => {
                 Add option
             </button>
           </div>
+          <div className="c-grey-l f-sm mb-1">
+            You can specify room options (plans) for students
+          </div>
           {data.roomOptions.length > 0
             ? (
               <Swiper
@@ -91,12 +95,12 @@ const Rooms = ({ data, setData }) => {
               </Swiper>
             )
             : (
-              <div className="rooms__empty">
-                <p>Add room options...</p>
+              <div className="post__header">
+                <FcPackage className="post__header__icon" />
+                Add room options...
               </div>
             )
           }
-          
         </div>
       </div>
     </>

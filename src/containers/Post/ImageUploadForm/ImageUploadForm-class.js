@@ -4,9 +4,8 @@ import SwiperCore, { Navigation } from 'swiper';
 import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import { RiImageAddLine } from 'react-icons/ri';
 import { BiX } from 'react-icons/bi';
+import { FcFolder } from 'react-icons/fc';
 
-import 'swiper/swiper.scss';
-import 'swiper/components/navigation/navigation.scss';
 import Modal from '../../../components/UI/Modal/Modal';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 
@@ -53,9 +52,9 @@ class ImageUploadForm extends PureComponent {
   }
   
   onSaveImages = () => {
-    const files = Array.from(this.imageUploadRef.current.files);
+    const files = Array.from(this.imageUploadRef.current.files).slice(0, 12);
     if (
-      !files.length && 
+      !files.length ||
       this.state.images.length === MAX_IMAGES_COUNT
     ) {
       return;
@@ -128,7 +127,7 @@ class ImageUploadForm extends PureComponent {
         }
       })),
       active: this.state.selectedOptions.room === i
-    }))
+    }));
 
     console.log(this.props);
   
@@ -224,35 +223,34 @@ class ImageUploadForm extends PureComponent {
                 onChange={this.onImageSelect}
                 ref={this.imageUploadRef} />
             </div>
-            <div>
-              {this.state.images.length > 0 
-                ? (
-                  <>
-                    <div className="c-grace f-mid mb-15">Images: {this.state.images.length}</div>
-                    <Swiper
-                      className="post__images"
-                      slidesPerView={4}
-                      spaceBetween={5}
-                      onInit={(sw) => this.swiper = sw}
-                      navigation={{
-                        prevEl: '.post__image--prev',
-                        nextEl: '.post__image-next',
-                        disabledClass: 'btn--slider-disabled'
-                      }}>
-                        {imagePlaceholders}
-                    </Swiper>
-                  </>
-                )
-                : (
-                  <p className="heading heading--5 c-black mb-15">
-                    Upload images for your property
-                  </p>
-                )
-              }
-              <div className="c-grey-l f-sm">
-                You can upload up to 12 images with the max size of 5MB each
-              </div>
+            <div className="c-grey-l f-sm mb-1">
+              You can upload up to 12 images with the max size of 5MB each
             </div>
+            {this.state.images.length > 0 
+              ? (
+                <>
+                  <div className="c-grace f-mid mb-15">Images: {this.state.images.length}/12</div>
+                  <Swiper
+                    className="post__images"
+                    slidesPerView={4}
+                    spaceBetween={5}
+                    onInit={(sw) => this.swiper = sw}
+                    navigation={{
+                      prevEl: '.post__image--prev',
+                      nextEl: '.post__image-next',
+                      disabledClass: 'btn--slider-disabled'
+                    }}>
+                      {imagePlaceholders}
+                  </Swiper>
+                </>
+              )
+              : (
+                <div className="post__header">
+                  <FcFolder className="post__header__icon" />
+                  Upload images for your property...
+                </div>
+              )
+            }
           </div>
         </div>
       </>

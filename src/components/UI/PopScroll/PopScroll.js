@@ -25,20 +25,16 @@ const PopScroll = () => {
   }, [setPScrollOnScroll]);
 
   return !showPScroll ? null : (
-    <div className="pscroll" >
-      <div className="container">
-        <button 
-          className="pscroll__btn"
-          onClick={() => 
-            window.scroll({
-              top: 0,
-              behavior: 'smooth'
-            })
-          }>
-            <AiOutlineArrowUp className="icon--mid icon--dark" /> 
-        </button>
-      </div>
-    </div>
+    <button 
+      className="pscroll"
+      onClick={() => 
+        window.scroll({
+          top: 0,
+          behavior: 'smooth'
+        })
+      }>
+        <AiOutlineArrowUp className="icon--mid icon--dark" /> 
+    </button>
   );
 }
 

@@ -23,10 +23,7 @@ const Features = ({ data, activeOption }) => {
   });
   
   let places = [];
-  // {
-  //   school: ['42', '55']
-  // }
-  if (data && data.places.length) {
+  if (data && data.places) {
     for (const [key, val] of Object.entries(data.places)) {
       
       if (key in specs.places) {
@@ -53,27 +50,34 @@ const Features = ({ data, activeOption }) => {
             Room option {activeOption + 1}
           </span>
         </h5>
-        {/* <div className="f-mid-w c-black mb-15"></div> */}
         <div className="adview__specs-list">
           {facilityItems}
         </div>
       </div>
-      <div className="adview__specs-wrapper">
-        <h5 className="heading heading--5 c-black mb-3">Security and safety:</h5>
-        <div className="adview__specs-list">{security}</div>
-      </div>
-      <div className="adview__specs-wrapper">
-        <h5 className="heading heading--5 c-black mb-3">Rules:</h5>
-        <div className="adview__specs-list">{rules}</div>
-      </div>
-      <div className="adview__specs-wrapper">
-        <h5 className="heading heading--5 c-black mb-3">Included Bills:</h5>
-        <div className="adview__specs-list">{bills}</div>
-      </div>
-      <div className="adview__specs-wrapper">
-        <h5 className="heading heading--5 c-black mb-3">Nearby places:</h5>
-        <div className="adview__specs-list">{places}</div>
-      </div>
+      {security && (
+        <div className="adview__specs-wrapper">
+          <h5 className="heading heading--5 c-black mb-3">Security and safety:</h5>
+          <div className="adview__specs-list">{security}</div>
+        </div>
+      )}
+      {rules && (
+        <div className="adview__specs-wrapper">
+          <h5 className="heading heading--5 c-black mb-3">Rules:</h5>
+          <div className="adview__specs-list">{rules}</div>
+        </div>
+      )}
+      {bills && (
+        <div className="adview__specs-wrapper">
+          <h5 className="heading heading--5 c-black mb-3">Included Bills:</h5>
+          <div className="adview__specs-list">{bills}</div>
+        </div>
+      )}
+      {places.length > 0 && (
+        <div className="adview__specs-wrapper">
+          <h5 className="heading heading--5 c-black mb-3">Nearby places:</h5>
+          <div className="adview__specs-list">{places}</div>
+        </div>
+      )}
     </div>
   );
 }

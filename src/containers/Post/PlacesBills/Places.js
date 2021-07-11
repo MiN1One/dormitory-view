@@ -60,7 +60,7 @@ const Places = ({ data, setData }) => {
             className="post__input input input--main" 
             tabIndex="0" 
             key={key+Date.now()+el}>
-              <Element spec={el} />
+              <Element spec={null} />
               <div className="post__input__btn-group">
                 <button 
                   className="post__input__btn" 
@@ -68,7 +68,7 @@ const Places = ({ data, setData }) => {
                     <BsTrash className="icon--xs icon--grey" />
                 </button>
               </div>
-              <span>{key}</span>
+              <span>{el}</span>
           </div>
         ));
       });
@@ -117,13 +117,24 @@ const Places = ({ data, setData }) => {
         Nearby places
       </div>
       <div className="post__list">
-        <div className="post__input input input--main">
-          <span className="c-grey-l">Place</span>
-          <span className="c-grey-l">Name</span>
-        </div>
-        <Scrollbar style={{ width: '100%', height: 'calc(100% - 5rem)' }}>
-          {places}
-        </Scrollbar>
+        {places.length > 0
+          ? (
+            <>
+              <div className="post__input input input--main">
+                <span className="c-grey-l">Place</span>
+                <span className="c-grey-l">Name</span>
+              </div>
+              <Scrollbar style={{ width: '100%', height: 'calc(100% - 5rem)' }}>
+                {places}
+              </Scrollbar>
+            </>
+          )
+          : (
+            <div className="post__list__empty">
+              Add nearby places
+            </div>
+          )
+        }
         <button className="post__btn" onClick={() => setModal(true)}>
           <BsPlus className="icon--mid icon--dark" />
         </button>

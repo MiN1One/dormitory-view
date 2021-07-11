@@ -7,6 +7,7 @@ import MainAddRoomView from './MainAddRoomView';
 import CONFIG from './Config';
 import RoomInput from './RoomsListView';
 import { isEmptyObject } from '../../../utilities/utils';
+import OffersView from './OffersView';
 
 const Modal = ({
   setData,
@@ -22,6 +23,13 @@ const Modal = ({
   );
 
   const [error, setError] = useState(null);
+
+  const onModalClose = () => {
+    if (mode) return; 
+    
+    close();
+    resetEditIndex();
+  };
 
   const onSaveRoom = () => {
     if (mode) return;
@@ -49,49 +57,32 @@ const Modal = ({
     close();
   };
 
+  let view = (
+    <MainAddRoomView 
+      error={error}
+      setRoom={setRoom}
+      room={room}
+      setMode={setMode} />
+  );
+
+  if (mode === 'facilities') {
+    view = <Facilities setRoom={setRoom} room={room} />;
+  } else if (mode === 'rooms') {
+    view = <RoomInput setRoom={setRoom} room={room} />;
+  } else if (mode === 'offers') {
+    view = <OffersView setRoom={setRoom} room={room} />;
+  }
+
   return (
     <ModalUI
       title={mode === 'facilities' ? t('cats.facilities.title') : 'Room options'}
       hideClose={mode}
-      close={() => {
-        if (!mode) {
-          close();
-          resetEditIndex();
-        }
-      }}
+      close={onModalClose}
       action={mode ? () => setMode(null) : onSaveRoom}
       size="lg"
       actionTitle={(editIndex !== null || mode)  ? 'Save' : 'Add'}
     >
-      {!mode
-        ? (
-          <MainAddRoomView 
-            error={error}
-            setRoom={setRoom}
-            room={room}
-            setMode={(m) => setMode(m)} />
-        )
-        : (
-          mode === 'facilities'
-            ? (
-              <Facilities 
-                setRoom={setRoom}
-                room={room} />
-            )
-            : (
-              <RoomInput 
-                setRoom={setRoom}
-                room={room} />
-            )
-        )
-      }
-      {/* {mode && (
-        <div className="rooms__modal__footer">
-          <button className="rooms__modal__btn" onClick={() => setMode(null)}>
-            Save
-          </button>
-        </div>
-      )} */}
+      {view}
     </ModalUI>
   );
 };

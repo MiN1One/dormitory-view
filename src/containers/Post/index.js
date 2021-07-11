@@ -1,22 +1,23 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FcGraduationCap } from 'react-icons/fc';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 
 import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
 import './index.scss';
-import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
-import Region from './Region/Region';
+import Region from './MainDetailsRegion/Region';
 import ImageUploadForm from './ImageUploadForm/ImageUploadForm-class';
 import Universities from './Universities/Universities';
 import SecurityRules from './SecurityRules';
 import PlacesBills from './PlacesBills';
 import Rooms from './Rooms';
-import Main from './Main/Main';
+import MainDetailsRegion from './MainDetailsRegion';
 import useTitle from '../../hooks/useTitle';
 import useFetchData from '../../hooks/useFetchData';
 import CtaArea from './CtaArea/CtaArea';
+import PopScroll from '../../components/UI/PopScroll/PopScroll';
 
 // "offers": [
 //     {
@@ -39,7 +40,7 @@ const Post = () => {
 
   const { t } = useTranslation();
   const images = useRef([]);
-  const [invalidMessage, setInvalidMessage] = useState(null);
+  const [invalidationMessage, setInvalidationMessage] = useState(null);
 
   const { 
     data: responseData, 
@@ -64,7 +65,7 @@ const Post = () => {
   });
 
   const setUserInputError = useCallback((mes) => {
-    setInvalidMessage(mes);
+    setInvalidationMessage(mes);
     window.scroll({
       top: 0,
       behavior: 'smooth'
@@ -72,8 +73,6 @@ const Post = () => {
   }, []);
 
   const uploadImages = useCallback((responseData) => {
-    console.log(responseData);
-
     const form = new FormData();
     
     images.current.forEach(el => form.append('images', el.file));
@@ -91,7 +90,7 @@ const Post = () => {
   }, [makeRequest]);
 
   const onPostApartment = useCallback(() => {
-    setInvalidMessage(null);
+    setInvalidationMessage(null);
 
     if (data.title.length < 5 || data.title === '')
       return setUserInputError(t('error.input.title'));
@@ -120,43 +119,27 @@ const Post = () => {
   const onAddImage = (img) => 
     images.current = [ ...images.current, img ];
 
-  const breadcrumbItems = [
-    {
-      title: 'Post', 
-      path: '/post/new', 
-      active: true 
-    }
-  ];
-
   return (
     <main className="post">
+      <PopScroll />
       <CtaArea 
         onPostApartment={onPostApartment} 
         data={data} />
       <SpyNavigation 
         offset={-50}
         items={SECTIONS} />
-      <div className="post__head">
-        <div className="container">
-          <Breadcrumbs items={breadcrumbItems} />
-        </div>
+      <div className="post__header post__header--lg">
+        <FcGraduationCap className="post__header__icon" />
+        Post your property!
+        <span className="f-mid c-grey-l mt-1">
+          Help students find best living suite
+        </span>
       </div>
       <div className="post__body">
-        <div className="w-100" id="main">
-          <div className="container">
-            {invalidMessage && (
-              <p className="post__error">
-                {invalidMessage}
-              </p>
-            )}
-            <Main setData={setData} data={data} />
-          </div>
-          <div className="post__section">
-            <div className="container">
-              <Region setData={setData} data={data} />
-            </div>
-          </div>
-        </div>
+        <MainDetailsRegion 
+          data={data} 
+          setData={setData} 
+          error={invalidationMessage} />
         <Universities setData={setData} data={data} />
         <Rooms setData={setData} data={data} />
         <ImageUploadForm 

@@ -13,8 +13,11 @@ const SpyNavigation = ({ onUpdate, offset, items, children }) => {
       const el = document.getElementById(location.hash.substr(1));
 
       if (el) {
-        const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
-        window.scrollTo({top: y, behavior: 'smooth'});
+        const y = el.getBoundingClientRect().top + window.pageYOffset + (offset || 0);
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
       }
     }
 
@@ -31,7 +34,7 @@ const SpyNavigation = ({ onUpdate, offset, items, children }) => {
     <div className={`snav ${noNav ? 'snav--top' : ''}`}>
       <div className="container">
         <div className="flex aic jcsb">
-          <Scrollspy 
+          <Scrollspy
             onUpdate={onUpdate}
             offset={offset}
             className="snav__list"

@@ -21,17 +21,26 @@ const Rooms = ({
   id
 }) => {
   const [swiper, setSwiper] = useState(null);
-  const history = useHistory();
-  const location = useLocation();
 
   useEffect(() => swiper && swiper.update());
+
+  const onSelectRoom = (index) => {
+    setSelectedIndex(index);
+    const el = document.getElementById('details');
+    const top = el.getBoundingClientRect().top + window.pageYOffset + -120;
+
+    window.scrollTo({
+      behavior: 'smooth',
+      top
+    });
+  };
 
   const outputString = (priv) => priv ? 'private' : 'public';
 
   const options = data?.map((el, i) => {
     const imageIndex = images && images.find(img => {
       const imgRoomNum = parseInt(img.split('-')[1]);
-      return imgRoomNum === i;
+      return imgRoomNum === i+1;
     });
 
     const classes = ['rooms__item'];
@@ -42,13 +51,7 @@ const Rooms = ({
         className={classes.join(' ')} 
         key={i} 
         tabIndex="0"
-        onClick={() => {
-          setSelectedIndex(i);
-          history.push(`${location.pathname}#`);
-          setTimeout(() => {
-            history.push(`${location.pathname}#details`);
-          }, 0);
-        }}>
+        onClick={() => onSelectRoom(i)}>
         <figure className="rooms__item__figure">
           <img 
             className="img img--contain" 
