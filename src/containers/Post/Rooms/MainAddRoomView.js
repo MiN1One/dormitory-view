@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
-import CONFIG from './Config';
+import CONFIG from '../Config';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 import useCountRooms from '../../../hooks/useCountRooms';
 
@@ -46,7 +46,7 @@ const Main = ({ setMode, setRoom, room, error }) => {
             value={room.numberOfRooms} /> 
         </div>
         <div className="modal__item">
-          <div className="modal__title">Price</div>
+          <div className="modal__title">Price per month</div>
           <input
             type="number"
             placeholder="Price in $ per month"

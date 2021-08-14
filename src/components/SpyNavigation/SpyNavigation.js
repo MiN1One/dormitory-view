@@ -2,25 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Scrollspy from 'react-scrollspy';
 
+import { calculateNavTopOffset, scrollToElement } from '../../utilities/utils';
+
 import './SpyNavigation.scss';
 
 const SpyNavigation = ({ onUpdate, offset, items, children }) => {
   const location = useLocation();
   const [noNav, setNoNav] = useState(false);
-
+ 
   useEffect(() => {
     if (location.hash !== '#') {
-      const el = document.getElementById(location.hash.substr(1));
-
-      if (el) {
-        const y = el.getBoundingClientRect().top + window.pageYOffset + (offset || 0);
-        window.scrollTo({
-          top: y,
-          behavior: 'smooth'
-        });
-      }
+      scrollToElement(location.hash.substr(1), offset || 0);
     }
-
   }, [location.hash, offset]);
   
   useEffect(() => {
@@ -36,7 +29,7 @@ const SpyNavigation = ({ onUpdate, offset, items, children }) => {
         <div className="flex aic jcsb">
           <Scrollspy
             onUpdate={onUpdate}
-            offset={offset}
+            offset={-calculateNavTopOffset() - (offset || 0)} 
             className="snav__list"
             items={items}
             currentClassName="tab-item--active">

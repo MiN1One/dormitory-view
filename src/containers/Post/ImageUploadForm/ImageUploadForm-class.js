@@ -8,6 +8,7 @@ import { FcFolder } from 'react-icons/fc';
 
 import Modal from '../../../components/UI/Modal/Modal';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
+import { messageCreator } from '../../../components/MessagePopper';
 
 SwiperCore.use([Navigation]);
 
@@ -103,6 +104,18 @@ class ImageUploadForm extends PureComponent {
     );
   }
 
+  onClickUpload = () => {
+    if (!this.props.roomOptions || !this.props.roomOptions.length) {
+      return messageCreator({
+        id: 'no-room-options',
+        message: 'Please, add room options first and try again',
+        type: 'warning'
+      });
+    }
+
+    this.setState({ modal: true });
+  }
+
   render() {
 
     const roomTypesEl = ROOM_TYPES.map(el => 
@@ -129,8 +142,6 @@ class ImageUploadForm extends PureComponent {
       active: this.state.selectedOptions.room === i
     }));
 
-    console.log(this.props);
-  
     const imagePlaceholders = this.state.images.map((el, i) => {
       return (
         <SwiperSlide key={i+Date.now()}>
@@ -212,7 +223,7 @@ class ImageUploadForm extends PureComponent {
               </div>
               <button 
                 className="post__btn-main" 
-                onClick={() => this.setState({ modal: true })}>
+                onClick={this.onClickUpload}>
                   Upload Photos
               </button>
               <input 

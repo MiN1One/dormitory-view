@@ -6,6 +6,9 @@ import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 const MainDetails = ({ data, setData }) => {
   const { t } = useTranslation();
 
+  const onEnterInput = (e, name) => 
+    setData(p => ({ ...p, [name]: e.target.value }));
+
   return (
     <div className="post__form">
       <label className="post__input-group input__label">
@@ -17,7 +20,7 @@ const MainDetails = ({ data, setData }) => {
           maxLength="25"
           type="text"
           value={data.title}
-          onChange={(e) => setData(p => ({ ...p, title: e.target.value }))} />
+          onChange={(e) => onEnterInput(e, 'title')} />
         <span className="input__label-text">{25 - data.title.length} Characters left</span>
       </label>
       <label className="post__input-group input__label">
@@ -27,7 +30,7 @@ const MainDetails = ({ data, setData }) => {
           placeholder="Street, Apt, Post Index"
           type="text"
           value={data.address}
-          onChange={(e) => setData(p => ({ ...p, address: e.target.value }))} />
+          onChange={(e) => onEnterInput(e, 'address')} />
       </label>
       <div className="post__input-group input__label">
         <span className="post__title">Property type</span>
@@ -48,16 +51,17 @@ const MainDetails = ({ data, setData }) => {
             }
           ]} />
       </div>
-      {/* {data.ownership === 'university-owned' && (
+      {data.ownership === 'university-owned' && (
         <label className="post__input-group input__label">
-          <span className="post__title">Area</span>
+          <span className="post__title">Organization / University name</span>
           <input 
             className="input input--main post__input"
-            placeholder="Area in square meters"
+            placeholder="Name of the institution"
             type="text"
-            onChange={(e) => setData(p => ({ ...p,  }))} />
+            value={data.organization || ''}
+            onChange={(e) => onEnterInput(e, 'organization')} />
         </label>
-      )} */}
+      )}
     </div>
   );
 }

@@ -9,11 +9,11 @@ import 'swiper/components/navigation/navigation.scss';
 import './Rooms.scss';
 import { BiDoorOpen } from 'react-icons/bi';
 import { GiBathtub, GiKnifeFork } from 'react-icons/gi';
-import { useHistory, useLocation } from 'react-router';
+import { scrollToElement } from '../../../utilities/utils';
 
 SwiperCore.use([Navigation]);
 
-const Rooms = ({ 
+const Rooms = ({
   data, 
   selectedIndex, 
   setSelectedIndex, 
@@ -26,13 +26,7 @@ const Rooms = ({
 
   const onSelectRoom = (index) => {
     setSelectedIndex(index);
-    const el = document.getElementById('details');
-    const top = el.getBoundingClientRect().top + window.pageYOffset + -120;
-
-    window.scrollTo({
-      behavior: 'smooth',
-      top
-    });
+    scrollToElement('details', 10);
   };
 
   const outputString = (priv) => priv ? 'private' : 'public';

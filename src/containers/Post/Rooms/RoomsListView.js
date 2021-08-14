@@ -1,7 +1,7 @@
 import { BiPlus, BiMinus } from 'react-icons/bi';
 
 import Scrollbar from "../../../components/UI/Scrollbar/Scrollbar";
-import CONFIG from './Config';
+import CONFIG from '../Config';
 import useCountRooms from "../../../hooks/useCountRooms";
 
 const RoomInput = ({ setRoom, room }) => {

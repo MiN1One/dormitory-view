@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Route, Switch, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Navigation from '../components/Navigation/Navigation';
@@ -8,8 +9,8 @@ import Footer from '../components/Footer/Footer';
 import ErrorView from '../components/ErrorView/ErrorView';
 import * as actions from '../store/actions';
 import useFetchData from '../hooks/useFetchData';
-import axios from 'axios';
 import ProtectedRoute from '../hoc/ProtectedRoute';
+import MessagePopper from '../components/MessagePopper';
 
 const AsyncMainPage = React.lazy(() => import('./MainPage'));
 const AsyncAuth = React.lazy(() => import('./Auth'));
@@ -21,7 +22,10 @@ const AsyncPost = React.lazy(() => import('./Post'));
 function App() {
   const location = useLocation();
   const { t, ready } = useTranslation('regions', { useSuspense: false });
-  const { main: { regions }, user: { user } } = useSelector(s => s);
+  const {
+    main: { regions },
+    user: { user }
+  } = useSelector(s => s);
   const [loading, setLoading] = useState(true);
   const mounted = useRef(false);
   const dispatch = useDispatch();
@@ -97,6 +101,7 @@ function App() {
 
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
+      <MessagePopper />
       {loading 
         ? <h1>Checking auth</h1>
         : (

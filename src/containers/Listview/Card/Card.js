@@ -28,7 +28,7 @@ const Card = ({ slide, data, symbol }) => {
           <div className="cardl__top">
             <figure className="cardl__figure">
               <LazyLoadImage
-                src={`/images/apartments/${data._id}/${data.imageCover}`}
+                src={`/images/apartments/${data._id}/${data.imageCover}#main`}
                 width="100%"
                 height="100%"
                 alt={data.title}

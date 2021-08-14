@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Facilities from './FacilitiesView';
 import ModalUI from '../../../components/UI/Modal/Modal';
 import MainAddRoomView from './MainAddRoomView';
-import CONFIG from './Config';
+import CONFIG from '../Config';
 import RoomInput from './RoomsListView';
 import { isEmptyObject } from '../../../utilities/utils';
 import OffersView from './OffersView';

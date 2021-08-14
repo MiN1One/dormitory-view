@@ -165,3 +165,24 @@ Array.prototype.isEqual = function(arr) {
 }
 
 Object.defineProperty(Array.prototype, 'isEqual', { enumerable: false });
+
+export const calculateNavTopOffset = () => {
+  const headerHeight = document.querySelector('[role="navigation"]')?.offsetHeight;
+  const spyNavHeight = document.querySelector('.snav')?.offsetHeight;
+
+  return +headerHeight + +spyNavHeight;
+};
+
+export const scrollToElement = (elId, offsetMarginal) => {
+  const el = document.getElementById(elId);
+
+  if (!el) return;
+  const { top } = el.getBoundingClientRect();
+
+  const y = top + window.pageYOffset - (calculateNavTopOffset() + offsetMarginal);
+  console.log(y);
+  window.scrollTo({
+    top: y,
+    behavior: 'smooth'
+  });
+};

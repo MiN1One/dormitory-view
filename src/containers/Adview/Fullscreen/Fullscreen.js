@@ -21,6 +21,41 @@ const Fullscreen = ({
   const [loading, setLoading] = useState(false);
   const [swiper, setSwiper] = useState(null);
 
+  useEffect(() => {
+    const html = document.documentElement;
+
+    if (html.requestFullscreen) {
+      html.requestFullscreen();
+    } else if (html.webkitRequestFullscreen) {
+      html.webkitRequestFullscreen();
+    } else if (html.msRequestFullscreen) {
+      html.msRequestFullscreen();
+    }
+
+    const onFullscreenChange = () => {
+      !document.fullscreenElement && 
+        close();
+    };
+
+    html.style.overflow = 'hidden';
+
+    document.onfullscreenchange = onFullscreenChange;
+
+    return () => {
+      html.style.removeProperty('overflow');
+
+      if (!document.fullscreenElement) return;
+
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+  }, []);
+
   useEffect(() => swiper && swiper.update());
 
   const 
@@ -34,17 +69,6 @@ const Fullscreen = ({
       () => setLoading(false)
     );
   }, [mainImage]);
-
-  useEffect(() => {
-    const onEscape = (e) => e.key === 'Escape' && close();
-
-    document.addEventListener('keydown', onEscape);
-    document.documentElement.style.overflow = 'hidden';
-    return () => {
-      document.documentElement.removeAttribute('style');
-      document.removeEventListener('keydown', onEscape);
-    }
-  }, [close]);
 
   const imagesEl = images?.map((el, i) => (
     <SwiperSlide 

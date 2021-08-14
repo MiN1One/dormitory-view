@@ -7,7 +7,6 @@ import 'swiper/components/navigation/navigation.scss';
 
 import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
 import './index.scss';
-import Region from './MainDetailsRegion/Region';
 import ImageUploadForm from './ImageUploadForm/ImageUploadForm-class';
 import Universities from './Universities/Universities';
 import SecurityRules from './SecurityRules';
@@ -18,57 +17,58 @@ import useTitle from '../../hooks/useTitle';
 import useFetchData from '../../hooks/useFetchData';
 import CtaArea from './CtaArea/CtaArea';
 import PopScroll from '../../components/UI/PopScroll/PopScroll';
-
-// "offers": [
-//     {
-//         "type": "discount",
-//         "value": 20
-//     }
-// ]
+import { scrollToElement } from '../../utilities/utils';
+import { messageCreator } from '../../components/MessagePopper';
 
 const SECTIONS = [
-  'main', 
-  'universities', 
-  'rooms', 
-  'images', 
-  'securityrules', 
+  'main',
+  'universities',
+  'rooms',
+  'images',
+  'securityrules',
   'placesbills'
 ];
+
+const DEFAULT_APARTMENT = {
+  region: 'mirzo-ulug\'bek',
+  city: 'toshkent',
+  ownership: 'university-owned',
+  security: [],
+  bills: [],
+  rules: [],
+  places: {},
+  title: '',
+  address: '',
+  roomOptions: []
+
+  // images, imageCover are saved with patch request
+};
 
 const Post = () => {
   useTitle('Post property');
 
   const { t } = useTranslation();
+  // TO PREVENT UPDATES, REF IS USED FOR IMAGE CACHING
   const images = useRef([]);
-  const [invalidationMessage, setInvalidationMessage] = useState(null);
+  const [validationMessage, setValidationMessage] = useState(null);
 
   const { 
     data: responseData, 
     loading, 
     error, 
-    makeRequest 
+    makeRequest
   } = useFetchData();
 
-  const [data, setData] = useState({
-    region: 'mirzo-ulug\'bek',
-    city: 'toshkent',
-    ownership: 'university-owned',
-    security: [],
-    bills: [],
-    rules: [],
-    places: {},
-    title: '',
-    address: '',
-    roomOptions: []
+  const [data, setData] = useState(DEFAULT_APARTMENT);
 
-    // images, imageCover are saved with patch request
-  });
-
-  const setUserInputError = useCallback((mes) => {
-    setInvalidationMessage(mes);
-    window.scroll({
-      top: 0,
-      behavior: 'smooth'
+  const setUserInputError = useCallback((message, section) => {
+    setValidationMessage(message);
+    scrollToElement(section, 0);
+    messageCreator({
+      message,
+      type: 'error',
+      duration: 10000,
+      id: 'invalid-field-error'
     });
   }, []);
 
@@ -76,8 +76,6 @@ const Post = () => {
     const form = new FormData();
     
     images.current.forEach(el => form.append('images', el.file));
-
-    console.log(images.current);
 
     makeRequest({
       url: `api/apartments/${responseData._id}`,
@@ -90,19 +88,19 @@ const Post = () => {
   }, [makeRequest]);
 
   const onPostApartment = useCallback(() => {
-    setInvalidationMessage(null);
+    setValidationMessage(null);
 
     if (data.title.length < 5 || data.title === '')
-      return setUserInputError(t('error.input.title'));
+      return setUserInputError(t('error.input.title'), 'main');
 
     if (data.address.length < 5 || data.address === '')
-      return setUserInputError(t('error.input.address'));
+      return setUserInputError(t('error.input.address'), 'main');
 
     if (data.roomOptions.length === 0)
-      return setUserInputError(t('error.input.roomOptions'));
+      return setUserInputError(t('error.input.roomOptions'), 'rooms');
 
-    if (images.current.length < 4)
-      return setUserInputError(t('error.input.images'));
+    if (!images.current.length)
+      return setUserInputError(t('error.input.images'), 'images');
 
     makeRequest({
       url: 'api/apartments',
@@ -125,9 +123,7 @@ const Post = () => {
       <CtaArea 
         onPostApartment={onPostApartment} 
         data={data} />
-      <SpyNavigation 
-        offset={-50}
-        items={SECTIONS} />
+      <SpyNavigation items={SECTIONS} />
       <div className="post__header post__header--lg">
         <FcGraduationCap className="post__header__icon" />
         Post your property!
@@ -139,7 +135,7 @@ const Post = () => {
         <MainDetailsRegion 
           data={data} 
           setData={setData} 
-          error={invalidationMessage} />
+          error={validationMessage} />
         <Universities setData={setData} data={data} />
         <Rooms setData={setData} data={data} />
         <ImageUploadForm 

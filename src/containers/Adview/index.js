@@ -26,14 +26,7 @@ import useTitle from '../../hooks/useTitle';
 
 const AsyncRooms = React.lazy(() => import('./Rooms/Rooms'));
 
-// facilities: ['internet', 'private_kitchen', 'parking', 'private_bath', 'furnitured', 'air_conditioner', 'gaming_area', 'washing_machine', 'personal_computer', 'public_libriary'],
-// others: ['Single bed', 'Parking area'],
-// security: ['cctv', 'health', 'controlled_access', 'card_access', 'additional_keys'],
-// rules: ['no_smoking', 'no_late_access'],
-// bills: ['water_bill', 'internet_bill', 'electricity_bill', 'gas_bill', 'heating_bill'],
-// places: ['market', 'school', 'libriary', 'restaurant', 'hospital', 'bus_station', 'mosque']
-
-const SCROLL_Y_OFFSET = -120;
+const SCROLL_Y_OFFSET = 10;
 
 const Adview = () => {
   const { t } = useTranslation();

@@ -25,7 +25,8 @@ const initialState = {
   popular: null,
   regionsLocal: null,
   search: (parseQuery('query') && parseQuery('search')) ? parseQuery('search') : '',
-  searchRef: null
+  searchRef: null,
+  popupMessages: []
 };
 
 const reducer = (state = initialState, action) => {

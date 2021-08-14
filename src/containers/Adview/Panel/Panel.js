@@ -14,7 +14,7 @@ const Panel = ({ data, setShowContact }) => {
 
   return (
     <div className="adview__panel">
-      <div className="flex fdc mb-15 c-grey-l tc f-mid">
+      <div className="flex fdc mb-15 tc f-mid">
         <Link to="/" className="adview__user">
           {data?.landlord.last_name} {data?.landlord.name}
         </Link>

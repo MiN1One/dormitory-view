@@ -5,10 +5,6 @@
   padding-top: 2.5rem;
   padding-bottom: 7rem;
   
-  &__pscroll {
-    bottom: 3rem;
-  }
-
   &__nav {
     background: $pure-white;
     position: sticky;
@@ -29,7 +25,7 @@
     padding: 0 1.5rem;
 
     &:not(:last-child) { margin-right: 1.5rem; }
-    &::after { top: calc(100% - .3rem) ; }
+    &::after { top: calc(100% - .3rem); }
   }
 
   &__body {
@@ -119,7 +115,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    // align-items: center;
     padding: 3.25rem 2.8rem;
     width: 100%;
     margin-bottom: 1.25rem;

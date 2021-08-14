@@ -24,6 +24,16 @@
   to { transform: translate(0); }
 }
 
+@keyframes fadeSlideFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  } to {
+    transform: translate(0);
+    opacity: 1;
+  }
+}
+
 @keyframes slideFromRight {
   from { transform: translateX(100%); }
   to { transform: translate(0); }
