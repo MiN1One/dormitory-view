@@ -3,9 +3,11 @@
 .loader {
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
   animation: fadeIn .3s ease;
   animation-fill-mode: backwards;
+  position: relative;
 
   &__spinner {
     display: inline-block;
@@ -17,10 +19,46 @@
     animation: spin 1s ease-in-out infinite;
     -webkit-animation: spin 1s ease-in-out infinite;
   }
+
+  &__message {
+    font-size: 1.3rem;
+    margin-top: 1.25rem;
+  }
+
+  &__message-warn {
+    font-size: 1.55rem;
+    color: #000;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: $black;
+  }
+
+  &--fullscreen {
+    width: 100%;
+    min-height: 100vh;
+  }
   
-  &--lg &__spinner {
+  &--fullscreen &__spinner {
     width: 6.25rem;
     height: 6.25rem;
+    border-width: .45rem;
+    border-right-color: $color-yellow;
+    animation-duration: .925s;
+  }
+
+  &--fullscreen &__message {
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+  }
+  
+  &--lg &__spinner {
+    width: 5.75rem;
+    height: 5.75rem;
     border-width: .385rem;
     margin-top: -7rem;
   }

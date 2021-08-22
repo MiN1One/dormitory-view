@@ -10,19 +10,15 @@ const CtaArea = ({ data, onPostApartment }) => {
 
   useEffect(() => {
     const onScroll = () => {  
-      const postHeight = document.querySelector('.post').getBoundingClientRect().height;
+      const postHeight = document.querySelector('.post')?.getBoundingClientRect()?.height;
 
-      setTimeout(() => {
-        if (document.documentElement.scrollTop > postHeight * .4) {
-          setDisplay(true);
-        } else {
-          setDisplay(false);
-        }
-      }, 50);
+      setTimeout(() => 
+        setDisplay(document.documentElement.scrollTop > postHeight * .4), 
+        50
+      );
     };
     
     document.addEventListener('scroll', onScroll);
-
     return () => document.removeEventListener('scroll', onScroll);
   }, []);
 

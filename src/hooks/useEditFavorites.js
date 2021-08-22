@@ -5,48 +5,32 @@ import * as actions from '../store/actions';
 import { useHistory } from "react-router";
 
 const useEditFavorites = () => {
-  const { favorites, user } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const { makeRequest } = useFetchData();
   const history = useHistory();
+  const { favorites, user } = useSelector(state => state.user);
+  const { makeRequest } = useFetchData();
 
   const editFavorites = useCallback((id) => {
-    if (!user) 
+    if (!user || !favorites.length >= 20) {
       return history.push('/auth/signin');
-
-    if (favorites.length < 20) {
-      const existingItem = favorites.find(el => el === id);
-      let newList = null;
-  
-      if (existingItem) {
-        newList = favorites.filter(el => el !== id);
-        makeRequest({
-          url: '/users/favorites',
-          method: 'delete',
-          body: { favorite: id },
-          callback: () => {
-            dispatch(actions.editFavorites(newList))
-          }
-        });
-      } else {
-        newList = [...favorites, id];
-        makeRequest({
-          url: '/users/favorites',
-          method: 'post',
-          dataAt: ['data', 'favorites'],
-          body: { favorite: id },
-          callback: () => {
-            dispatch(actions.editFavorites(newList))
-          }
-        });
-      }
     }
+
+    const existingItem = favorites.find(el => el === id);
+    const newList = existingItem ? favorites.filter(el => el !== id) : [id];
+
+    makeRequest({
+      url: '/users/favorites',
+      method: existingItem ? 'delete' : 'post',
+      dataAt: ['data', 'favorites'],
+      body: { favorite: id },
+      callback: () => dispatch(actions.editFavorites(newList))
+    });
   }, [favorites, makeRequest, dispatch, user, history]);
 
   return {
     editFavorites,
     favorites
-  }
+  };
 };
 
 export default useEditFavorites;

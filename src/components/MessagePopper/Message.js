@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { BiX } from 'react-icons/bi';
 import { FcSurvey } from 'react-icons/fc';
 

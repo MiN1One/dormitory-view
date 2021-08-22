@@ -45,7 +45,7 @@ const Auth = () => {
             backgroundImage: data && `url(/${type ? data[type] : data.default})`
           }}>
           <button 
-            className="auth__btn-back tooltip" 
+            className="btn--light tooltip" 
             onClick={() => 
               history.replace(location.state?.pathname || '/')
             }>

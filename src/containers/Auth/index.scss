@@ -29,20 +29,6 @@
     padding: 2rem;
   }
 
-  &__btn-back {
-    background: $pure-white;
-    border-radius: .25rem;
-    width: 5rem;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    // box-shadow: 0 0 1rem rgba($pitch, .15);
-
-    &:hover,
-    &:focus { background: darken($pure-white, 5%); }
-  }
-
   &__right {
     position: relative;
     padding: 5rem 12.5rem;

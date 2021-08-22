@@ -8,7 +8,8 @@
   z-index: 9999;
   background: $pure-white;
   border-radius: .25rem;
-  box-shadow: 0 0 1.5rem rgba($pitch, .125);
+  box-shadow: 0 0 1.5rem rgba($pitch, .055);
+  border: 1px solid rgba($pitch, .095);
   min-width: 50rem;
   max-width: 100vw;
   animation: fadeIn .35s ease;

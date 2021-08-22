@@ -3,7 +3,7 @@ import actionTypes from '../actions/actionTypes';
 const initialState = {
   user: null,
   data: null,
-  favorites: null,
+  favorites: [],
   token: null
 };
 

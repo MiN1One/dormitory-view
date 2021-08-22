@@ -70,15 +70,18 @@ const Fullscreen = ({
     );
   }, [mainImage]);
 
-  const imagesEl = images?.map((el, i) => (
-    <SwiperSlide 
-      key={i}
-      className={`fulls__item ${(selectedImage === i) ? 'fulls__item--active' : ''}`}
-      tabIndex="0"
-      onClick={() => setSelectedImage(i)}>
-        <img className="img img--contain" src={`${IMAGES_PATH}/${id}/${el}`} alt="property-images" />
-    </SwiperSlide>
-  ));
+  const imagesEl = images?.map((el, i) => {
+    const roomType = el.split('-')[0];
+    return (
+      <SwiperSlide 
+        key={i}
+        className={`fulls__item ${selectedImage === i ? 'fulls__item--active' : ''}`}
+        tabIndex="0"
+        onClick={() => setSelectedImage(i)}>
+          <img className="img img--cover" src={`${IMAGES_PATH}/${id}/${el}`} alt={roomType} />
+      </SwiperSlide>
+    )
+  });
 
   const roomType = images && images[selectedImage].split('-')[0];
 

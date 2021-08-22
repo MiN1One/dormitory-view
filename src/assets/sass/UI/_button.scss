@@ -40,6 +40,20 @@
     }
   }
   
+  &--light {
+    background: $pure-white;
+    border-radius: .25rem;
+    width: 5rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // box-shadow: 0 0 1rem rgba($pitch, .15);
+
+    &:hover,
+    &:focus { background: darken($pure-white, 5%); }
+  }
+
   &--primary {
     font-weight: 600;
     border-radius: .25rem;
@@ -57,7 +71,14 @@
     color: $pure-white;
   }
 
-  &--green { background: $color-green; }
+  &--green {
+    background: $color-green;
+
+    &:hover,
+    &:focus {
+      background: darken($color-green, 2%);
+    }
+  }
 
   &--white {
     display: flex;

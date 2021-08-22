@@ -47,8 +47,6 @@ const useFetchData = (options = {
       method: options?.method?.toUpperCase() || 'GET',
     };
 
-    console.log(token);
-
     if (token)
       axiosConf.headers['Authorization'] = `Bearer ${token}`;
 
@@ -57,8 +55,6 @@ const useFetchData = (options = {
 
     axios(axiosConf)
       .then(({ data }) => {
-        console.log(data);
-
         if (options?.dataSecondary) {
           const main = { ...data };
           options.dataAt?.forEach((el) => data = data[el]);
@@ -72,8 +68,7 @@ const useFetchData = (options = {
         }
 
         dispatch({ type: 'resolve', data });
-        
-        options.callback && options.callback(data, setData);
+        options.callback && options?.callback(data, setData);
       })
       .catch((er) => {
         if (er.response) {
@@ -83,6 +78,10 @@ const useFetchData = (options = {
           er.status = 500;
         }
 
+        options.onError && options.onError(
+          er, 
+          (er) => dispatch({ type: 'reject', error: er })
+        );
         dispatch({ type: 'reject', error: er });
         console.log(er.response && er.response);
       });

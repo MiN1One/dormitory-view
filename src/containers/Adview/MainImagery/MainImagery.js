@@ -43,7 +43,7 @@ const MainImagery = ({ data, discount }) => {
       onClick={() => setSelectedImage(i)}
       tabIndex="0">
         <img 
-          className="img img--contain" 
+          className="img img--cover" 
           src={`${IMAGES_PATH}/${data?._id}/${el}`} 
           alt="images" />
     </SwiperSlide>

@@ -12,11 +12,12 @@ const Popular = ({ data, activeRegion, setActiveRegion }) => {
 
   let cards = [], regions;
   if (data && activeRegion) {
-    regions = [...Object.keys(data)].map((el, i) => (
+    regions = [...Object.keys(data).slice(0, 5)].map((el, i) => (
       <div 
         key={i}
         tabIndex="0" 
         onClick={() => setActiveRegion(el)}
+        data-label={data[el].city}
         className={`tab-item ${el === activeRegion ? 'tab-item--active' : ''}`}>
           {t(`regions:${data[el].city}.regions.${el}`)}
       </div>
@@ -43,7 +44,7 @@ const Popular = ({ data, activeRegion, setActiveRegion }) => {
                 <div className="w-100 flex fwrap">
                   {cards}       
                 </div>
-                <Link to={`/${(data && activeRegion) && data[activeRegion].city}/${activeRegion && activeRegion}`} className="btn btn--cta btn--wide btn--arrow">
+                <Link to={`/list/${(data && activeRegion) && data[activeRegion].city}/${activeRegion && activeRegion}`} className="btn btn--cta btn--wide btn--arrow">
                   <span>
                     See all in {t(`regions:${(data && activeRegion) && data[activeRegion].city}.regions.${activeRegion && activeRegion}`)}
                   </span>
@@ -54,9 +55,9 @@ const Popular = ({ data, activeRegion, setActiveRegion }) => {
             : (
               <div className="popular__empty">
                 <div className="popular__empty__content">
-                  <div className="tc mb-2">
+                  <div className="tc mb-3">
                     <div className="flex fdc aic jcc mb-1">
-                      <FcHome className="popular__icon mb-15" />
+                      <FcHome className="popular__icon mb-1" />
                       Be the first to post your property
                     </div>
                     <div className="f-xl f-thin c-grace">

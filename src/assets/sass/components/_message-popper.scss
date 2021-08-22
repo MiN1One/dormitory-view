@@ -13,12 +13,13 @@
     display: flex;
     align-items: center;
     padding: 1.25rem 2rem;
-    font-size: 1.325rem;
+    font-size: 1.35rem;
+    letter-spacing: .5;
     background: #fff;
     color: $black;
     border: 1px solid rgba($black, .1);
-    box-shadow: 0 0 .25rem rgba($black, .075);
     animation: fadeSlideFromRight .5s ease;
+    border-radius: .25rem;
   }
 
   &__item-wrapper:not(:last-child) { margin-bottom: .75rem; }

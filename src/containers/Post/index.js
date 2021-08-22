@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FcGraduationCap } from 'react-icons/fc';
+import { Link } from 'react-router-dom';
+import { FcGraduationCap, FcSerialTasks } from 'react-icons/fc';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
@@ -18,7 +19,9 @@ import useFetchData from '../../hooks/useFetchData';
 import CtaArea from './CtaArea/CtaArea';
 import PopScroll from '../../components/UI/PopScroll/PopScroll';
 import { scrollToElement } from '../../utilities/utils';
+import Success from './Success/Success';
 import { messageCreator } from '../../components/MessagePopper';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const SECTIONS = [
   'main',
@@ -40,7 +43,6 @@ const DEFAULT_APARTMENT = {
   title: '',
   address: '',
   roomOptions: []
-
   // images, imageCover are saved with patch request
 };
 
@@ -51,12 +53,20 @@ const Post = () => {
   // TO PREVENT UPDATES, REF IS USED FOR IMAGE CACHING
   const images = useRef([]);
   const [validationMessage, setValidationMessage] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const { 
     data: responseData, 
     loading, 
     error, 
     makeRequest
+  } = useFetchData();
+
+  const {
+    data: imagesData,
+    loading: imagesLoading,
+    error: imagesError,
+    makeRequest: patchImages
   } = useFetchData();
 
   const [data, setData] = useState(DEFAULT_APARTMENT);
@@ -77,15 +87,14 @@ const Post = () => {
     
     images.current.forEach(el => form.append('images', el.file));
 
-    makeRequest({
+    patchImages({
       url: `api/apartments/${responseData._id}`,
       method: 'PATCH',
       body: form,
-      callback: (data, setData) => {
-        console.log('images are uploaded');
-      }
+      callback: (data, setData) => setSuccess(true),
+      onError: (er, setError) => setSuccess(false)
     });
-  }, [makeRequest]);
+  }, [patchImages]);
 
   const onPostApartment = useCallback(() => {
     setValidationMessage(null);
@@ -117,13 +126,27 @@ const Post = () => {
   const onAddImage = (img) => 
     images.current = [ ...images.current, img ];
 
+  if (loading || imagesLoading) {
+    return <Spinner 
+      message={loading ? 'Uploading apartment data...' : 'Uploading images...'} 
+      warnMessage="This may take a while, please wait."
+      className="loader--fullscreen"
+      warnIcon={<FcSerialTasks className="mr-5 icon--lg" />} />;
+  }
+ 
+  if (success && !error) {
+    return <Success />;
+  }
+
   return (
     <main className="post">
       <PopScroll />
       <CtaArea 
         onPostApartment={onPostApartment} 
         data={data} />
-      <SpyNavigation items={SECTIONS} />
+      <SpyNavigation items={SECTIONS} offset={-1}>
+        <Link to="/">LOGO</Link>
+      </SpyNavigation>
       <div className="post__header post__header--lg">
         <FcGraduationCap className="post__header__icon" />
         Post your property!
