@@ -31,8 +31,6 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
       );
     }
   }, [data]);
-
-  console.log(data);
   
   const reviews = data?.map((el, i) => {
     // if (el.text.length > 15) {

@@ -5,6 +5,7 @@ const actionTypes = {
   IMPORT_PREREQUISITES: 'IMPORT_PREREQUISITES',
   ON_INPUT_SEARCH: 'ON_INPUT_SEARCH',
   ON_SET_AUTH: 'ON_SET_AUTH',
+  ON_STORE_CACHE: 'ON_STORE_CACHE' 
 };
 
 export default actionTypes;

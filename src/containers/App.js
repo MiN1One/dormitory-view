@@ -11,6 +11,7 @@ import * as actions from '../store/actions';
 import useFetchData from '../hooks/useFetchData';
 import ProtectedRoute from '../hoc/ProtectedRoute';
 import MessagePopper from '../components/MessagePopper';
+import RouteWithParams from '../hoc/RouteWithParams';
 
 const AsyncMainPage = React.lazy(() => import('./MainPage'));
 const AsyncAuth = React.lazy(() => import('./Auth'));

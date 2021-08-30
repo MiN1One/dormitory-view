@@ -8,4 +8,5 @@ export {
   setPrerequisites,
   error,
   setSearch,
+  storeCache
 } from './actions_main';

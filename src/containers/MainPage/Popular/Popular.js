@@ -17,8 +17,8 @@ const Popular = ({ data, activeRegion, setActiveRegion }) => {
         key={i}
         tabIndex="0" 
         onClick={() => setActiveRegion(el)}
-        data-label={data[el].city}
-        className={`tab-item ${el === activeRegion ? 'tab-item--active' : ''}`}>
+        data-label={t(`regions:${data[el].city}.title`)}
+        className={`tab-item tab-item--labeled ${el === activeRegion ? 'tab-item--active' : ''}`}>
           {t(`regions:${data[el].city}.regions.${el}`)}
       </div>
     ));

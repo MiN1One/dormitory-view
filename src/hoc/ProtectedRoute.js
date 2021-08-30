@@ -1,12 +1,14 @@
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { Route, Redirect, useLocation } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
+import RouteWithParams from './RouteWithParams';
 
 const ProtectedRoute = ({ children, path, exact }) => {
   const { user, token } = useSelector(s => s.user);
   const location = useLocation();
 
   return (
-    <Route path={path} exact={exact}>
+    <RouteWithParams path={path} exact={exact}>
       {(user && token)
         ? children
         : <Redirect to={{
@@ -14,7 +16,7 @@ const ProtectedRoute = ({ children, path, exact }) => {
             state: { ...location }
           }} />
       }
-    </Route>
+    </RouteWithParams>
   );
 };
 

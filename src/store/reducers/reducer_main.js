@@ -26,7 +26,7 @@ const initialState = {
   regionsLocal: null,
   search: (parseQuery('query') && parseQuery('search')) ? parseQuery('search') : '',
   searchRef: null,
-  popupMessages: []
+  cache: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -42,6 +42,15 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ON_INPUT_SEARCH:
       return { ...state, search: action.search }
+
+    case actionTypes.ON_STORE_CACHE: 
+      return { 
+        ...state, 
+        cache: { 
+          ...state.cache,
+          [action.name]: action.cache 
+        }
+      };
     
     default: return state;
   }

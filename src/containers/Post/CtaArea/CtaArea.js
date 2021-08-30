@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { IoMdCheckmark } from 'react-icons/io';
 import { IoEyeOutline } from 'react-icons/io5';
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
-const CtaArea = ({ data, onPostApartment }) => {
+const CtaArea = ({ onPostApartment }) => {
   const [display, setDisplay] = useState(false);
-
-  const history = useHistory();
 
   useEffect(() => {
     const onScroll = () => {  
@@ -22,19 +20,14 @@ const CtaArea = ({ data, onPostApartment }) => {
     return () => document.removeEventListener('scroll', onScroll);
   }, []);
 
-  const onGoToPreview = () => {
-    sessionStorage.setItem('postData', data);
-    history.replace('/post/preview');
-  };
-
   if (!display) return null;
 
   return (
     <div className="post__cta-area">
-      <button onClick={onGoToPreview} className="flex aic mr-2">
+      <Link to="/post/preview" className="flex aic mr-2">
         <IoEyeOutline className="icon--sm icon--dark mr-5" />
         Preview
-      </button>
+      </Link>
       <button className="post__cta-area__btn" onClick={onPostApartment}>
         Post
         <IoMdCheckmark className="icon icon--yellow ml-1" />

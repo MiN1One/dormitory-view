@@ -11,14 +11,15 @@
   align-items: center;
   text-transform: capitalize;
   flex-direction: column;
+  justify-content: center;
 
   &::before {
-    content: attr(data-label);
     padding: .5rem 1.5rem;
+    text-align: center;
     border-radius: 3rem;
     background: #fff;
     margin-bottom: .75rem;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 500;
     border: 1px solid transparent;
   }
@@ -43,13 +44,15 @@
   &--active {
     color: $black;
 
-    &::after {
-      transform: translateX(-50%) scale(1);
-    }
+    &::after { transform: translateX(-50%) scale(1); }
+    &::before { border-color: rgba($color-green, .5); }
+  }
 
-    &::before {
-      border-color: rgba($color-yellow, .5);
-    }
+  &--labeled {
+    font-size: 1.2rem;
+
+    &::after { top: 100%; }
+    &::before { content: attr(data-label); }
   }
 
   &--lg {

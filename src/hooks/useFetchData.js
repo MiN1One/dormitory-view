@@ -26,9 +26,12 @@ const reducer = (state, action) => {
 };
 
 const useFetchData = (options = {
-  loading: false
+  loading: false,
+  data: null
 }) => {
   STATE.loading = options.loading;
+  STATE.data = options.data;
+  
   const [httpData, dispatch] = useReducer(reducer, STATE);
   const { token } = useSelector(state => state.user);
   

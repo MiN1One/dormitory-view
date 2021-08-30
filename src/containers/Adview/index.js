@@ -28,12 +28,15 @@ const AsyncRooms = React.lazy(() => import('./Rooms/Rooms'));
 
 const SCROLL_Y_OFFSET = 10;
 
-const Adview = () => {
+const Adview = ({ data: previewData }) => {
   const { t } = useTranslation();
   const params = useParams();
   const history = useHistory();
   
-  const { data, loading, error, makeRequest } = useFetchData();
+  const { data, loading, error, makeRequest } = useFetchData({
+    loading: false,
+    data: previewData
+  });
 
   const [selectedOption, setSelectedOption] = useState(0);
   const { editFavorites, favorites } = useEditFavorites();
@@ -47,12 +50,14 @@ const Adview = () => {
   const previousApt = usePrevious(data && data._id);
 
   useEffect(() => {
-    makeRequest({ 
-      url: `api/apartments/${params.apt}?count=true`,
-      method: 'get',
-      dataAt: ['data', 'doc']
-    });
-  }, [makeRequest, params.apt]);
+    if (!data) {
+      makeRequest({ 
+        url: `api/apartments/${params.apt}?count=true`,
+        method: 'get',
+        dataAt: ['data', 'doc']
+      });
+    }
+  }, [makeRequest, params.apt, data]);
 
   console.log(data);
 
@@ -170,6 +175,7 @@ const Adview = () => {
           <div className="adview__body mt-2">
             <div className="adview__left">
               <MainImagery 
+                isPreview={!!previewData}
                 data={data && { ...data, price }}
                 discount={{ discount, priceAfterDiscount }} />
               {data && data.roomOptions.length > 1 && (
@@ -200,16 +206,18 @@ const Adview = () => {
             </div>
           </div>
           <div id="similar">
-            <LazyLoadComponent 
-              placeholder={
-                <div className="container">
-                  <div className="flex jcc">
-                    <Spinner className="adview__loader loader--lg" />
+            {!previewData && (
+              <LazyLoadComponent 
+                placeholder={
+                  <div className="container">
+                    <div className="flex jcc">
+                      <Spinner className="adview__loader loader--lg" />
+                    </div>
                   </div>
-                </div>
-              }>
-                <SimilarAds data={data} />
-            </LazyLoadComponent>
+                }>
+                  <SimilarAds data={data} />
+              </LazyLoadComponent>
+            )}
           </div>
         </div>
       </main>

@@ -17,7 +17,7 @@ SwiperCore.use([Navigation]);
 
 const IMAGES_PATH = '/images/apartments';
 
-const MainImagery = ({ data, discount }) => {
+const MainImagery = ({ data, discount, isPreview }) => {
   const [swiper, setSwiper] = useState(null);
   const { favorites, editFavorites } = useEditFavorites();
   const [selectedImage, setSelectedImage] = useState(0);
@@ -26,7 +26,9 @@ const MainImagery = ({ data, discount }) => {
 
   useEffect(() => swiper && swiper.update());
 
-  const mainImage = `${IMAGES_PATH}/${data?._id}/${data?.images[selectedImage]}`;
+  let mainImage = !isPreview 
+    ? `${IMAGES_PATH}/${data?._id}/${data?.images[selectedImage]}`
+    : data?.images[selectedImage]?.dataUrl;
 
   useEffect(() => {
     preloadImages(
@@ -36,20 +38,28 @@ const MainImagery = ({ data, discount }) => {
     )
   }, [mainImage]);
 
-  const imageThumbs = data?.images.map((el, i) => (
-    <SwiperSlide 
-      key={i}
-      className={`adview__image-item ${selectedImage === i ? 'adview__image-item--active' : ''}`} 
-      onClick={() => setSelectedImage(i)}
-      tabIndex="0">
-        <img 
-          className="img img--cover" 
-          src={`${IMAGES_PATH}/${data?._id}/${el}`} 
-          alt="images" />
-    </SwiperSlide>
-  ));
+  const imageThumbs = data?.images.map((el, i) => {
+    let imageSrc = !isPreview
+      ? `${IMAGES_PATH}/${data?._id}/${el}`
+      : el.file.dataUrl;
 
-  const roomType = data?.images[selectedImage].split('-')[0];
+    return (
+      <SwiperSlide 
+        key={i}
+        className={`adview__image-item ${selectedImage === i ? 'adview__image-item--active' : ''}`} 
+        onClick={() => setSelectedImage(i)}
+        tabIndex="0">
+          <img 
+            className="img img--cover" 
+            src={imageSrc} 
+            alt="images" />
+      </SwiperSlide>
+    );
+  });
+
+  const roomType = (!isPreview && data.images.length) 
+    ? data?.images[selectedImage]?.split('-')[0]
+    : data?.images[selectedImage]?.file.name.split('-')[0];
 
   return (
     <>

@@ -1,20 +1,17 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { FcGraduationCap, FcSerialTasks } from 'react-icons/fc';
-
-import 'swiper/swiper.scss';
-import 'swiper/components/navigation/navigation.scss';
 
 import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
 import './index.scss';
-import ImageUploadForm from './ImageUploadForm/ImageUploadForm-class';
+import ImageUploadForm from './ImageUploadForm/ImageUploadForm';
 import Universities from './Universities/Universities';
 import SecurityRules from './SecurityRules';
 import PlacesBills from './PlacesBills';
 import Rooms from './Rooms';
 import MainDetailsRegion from './MainDetailsRegion';
-import useTitle from '../../hooks/useTitle';
 import useFetchData from '../../hooks/useFetchData';
 import CtaArea from './CtaArea/CtaArea';
 import PopScroll from '../../components/UI/PopScroll/PopScroll';
@@ -22,6 +19,9 @@ import { scrollToElement } from '../../utilities/utils';
 import Success from './Success/Success';
 import { messageCreator } from '../../components/MessagePopper';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import useTitle from '../../hooks/useTitle';
+
+const AsyncAdview = React.lazy(() => import('../Adview'));
 
 const SECTIONS = [
   'main',
@@ -46,15 +46,19 @@ const DEFAULT_APARTMENT = {
   // images, imageCover are saved with patch request
 };
 
-const Post = () => {
-  useTitle('Post property');
-
+const Post = (props) => {
   const { t } = useTranslation();
+  const params = useParams();
+  const { user: { user } } = useSelector(s => s);
+
+  useTitle(t(`post.${params.type}`));
+
   // TO PREVENT UPDATES, REF IS USED FOR IMAGE CACHING
   const images = useRef([]);
   const [validationMessage, setValidationMessage] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  // DATA UPLOAD
   const { 
     data: responseData, 
     loading, 
@@ -62,6 +66,7 @@ const Post = () => {
     makeRequest
   } = useFetchData();
 
+  // IMAGE UPLOAD
   const {
     data: imagesData,
     loading: imagesLoading,
@@ -69,7 +74,60 @@ const Post = () => {
     makeRequest: patchImages
   } = useFetchData();
 
-  const [data, setData] = useState(DEFAULT_APARTMENT);
+  const [data, setData] = useState({
+    "region": "olmazor",
+    "city": "toshkent",
+    "ownership": "university-owned",
+    "security": [
+        "additional_keys",
+        "cctv",
+        "health",
+        "card_access",
+        "controlled_access"
+    ],
+    "bills": [
+        "heating_bill",
+        "water_bill",
+        "gas_bill",
+        "internet_bill",
+        "electricity_bill"
+    ],
+    "rules": [
+        "no_late_access",
+        "no_smoking"
+    ],
+    "places": {
+        "hospital": [
+            "sdfd"
+        ]
+    },
+    "title": "Test 6",
+    "address": "Bogkocha, 8-11",
+    "roomOptions": [
+        {
+            "air_conditioner": false,
+            "bath": true,
+            "gaming": false,
+            "washing_machine": false,
+            "condition": "good",
+            "numberOfRooms": 3,
+            "rooms": {
+                "kitchen": 1,
+                "bedroom": 1,
+                "dining_room": 1,
+                "living_room": 1
+            },
+            "computer": false,
+            "parking": true,
+            "internet": true,
+            "furnitured": false,
+            "price": "250",
+            "kitchen": true,
+            "organization": null
+        }
+    ],
+    "organization": "Test"
+});
 
   const setUserInputError = useCallback((message, section) => {
     setValidationMessage(message);
@@ -112,19 +170,28 @@ const Post = () => {
       return setUserInputError(t('error.input.images'), 'images');
 
     makeRequest({
-      url: 'api/apartments',
-      method: 'POST',
+      url: `api/apartments${params.type === 'edit' ? `/${data.id}` : ''}`,
+      method: params.type === 'edit' ? 'patch' : 'post',
       body: data,
       dataAt: ['data', 'doc'],
       callback: uploadImages
     });
-  }, [makeRequest, data, uploadImages, setUserInputError, t]);
+  }, [makeRequest, data, uploadImages, setUserInputError, t, params.type]);
 
   const onRemoveImage = (index) => 
     images.current = images.current.filter((_, i) => index !== i);
 
   const onAddImage = (img) => 
     images.current = [ ...images.current, img ];
+
+  if (params.type === 'preview') {
+    return <AsyncAdview 
+      data={{
+        ...data, 
+        landlord: user, 
+        images: images.current
+      }} />;
+  }
 
   if (loading || imagesLoading) {
     return <Spinner 
@@ -138,12 +205,12 @@ const Post = () => {
     return <Success />;
   }
 
+  console.log(data, images);
+
   return (
     <main className="post">
       <PopScroll />
-      <CtaArea 
-        onPostApartment={onPostApartment} 
-        data={data} />
+      <CtaArea onPostApartment={onPostApartment} />
       <SpyNavigation items={SECTIONS} offset={-1}>
         <Link to="/">LOGO</Link>
       </SpyNavigation>
@@ -162,6 +229,7 @@ const Post = () => {
         <Universities setData={setData} data={data} />
         <Rooms setData={setData} data={data} />
         <ImageUploadForm 
+          images={images.current}
           roomOptions={data.roomOptions}
           onRemoveImage={onRemoveImage}
           setImages={onAddImage} 
