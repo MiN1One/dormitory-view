@@ -13,10 +13,11 @@ const IMAGES_PATH = '/images/apartments';
 
 const Fullscreen = ({
   close,
-  selectedImage,
-  setSelectedImage,
+  selectedImageIndex,
+  setSelectedImageIndex,
   images,
-  id
+  id,
+  isPreview
 }) => {
   const [loading, setLoading] = useState(false);
   const [swiper, setSwiper] = useState(null);
@@ -58,9 +59,13 @@ const Fullscreen = ({
 
   useEffect(() => swiper && swiper.update());
 
-  const 
-    mainImage = `${IMAGES_PATH}/${id}/${images[selectedImage]}`,
-    roomOptionNum = images && images[selectedImage].split('-')[1];
+  const [roomType, roomOptionNumber] = isPreview
+    ? images[selectedImageIndex].file.name.split('-')
+    : images[selectedImageIndex].split('-');
+
+  const mainImage = isPreview 
+    ? images[selectedImageIndex].dataUrl
+    : `${IMAGES_PATH}/${id}/${images[selectedImageIndex]}`;
 
   useEffect(() => {
     preloadImages(
@@ -71,19 +76,24 @@ const Fullscreen = ({
   }, [mainImage]);
 
   const imagesEl = images?.map((el, i) => {
-    const roomType = el.split('-')[0];
+    const [roomType] = isPreview
+      ? el.file.name.split('-')
+      : el.split('-');
+
+    const imageSrc = isPreview
+      ? el.dataUrl
+      : `${IMAGES_PATH}/${id}/${el}`;
+
     return (
       <SwiperSlide 
         key={i}
-        className={`fulls__item ${selectedImage === i ? 'fulls__item--active' : ''}`}
+        className={`fulls__item ${selectedImageIndex === i ? 'fulls__item--active' : ''}`}
         tabIndex="0"
-        onClick={() => setSelectedImage(i)}>
-          <img className="img img--cover" src={`${IMAGES_PATH}/${id}/${el}`} alt={roomType} />
+        onClick={() => setSelectedImageIndex(i)}>
+          <img className="img img--cover" src={imageSrc} alt={roomType} />
       </SwiperSlide>
     )
   });
-
-  const roomType = images && images[selectedImage].split('-')[0];
 
   return (
     <div className="fulls">
@@ -105,7 +115,7 @@ const Fullscreen = ({
                       <div className="flex">
                         <button 
                           className="btn--slider fulls__btn-slider--prev" 
-                          onClick={() => setSelectedImage(p => {
+                          onClick={() => setSelectedImageIndex(p => {
                             if (p > 0) return p - 1;
                             else return 0;
                           })}>
@@ -113,7 +123,7 @@ const Fullscreen = ({
                         </button>
                         <button 
                           className="btn--slider fulls__btn-slider--next"
-                          onClick={() => setSelectedImage(p => {
+                          onClick={() => setSelectedImageIndex(p => {
                             if (p < images?.length - 1) return p + 1;
                             else return 0;
                           })}>
@@ -122,7 +132,7 @@ const Fullscreen = ({
                       </div>
                       <div className="te">
                         <h5 className="heading heading--3 f-thin c-white">{roomType}</h5>
-                        <span className="f-lg c-white mb-5 inline">Room option {roomOptionNum}</span>
+                        <span className="f-lg c-white mb-5 inline">Room option {roomOptionNumber}</span>
                         <p className="f-mid c-light f-thin">Press Escape to exit the screen</p>
                       </div>
                     </div>

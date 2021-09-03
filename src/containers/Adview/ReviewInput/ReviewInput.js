@@ -62,7 +62,7 @@ const ReviewInput = ({ close, userId }) => {
     <Modal 
       close={close} 
       title="Write your review"
-      footer={!user ? 'Login' : 'Post'}
+      actionTitle={!user ? 'Login' : 'Post'}
       action={!user ? () => history.push('/auth/login') : onPostReview}>
         {!user
           ? (

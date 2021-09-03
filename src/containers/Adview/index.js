@@ -59,8 +59,6 @@ const Adview = ({ data: previewData }) => {
     }
   }, [makeRequest, params.apt, data]);
 
-  console.log(data);
-
   useEffect(() => {
     if (data && previousApt !== data?._id) {
       history.push(`/list/${data.city}/${data.region}/${data._id}`);
@@ -102,6 +100,8 @@ const Adview = ({ data: previewData }) => {
   if (data && data.roomOptions.length === 1) {
     delete spyNavItems[1];
   }
+
+  const isPreview = !!previewData;
 
   return (
     <>
@@ -175,11 +175,12 @@ const Adview = ({ data: previewData }) => {
           <div className="adview__body mt-2">
             <div className="adview__left">
               <MainImagery 
-                isPreview={!!previewData}
+                isPreview={isPreview}
                 data={data && { ...data, price }}
                 discount={{ discount, priceAfterDiscount }} />
               {data && data.roomOptions.length > 1 && (
                 <AsyncRooms 
+                  isPreview={isPreview}
                   id={data?._id}
                   images={data?.images}
                   data={data?.roomOptions}

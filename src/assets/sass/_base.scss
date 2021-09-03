@@ -44,7 +44,7 @@ button {
   &:hover { cursor: pointer; }
 }
 
-[tabIndex="0"] {
+[tabindex="0"] {
   &:focus { outline: none; }
   &:hover { cursor: pointer; }
 }

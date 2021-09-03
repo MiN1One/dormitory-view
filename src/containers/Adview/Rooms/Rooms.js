@@ -18,6 +18,7 @@ const Rooms = ({
   selectedIndex, 
   setSelectedIndex, 
   images,
+  isPreview,
   id
 }) => {
   const [swiper, setSwiper] = useState(null);
@@ -32,13 +33,21 @@ const Rooms = ({
   const outputString = (priv) => priv ? 'private' : 'public';
 
   const options = data?.map((el, i) => {
-    const imageIndex = images && images.find(img => {
-      const imgRoomNum = parseInt(img.split('-')[1]);
-      return imgRoomNum === i+1;
+    const image = images && images.find(img => {
+      const imgRoomNum = isPreview
+        ? +img.file.name.split('-')[1]
+        : +img.split('-')[1];
+
+      return imgRoomNum === i + 1;
     });
 
     const classes = ['rooms__item'];
-    if (i === selectedIndex) classes.push('rooms__item--active');
+    if (i === selectedIndex) 
+      classes.push('rooms__item--active');
+
+    const imageSrc = isPreview
+      ? image?.dataUrl || images[0]?.dataUrl
+      : `/images/apartments/${id}/${image}`;
 
     return (
       <SwiperSlide 
@@ -46,49 +55,49 @@ const Rooms = ({
         key={i} 
         tabIndex="0"
         onClick={() => onSelectRoom(i)}>
-        <figure className="rooms__item__figure">
-          <img 
-            className="img img--contain" 
-            alt="room-thumbnail" 
-            src={`/images/apartments/${id}/${imageIndex}`} />
-          {i === selectedIndex && (
-            <div className="rooms__item__badge">
-              Selected
-            </div>
-          )}
-          {el.offers && el.offers.length > 0 && (
-            <span className="rooms__item__badge rooms__item__badge--tag">
-              {el.offers.length} offer/s
-            </span>
-          )}
-        </figure>
-        <div className="rooms__item__body">
-          <span className="rooms__item__title">Room option {i+1}</span>
-          <div className="rooms__item__features">
-            <div className="flex aic mb-1">
-              <BiDoorOpen className="icon--sm icon--grey mr-1" />
-              Rooms: {el.numberOfRooms}
-            </div>
-            <div className="flex aic mb-1">
-              <IoHammerOutline className="icon--sm icon--grey mr-1" />
-              Condition: {el.condition}
-            </div>
-            <div className="flex aic mb-1">
-              <GiKnifeFork className="icon--sm icon--grey mr-1" />
-              Kitchen: {outputString(el.kitchen)}
-            </div>
-            <div className="flex aic">
-              <GiBathtub className="icon--sm icon--grey mr-1" />
-              Bathroom: {outputString(el.bath)}
+          <figure className="rooms__item__figure">
+            <img 
+              className="img img--contain" 
+              alt="room-thumbnail" 
+              src={imageSrc} />
+            {i === selectedIndex && (
+              <div className="rooms__item__badge">
+                Selected
+              </div>
+            )}
+            {el.offers && el.offers.length > 0 && (
+              <span className="rooms__item__badge rooms__item__badge--tag">
+                {el.offers.length} offer/s
+              </span>
+            )}
+          </figure>
+          <div className="rooms__item__body">
+            <span className="rooms__item__title">Room option {i+1}</span>
+            <div className="rooms__item__features">
+              <div className="flex aic mb-1">
+                <BiDoorOpen className="icon--sm icon--grey mr-1" />
+                Rooms: {el.numberOfRooms}
+              </div>
+              <div className="flex aic mb-1">
+                <IoHammerOutline className="icon--sm icon--grey mr-1" />
+                Condition: {el.condition}
+              </div>
+              <div className="flex aic mb-1">
+                <GiKnifeFork className="icon--sm icon--grey mr-1" />
+                Kitchen: {outputString(el.kitchen)}
+              </div>
+              <div className="flex aic">
+                <GiBathtub className="icon--sm icon--grey mr-1" />
+                Bathroom: {outputString(el.bath)}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="rooms__item__footer">
-          <span className="rooms__item__price">
-            ${el.price}
-            <span className="f-sm">&nbsp;/&nbsp;week</span>
-          </span>
-        </div>
+          <div className="rooms__item__footer">
+            <span className="rooms__item__price">
+              ${el.price}
+              <span className="f-sm">&nbsp;/&nbsp;week</span>
+            </span>
+          </div>
       </SwiperSlide>
     )
   });

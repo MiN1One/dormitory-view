@@ -20,6 +20,7 @@ import Success from './Success/Success';
 import { messageCreator } from '../../components/MessagePopper';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import useTitle from '../../hooks/useTitle';
+import ErrorView from '../../components/ErrorView/ErrorView';
 
 const AsyncAdview = React.lazy(() => import('../Adview'));
 
@@ -47,8 +48,9 @@ const DEFAULT_APARTMENT = {
 };
 
 const Post = (props) => {
-  const { t } = useTranslation();
   const params = useParams();
+  const history = useHistory();
+  const { t } = useTranslation();
   const { user: { user } } = useSelector(s => s);
 
   useTitle(t(`post.${params.type}`));
@@ -57,6 +59,7 @@ const Post = (props) => {
   const images = useRef([]);
   const [validationMessage, setValidationMessage] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
 
   // DATA UPLOAD
   const { 
@@ -73,6 +76,10 @@ const Post = (props) => {
     error: imagesError,
     makeRequest: patchImages
   } = useFetchData();
+
+  useEffect(() => {
+
+  }, [validationMessage]);
 
   const [data, setData] = useState({
     "region": "olmazor",
@@ -138,6 +145,8 @@ const Post = (props) => {
       duration: 10000,
       id: 'invalid-field-error'
     });
+
+    return false;
   }, []);
 
   const uploadImages = useCallback((responseData) => {
@@ -149,12 +158,12 @@ const Post = (props) => {
       url: `api/apartments/${responseData._id}`,
       method: 'PATCH',
       body: form,
-      callback: (data, setData) => setSuccess(true),
-      onError: (er, setError) => setSuccess(false)
+      callback: () => setSuccess(true),
+      onError: () => setSuccess(false)
     });
   }, [patchImages]);
 
-  const onPostApartment = useCallback(() => {
+  const isValidData = useCallback(() => {
     setValidationMessage(null);
 
     if (data.title.length < 5 || data.title === '')
@@ -169,6 +178,12 @@ const Post = (props) => {
     if (!images.current.length)
       return setUserInputError(t('error.input.images'), 'images');
 
+    return true;
+  }, [data.address, data.roomOptions.length, data.title, setUserInputError, t]);
+
+  const onPostApartment = useCallback(() => {
+    if (!isValidData()) return;
+
     makeRequest({
       url: `api/apartments${params.type === 'edit' ? `/${data.id}` : ''}`,
       method: params.type === 'edit' ? 'patch' : 'post',
@@ -176,7 +191,7 @@ const Post = (props) => {
       dataAt: ['data', 'doc'],
       callback: uploadImages
     });
-  }, [makeRequest, data, uploadImages, setUserInputError, t, params.type]);
+  }, [makeRequest, data, uploadImages, params.type, isValidData]);
 
   const onRemoveImage = (index) => 
     images.current = images.current.filter((_, i) => index !== i);
@@ -184,13 +199,21 @@ const Post = (props) => {
   const onAddImage = (img) => 
     images.current = [ ...images.current, img ];
 
+  const onGoToPreview = () => {
+    if (!isValidData()) return;
+
+    setPreviewData({
+      ...data, 
+      landlord: user, 
+      images: images.current
+    });
+    history.push('/post/preview');
+  };
+
   if (params.type === 'preview') {
-    return <AsyncAdview 
-      data={{
-        ...data, 
-        landlord: user, 
-        images: images.current
-      }} />;
+    return previewData
+      ? <AsyncAdview data={previewData} />
+      : <ErrorView />;
   }
 
   if (loading || imagesLoading) {
@@ -205,12 +228,12 @@ const Post = (props) => {
     return <Success />;
   }
 
-  console.log(data, images);
-
   return (
     <main className="post">
       <PopScroll />
-      <CtaArea onPostApartment={onPostApartment} />
+      <CtaArea 
+        onGoToPreview={onGoToPreview}
+        onPostApartment={onPostApartment} />
       <SpyNavigation items={SECTIONS} offset={-1}>
         <Link to="/">LOGO</Link>
       </SpyNavigation>

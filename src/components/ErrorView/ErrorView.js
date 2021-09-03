@@ -48,9 +48,9 @@ const ErrorView = ({ error }) => {
           </div>
         </div>
       </div>
-      <ul className="e__list">
+      {/* <ul className="e__list">
         {regionsEl}
-      </ul>
+      </ul> */}
     </div>
   );
 };

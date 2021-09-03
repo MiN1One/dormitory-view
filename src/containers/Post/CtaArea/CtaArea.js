@@ -3,7 +3,7 @@ import { IoMdCheckmark } from 'react-icons/io';
 import { IoEyeOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
-const CtaArea = ({ onPostApartment }) => {
+const CtaArea = ({ onPostApartment, onGoToPreview }) => {
   const [display, setDisplay] = useState(false);
 
   useEffect(() => {
@@ -24,10 +24,10 @@ const CtaArea = ({ onPostApartment }) => {
 
   return (
     <div className="post__cta-area">
-      <Link to="/post/preview" className="flex aic mr-2">
+      <button className="flex aic mr-2" onClick={onGoToPreview}>
         <IoEyeOutline className="icon--sm icon--dark mr-5" />
         Preview
-      </Link>
+      </button>
       <button className="post__cta-area__btn" onClick={onPostApartment}>
         Post
         <IoMdCheckmark className="icon icon--yellow ml-1" />

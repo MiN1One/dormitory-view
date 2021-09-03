@@ -280,6 +280,7 @@
 
     &__btn {
       display: flex;
+      align-items: center;
       padding: .75rem 2.5rem;
       background: #fff;
       border: 2px solid $color-yellow;

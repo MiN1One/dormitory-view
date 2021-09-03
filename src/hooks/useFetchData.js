@@ -88,7 +88,6 @@ const useFetchData = (options = {
         dispatch({ type: 'reject', error: er });
         console.log(er.response && er.response);
       });
-
   }, [token]);
 
   return {

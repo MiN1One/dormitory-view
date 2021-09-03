@@ -20,15 +20,15 @@ const IMAGES_PATH = '/images/apartments';
 const MainImagery = ({ data, discount, isPreview }) => {
   const [swiper, setSwiper] = useState(null);
   const { favorites, editFavorites } = useEditFavorites();
-  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [fullScreen, setFullScreen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => swiper && swiper.update());
 
   let mainImage = !isPreview 
-    ? `${IMAGES_PATH}/${data?._id}/${data?.images[selectedImage]}`
-    : data?.images[selectedImage]?.dataUrl;
+    ? `${IMAGES_PATH}/${data?._id}/${data?.images[selectedImageIndex]}`
+    : data?.images[selectedImageIndex]?.dataUrl;
 
   useEffect(() => {
     preloadImages(
@@ -41,13 +41,13 @@ const MainImagery = ({ data, discount, isPreview }) => {
   const imageThumbs = data?.images.map((el, i) => {
     let imageSrc = !isPreview
       ? `${IMAGES_PATH}/${data?._id}/${el}`
-      : el.file.dataUrl;
+      : el.dataUrl;
 
     return (
       <SwiperSlide 
         key={i}
-        className={`adview__image-item ${selectedImage === i ? 'adview__image-item--active' : ''}`} 
-        onClick={() => setSelectedImage(i)}
+        className={`adview__image-item ${selectedImageIndex === i ? 'adview__image-item--active' : ''}`} 
+        onClick={() => setSelectedImageIndex(i)}
         tabIndex="0">
           <img 
             className="img img--cover" 
@@ -57,17 +57,18 @@ const MainImagery = ({ data, discount, isPreview }) => {
     );
   });
 
-  const roomType = (!isPreview && data.images.length) 
-    ? data?.images[selectedImage]?.split('-')[0]
-    : data?.images[selectedImage]?.file.name.split('-')[0];
+  const roomType = !isPreview 
+    ? data?.images[selectedImageIndex]?.split('-')[0]
+    : data?.images[selectedImageIndex]?.file.name.split('-')[0];
 
   return (
     <>
       {fullScreen && (
         <Fullscreen 
+          isPreview={isPreview}
           id={data?._id}
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
+          selectedImageIndex={selectedImageIndex}
+          setSelectedImageIndex={setSelectedImageIndex}
           close={() => setFullScreen(false)}
           images={data?.images} />
       )}
