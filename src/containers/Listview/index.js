@@ -1,11 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BsPlus } from 'react-icons/bs';
-import { IoSchoolOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
-import { FcIdea } from 'react-icons/fc';
 
 import './index.scss';
 import Filters from './Filters/Filters';
@@ -14,7 +11,6 @@ import Pagination from '../../components/Pagination/Pagination';
 import config from './config';
 import { parseQuery, sort } from '../../utilities/utils';
 import useFetchData from '../../hooks/useFetchData';
-import Spinner from '../../components/UI/Spinner/Spinner';
 import useDefaultFilters from '../../hooks/useDefaultFilters';
 import useTitle from '../../hooks/useTitle';
 import ListHead from './ListHead/ListHead';
@@ -79,10 +75,8 @@ const Listview = () => {
     setTimeout(() => {
       makeRequest({
         url: `api/apartments${region}${city}${facilitiesQuery}${billsQuery}${priceFrom}${priceTo}${ownership}&project=price,_id,imageCover,city,region,ownership,title,createdAt,offers&count=true&limit=${config.NUM_ITEMS_PER_VIEW}&page=${currentPage}${numberOfRooms}${currencyQuery}${searchQuery}`,
-
         dataSecondary: 'numberOfDocuments',
         dataAt: ['data', 'docs'],
-
         callback: () => {
           history.push(`?query=true${userRegionQuery}${userCityQuery}${currencyQuery}${priceFrom}${priceTo}${billsQuery}${ownership}${numberOfRooms}${searchQuery}${facilitiesQuery}`);
         }

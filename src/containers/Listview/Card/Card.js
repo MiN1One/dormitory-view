@@ -32,39 +32,42 @@ const Card = ({ slide, data, symbol }) => {
                 width="100%"
                 height="100%"
                 alt={data.title}
-                className="img img--cover" />
-              {offersCount && (
-                <div className="cardl__tag">
-                  {offersCount} offer/s
-                </div>
-              )}
-            </figure>
-            <div className="cardl__right">
-              <span className="cardl__title">
+                className="img img--cover cardl__img" />
+              <div className="cardl__title">
                 {data.title}
-              </span>
-              <span className="flex mb-5 c-grace">{t(`regions:${data.city}.title`)}</span>
-              <span className="flex mb-5 c-grace">{t(`regions:${data.city}.regions.${data.region}`)}</span>
-              <span className="flex aic mb-5">
-                <BsBuilding className="icon--xs icon--grey mr-5" />
-                <span className="cardl__label">Type:</span>&nbsp;<span className="f-sm f-thin c-grace">{data.ownership}</span>
-              </span>
-              <span className="flex aic mb-5">
-                <BiDoorOpen className="icon--xs icon--grey mr-5" />
-                <span className="cardl__label">Room</span>&nbsp;
-                <span className="f-mid-w c-grey f-sm">Options:</span>&nbsp;
-                <span className="f-sm f-thin c-grace">{data.price.length}</span>
-              </span>
-            </div>
+                {offersCount && (
+                  <div className="cardl__tag">
+                    {offersCount} offer/s
+                  </div>
+                )}
+              </div>
+            </figure>
           </div>
           <div className="cardl__bottom">
-            <div className="mb-1">
-              <div className="cardl__school">
+            <div className="cardl__subtitle">
+              {t(`regions:${data.city}.title`)}, {t(`regions:${data.city}.regions.${data.region}`)}
+            </div>
+            <span className="cardl__line">
+              <BsBuilding className="icon--xs icon--grey mr-1" />
+              Type:
+              <span className="ml-5 c-grace f-normal">
+                {data.ownership}
+              </span>
+            </span>
+            <span className="cardl__line">
+              <BiDoorOpen className="icon--xs icon--grey mr-1" />
+              Room Options:
+              <span className="ml-5 c-grace f-normal">
+                {data.price.length}
+              </span>
+            </span>
+            <div className="mb-2">
+              <div className="cardl__line">
                 <IoSchoolOutline className="icon--xs icon--grey mr-1" />
                 Webster University
-                <span className="c-grace f-normal">&nbsp;|&nbsp;15 min walking</span>
+                <span className="c-grace f-normal">&nbsp;|&nbsp;15 min walk</span>
               </div>
-              <div className="cardl__school">
+              <div className="cardl__line">
                 <IoSchoolOutline className="icon--xs icon--grey mr-1" />
                 INHA University
                 <span className="c-grace f-normal">&nbsp;|&nbsp;5-7 min by car</span>
@@ -117,7 +120,7 @@ const Card = ({ slide, data, symbol }) => {
         </button>
         <button className="cardl__btn tooltip">
           <BsLayers className="icon--sm icon--grey" />
-          <div className="tooltip__text tooltip__text--bottom cardl__tooltip">
+          <div className="tooltip__text tooltip__text--top cardl__tooltip">
             Compare
           </div>
         </button>

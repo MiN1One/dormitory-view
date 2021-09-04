@@ -23,6 +23,7 @@ import Details from './Details/Details';
 import Panel from './Panel/Panel';
 import usePrevious from '../../hooks/usePrevious';
 import useTitle from '../../hooks/useTitle';
+import { Link } from 'react-router-dom';
 
 const AsyncRooms = React.lazy(() => import('./Rooms/Rooms'));
 
@@ -33,7 +34,12 @@ const Adview = ({ data: previewData }) => {
   const params = useParams();
   const history = useHistory();
   
-  const { data, loading, error, makeRequest } = useFetchData({
+  const { 
+    data, 
+    loading, 
+    error, 
+    makeRequest 
+  } = useFetchData({
     loading: false,
     data: previewData
   });
@@ -65,12 +71,22 @@ const Adview = ({ data: previewData }) => {
     }
   }, [data, history, params.apt, previousApt]);
 
-  useEffect(() => {
-    if (reviewInp) setShowContact(false);
-  }, [reviewInp]);
+  useEffect(() => 
+    reviewInp && setShowContact(false),
+  [reviewInp]);
 
-  if (error)
-    return <ErrorView error={error} />
+  if (error) {
+    return <ErrorView error={error} />;
+  }
+
+  const onGoTo = (direction) => {
+    makeRequest({
+      url: `api/apartments/${params.apt}?${direction}=true&count=true&city=${data?.city}`,
+      dataAt: ['data', 'doc']
+    })
+  };
+
+  const isPreview = !!previewData;
 
   const 
     discount = +data?.roomOptions[selectedOption].offers?.find(el => el.type === 'discount')?.value,
@@ -82,12 +98,12 @@ const Adview = ({ data: previewData }) => {
   const breadcrumbs = [
     {
       title: t(`regions:${data?.city}.title`),
-      path: `/list/${data?.city}/all`,
+      path: !isPreview && `/list/${data?.city}/all`,
       active: false
     },
     {
       title: t(`regions:${data?.city}.regions.${data?.region}`),
-      path: `/list/${data?.city}/${data?.region}`,
+      path: !isPreview && `/list/${data?.city}/${data?.region}`,
       active: false
     },
     {
@@ -97,18 +113,20 @@ const Adview = ({ data: previewData }) => {
   ];
 
   const spyNavItems = ['main', 'options', 'details', 'features', 'similar'];
-  if (data && data.roomOptions.length === 1) {
-    delete spyNavItems[1];
-  }
-
-  const isPreview = !!previewData;
+  (data && data.roomOptions.length === 1) && delete spyNavItems[1];
+  isPreview && delete spyNavItems[4];
 
   const additionalNavButton = () => {
     if (isPreview) {
       return (
-        <button className="adview__btn" onClick={history.goBack}>
-          {t('translation:nav.go-back-post')}
-        </button>
+        <div className="flex aic">
+          <button className="adview__btn mr-lg" onClick={() => history.push('/post/new')}>
+            {t('translation:nav.go-back-post')}
+          </button>
+          <Link to="/">
+            LOGO
+          </Link>
+        </div>
       );
     }
 
@@ -157,33 +175,27 @@ const Adview = ({ data: previewData }) => {
       <main className="adview">
         <div className="container">
           <Breadcrumbs items={breadcrumbs}>
-            <div className="flex aic">
-              <span className="f-lg c-grace mr-1">See properties in this region</span>
-              <div className="flex">
-                <button 
-                  className="btn--slider adview__btn-slider" 
-                  onClick={() => 
-                    makeRequest({
-                      url: `api/apartments/${params.apt}?prev=true&count=true&city=${data?.city}`,
-                      dataAt: ['data', 'doc']
-                    })
-                  }>
-                    <IoChevronBackOutline className="icon--xs icon--dark" />
-                </button>
-                <button 
-                  className="btn--slider adview__btn-slider" 
-                  onClick={() => 
-                    makeRequest({
-                      url: `api/apartments/${params.apt}?next=true&count=true&city=${data?.city}`,
-                      dataAt: ['data', 'doc']
-                    })
-                  }>
-                    <IoChevronForwardOutline className="icon--xs icon--dark" />
-                </button>
+            {!isPreview && (
+              <div className="flex aic">
+                <span className="f-lg c-grace mr-1">
+                  See properties in this region
+                </span>
+                <div className="flex">
+                  <button 
+                    className="btn--slider adview__btn-slider" 
+                    onClick={() => onGoTo('prev')}>
+                      <IoChevronBackOutline className="icon--xs icon--dark" />
+                  </button>
+                  <button 
+                    className="btn--slider adview__btn-slider" 
+                    onClick={() => onGoTo('next')}>
+                      <IoChevronForwardOutline className="icon--xs icon--dark" />
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </Breadcrumbs>
-          <div className="adview__body mt-2">
+          <div className="adview__body">
             <div className="adview__left">
               <MainImagery 
                 isPreview={isPreview}
@@ -218,7 +230,7 @@ const Adview = ({ data: previewData }) => {
             </div>
           </div>
           <div id="similar">
-            {!previewData && (
+            {!isPreview && (
               <LazyLoadComponent 
                 placeholder={
                   <div className="container">

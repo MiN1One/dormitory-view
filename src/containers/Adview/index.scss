@@ -3,7 +3,6 @@
 .adview {
   background: $pure-white;
   padding-top: 2.5rem;
-  padding-bottom: 7rem;
   
   &__nav {
     background: $pure-white;
@@ -33,8 +32,8 @@
     align-items: flex-start;
     width: 100%;
     padding-bottom: 7rem;
-    border-bottom: 1px solid rgba($pitch, .05);
     margin-bottom: 3rem;
+    margin-top: 2rem;
   }
 
   &__left {

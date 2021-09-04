@@ -2,10 +2,10 @@
 
 .sads {
   width: 100%;
+  border-bottom: 1px solid rgba($pitch, .05);
+  padding-bottom: 7rem;
 
-  &__list {
-    width: 100%;
-  }
+  &__list { width: 100%; }
 
   &__item {
     background: $pure-white;
