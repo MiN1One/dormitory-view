@@ -11,6 +11,8 @@ import './Navigation.scss';
 import Dropdown from '../UI/Dropdown/Dropdown';
 import NavSearchbar from '../NavSearchbar/NavSearchbar';
 
+const HELP_SECTIONS = ['about', 'faq', 'book'];
+
 const Navigation = ({ className }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -56,20 +58,10 @@ const Navigation = ({ className }) => {
               className="nav__link nav__link--drop"
               dropTitle="Help"
               noIcon
-              items={[
-                {
-                  title: 'About',
-                  click: () => history.push('/help#about')
-                },
-                {
-                  title: 'Book',
-                  click: () => history.push('/help#book')
-                },
-                {
-                  title: 'Refund',
-                  click: () => history.push('/help#refund')
-                }
-              ]} />
+              items={HELP_SECTIONS.map(el => ({
+                title: t(`nav.${el}`),
+                click: () => history.push(`/help#${el}`)
+              }))} />
             {user
               ? (
                 <>
@@ -80,7 +72,7 @@ const Navigation = ({ className }) => {
                   </Link>
                   <Link to="/user/myprofile/main" className="nav__link nav__link--user">
                     PROFILE
-                    <BsFillPersonFill className="icon--white icon ml-1" />
+                    <BsFillPersonFill className="icon--white icon ml-5" />
                     {/* <span className="nav__badge">0</span> */}
                   </Link>
                 </>

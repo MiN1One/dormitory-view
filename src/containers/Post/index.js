@@ -47,7 +47,7 @@ const DEFAULT_APARTMENT = {
   // images, imageCover are saved with patch request
 };
 
-const Post = (props) => {
+const Post = () => {
   const params = useParams();
   const history = useHistory();
   const { t } = useTranslation();
@@ -55,8 +55,7 @@ const Post = (props) => {
 
   useTitle(t(`post.${params.type}`));
 
-  // TO PREVENT UPDATES, REF IS USED FOR IMAGE CACHING
-  const images = useRef([]);
+  const [images, setImages] = useState([]);
   const [validationMessage, setValidationMessage] = useState(null);
   const [success, setSuccess] = useState(false);
   const [previewData, setPreviewData] = useState(null);
@@ -152,7 +151,7 @@ const Post = (props) => {
   const uploadImages = useCallback((responseData) => {
     const form = new FormData();
     
-    images.current.forEach(el => form.append('images', el.file));
+    images.forEach(el => form.append('images', el.file));
 
     patchImages({
       url: `api/apartments/${responseData._id}`,
@@ -161,7 +160,7 @@ const Post = (props) => {
       callback: () => setSuccess(true),
       onError: () => setSuccess(false)
     });
-  }, [patchImages]);
+  }, [patchImages, images]);
 
   const isValidData = useCallback(() => {
     setValidationMessage(null);
@@ -175,11 +174,11 @@ const Post = (props) => {
     if (data.roomOptions.length === 0)
       return setUserInputError(t('error.input.roomOptions'), 'rooms');
 
-    if (!images.current.length)
+    if (!images.length)
       return setUserInputError(t('error.input.images'), 'images');
 
     return true;
-  }, [data.address, data.roomOptions.length, data.title, setUserInputError, t]);
+  }, [data.address, data.roomOptions.length, data.title, setUserInputError, t, images]);
 
   const onPostApartment = useCallback(() => {
     if (!isValidData()) return;
@@ -193,19 +192,13 @@ const Post = (props) => {
     });
   }, [makeRequest, data, uploadImages, params.type, isValidData]);
 
-  const onRemoveImage = (index) => 
-    images.current = images.current.filter((_, i) => index !== i);
-
-  const onAddImage = (img) => 
-    images.current = [ ...images.current, img ];
-
   const onGoToPreview = () => {
     if (!isValidData()) return;
 
     setPreviewData({
       ...data, 
       landlord: user, 
-      images: images.current
+      images: images
     });
     history.push('/post/preview');
   };
@@ -252,10 +245,9 @@ const Post = (props) => {
         <Universities setData={setData} data={data} />
         <Rooms setData={setData} data={data} />
         <ImageUploadForm 
-          images={images.current}
+          images={images}
           roomOptions={data.roomOptions}
-          onRemoveImage={onRemoveImage}
-          setImages={onAddImage} 
+          setImages={setImages} 
         />
         <SecurityRules setData={setData} data={data} />
         <PlacesBills setData={setData} data={data} />

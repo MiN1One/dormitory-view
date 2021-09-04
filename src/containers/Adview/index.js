@@ -103,6 +103,37 @@ const Adview = ({ data: previewData }) => {
 
   const isPreview = !!previewData;
 
+  const additionalNavButton = () => {
+    if (isPreview) {
+      return (
+        <button className="adview__btn" onClick={history.goBack}>
+          {t('translation:nav.go-back-post')}
+        </button>
+      );
+    }
+
+    if (showWisher) {
+      return (
+        <button className="adview__btn" onClick={() => editFavorites(data?._id)}>
+          {favorites?.includes(data?._id) 
+            ? (
+              <>
+                <BsStarFill className="icon--xs icon--yellow mr-5" />
+                Remove from favorites
+              </>
+            )
+            : (
+              <>
+                <BsStar className="icon--xs icon--yellow mr-5" />
+                Add to favorites
+              </>
+            )
+          }
+        </button>
+      );
+    }
+  };
+
   return (
     <>
       {showContact && (
@@ -120,28 +151,8 @@ const Adview = ({ data: previewData }) => {
       <SpyNavigation
         offset={SCROLL_Y_OFFSET}
         items={spyNavItems}
-        onUpdate={(el) => {
-          if (el && el.id !== 'main') setShowWisher(true);
-          else setShowWisher(false);
-        }}>
-          {showWisher && 
-            <button className="adview__btn" onClick={() => editFavorites(data?._id)}>
-              {favorites?.includes(data?._id) 
-                ? (
-                  <>
-                    <BsStarFill className="icon--xs icon--yellow mr-5" />
-                    Remove from favorites
-                  </>
-                )
-                : (
-                  <>
-                    <BsStar className="icon--xs icon--yellow mr-5" />
-                    Add to favorites
-                  </>
-                )
-              }
-            </button>
-          }
+        onUpdate={(el) => setShowWisher(!!el && el.id !== 'main')}>
+          {additionalNavButton()}
       </SpyNavigation>
       <main className="adview">
         <div className="container">

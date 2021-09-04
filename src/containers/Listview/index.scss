@@ -37,13 +37,6 @@
     align-content: flex-start;
   }
 
-  &__float {
-    position: fixed;
-    bottom: 3rem;
-    right: 10rem;
-    z-index: 99;
-  }
-
   &__empty {
     height: 50rem;
     display: flex;

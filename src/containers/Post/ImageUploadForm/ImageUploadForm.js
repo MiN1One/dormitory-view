@@ -9,6 +9,7 @@ import { FcFolder } from 'react-icons/fc';
 import Modal from '../../../components/UI/Modal/Modal';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 import { messageCreator } from '../../../components/MessagePopper';
+import { withTranslation } from 'react-i18next';
 
 SwiperCore.use([Navigation]);
 
@@ -49,14 +50,13 @@ class ImageUploadForm extends PureComponent {
     this.setState(prev => ({
       images: prev.images.filter((_, i) => i !== index)
     }));
-    this.props.onRemoveImage(index);
   }
   
   onSaveImages = () => {
     const files = Array.from(this.imageUploadRef.current.files).slice(0, 12);
     if (
       !files.length ||
-      this.state.images.length === MAX_IMAGES_COUNT
+      this.props.images.length === MAX_IMAGES_COUNT
     ) {
       return;
     }
@@ -75,20 +75,17 @@ class ImageUploadForm extends PureComponent {
           { type: type }
         );
 
-        this.props.setImages({
-          file: renamedImageFile,
-          dataUrl: fileReader.result
-        });
-
-        const options = {
-          ...this.state.selectedOptions, 
-          image: fileReader.result
-        };
+        this.props.setImages(p => ([
+          ...p,
+          {
+            ...this.state.selectedOptions,
+            file: renamedImageFile,
+            dataUrl: fileReader.result,
+            image: fileReader.result
+          }
+        ]));
   
-        this.setState(prev => ({
-          images: [ ...prev.images, options ],
-          modal: false
-        }));
+        this.setState({ modal: false });
       }
     });
   }
@@ -117,16 +114,15 @@ class ImageUploadForm extends PureComponent {
   }
 
   render() {
-    console.log(this.state);
+    const { t } = this.props;
+    console.log(this.state, this.props);
     const roomTypesEl = ROOM_TYPES.map(el => 
       ({
         title: el,
         click: () =>
-          this.setState(prev => (
-            {
+          this.setState(prev => ({
               selectedOptions: { ...prev.selectedOptions, roomType: el }
-            }
-          )),
+          })),
         active: this.state.selectedOptions.roomType === el
       })
     );
@@ -142,7 +138,7 @@ class ImageUploadForm extends PureComponent {
       active: this.state.selectedOptions.room === i
     }));
 
-    const imageThumbnails = this.state.images.map((el, i) => {
+    const imageThumbnails = this.props.images.map((el, i) => {
       return (
         <SwiperSlide key={i+Date.now()}>
           <figure className="post__images__figure">
@@ -157,9 +153,9 @@ class ImageUploadForm extends PureComponent {
           </figure>
           <div className="post__images__panel">
             <div className="f-lg flex fdc">
-              {this.state.images[i].roomType}
+              {this.props.images[i].roomType}
               <span className="f-mid">
-                Room option {this.state.images[i].room}
+                Room option {this.props.images[i].room}
               </span>
             </div>
           </div>
@@ -185,7 +181,7 @@ class ImageUploadForm extends PureComponent {
                 className="modal__input" />
             </div>
             <div className="mb-2">
-              <div className="modal__title">Image of</div>
+              <div className="modal__title">Image for</div>
               <Dropdown 
                 className="modal__input"
                 title={this.state.selectedOptions.roomType}
@@ -219,12 +215,10 @@ class ImageUploadForm extends PureComponent {
                     <IoChevronForwardOutline className="icon--sm icon--dark" />
                   </button> 
                 </div>
-                <span className="f-mid c-grey-l">Slide to view more images</span>
+                <span className="f-mid c-grey-l">{t('hints.slide-hint')}</span>
               </div>
-              <button 
-                className="post__btn-main" 
-                onClick={this.onClickUpload}>
-                  Upload Photos
+              <button className="post__btn-main" onClick={this.onClickUpload}>
+                Upload Photos
               </button>
               <input 
                 className="none"
@@ -237,11 +231,12 @@ class ImageUploadForm extends PureComponent {
             <div className="c-grey-l f-sm mb-1">
               You can upload up to 12 images with the max size of 5MB each
             </div>
-            {this.state.images.length > 0 
+            {this.props.images.length > 0 
               ? (
                 <>
-                  <div className="c-grace f-mid mb-15">Images: {this.state.images.length}/12</div>
+                  <div className="c-grace f-mid mb-15">Images: {this.props.images.length}/12</div>
                   <Swiper
+                    simulateTouch={false}
                     className="post__images"
                     slidesPerView={4}
                     spaceBetween={5}
@@ -269,4 +264,4 @@ class ImageUploadForm extends PureComponent {
   }
 }
 
-export default React.memo(ImageUploadForm);
+export default React.memo(withTranslation()(ImageUploadForm));

@@ -195,3 +195,10 @@
   &--prev { left: 0; }
   &--next { right: 0; }
 }
+
+.btn-float-right {
+  position: fixed;
+  bottom: 3rem;
+  right: 10rem;
+  z-index: 99;
+}

@@ -17,6 +17,7 @@ const NavSearchbar = () => {
   const { t } = useTranslation(['regions']);
   const [focus, setFocus] = useState(false);
   const { popular } = useSelector(s => s.main);
+
   const { regions, onSearchForRegion } = useFindRegions({
     getBySearch: true,
     regionSearch: true
@@ -45,14 +46,33 @@ const NavSearchbar = () => {
   };
 
   useEffect(() => {
-    if (search === '') {
-      setData(null);
-    }
+    if (search === '') setData(null);
 
     if (searchRef.current.value !== search) {
       searchRef.current.value = search;
     }
   }, [search, setData]);
+
+  const onInputSearch = (e) => {
+    onSearchForRegion(e.target.value);
+    if (e.target.value.length >= 2) {
+      setTimeout(() => {
+        makeRequest({
+          url: `api/apartments?search=${e.target.value}&project=price,_id,region,city,imageCover,title`,
+          dataAt: ['data', 'docs']
+        });
+      }, 75);
+    } else if (e.target.value === '') {
+      setData(null);
+    }
+  };
+
+  const onClearSearch = () => {
+    dispatch(actions.setSearch(''));
+    searchRef.current.value = '';
+    setData(null);
+    onSearchForRegion('');
+  };
   
   const popularItems = popular && [...Object.keys(popular)].map((el) => (
     <div 
@@ -82,10 +102,10 @@ const NavSearchbar = () => {
   ));
 
   const regionsEl = [];
+  let searchItemRegion;
   for (const [key, val] of Object.entries(regions)) {
-    let el;
     if (val.regionOnly) {
-      el = (
+      searchItemRegion = (
         <div 
           className="navsearch__item" 
           key={key} 
@@ -93,9 +113,9 @@ const NavSearchbar = () => {
             {t(`regions:${val.city}.regions.${key}`)}
             <span className="c-grey-l f-xs flex">{t(`regions:${val.city}.title`)}</span>
         </div>
-      )
+      );
     } else {
-      el = (
+      searchItemRegion = (
         <div 
           className="navsearch__item" 
           key={key} 
@@ -105,7 +125,7 @@ const NavSearchbar = () => {
       );
     }
 
-    regionsEl.push(el);
+    regionsEl.push(searchItemRegion);
   }
 
   return (
@@ -118,35 +138,16 @@ const NavSearchbar = () => {
           ref={searchRef}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
-          onChange={(e) => {
-            onSearchForRegion(e.target.value);
-            if (e.target.value.length >= 2) {
-              setTimeout(() => {
-                makeRequest({
-                  url: `api/apartments?search=${e.target.value}&project=price,_id,region,city,imageCover,title`,
-                  dataAt: ['data', 'docs']
-                });
-              }, 75);
-            } else if (e.target.value === '') {
-              setData(null);
-            }
-          }} />
+          onChange={onInputSearch} />
         <button 
           type="button"
           className="navsearch__btn-clear" 
-          onClick={() => {
-            dispatch(actions.setSearch(''));
-            searchRef.current.value = '';
-            setData(null);
-            onSearchForRegion('');
-          }}>
+          onClick={onClearSearch}>
             <IoIosClose className="icon--sm icon--grey" />
         </button>
       </div>
-      <button 
-        type="submit" 
-        className="navsearch__btn">
-          Search
+      <button type="submit" className="navsearch__btn">
+        Search
       </button>
       {focus && (
         <div className="navsearch__dropdown">
