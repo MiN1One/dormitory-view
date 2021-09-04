@@ -5,6 +5,30 @@ import Specifications from '../../../components/Specs/Specifications';
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 
 const FacilitiesFilter = ({ filters, setFilters }) => {
+  const onSelectFacility = (key) => {
+    if (!filters.facilities[key]) {
+      setFilters(prev => {
+        let val = prev[key] ? !prev[key][0] : true;
+        if (key === 'bath' || key === 'kitchen') {
+          val = 'private';
+        }
+        return {
+          ...prev,
+          facilities: {
+            ...prev.facilities,
+            [key]: [val]
+          }
+        }
+      });
+    } else {
+      const newFilters = { 
+        ...filters, 
+        facilities: { ...filters.facilities }
+      };
+      delete newFilters.facilities[key];
+      setFilters(newFilters);
+    }
+  };
 
   const Facilities = { ...Specifications('flex aic').facilities };
   delete Facilities.others;
@@ -16,38 +40,15 @@ const FacilitiesFilter = ({ filters, setFilters }) => {
         className="filters__item" 
         key={key}
         tabIndex="0"
-        onClick={() => {
-          if (!filters.facilities[key]) {
-            setFilters(prev => {
-              let val = prev[key] ? !prev[key][0] : true;
-              if (key === 'bath' || key === 'kitchen') {
-                val = 'private';
-              }
-              return {
-                ...prev,
-                facilities: {
-                  ...prev.facilities,
-                  [key]: [val]
-                }
-              }
-            });
-          } else {
-            const newFilters = { 
-              ...filters, 
-              facilities: { ...filters.facilities }
-            };
-            delete newFilters.facilities[key];
-            setFilters(newFilters);
-          }
-        }}>
-        {Facilities[key]()}
-        <div className="input__checkbox-wrapper">
-          <span className="input__checkbox filters__checkbox">
-            {(filters.facilities[key] && filters.facilities[key][0]) && (
-              <GoCheck className="icon--xs icon--green" />
-            )}
-          </span>
-        </div>
+        onClick={() => onSelectFacility(key)}>
+          {Facilities[key]()}
+          <div className="input__checkbox-wrapper">
+            <span className="input__checkbox filters__checkbox">
+              {(filters.facilities[key] && filters.facilities[key][0]) && (
+                <GoCheck className="icon--xs icon--green" />
+              )}
+            </span>
+          </div>
       </div>
     ));
   }

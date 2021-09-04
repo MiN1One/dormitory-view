@@ -10,6 +10,7 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 
+import config from '../../../config';
 import './Header.scss';
 import Dropdown from '../../../components/UI/Dropdown/Dropdown';
 import useFetchData from '../../../hooks/useFetchData';
@@ -96,27 +97,17 @@ const Header = ({ data: popularItems }) => {
             <div className="flex aic">
               <Dropdown 
                 className="header__btn--nobg"
-                title={
+                title={(
                   <>
                     Help
                     <IoChevronDownOutline className="icon--xs ml-5" />
                   </>
-                }
+                )}
                 noIcon
-                items={[
-                  {
-                    title: 'About',
-                    click: () => history.push('/help#about')
-                  },
-                  {
-                    title: 'Book',
-                    click: () => history.push('/help#book')
-                  },
-                  {
-                    title: 'Refund',
-                    click: () => history.push('/help#refund')
-                  }
-                ]} />
+                items={config.HELP_SECTIONS.map(el => ({
+                  title: t(`nav.${el}`),
+                  click: () => history.push(`/help#${el}`)
+                }))} />
               {!user
                 ? (
                   <Link to="/auth/" className="btn btn--primary header__btn">

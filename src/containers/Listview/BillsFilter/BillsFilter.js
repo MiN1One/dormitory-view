@@ -5,6 +5,20 @@ import Specifications from '../../../components/Specs/Specifications';
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 
 const BillsFilter = ({ filters, setFilters }) => {
+  const onSelectBill = (key) => {
+    if (filters.bills.includes(key)) {
+      const newList = filters.bills.filter((el) => el !== key);
+      setFilters(prev => ({
+        ...prev,
+        bills: newList
+      }));
+    } else {
+      setFilters(prev => ({
+        ...prev,
+        bills: [...prev.bills, key]
+      }));
+    }
+  };
 
   const Bills = { ...Specifications('flex aic').bills };
 
@@ -15,20 +29,7 @@ const BillsFilter = ({ filters, setFilters }) => {
         className="filters__item" 
         key={key} 
         tabIndex="0"
-        onClick={() => {
-          if (filters.bills.includes(key)) {
-            const newList = filters.bills.filter((el) => el !== key);
-            setFilters(prev => ({
-              ...prev,
-              bills: newList
-            }));
-          } else {
-            setFilters(prev => ({
-              ...prev,
-              bills: [...prev.bills, key]
-            }));
-          }
-        }}>
+        onClick={() => onSelectBill(key)}>
           {Bills[key]()}
           <div className="input__checkbox-wrapper">
             <span className="input__checkbox filters__checkbox">

@@ -7,11 +7,10 @@ import { IoChevronDownOutline } from 'react-icons/io5';
 import { VscSignIn } from 'react-icons/vsc';
 import { useSelector } from 'react-redux';
 
+import config from '../../config';
 import './Navigation.scss';
 import Dropdown from '../UI/Dropdown/Dropdown';
 import NavSearchbar from '../NavSearchbar/NavSearchbar';
-
-const HELP_SECTIONS = ['about', 'faq', 'book'];
 
 const Navigation = ({ className }) => {
   const { t } = useTranslation();
@@ -49,16 +48,16 @@ const Navigation = ({ className }) => {
           </div>
           <div className="flex h-100">
             <Dropdown
-              title={
+              title={(
                 <>
                   <IoChevronDownOutline className="icon--xs icon--grey ml-1" />
                   <span className="inline">Help</span>
                 </>
-              }
+              )}
               className="nav__link nav__link--drop"
               dropTitle="Help"
               noIcon
-              items={HELP_SECTIONS.map(el => ({
+              items={config.HELP_SECTIONS.map(el => ({
                 title: t(`nav.${el}`),
                 click: () => history.push(`/help#${el}`)
               }))} />

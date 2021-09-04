@@ -64,6 +64,6 @@ const ListBody = ({
       </div>
     </div>
   );
-}
+};
 
 export default memo(ListBody);

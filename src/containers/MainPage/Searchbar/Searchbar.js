@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux';
 import * as actions from '../../../store/actions';
 
 const Searchbar = ({ animate, setAnimate, data: popular }) => {
-  // const [search, setSearch] = useState('');
   const { t } = useTranslation(['regions', 'translation']);
   const history = useHistory();
   const searchRef = useRef();
@@ -34,15 +33,35 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
 
     if (searchRef.current.value !== '') {
       dispatch(actions.setSearch(searchRef.current.value));
-      history.replace(`/all/all`);
+      history.replace(`/list/all/all?search=${searchRef.current.value}`);
     }
   };
 
-  const items = [];
+  const onInputSearch = (e) => {
+    onSearchForRegion(e.target.value);
+    if (e.target.value.length >= 2) {
+      setTimeout(() => {
+        makeRequest({
+          url: `api/apartments?search=${e.target.value}&project=_id,title,imageCover,city,region,price`,
+          dataAt: ['data', 'docs']
+        });
+      }, 75);
+    } else if (e.target.value < 2 || e.target.value === '') {
+      setData(null);
+    }
+  };
+
+  const onClearSearch = () => {
+    onSearchForRegion('');
+    searchRef.current.value = '';
+    setData(null);
+  };
+
+  const regionItems = [];
   for (let key in regions) {
-    let el;
+    let regionSearchItem;
     if (regions[key].regionOnly) {
-      el = (
+      regionSearchItem = (
         <li
           tabIndex="0"
           className="header__searchbar__item" 
@@ -56,7 +75,7 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
         </li>
       );
     } else {
-      el = (
+      regionSearchItem = (
         <li
           tabIndex="0"
           className="header__searchbar__item" 
@@ -68,7 +87,7 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
       );
     }
 
-    items.push(el);
+    regionItems.push(regionSearchItem);
   }
 
   const popularItems = popular && [...Object.keys(popular)].map((el, i) => (
@@ -123,25 +142,9 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
               onFocus={() => setAnimate(true)}
               onBlur={() => setAnimate(false)}
               ref={searchRef}
-              onChange={(e) => {
-                onSearchForRegion(e.target.value);
-                if (e.target.value.length >= 2) {
-                  setTimeout(() => {
-                    makeRequest({
-                      url: `api/apartments?search=${e.target.value}&project=_id,title,imageCover,city,region,price`,
-                      dataAt: ['data', 'docs']
-                    });
-                  }, 75);
-                } else if (e.target.value < 2 || e.target.value === '') {
-                  setData(null);
-                }
-              }} />
+              onChange={onInputSearch} />
             <button 
-              onMouseDown={() => {
-                onSearchForRegion('');
-                searchRef.current.value = '';
-                setData(null);
-              }}
+              onMouseDown={onClearSearch}
               type="button" 
               className="header__searchbar__btn-search">
                 <IoIosClose className="icon icon--grey" />
@@ -154,7 +157,7 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
             <div className="header__searchbar__drop">
               <Scrollbar style={{ height: '100%', width: '100%' }}>
                 <div className="header__searchbar__title">
-                  {(data || items.length > 0) 
+                  {(data || regionItems.length > 0) 
                     ? 'Search results' 
                     : (
                       <>
@@ -165,10 +168,10 @@ const Searchbar = ({ animate, setAnimate, data: popular }) => {
                   }
                 </div>
                 <ul className="header__searchbar__list">
-                  {(data || items.length > 0) 
+                  {(data || regionItems.length > 0) 
                     ? (
                       <>
-                        {items}
+                        {regionItems}
                         {searchItems}
                       </>
                     )

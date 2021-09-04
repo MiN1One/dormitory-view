@@ -12,6 +12,41 @@ const RegionsFilter = ({ setFilters, filters }) => {
   const { t } = useTranslation('regions');
   const { regions, onSearchForRegion } = useFindRegions();
 
+  const onSelectRegion = (region) => {
+    let newRegionsList;
+    if (filters.map.region.includes(region)) {
+      newRegionsList = filters.map.region.filter(r => r !== region);
+      setFilters(prev => ({
+        ...prev,
+        map: {
+          city: selectedCity,
+          region: newRegionsList
+        }
+      }));
+    } else {
+      setFilters(prev => {
+        newRegionsList = [ ...prev.map.region, region ];
+        return {
+          ...prev,
+          map: {
+            city: selectedCity,
+            region: newRegionsList
+          }
+        };
+      });
+    }
+  };
+
+  const onSelectCity = (region) => {
+    setFilters(prev => ({
+      ...prev,
+      map: {
+        city: selectedCity,
+        region: [region]
+      }
+    }))
+  };
+
   const regionsEl = [];
   for (let key in regions) {
     const active = filters.map.city === key;
@@ -36,48 +71,17 @@ const RegionsFilter = ({ setFilters, filters }) => {
         key={i}
         tabIndex="0"
         className="filters__item">
-          <div className="wh-100" onClick={() => {
-            setFilters(prev => ({
-              ...prev,
-              map: {
-                city: selectedCity,
-                region: [el]
-              }
-            }))
-          }}>
+          <div className="wh-100" onClick={() => onSelectCity(el)}>
             {t(`regions:${selectedCity}.regions.${el}`)}
           </div>
           <div 
             className="input__checkbox-wrapper" 
-            onClick={() => {
-              let newRegionsList;
-              if (filters.map.region.includes(el)) {
-                newRegionsList = filters.map.region.filter(r => r !== el);
-                setFilters(prev => ({
-                  ...prev,
-                  map: {
-                    city: selectedCity,
-                    region: newRegionsList
-                  }
-                }));
-              } else {
-                setFilters(prev => {
-                  newRegionsList = [ ...prev.map.region, el ];
-                  return {
-                    ...prev,
-                    map: {
-                      city: selectedCity,
-                      region: newRegionsList
-                    }
-                  };
-                });
-              }
-          }}>
-            <span className="input__checkbox filters__checkbox">
-              {filters.map.region.includes(el) && (
-                <GoCheck className="icon--xs icon--green" />
-              )}
-            </span>
+            onClick={() => onSelectRegion(el)}>
+              <span className="input__checkbox filters__checkbox">
+                {filters.map.region.includes(el) && (
+                  <GoCheck className="icon--xs icon--green" />
+                )}
+              </span>
           </div>
       </li>
     );

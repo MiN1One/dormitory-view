@@ -11,11 +11,9 @@ const MainPage = () => {
   const [activeRegion, setActiveRegion] = useState();
   const { popular } = useSelector(s => s.main);
 
-  useEffect(() => {
-    if (popular) {
-      setActiveRegion(Object.keys(popular)[0]);
-    }
-  }, [popular]);
+  useEffect(() => 
+    popular && setActiveRegion(Object.keys(popular)[0]),
+  [popular]);
 
   return (
     <main>
