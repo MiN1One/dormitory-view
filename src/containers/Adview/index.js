@@ -24,6 +24,7 @@ import Panel from './Panel/Panel';
 import usePrevious from '../../hooks/usePrevious';
 import useTitle from '../../hooks/useTitle';
 import { Link } from 'react-router-dom';
+import LazyLoad from '../../hoc/LazyLoad';
 
 const AsyncRooms = React.lazy(() => import('./Rooms/Rooms'));
 
@@ -169,7 +170,7 @@ const Adview = ({ data: previewData }) => {
       <SpyNavigation
         offset={SCROLL_Y_OFFSET}
         items={spyNavItems}
-        onUpdate={(el) => setShowWisher(!!el && el.id !== 'main')}>
+        onUpdate={(el) => setShowWisher(el && el.id !== 'main')}>
           {additionalNavButton()}
       </SpyNavigation>
       <main className="adview">
@@ -229,20 +230,11 @@ const Adview = ({ data: previewData }) => {
                 userId={data?.landlord._id} />
             </div>
           </div>
-          <div id="similar">
-            {!isPreview && (
-              <LazyLoadComponent 
-                placeholder={
-                  <div className="container">
-                    <div className="flex jcc">
-                      <Spinner className="adview__loader loader--lg" />
-                    </div>
-                  </div>
-                }>
-                  <SimilarAds data={data} />
-              </LazyLoadComponent>
-            )}
-          </div>
+          {!isPreview && (
+            <LazyLoad sectionId="similar">
+              <SimilarAds data={data} />
+            </LazyLoad>
+          )}
         </div>
       </main>
     </>

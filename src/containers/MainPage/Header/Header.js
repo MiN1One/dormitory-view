@@ -115,7 +115,7 @@ const Header = ({ data: popularItems }) => {
                   </Link>
                 )
                 : (
-                  <Link to="/user/myprofile" className="btn btn--primary header__btn">
+                  <Link to="/users/myprofile" className="btn btn--primary header__btn">
                     My profile
                   </Link>
                 )

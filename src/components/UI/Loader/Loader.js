@@ -1,6 +1,4 @@
-import React from 'react';
-
-const Loader = ({ className }) => 
+const Loader = ({ className }) => (
   <div className={`loaderm ${className ? className : ''}`}>
     <div className="container">
       <div className="loaderm__content">
@@ -8,5 +6,6 @@ const Loader = ({ className }) =>
       </div>
     </div>
   </div>
+);
 
 export default Loader;

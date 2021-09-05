@@ -69,7 +69,7 @@ const Navigation = ({ className }) => {
                     Favorites
                     <span className="nav__badge">{favorites?.length || 0}</span>
                   </Link>
-                  <Link to="/user/myprofile/main" className="nav__link nav__link--user">
+                  <Link to="/users/myprofile/" className="nav__link nav__link--user">
                     PROFILE
                     <BsFillPersonFill className="icon--white icon ml-5" />
                     {/* <span className="nav__badge">0</span> */}

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-import { BsStarFill } from 'react-icons/bs';
-import Rating from 'react-rating';
 import { useSelector } from 'react-redux';
+import RatingsStars from '../../../components/UI/RatingStars/RatingsStars';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import useFetchData from '../../../hooks/useFetchData';
 import { convertISOString } from '../../../utilities/utils';
@@ -16,7 +15,12 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
   const { months } = useSelector(s => s.main);
 
   useEffect(() => {
-    if (showReviews && !data && userId && numberOfReviews > 0) {
+    if (
+      showReviews && 
+      !data && 
+      userId && 
+      numberOfReviews > 0
+    ) {
       makeRequest({
         url: `api/users/${userId}/reviews`,
         dataAt: ['data', 'docs']
@@ -31,18 +35,19 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
       );
     }
   }, [data]);
+
+  const onClickReadMore = (reviewIndex) => {
+    setExpandText(prev => 
+      prev.map((option, index) => {
+        if (index === reviewIndex) {
+          option = !option;
+        }
+        return option;
+      })
+    );
+  };
   
   const reviews = data?.map((el, i) => {
-    // if (el.text.length > 15) {
-    //   if (!expandText[i]) {
-    //     const charArr = [];
-    //     el.text.split('').forEach((char) => {
-    //       if (charArr.length < 20)
-    //         charArr.push(char);
-    //     });
-    //     el.text = `${charArr.join('')}...`;
-    //   }
-    // }
     const { month, date, year } = convertISOString(el.createdAt);
 
     return (
@@ -50,17 +55,12 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
         <div className="flex ais jcsb mb-1">
           <div className="flex fdc w-100">
             <span className="ratings__user mb-5">{el?.poster.name}</span>
-            <span className="ratings__subtext ratings__subtext--s">Days lived: {el.livedFor}</span>
+            <span className="ratings__subtext ratings__subtext--s">Stay duration: {el.livedFor}</span>
           </div>
           <span className="ratings__subtext w-50">{year} {date} {months[month]}</span>
         </div>
         <div className="flex aic f-thin f-sm mb-1">
-          <Rating 
-            readonly
-            emptySymbol={<BsStarFill className="icon--xs icon--star-e mx-25" />}
-            fullSymbol={<BsStarFill className="icon--xs icon--yellow mx-25" />}
-            initialRating={el.rating}
-            fractions={2} />
+          <RatingsStars initialRating={el.rating} readonly />
           <span className="ml-5">{el.rating}</span>
         </div>
         <p className={`ratings__text ${(expandText[i] && el.text.length > 50) ? 'ratings__text--show' : ''}`}>
@@ -68,15 +68,8 @@ const Ratings = ({ open, hide, userId, numberOfReviews }) => {
         </p>
         <button 
           className="btn--sub" 
-          onClick={() => 
-            setExpandText(prev => 
-              prev.map((option, index) => {
-                if (index === i) option = !option;
-                return option;
-              })
-            )
-          }>
-          {expandText[i] ? 'Hide' : 'Read'}
+          onClick={onClickReadMore}>
+            {expandText[i] ? 'Hide' : 'Read'}
         </button>
       </div>
     );

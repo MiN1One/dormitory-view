@@ -1,45 +1,50 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { memo, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import useFetchData from '../../hooks/useFetchData';
 
 import './index.scss';
+import Dashboard from './Dashboard/Dashboard';
+import ProfileNav from './ProfileNav/ProfileNav';
+import config from './config';
+import { Loader } from '../../hoc/LazyLoad';
+import Reviews from '../../components/Reviews/Reviews';
 
 const Profile = () => {
   const { user } = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const history = useHistory();
+  const [activeSetion, setActiveSection] = useState(config.SECTIONS[0]);
 
-  if (!user) 
-    history.replace('/auth/login');
+  const {
+    data, 
+    loading, 
+    error,
+    makeRequest
+  } = useFetchData({ loading: true });
+
+  useEffect(() => {
+    (user && user._id) && makeRequest({
+      url: `api/users/${user._id}`,
+      dataAt: ['data', 'doc']
+    });
+  }, [makeRequest, user]);
+
+  if (!data && !error) {
+    return <Loader />;
+  }
+  console.log(data)
 
   return (
     <main className="profile">
-      
+      <ProfileNav 
+        data={data}
+        activeSectionState={[activeSetion, setActiveSection]}
+        userRole={data.role} />
+      <Dashboard />
+      <Reviews />
     </main>
   );
 };
 
-// (function() {
-//   'use strict';
-
-//   var section = document.querySelectorAll(".section");
-//   var sections = {};
-//   var i = 0;
-
-//   Array.prototype.forEach.call(section, function(e) {
-//     sections[e.id] = e.offsetTop;
-//   });
-
-//   window.onscroll = function() {
-//     var scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
-
-//     for (i in sections) {
-//       if (sections[i] <= scrollPosition) {
-//         document.querySelector('.active').setAttribute('class', ' ');
-//         document.querySelector('a[href*=' + i + ']').setAttribute('class', 'active');
-//       }
-//     }
-//   };
-// })();
-
-
-export default React.memo(Profile);
+export default memo(Profile);

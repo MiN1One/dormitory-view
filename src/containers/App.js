@@ -127,7 +127,7 @@ function App() {
                 <Route path="/list/:city/:region" exact>
                   <AsyncListview />
                 </Route>
-                <ProtectedRoute path="/user/myprofile/:section" exact>
+                <ProtectedRoute path="/users/myprofile" exact>
                   <AsyncProfile />
                 </ProtectedRoute>
                 <Route path="*">
@@ -138,17 +138,6 @@ function App() {
             </Route>
           </Switch>
       )}
-      <button onClick={() => {
-        axios('/api/users/logout', {
-          withCredentials: true
-        })
-          .then(() => {
-            dispatch(actions.setAuthStatus(null));
-          })
-          .catch(e => console.error(e));
-      }}>
-        LOGOUT
-      </button>
     </React.Suspense>
   );
 }

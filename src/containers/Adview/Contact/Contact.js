@@ -1,29 +1,15 @@
-import React, { useEffect } from 'react';
-import { BsStarFill } from 'react-icons/bs';
-import Rating from 'react-rating';
 import { Link } from 'react-router-dom';
 import { FcPhone } from 'react-icons/fc';
+import { useTranslation } from 'react-i18next';
 
 import Modal from '../../../components/UI/Modal/Modal';
 import Ratings from '../Ratings/Ratings';
-import useFetchData from '../../../hooks/useFetchData';
-import ModalLoading from '../../../components/UI/ModalLoading/ModalLoading';
-import { useDispatch, useSelector } from 'react-redux';
-import * as actions from '../../../store/actions';
-
-const onCopy = (num) => {
-  const el = document.createElement('textarea');
-  el.value =  `+${num}`;
-  el.style.position = 'absolute';
-  el.style.left = '-9999px';
-  document.body.appendChild(el);
-  el.select();
-  el.setSelectionRange(0, 99999);
-  document.execCommand('copy');
-  document.body.removeChild(el);
-};
+import RatingsStars from '../../../components/UI/RatingStars/RatingsStars';
+import { copyToClipboard } from '../../../utilities/utils';
+import { memo } from 'react';
 
 const Contact = ({ close, open, data }) => {
+  const { t } = useTranslation();
 
   return (
     <Modal 
@@ -36,17 +22,12 @@ const Contact = ({ close, open, data }) => {
           <span className="f-sl f-light c-black">{data?.last_name} {data?.name}</span>
           <Link to="/" className="btn--sub">Profile</Link>
         </div>
-        <Ratings hide open={open} />
-        <div className="flex aic mb-2">
-          <Rating 
-            readonly
-            emptySymbol={<BsStarFill className="icon--sm icon--star-e mx-25" />}
-            fullSymbol={<BsStarFill className="icon--sm icon--yellow mx-25" />}
-            initialRating={data?.averageRating}
-            fractions={2} />
+        <div className="flex aic jcsb mb-2">
+          <div className="flex aic">
+            <RatingsStars initialRating={data?.averageRating} readonly />
             <span className="flex ml-1 f-thin f-xl c-grey">
-              {data?.numberOfReviews > 0 
-                ? data?.averageRating
+              {(data && data.numberOfReviews > 0)
+                ? `${data?.averageRating} (${data?.numberOfReviews})`
                 : (
                   <span className="f-mid">
                     No reviews
@@ -54,6 +35,10 @@ const Contact = ({ close, open, data }) => {
                 )
               }
             </span>
+          </div>
+          <Link to={`/users/${data._id}#reviews`} className="btn--sub">
+            See all reviews
+          </Link>
         </div>
         <div className="flex aic mb-1">
           <FcPhone className="icon--mid mr-5" />
@@ -61,10 +46,14 @@ const Contact = ({ close, open, data }) => {
         </div>
         <div className="f-sl f-thin c-grey flex aic jcsb">
           +{data?.phone_number}
-          <button className="btn--sub" onClick={() => onCopy(data?.phone_number)}>Copy</button>
+          <button 
+            className="btn--sub" 
+            onClick={() => copyToClipboard(`+${data?.phone_number}`)}>
+              Copy
+          </button>
         </div>
     </Modal>
   );
-}
+};
 
-export default React.memo(Contact);
+export default memo(Contact);

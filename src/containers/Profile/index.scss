@@ -1,0 +1,35 @@
+@use '../../assets/sass' as *;
+
+.profile {
+
+  &__section {
+    padding: 2rem 0;
+  }
+
+  &__head {
+
+  }
+
+  &__body {
+
+  }
+
+  &__footer {
+
+  }
+
+  &__dashboard {
+    height: 100vh;
+
+    &__left {
+      height: 80%;
+      width: 30%;
+      background: $light;
+      border-radius: .25rem;
+    }
+
+    &__right {
+
+    }
+  }
+}
