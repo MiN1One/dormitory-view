@@ -7,17 +7,48 @@
   z-index: 99;
   border-bottom: 1px solid rgba($pitch, .05);
 
-  &--top {
-    top: 0;
-  }
-  
-  &__list {
+  &--top { top: 0; }
+
+  &__content {
     height: 5rem;
-    align-items: center;
-    flex-wrap: wrap;
     display: flex;
+    justify-content: space-between;
   }
 
+  &__btn {
+    font-size: 1.45rem;
+    height: 100%;
+    padding: 0 2rem;
+    background: lighten($light, 3%);
+    color: $grey-dark;
+    display: flex;
+    align-items: center;
+
+    &:not(.adview__btn--active):hover,
+    &:not(.adview__btn--active):focus {
+      background: lighten($light, 1.5%);
+    }
+
+    &:disabled {
+      cursor: default !important;
+      opacity: .75;
+    }
+
+    &--danger {
+      background: $color-red;
+      color: #fff;
+      border-radius: .25rem;
+      margin-left: 1rem;
+      height: 80%;
+      align-self: center;
+
+      &:not(.adview__btn--active):hover,
+      &:not(.adview__btn--active):focus {
+        background: darken($color-red, 5%);
+      }
+    }
+  }
+  
   &__item {
     height: 100%;
     padding: 0 1.5rem;

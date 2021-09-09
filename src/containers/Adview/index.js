@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
-import { BsStar, BsStarFill } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
-import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import './index.scss';
 import Ratings from './Ratings/Ratings';
@@ -11,24 +9,21 @@ import SimilarAds from './SimilarAds/SimilarAds';
 import PopScroll from '../../components/UI/PopScroll/PopScroll';
 import Contact from './Contact/Contact';
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs';
-import SpyNavigation from '../../components/SpyNavigation/SpyNavigation';
 import Features from './Features/Features';
 import useFetchData from '../../hooks/useFetchData';
-import Spinner from '../../components/UI/Spinner/Spinner';
 import ErrorView from '../../components/ErrorView/ErrorView';
 import ReviewInp from './ReviewInput/ReviewInput';
-import useEditFavorites from '../../hooks/useEditFavorites';
 import MainImagery from './MainImagery/MainImagery';
 import Details from './Details/Details';
 import Panel from './Panel/Panel';
 import usePrevious from '../../hooks/usePrevious';
 import useTitle from '../../hooks/useTitle';
-import { Link } from 'react-router-dom';
-import LazyLoad from '../../hoc/LazyLoad';
+import LazyLoad, { Loader } from '../../hoc/LazyLoad';
+import AdviewNav from './AdviewNav/AdviewNav';
+import Reviews from '../../components/Reviews/Reviews';
+import LoaderPrimary from '../../components/UI/Loader/Loader';
 
 const AsyncRooms = React.lazy(() => import('./Rooms/Rooms'));
-
-const SCROLL_Y_OFFSET = 10;
 
 const Adview = ({ data: previewData }) => {
   const { t } = useTranslation();
@@ -46,8 +41,6 @@ const Adview = ({ data: previewData }) => {
   });
 
   const [selectedOption, setSelectedOption] = useState(0);
-  const { editFavorites, favorites } = useEditFavorites();
-
   const [showContact, setShowContact] = useState(false);
   const [reviewInp, setReviewInp] = useState(false);
   const [showWisher, setShowWisher] = useState(false);
@@ -113,46 +106,10 @@ const Adview = ({ data: previewData }) => {
     }
   ];
 
-  const spyNavItems = ['main', 'options', 'details', 'features', 'similar'];
-  (data && data.roomOptions.length === 1) && delete spyNavItems[1];
-  isPreview && delete spyNavItems[4];
-
-  const additionalNavButton = () => {
-    if (isPreview) {
-      return (
-        <div className="flex aic">
-          <button className="adview__btn mr-lg" onClick={() => history.push('/post/new')}>
-            {t('translation:nav.go-back-post')}
-          </button>
-          <Link to="/">
-            LOGO
-          </Link>
-        </div>
-      );
-    }
-
-    if (showWisher) {
-      return (
-        <button className="adview__btn" onClick={() => editFavorites(data?._id)}>
-          {favorites?.includes(data?._id) 
-            ? (
-              <>
-                <BsStarFill className="icon--xs icon--yellow mr-5" />
-                Remove from favorites
-              </>
-            )
-            : (
-              <>
-                <BsStar className="icon--xs icon--yellow mr-5" />
-                Add to favorites
-              </>
-            )
-          }
-        </button>
-      );
-    }
-  };
-
+  if (!data && !error) {
+    return <LoaderPrimary />;
+  }
+  
   return (
     <>
       {showContact && (
@@ -167,12 +124,7 @@ const Adview = ({ data: previewData }) => {
           close={() => setReviewInp(false)} />
       )}
       <PopScroll />
-      <SpyNavigation
-        offset={SCROLL_Y_OFFSET}
-        items={spyNavItems}
-        onUpdate={(el) => setShowWisher(el && el.id !== 'main')}>
-          {additionalNavButton()}
-      </SpyNavigation>
+      <AdviewNav data={data} isPreview={isPreview} />
       <main className="adview">
         <div className="container">
           <Breadcrumbs items={breadcrumbs}>
@@ -230,12 +182,15 @@ const Adview = ({ data: previewData }) => {
                 userId={data?.landlord._id} />
             </div>
           </div>
-          {!isPreview && (
-            <LazyLoad sectionId="similar">
-              <SimilarAds data={data} />
-            </LazyLoad>
-          )}
         </div>
+        <LazyLoad sectionId="reviews">
+          <Reviews userId={data?.landlord?.id} />
+        </LazyLoad>
+        {!isPreview && (
+          <LazyLoad sectionId="similar">
+            <SimilarAds data={data} />
+          </LazyLoad>
+        )}
       </main>
     </>
   );

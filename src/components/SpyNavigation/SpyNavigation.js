@@ -26,11 +26,11 @@ const SpyNavigation = ({ onUpdate, offset, items, children }) => {
   return (
     <div className={`snav ${noNav ? 'snav--top' : ''}`}>
       <div className="container">
-        <div className="flex aic jcsb">
+        <div className="snav__content">
           <Scrollspy
             onUpdate={onUpdate}
             offset={-calculateNavTopOffset() - (offset || 0)} 
-            className="snav__list"
+            className="flex"
             items={items}
             currentClassName="tab-item--active">
               {items.map((el, i) => (

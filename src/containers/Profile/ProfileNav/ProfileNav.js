@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { RiLogoutBoxLine } from 'react-icons/ri';
 
 import SpyNavigation from '../../../components/SpyNavigation/SpyNavigation';
 import * as actions from '../../../store/actions';
@@ -17,23 +18,22 @@ const ProfileNav = ({ userRole, activeSectionState }) => {
       .catch(e => console.error(e));
   };
   
-  const onUpdateSection = () => {
+  // const onUpdateSection = () => {
     
-  };
-
-  
+  // };
 
   return (
     <SpyNavigation 
       offset={0} 
       items={config.SECTIONS[userRole]} 
       onUpdate={setActiveSection}>
-        <div>
-          <button className="profile__btn-nav">
+        <div className="flex h-100">
+          {/* <button className="snav__btn">
             Update
-          </button>
-          <button className="profile__btn-nav profile__btn-nav--danger" onClick={onLogout}>
+          </button> */}
+          <button className="snav__btn snav__btn--danger" onClick={onLogout}>
             Log out
+            <RiLogoutBoxLine className="icon ml-5" />
           </button>
         </div>
     </SpyNavigation>

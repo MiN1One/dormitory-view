@@ -97,43 +97,45 @@ const SimilarAds = ({ data }) => {
   }
 
   return (
-    <div className="sads"> 
-      {similarProperties?.length > 0 && (
-        <>
-          <h3 className="heading heading--3 mb-15">Similar properties</h3>
-          <div className="flex w-100 mb-2 aic">
-            <button className="btn--slider sads__btn--prev">
-              <IoChevronBackOutline className="icon--sm icon--dark" />
-            </button>
-            <button className="btn--slider sads__btn--next">
-              <IoChevronForwardOutline className="icon--sm icon--dark" />
-            </button>
-            <span className="ml-1 f-lg c-grace ml-1">Slide to see more properties</span>
-          </div>
-        </>
-      )}
-      {similarProperties?.length > 0
-        ? (
-          <Swiper 
-            onInit={(sw) => setSwiper(sw)}
-            navigation={{
-              nextEl: '.sads__btn--next',
-              prevEl: '.sads__btn--prev',
-              disabledClass: 'btn--slider-disabled'
-            }}
-            className="sads__list"
-            slidesPerView={3}
-            spaceBetween={65}>
-              {properties}
-          </Swiper>
-        )
-        : (
-          <span className="sads__empty">
-            <FcAbout className="sads__empty__icon mb-2" />
-            No similar properties are found
-          </span>
-        )
-      }
+    <div className="container">
+      <div className="sads" id="similar"> 
+        {similarProperties?.length > 0 && (
+          <>
+            <h3 className="heading heading--3 mb-15">Similar properties</h3>
+            <div className="flex w-100 mb-2 aic">
+              <button className="btn--slider sads__btn--prev">
+                <IoChevronBackOutline className="icon--sm icon--dark" />
+              </button>
+              <button className="btn--slider sads__btn--next">
+                <IoChevronForwardOutline className="icon--sm icon--dark" />
+              </button>
+              <span className="ml-1 f-lg c-grace ml-1">Slide to see more properties</span>
+            </div>
+          </>
+        )}
+        {similarProperties?.length > 0
+          ? (
+            <Swiper 
+              onInit={(sw) => setSwiper(sw)}
+              navigation={{
+                nextEl: '.sads__btn--next',
+                prevEl: '.sads__btn--prev',
+                disabledClass: 'btn--slider-disabled'
+              }}
+              className="sads__list"
+              slidesPerView={3}
+              spaceBetween={65}>
+                {properties}
+            </Swiper>
+          )
+          : (
+            <span className="sads__empty">
+              <FcAbout className="sads__empty__icon mb-2" />
+              No similar properties are found
+            </span>
+          )
+        }
+      </div>
     </div>
   );
 }

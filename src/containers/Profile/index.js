@@ -41,7 +41,7 @@ const Profile = () => {
         data={data}
         activeSectionState={[activeSetion, setActiveSection]}
         userRole={data.role} />
-      <Dashboard />
+      <Dashboard data={data} />
       <Reviews />
     </main>
   );

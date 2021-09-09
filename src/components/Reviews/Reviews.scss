@@ -1,14 +1,75 @@
+@use '../../assets/sass' as *;
+
 .reviews {
+  background: $light;
+  width: 100%;
+  padding: 3rem 0;
+  min-height: 75vh;
 
   &__head {
+    margin-bottom: 2rem;
+  }
 
+  &__heading {
+    font-weight: 500;
+    font-size: 2.75rem;
+    color: $grey-dark;
   }
 
   &__body {
-
+    display: flex;
+    list-style: none;
   }
 
   &__footer {
     
+  }
+
+  &__item {
+    background: #fff;
+    box-shadow: 0 0 .5rem rgba(#000, .035);
+    padding: 1.5rem 2rem;
+    border: 1px solid rgba($pitch, .1);
+    border-radius: .25rem;
+    width: 35rem;
+  }
+
+  &__user {
+    width: 70%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 1.4rem;
+  }
+
+  &__subtext {
+    font-size: 1.2rem;
+    width: 50%;
+    text-align: end;
+    color: lighten($grey-dark, 40%); 
+  
+    &--s {
+      text-align: start;
+      width: 70%;
+    }
+  }
+
+  &__text {
+    font-size: 1.35rem;
+    color: $black;
+    font-weight: 300;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 80%;
+    margin-bottom: .75rem;
+    line-height: 1.35;
+
+    &--show {
+      width: 100%;
+      overflow: initial;
+      text-overflow: initial;
+      white-space: initial;
+    }
   }
 }

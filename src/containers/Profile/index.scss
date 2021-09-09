@@ -26,10 +26,26 @@
       width: 30%;
       background: $light;
       border-radius: .25rem;
+      text-align: center;
+      padding: 1.5rem;
     }
 
     &__right {
 
     }
+  }
+
+  &__name {
+    font-size: 2rem;
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1.25rem;
+  }
+
+  &__role {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: $grey-dark;
   }
 }

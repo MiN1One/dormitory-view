@@ -1,11 +1,11 @@
 @use './variables' as *;
 
-@mixin defStyle {
-  background: lighten($light, 4.5%);
-  // background: $pure-white;
-  border-radius: 0.25rem;
-  border: 1px solid rgba($pitch, 0.07);
-}
+// @mixin defStyle {
+//   background: lighten($light, 4.5%);
+//   // background: $pure-white;
+//   border-radius: 0.25rem;
+//   border: 1px solid rgba($pitch, 0.07);
+// }
 
 // lg, row, mid, sm, xs, ss, ms, mms
 @mixin respond($bp) {
