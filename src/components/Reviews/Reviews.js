@@ -12,12 +12,14 @@ const Reviews = ({ userId }) => {
 
   useEffect(() => {
     makeRequest({
-      url: `api/users/${userId}/reviews`,
-      dataAt: ['data', 'docs']
+      url: `api/users/${userId}`,
+      dataAt: ['data', 'doc']
     });
   }, [makeRequest, userId]);
 
-  const reviewsEl = data?.map((el, i) => {
+  console.log(data)
+
+  const reviewsEl = false && data?.map((el, i) => {
     const { month, date, year } = convertISOString(el.createdAt);
 
     return (
@@ -47,7 +49,10 @@ const Reviews = ({ userId }) => {
     <div className="reviews" id="reviews">
       <div className="container">
         <div className="reviews__head">
-          <div className="heading heading--5 c-black mb-2">Reviews</div>
+          <div className="heading heading--3 c-black mb-2">Reviews</div>
+          <div className="reviews__rating">
+
+          </div>
         </div>
         <ul className="reviews__body">
           {reviewsEl}

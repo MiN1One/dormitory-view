@@ -50,7 +50,7 @@ const Navigation = ({ className }) => {
             <Dropdown
               title={(
                 <>
-                  <IoChevronDownOutline className="icon--xs icon--grey ml-1" />
+                  <IoChevronDownOutline className="icon--xs icon--grey ml-5" />
                   <span className="inline">Help</span>
                 </>
               )}

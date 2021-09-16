@@ -191,10 +191,9 @@ export const scrollToElement = (elId, offsetMarginal) => {
   if (!el) return;
   const { top } = el.getBoundingClientRect();
 
-  const y = top + window.pageYOffset - (calculateNavTopOffset() + offsetMarginal);
-  console.log(y);
+  const scrollY = top + window.pageYOffset - (calculateNavTopOffset() + offsetMarginal);
   window.scrollTo({
-    top: y,
+    top: scrollY,
     behavior: 'smooth'
   });
 };
