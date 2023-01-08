@@ -1,35 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BsPlus, BsTrash } from 'react-icons/bs';
 import { IoIosSearch } from 'react-icons/io';
 import { IoSchoolOutline } from 'react-icons/io5';
 import { RiPencilLine } from 'react-icons/ri';
 
-import Modal from '../../../components/UI/Modal/Modal';
 import Scrollbar from '../../../components/UI/Scrollbar/Scrollbar';
 
 const Universities = () => {
-  const [selectedUniver, setSelectedUniver] = useState(null);
 
   return (
     <>
-      {/* {false && 
-        <Modal
-          title="Distance"
-          close={() => setSelectedUniver(null)}
-          actionTitle="Add"
-          action={() => {}}>
-            <h5 className="modal__title">Webster university</h5>
-            <div className="flex jce fdc">
-              <div className="c-grace f-thin f-lg mb-1">
-                How long it takes from the property to react the university?
-              </div>
-              <input 
-                className="modal__input" 
-                placeholder="Distance in minutes"
-                type="number" />
-            </div>
-        </Modal>
-      } */}
       <div className="post__section" id="universities">
         <div className="container">
           <div className="post__section__item">
@@ -75,13 +55,13 @@ const Universities = () => {
                     type="text" />
                 </div>
                 <Scrollbar style={{ width: '100%', height: 'calc(100% - 5rem)' }}>
-                    <div className="input input--main post__input" tabIndex="0">
-                      INHA university
-                    </div>
-                    <div className="input input--main post__input" tabIndex="0">
-                      AMITY university
-                    </div>
-                  <button className="post__btn" onClick={() => setSelectedUniver('hehe')}>
+                  <div className="input input--main post__input" tabIndex="0">
+                    INHA university
+                  </div>
+                  <div className="input input--main post__input" tabIndex="0">
+                    AMITY university
+                  </div>
+                  <button className="post__btn">
                     <BsPlus className="icon--mid icon--dark" />
                   </button>
                 </Scrollbar>
